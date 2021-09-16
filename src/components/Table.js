@@ -79,7 +79,13 @@ function Table() {
           onChange={ handleSelect }
         />
       </label>
-      <button type="button" data-testid="button-filter">Filtrar</button>
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ handleClick }
+      >
+        Filtrar
+      </button>
       <table border="1px">
         <thead>
           <tr>
