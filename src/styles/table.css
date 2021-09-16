@@ -1,0 +1,33 @@
+.main-container {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+}
+
+.container_table-Ta {
+  overflow-x: scroll;
+  max-width: 80vw;
+}
+
+.container_table-Ta table {
+  background: rgba(255, 255, 255, 0.294) url('https://i.imgur.com/70sJfY1.png') no-repeat;
+  background-size: 100%;
+  object-fit: cover;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.container_table-Ta table thead {
+  background-color: #707070;
+  box-shadow: inset 0 0 4px 1px gold; 
+  color: white;
+}
+
+.container_table-Ta table thead th {
+  padding: 5px 25px;
+}
+
+.container_table-Ta table tbody td {
+  border: 1px solid gray;
+  padding: 5px 20px;
+}
