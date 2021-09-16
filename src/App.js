@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import MyContext from './context/Context';
+import Context from './context/Context';
 import Table from './components/Table';
 
 function App() {
-  const [data, setData] = useState([1]);
+  // criando os estados
+  const [data, setData] = useState([]);
+  const [name, setName] = useState('');
   const planets = {
     data,
+    filters: {
+      filterByName: {
+        name,
+      },
+    },
   };
 
   useEffect(() => {
@@ -18,10 +25,22 @@ function App() {
     getData();
   }, []);
 
+  // criando uma funçao para o campo de texto alterar o nome do planeta
+  const handleChange = ({ target }) => {
+    setName(target.value);
+  };
+
   return (
-    <MyContext.Provider value={ planets }>
-      <Table />
-    </MyContext.Provider>
+    <Context.Provider value={ planets }>
+      {/* <Table /> fazer tipo um js com adiçao com a tabela usando o lenght para o numero
+      de planetas */}
+      <input
+        type="text"
+        data-testid="name-filter"
+        onChange={ handleChange }
+      />
+      { (data.length > 0 && <Table />) }
+    </Context.Provider>
   );
 }
 
