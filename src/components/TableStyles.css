@@ -10,9 +10,9 @@ td {
 }
 
 tr {
+  border-color: inherit;
   display: table-row;
   vertical-align: inherit;
-  border-color: inherit;
 }
 
 table {
