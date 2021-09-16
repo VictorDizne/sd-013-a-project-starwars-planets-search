@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Context from '../context/Context';
 import InputFilter from './InputFilter';
+import SelectPlanet from './SelectPlanet';
 
 function Table() {
   const { data, setData } = useContext(Context);
@@ -23,6 +24,7 @@ function Table() {
   return (
     <div>
       <InputFilter onChange={ onChangeHandler } />
+      <SelectPlanet />
       <table>
         <thead>
           <tr>

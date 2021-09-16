@@ -5,6 +5,7 @@ function InputFilter(props) {
   const { onChange } = props;
   return (
     <input
+      id="name"
       data-testid="name-filter"
       type="text"
       onChange={ onChange }
