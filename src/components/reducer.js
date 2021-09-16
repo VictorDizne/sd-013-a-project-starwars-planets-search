@@ -39,7 +39,7 @@ function Provider({ children }) {
   }
   useEffect(() => {
     const newPlanets = ogPlanets
-      .filter((planet) => planet.name.includes(nameFilter));
+      .filter((planet) => planet.name.toLowerCase().includes(nameFilter.toLowerCase()));
     changePlanetsArray(newPlanets);
   }, [nameFilter, ogPlanets]);
 

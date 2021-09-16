@@ -50,7 +50,7 @@ const Table = () => {
       </table>
     );
   }
-  return <h1>Loading...</h1>;
+  return <h1>Oops, algo deu errado, tente mudar seus termos de busca</h1>;
 };
 
 export default Table;
