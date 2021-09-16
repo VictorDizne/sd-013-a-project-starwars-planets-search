@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { DataContext } from '../context/DataContext';
+import { DataContext } from '../context/MainContext';
 import TableRow from './TableRow';
 
 export default function Table() {
