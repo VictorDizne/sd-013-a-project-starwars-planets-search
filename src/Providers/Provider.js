@@ -25,6 +25,7 @@ function Provider({ children }) {
     filterByName: {
       name,
     },
+    setName,
     titles,
   };
 
