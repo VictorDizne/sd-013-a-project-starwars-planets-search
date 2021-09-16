@@ -3,8 +3,10 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 
 function Table() {
-  // usando context pois "filters: { filterByName: { name } }" tem que estar salvo no campo
-  const { data, filters: { filterByName: { name } } } = useContext(Context);
+  // usando context pois "filters: { filterByName: { name } }" tem que estar salvo no campo updateColumnComparison
+  // colocar filterByNumericValues: [{ column, comparison, value }]
+  const { data, filters: { filterByName: { name },
+    filterByNumericValues: [{ column, comparison, value }] } } = useContext(Context);
   const head = Object.keys(data[0]);
   const header = head.map((tagHead, index) => {
     if (tagHead !== 'residents') {
@@ -32,7 +34,25 @@ function Table() {
   const filterData = data.filter((PlanetInfo) => PlanetInfo.name.toLocaleLowerCase()
     .includes(inputName));
 
-  const body = filterData.map((results, index) => { // mostrar na tela um novo array
+  // fazer uma funçao e dentro um if/else para combinar os seletores para filtro
+  const filterSelectors = () => {
+    if (comparison === 'maior que') {
+      return filterData
+      // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Number
+      // objeto que permite voce trabalharcom valores numericos
+        .filter((informationPlanet) => Number(informationPlanet[column]) > value);
+    }
+    if (comparison === 'menor que') {
+      return filterData
+        .filter((informationPlanet) => Number(informationPlanet[column]) < value);
+    }
+    if (comparison === 'igual a') {
+      return filterData
+        .filter((informationPlanet) => informationPlanet[column] === value);
+    }
+  };
+
+  const body = filterSelectors().map((results, index) => { // mostrar na tela um novo array, usar a funçao que eu criei para selecionar as categorias
     const result = Object.entries(results); // para retornar um array do map feito
     return (
       <tr key={ index }>
