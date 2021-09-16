@@ -12,6 +12,21 @@ function Provider({ children }) {
 
   const [loading, setLoading] = useState(true);
 
+  const [filter, setFilter] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+        age: 10,
+      },
+    },
+  });
+
+  const handleFilterByName = (newName) => {
+    const { filters: { filterByName } } = filter;
+    setFilter({
+      ...filter, filters: { filterByName: { ...filterByName, name: newName } } });
+  };
+
   useEffect(() => {
     const fetchPlanets = async () => {
       setLoading(true);
@@ -25,7 +40,7 @@ function Provider({ children }) {
   }, []);
 
   return (
-    <tableContext.Provider value={ { data, loading } }>
+    <tableContext.Provider value={ { data, loading, handleFilterByName, filter } }>
       {children}
     </tableContext.Provider>
   );
