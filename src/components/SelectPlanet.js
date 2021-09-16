@@ -4,8 +4,13 @@ import Context from '../context/Context';
 function SelectPlanet() {
   const { data, setData } = useContext(Context);
   const [selected, setSelected] = useState({
-    column: 'population',
-    comparison: '>',
+    array: ['population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water'],
+    column: '',
+    comparison: '',
     value: 0,
   });
 
@@ -32,17 +37,18 @@ function SelectPlanet() {
   };
 
   const handleFilter = () => {
+    const newArray = selected.array.filter((item) => item !== selected.column);
     setData(dataFilter);
+    setSelected({
+      ...selected,
+      array: newArray,
+    });
   };
 
   return (
     <div>
       <select onChange={ onChangeHandler } id="column" data-testid="column-filter">
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
+        {selected.array.map((item, i) => (<option key={ i }>{ item }</option>)) }
       </select>
       <select
         onChange={ onChangeHandler }
