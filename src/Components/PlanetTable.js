@@ -1,8 +1,9 @@
-import React from 'react';
-import FetchWars from '../hooks/FetchWars';
+import React, { useContext } from 'react';
+// import FetchWars from '../hooks/FetchWars';
+import MyContext from '../context/MyContext';
 
 function PlanetTable() {
-  const [statewars] = FetchWars();
+  const { statewars } = useContext(MyContext);
 
   const THead = () => {
     if (statewars.length !== 0) {
