@@ -17,20 +17,16 @@ function Table() {
       },
     });
   };
-
+  // estados e setStates
   const [filtered, setfiltered] = useState([]);
-
-  const [SetColumns] = useState(
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [value, setValue] = useState('');
+  const [columns, setColumns] = useState(
     ['population', 'orbital_period', 'rotation_period', 'surface_water', 'diameter'],
   );
   // Requisito 03
-  const [filterByNumericValues, setfilterByNumericValues] = useState(
-    {
-      column: 'population',
-      comparison: '',
-      value: '100000',
-    },
-  );
+  const [filterByNumericValues, setfilterByNumericValues] = useState([]);
 
   useEffect(() => {
     function filterByInput() {
@@ -47,7 +43,9 @@ function Table() {
   [data, filter]);
 
   const handleFilterByNumericValue = () => {
-    const { column, comparison, value } = filterByNumericValues;
+    setfilterByNumericValues([...filterByNumericValues, { column, comparison, value }]);
+    const columnsFiltered = columns.filter((columnValue) => columnValue !== column);
+    setColumns(columnsFiltered);
     switch (comparison) {
     case 'maior que':
       return setfiltered(filtered.filter((planet) => planet[column] > Number(value)));
@@ -73,13 +71,10 @@ function Table() {
             name="column"
             id="column"
             data-testid="column-filter"
-            onChange={ ({ target }) => (setfilterByNumericValues({
-              ...filterByNumericValues,
-              column: target.value,
-            })) }
+            onChange={ ({ target }) => (setColumn(target.value)) }
           >
-            {SetColumns.map((column, index) => (
-              <option key={ index } value={ column }>{ column }</option>)) }
+            {columns.map((columnValue, index) => (
+              <option key={ index } value={ columnValue }>{ columnValue }</option>)) }
           </select>
         </label>
         <label htmlFor="comparison">
@@ -87,10 +82,7 @@ function Table() {
             data-testid="comparison-filter"
             id="comparison"
             name="comparison"
-            onChange={ ({ target }) => (setfilterByNumericValues({
-              ...filterByNumericValues,
-              comparison: target.value,
-            })) }
+            onChange={ ({ target }) => (setComparison(target.value)) }
           >
             <option value="" defaultValue>Selecione sua opção</option>
             <option value="maior que">maior que</option>
@@ -104,10 +96,7 @@ function Table() {
             data-testid="value-filter"
             id="value"
             name="value"
-            onChange={ ({ target }) => (setfilterByNumericValues({
-              ...filterByNumericValues,
-              value: target.value,
-            })) }
+            onChange={ ({ target }) => (setValue(target.value)) }
           />
         </label>
         <button
@@ -122,18 +111,18 @@ function Table() {
       <table>
         <tbody>
           <tr>
+            <th>Name</th>
+            <th>Created</th>
+            <th>Diameter</th>
+            <th>Edited</th>
+            <th>Films</th>
             <th>Planet</th>
+            <th>Gravity</th>
             <th>Rotation Period</th>
             <th>Orbital Period</th>
-            <th>Diameter</th>
-            <th>Climate</th>
-            <th>Gravity</th>
             <th>Terrain</th>
             <th>Surface water</th>
             <th>Population</th>
-            <th>Films</th>
-            <th>Created</th>
-            <th>Edited</th>
             <th>URL</th>
           </tr>
           {
