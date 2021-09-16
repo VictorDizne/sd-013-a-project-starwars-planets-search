@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { PlanetsContext } from '../context/PlanetsContext';
 
-const renderPlanets = (data) => (
-  data.map((p) => (
+const renderPlanets = (planets) => (
+  planets.map((p) => (
     <tr key={ p.name }>
       <td>{p.name}</td>
       <td>{p.rotation_period}</td>
@@ -21,8 +21,22 @@ const renderPlanets = (data) => (
   ))
 );
 
+const filterPlanets = (filters, originalData) => {
+  const nameIncludes = originalData.filter((p) => (
+    p.name.includes(filters.filterByName.name)
+  ));
+
+  return nameIncludes;
+};
+
 function Table() {
-  const { data } = useContext(PlanetsContext);
+  const { data, filters } = useContext(PlanetsContext);
+  const [planets, setPlanets] = useState([]);
+
+  useEffect(() => {
+    setPlanets(filterPlanets(filters, data));
+  }, [filters, data]);
+
   return (
     <table>
       <tbody>
@@ -41,7 +55,7 @@ function Table() {
           <th>Edited</th>
           <th>URL</th>
         </tr>
-        {renderPlanets(data)}
+        {renderPlanets(planets)}
       </tbody>
     </table>
   );

@@ -3,28 +3,27 @@ import PropTypes from 'prop-types';
 
 export const PlanetsContext = createContext();
 
+const initialFilters = {
+  filterByName: {
+    name: '',
+  },
+};
+
 function PlanetsProvider({ children }) {
-  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [error, setError] = useState('');
+  const [filters, setFilters] = useState(initialFilters);
 
   useEffect(() => {
     const fetchPlanets = async () => {
-      try {
-        const res = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
-        if (!res.ok) throw new Error('failed to fetch data');
-        const json = await res.json();
-        setLoading(false);
-        setData(json.results);
-      } catch (e) {
-        setLoading(false);
-        setError(e.message);
-      }
+      const res = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+      if (!res.ok) throw new Error('failed to fetch data');
+      const json = await res.json();
+      setData(json.results);
     };
     fetchPlanets();
   }, []);
 
-  const contextValue = { loading, data, error };
+  const contextValue = { data, filters, setFilters };
 
   return (
     <PlanetsContext.Provider value={ contextValue }>
