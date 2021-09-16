@@ -41,7 +41,7 @@ function Provider({ children }) {
     const newPlanets = ogPlanets
       .filter((planet) => planet.name.includes(nameFilter));
     changePlanetsArray(newPlanets);
-  }, [nameFilter]);
+  }, [nameFilter, ogPlanets]);
 
   return (
     <Context.Provider value={ contextInitialValue }>
