@@ -4,7 +4,7 @@ import TableRow from './TableRow';
 import Loading from './Loading';
 
 const Table = () => {
-  const { data } = useContext(context);
+  const { data, filters: { filterByName: { name } } } = useContext(context);
   if (data.length < 1) return <Loading />;
 
   delete data[0].url;
@@ -19,7 +19,9 @@ const Table = () => {
       </thead>
 
       <tbody>
-        {data.map((dataItem) => <TableRow key={ dataItem.name } data={ dataItem } />)}
+        {data
+          .filter((dataItem) => dataItem.name.toLowerCase().includes(name.toLowerCase()))
+          .map((dataItem) => <TableRow key={ dataItem.name } data={ dataItem } />)}
       </tbody>
     </table>
   );
