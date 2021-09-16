@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import useFetchAPI from '../hooks/useFetchAPI';
 import Context from './Context';
 
 function Provider({ children }) {
-  const [data, loading] = useFetchAPI();
+  const [data] = useFetchAPI();
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
   const value = {
     data,
-    loading,
+    filters,
+    setFilters,
   };
 
   return (

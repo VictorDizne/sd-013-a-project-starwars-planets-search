@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import Context from '../context/Context';
 
 function TableBody(props) {
   const { planetsList } = props;
+  const { filters } = useContext(Context);
+  const [myList, setMyList] = useState([]);
 
-  if (!planetsList) return (<h3>Loading...</h3>);
+  function filteredList(planets, filter) {
+    return planets.filter((planet) => (
+      planet.name.includes(filter.filterByName.name)
+    ));
+  }
+
+  useEffect(() => {
+    setMyList(filteredList(planetsList, filters));
+  }, [filters, planetsList]);
 
   return (
     <tbody>
-      {planetsList.map((i) => (
+      {myList.map((i) => (
         <tr key={ i.name }>
           <td>{i.name}</td>
           <td>{i.rotation_period}</td>

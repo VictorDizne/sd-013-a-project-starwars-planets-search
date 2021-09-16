@@ -1,10 +1,10 @@
 import React from 'react';
-import { Table } from '../components';
+import { Table, FiltersBar } from '../components';
 
 function Home() {
   return (
     <main>
-      {/* <Input /> */}
+      <FiltersBar />
       <Table />
     </main>
   );
