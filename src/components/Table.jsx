@@ -29,7 +29,11 @@ const Table = () => {
             <tr style={ { display: 'flex' } } key={ i }>
               {Object.values(planet).map((value) => (
                 <td
-                  style={ { marginRight: '4px', minWidth: '70px', maxWidth: '70px', overflow: 'hidden', maxHeight: '35px' } }
+                  style={ { marginRight: '4px',
+                    minWidth: '70px',
+                    maxWidth: '70px',
+                    overflow: 'hidden',
+                    maxHeight: '35px' } }
                   key={ value }
                   data-testid={ planet.name === value ? 'planet-name' : null }
                 >
