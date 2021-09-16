@@ -9,8 +9,8 @@ const Filters = () => {
   },
   setName,
   setFiltersByNumericValues,
-  setUnavailableFilters,
-  unavailableFilters,
+  setOrder,
+  headers,
   } = useContext(StarWarsContext);
 
   // Cria um array com as opções do ComboList
@@ -23,8 +23,12 @@ const Filters = () => {
   const [column, setColumn] = useState(columns[0]);
   // Criando o getter e o setter do localComparison e dando o valor inicial de "maior que"
   const [comparison, setComparison] = useState(comparisons[0]);
-  // Criando o getter e o setter do localValue e dando o valor inicial de vazio ""
-  const [value, setValue] = useState('');
+  // Criando o getter e o setter do localValue e dando o valor inicial 0 "0"
+  const [value, setValue] = useState('0');
+  // Criando o getter e o setter do cabeçalho
+  const [header, setHeader] = useState('name');
+  // Criando o getter e o setter do ordenamento
+  const [sort, setSort] = useState('ASC');
 
   return (
     <div>
@@ -36,6 +40,7 @@ const Filters = () => {
           name="name"
           value={ name }
           data-testid="name-filter"
+          type="text"
           onChange={ ({ target: { value: valor } }) => setName(valor) }
         />
       </label>
@@ -46,6 +51,7 @@ const Filters = () => {
       <label htmlFor="column-filter">
         Coluna de filtro:
         <select
+          value={ column }
           name="column-filter"
           data-testid="column-filter"
           onChange={ ({ target: { value: valor } }) => setColumn(valor) }
@@ -55,9 +61,9 @@ const Filters = () => {
           {/* Faz um filtro se o elemento não está incluso nos Filtros,
            controlado pelo unavailableFilters */}
           {
-            columns
-              .filter((coluna) => !unavailableFilters.includes(coluna))
-              .filter((coluna) => !unavailableFilters.includes(coluna))
+            filterByNumericValues
+              .reduce((acc, filter) => acc
+                .filter((c) => c !== filter.column), columns)
               .map((coluna, index) => (
                 <option value={ coluna } key={ index }>{ coluna }</option>
               ))
@@ -70,6 +76,7 @@ const Filters = () => {
       <label htmlFor="comparison-filter">
         Comparação:
         <select
+          value={ comparison }
           name="comparison-filter"
           data-testid="comparison-filter"
           onChange={ ({ target: { value: valor } }) => setComparison(valor) }
@@ -90,6 +97,8 @@ const Filters = () => {
       <label htmlFor="value-filter">
         Valor conforme coluna à ser filtrada:
         <input
+          value={ value }
+          type="number"
           name="value-filter"
           data-testid="value-filter"
           onChange={ ({ target: { value: valor } }) => setValue(valor) }
@@ -99,19 +108,62 @@ const Filters = () => {
       {/* Botão para setar o state dos filtros, quando clicar */}
       <button
         type="button"
+        type="button"
         data-testid="button-filter"
         disabled={ !value }
         onClick={ () => {
           // Atualiza o FiltersByNumericValues com os valores do novo filtro
-          setFiltersByNumericValues(
-            [...filterByNumericValues, { column, comparison, value }],
-          );
-          // Adiciona no array unavailableFilters a coluna que não pode ser usada
-          unavailableFilters.push(column);
-          // Adiciona ao state esse dado citado acima
-          setUnavailableFilters([...unavailableFilters]);
+          filterByNumericValues.push({ column, comparison, value });
+          setFiltersByNumericValues([...filterByNumericValues]);
 
-          setColumn(columns.filter((c) => !unavailableFilters.includes(c))[0]);
+          setColumn(filterByNumericValues.reduce((acc, filter) => acc
+            .filter((c) => c !== filter.column), columns)[0]);
+        } }
+      >
+        Filtrar
+      </button>
+      <p />
+      <span>Campo de filtragem:</span>
+      <select
+        value={ header }
+        data-testid="column-sort"
+        onChange={ ({ target: { value: v } }) => setHeader(v) }
+      >
+        {headers
+          .map((h, i) => <option value={ h } key={ i }>{h}</option>)}
+      </select>
+
+      <label htmlFor="asc">
+        <input
+          defaultChecked
+          name="order"
+          value="ASC"
+          data-testid="column-sort-input-asc"
+          type="radio"
+          id="asc"
+          onChange={ ({ target: { value: v } }) => setSort(v) }
+        />
+        Ascendente
+      </label>
+
+      <label htmlFor="desc">
+        <input
+          name="order"
+          value="DESC"
+          data-testid="column-sort-input-desc"
+          type="radio"
+          id="desc"
+          onChange={ ({ target: { value: v } }) => setSort(v) }
+        />
+        Descendente
+        {'  '}
+      </label>
+
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ () => {
+          setOrder({ column: header, sort });
         } }
       >
         Filtrar

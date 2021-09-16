@@ -8,37 +8,23 @@ const Table = () => {
   // Salva na variável planets os planetas vindo da API em /services
   const {
     planets,
+    headers,
     filters: {
       filterByName: { name },
       filterByNumericValues,
-    },
+      order: { column: header, sort } },
   } = useContext(StarWarsContext);
 
-  // Essa variável headers vai receber a primeira linha do planets(conforme [0]) e se não tiver nada, ela traz um array vazio, evitando undefined.
-  const headers = planets[0] || [];
-
-  // A função evaluate recebe 3 parametros
-  // Parametro 01: planetColumn(combolist population, etc)
-  // Parametro 02: eValue(valor a ser informado conforme combolist)
-  // Parametro 03: eComparison(maior que, menor que, etc)
-  const evaluate = (planetColumn, eValue, eComparison) => {
-    if (Number.isNaN(planetColumn) || Number.isNaN(eValue)) return false;
-
-    planetColumn = parseInt(planetColumn, 10);
-    eValue = parseInt(eValue, 10);
-
-    switch (eComparison) {
+  const comparisonReducer = (p, { comparison, value, column }) => {
+    switch (comparison) {
     case 'maior que':
-      return planetColumn > eValue;
-
+      return p.filter((planet) => Number(planet[column]) > Number(value));
     case 'menor que':
-      return planetColumn < eValue;
-
+      return p.filter((planet) => Number(planet[column]) < Number(value));
     case 'igual a':
-      return planetColumn === eValue;
-
+      return p.filter((planet) => Number(planet[column]) === Number(value));
     default:
-      return true;
+      return p;
     }
   };
 
@@ -50,9 +36,9 @@ const Table = () => {
         <tr>
           {/* Faz um map, nas keys/chaves do headers montando o cabeçalho da tabela */}
           {
-            Object.keys(headers)
-              .map((header, index) => (
-                <th key={ index }>{header}</th>
+            headers
+              .map((h, index) => (
+                <th key={ index }>{h}</th>
               ))
           }
         </tr>
@@ -61,17 +47,40 @@ const Table = () => {
       <tbody>
         {
           filterByNumericValues
-            .reduce((acumulador, { column, value, comparison }) => acumulador
-              // Aciono o filtro conforme planet[column](combolist population, etc), value(valor a ser informado conforme combolist), comparison(maior que, menor que, etc)
-              .filter((planet) => evaluate(planet[column], value, comparison)), planets)
+            .reduce(comparisonReducer, planets)
             .filter((planet) => (planet.name).includes(name))
-          // Percorre a variável planets com o array recebido, montando cada linha da tabela(ou <tr>) pegando somente os values, pois as keys/chaves não são necessárias
+            .sort((a, b) => {
+              let fieldA = a[header];
+              let fieldB = b[header];
+
+              if (fieldA === 'unknown') fieldA = 0;
+              if (fieldB === 'unknown') fieldB = 0;
+
+              if (!Number.isNaN(Number(fieldA))) {
+                fieldA = Number(fieldA);
+                fieldB = Number(fieldB);
+              }
+
+              if (fieldA > fieldB) {
+                return sort === 'ASC' ? 1 : +'-1';
+              }
+              if (fieldA < fieldB) {
+                return sort === 'ASC' ? +'-1' : 1;
+              }
+              return 0;
+            })
+            // Percorre a variável planets com o array recebido, montando cada linha da tabela(ou <tr>) pegando somente os values, pois as keys/chaves não são necessárias
             .map((planet, index) => (
               <tr key={ index }>
-                {/* Pega somente os valores para montar a coluna correspondente */}
                 {
-                  Object.values(planet)
-                    .map((info) => <td key={ info }>{ info }</td>)
+                  Object.entries(planet)
+                    .map(([key, info]) => (
+                      <td
+                        data-testid={ key === 'name' ? 'planet-name' : null }
+                        key={ info }
+                      >
+                        {info}
+                      </td>))
                 }
               </tr>
             ))

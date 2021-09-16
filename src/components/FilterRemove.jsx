@@ -5,8 +5,6 @@ import StarWarsContext from '../contexts/StarWarsContext';
 const FilterRemove = () => {
   const {
     filters: { filterByNumericValues },
-    setUnavailableFilters,
-    unavailableFilters,
     setFiltersByNumericValues,
   } = useContext(StarWarsContext);
 
@@ -24,8 +22,6 @@ const FilterRemove = () => {
                 onClick={ () => {
                   setFiltersByNumericValues(filterByNumericValues
                     .filter((filter) => filter.column !== column));
-                  setUnavailableFilters(unavailableFilters
-                    .filter((filter) => filter !== column));
                 } }
               >
                 {/* Button com ícone de x em cada filtro de valores numéricos */}
