@@ -108,7 +108,6 @@ const Filters = () => {
       {/* Botão para setar o state dos filtros, quando clicar */}
       <button
         type="button"
-        type="button"
         data-testid="button-filter"
         disabled={ !value }
         onClick={ () => {

@@ -1,4 +1,4 @@
-// Importo o createContext que vai ser o responsável por criar o contexto 
+// Importo o createContext que vai ser o responsável por criar o contexto
 import { createContext } from 'react';
 
 // Criando o contexto
