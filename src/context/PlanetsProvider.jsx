@@ -1,26 +1,19 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import getData from '../services';
+import React, { useState } from 'react';
 import PlanetsContext from './PlanetsContext';
+import usePlanets from '../hooks/usePlanets';
 
-const QuestionProvider = ({ children }) => {
-  const [planets, setPlanets] = useState([]);
-  const [titles, setTitles] = useState([]);
-  const [next, setNext] = useState('');
-  // const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    getData().then((planetsFromApi) => {
-      setPlanets(planetsFromApi.results);
-      setNext(planetsFromApi.next);
-      setTitles(Object.keys(planetsFromApi.results[0]));
-    });
-  }, []);
+const PlanetsProvider = ({ children }) => {
+  const { planets, titles, next, setNext } = usePlanets();
+  const [queryFilter, setQueryFilter] = useState('');
 
   const value = {
     planets,
     next,
     titles,
+    queryFilter,
+    setQueryFilter,
+    setNext,
   };
 
   return (
@@ -30,7 +23,7 @@ const QuestionProvider = ({ children }) => {
   );
 };
 
-QuestionProvider.propTypes = {
+PlanetsProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-export default QuestionProvider;
+export default PlanetsProvider;
