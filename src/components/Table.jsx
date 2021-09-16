@@ -1,26 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
+import Context from '../Context/Context';
 
 const Table = () => {
-  const [planets, setPlanets] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
-  useEffect(() => {
-    async function fetchUrl() {
-      const { results } = await fetch(url).then((data) => data.json());
-      setPlanets(results);
-      setLoading(false);
-      return results;
-    }
-    fetchUrl();
-  }, []);
+  const {
+    data: { results },
+  } = useContext(Context);
 
   // useEffect(() => {}, []); ComponentDidMount
-  if (loading) return <div>carregando</div>;
+  if (!results) return <div className="loading">carregando</div>;
   return (
     <table className="App-table">
       <thead className="table-head">
         <tr>
-          {Object.keys(planets[0]).map((key) => (
+          {Object.keys(results[0]).map((key) => (
             <th key={ key }>{`${key.replace('_', ' ')}`}</th>
           ))}
         </tr>

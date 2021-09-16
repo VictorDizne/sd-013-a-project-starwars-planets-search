@@ -6,3 +6,5 @@ export default async function getPlanets() {
 
   return planetsObj;
 }
+
+// scr da branch palenske-starwars-planets-search do projeto do Palesk turma 11

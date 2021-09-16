@@ -3,8 +3,6 @@ import { func } from 'prop-types';
 import Context from './Context';
 import getAPIPlanets from '../serviceAPI/PlanetAPI';
 
-initialStatePlanets = [];
-
 function Provider({ children }) {
   const [data, setData] = useState({});
 
