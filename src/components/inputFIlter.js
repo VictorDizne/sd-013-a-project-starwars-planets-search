@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 
 function InputFilter({ onChange }) {
   return (
-    <input
-      data-testid="name-filter"
-      type="text"
-      onChange={ onChange }
-    />
+    <label htmlFor="filter">
+      Nome do Planeta:
+      <input
+        data-testid="name-filter"
+        id="filter"
+        type="text"
+        onChange={ onChange }
+      />
+    </label>
   );
 }
 
