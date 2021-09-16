@@ -16,7 +16,9 @@ function Table() {
           </tr>
         </thead>
         <tbody className="table-body">
-          <Planets planets={ planets } />
+          <Planets
+            planets={ planets }
+          />
         </tbody>
       </table>
     </div>
