@@ -2,11 +2,23 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Context from './mycontext';
 
+const columnNumericFilters = {
+  population: 'population',
+  orbital_period: 'orbital_period',
+  diameter: 'diameter',
+  rotation_period: 'rotation_period',
+  surface_water: 'surface_water',
+};
+
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [ogPlanets, setOgPlanets] = useState([]);
   const [endFetch, finishFetch] = useState(false);
   const [nameFilter, changeNameFilter] = useState('');
+  const [columnNumericFilter, changeColumnNumericFilter] = useState('population');
+  const [comparisonNumericFilter, changeComparisonNumericFilter] = useState('maior que');
+  const [numericFilter, changeNumericFilter] = useState(0);
+  const [activateFilter, handleFilterActicvate] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -23,14 +35,43 @@ function Provider({ children }) {
     fetchData();
   }, [endFetch]);
 
+  useEffect(() => {
+    if (activateFilter > 0) {
+      if (comparisonNumericFilter === 'maior que') {
+        const newPlanets = planets
+          .filter((planet) => planet[columnNumericFilter] > numericFilter);
+        return setPlanets(newPlanets);
+      }
+      if (comparisonNumericFilter === 'menor que') {
+        const newPlanets = planets
+          .filter((planet) => planet[columnNumericFilter] < numericFilter);
+        return setPlanets(newPlanets);
+      }
+      const newPlanets = planets
+        .filter((planet) => planet[columnNumericFilter] === numericFilter);
+      return setPlanets(newPlanets);
+    }
+  }, [activateFilter]);
+
   const contextInitialValue = {
     data: planets,
     setPlanets,
+    activateFilter,
+    handleFilterActicvate,
     filters: {
       filterByName: {
         name: nameFilter,
         changeNameFilter,
       },
+      filterByNumericValues: {
+        column: columnNumericFilter,
+        changeColumnNumericFilter,
+        comparison: comparisonNumericFilter,
+        changeComparisonNumericFilter,
+        value: numericFilter,
+        changeNumericFilter,
+      },
+      columnNumericFilters,
     },
   };
 
