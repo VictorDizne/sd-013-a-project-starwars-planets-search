@@ -4,7 +4,7 @@ import { PlanetsContext } from '../context/PlanetsContext';
 const renderPlanets = (planets) => (
   planets.map((p) => (
     <tr key={ p.name }>
-      <td>{p.name}</td>
+      <td data-testid="planet-name">{p.name}</td>
       <td>{p.rotation_period}</td>
       <td>{p.orbital_period}</td>
       <td>{p.diameter}</td>
@@ -21,8 +21,24 @@ const renderPlanets = (planets) => (
   ))
 );
 
-const filterPlanets = ({ filterByName, filterByNumericValues }, originalData) => {
+const compare = (a, b) => {
+  const minusOne = -1;
+
+  const nameA = a.name.toUpperCase();
+  const nameB = b.name.toUpperCase();
+
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = minusOne;
+  }
+  return comparison;
+};
+
+const filterPlanets = ({ filterByName, filterByNumericValues, order }, originalData) => {
   const { name } = filterByName;
+  const { column, sort } = order;
 
   let filteredPlanets = originalData.filter((p) => (
     p.name.includes(name)
@@ -39,6 +55,16 @@ const filterPlanets = ({ filterByName, filterByNumericValues }, originalData) =>
       return parseInt(p[f.column], 10) === parseInt(f.value, 10);
     });
   });
+
+  filteredPlanets.sort(compare);
+
+  if (column !== 'Name') {
+    filteredPlanets.sort((a, b) => parseInt(a[column], 10) - parseInt(b[column], 10));
+  }
+
+  if (sort === 'DESC') {
+    filteredPlanets.reverse();
+  }
 
   return filteredPlanets;
 };

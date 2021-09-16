@@ -30,6 +30,13 @@ const delFilter = ({ target }, { filterByNumericValues }, setFilters) => {
   }));
 };
 
+const sortPlanets = (setFilters) => {
+  const column = document.getElementById('column-sort').value;
+  const sort = document.querySelector('input[name="sort"]:checked').value;
+
+  setFilters((state) => ({ ...state, order: { column, sort } }));
+};
+
 const columns = ['population', 'rotation_period', 'orbital_period', 'diameter',
   'surface_water'];
 
@@ -45,18 +52,50 @@ function Filters() {
 
   return (
     <div>
-      <input
-        type="text"
-        id="name-filter"
-        data-testid="name-filter"
-        placeholder="Name"
-        onChange={ () => nameFilter(setFilters) }
-      />
+      <div>
+        <input
+          type="text"
+          id="name-filter"
+          data-testid="name-filter"
+          placeholder="Name"
+          onChange={ () => nameFilter(setFilters) }
+        />
+      </div>
+      <div>
+        <select name="column-sort" id="column-sort" data-testid="column-sort">
+          {columns.map((c) => <option key={ c } value={ c }>{c}</option>)}
+        </select>
+        <label htmlFor="ASC">
+          <input
+            type="radio"
+            name="sort"
+            value="ASC"
+            id="ASC"
+            data-testid="column-sort-input-asc"
+          />
+          ASC
+        </label>
+        <label htmlFor="DESC">
+          <input
+            type="radio"
+            name="sort"
+            value="DESC"
+            id="DESC"
+            data-testid="column-sort-input-desc"
+          />
+          DESC
+        </label>
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ () => sortPlanets(setFilters) }
+        >
+          SORT
+        </button>
+      </div>
       <div>
         <select name="column" id="column" data-testid="column-filter">
-          {availableColumns.map((c) => (
-            <option key={ c } value={ c }>{c}</option>
-          ))}
+          {availableColumns.map((c) => <option key={ c } value={ c }>{c}</option>)}
         </select>
         <select name="comparison" id="comparison" data-testid="comparison-filter">
           <option value="maior que">maior que</option>
