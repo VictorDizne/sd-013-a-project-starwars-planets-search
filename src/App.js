@@ -1,10 +1,13 @@
-import React from 'react';
-import './App.css';
+import React, { useContext, useEffect } from 'react';
+import Main from './components/main'
+import ContextProvider from './context/context'
 
 function App() {
   return (
-    <span>Hello, App!</span>
-  );
+    <ContextProvider>
+      <Main/>
+    </ContextProvider>
+  )
 }
 
 export default App;
