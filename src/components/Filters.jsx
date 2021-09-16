@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { PlanetsContext } from '../context/PlanetsContext';
 
 const nameFilter = (setFilters) => {
@@ -6,10 +6,11 @@ const nameFilter = (setFilters) => {
   setFilters((state) => ({ ...state, filterByName: { name } }));
 };
 
-const numericFilter = (setFilters) => {
-  const column = document.getElementById('column').value;
-  const comparison = document.getElementById('comparison').value;
-  const { value } = document.getElementById('value');
+const numericFilter = (evt, setFilters) => {
+  const filterRow = evt.target.parentElement.childNodes;
+  const column = filterRow[0].value;
+  const comparison = filterRow[1].value;
+  const { value } = filterRow[2];
 
   const newFilter = { column, comparison, value };
 
@@ -19,8 +20,29 @@ const numericFilter = (setFilters) => {
   }));
 };
 
+const delFilter = ({ target }, { filterByNumericValues }, setFilters) => {
+  const column = target.parentElement.id;
+  const updatedNumFilters = filterByNumericValues.filter((f) => f.column !== column);
+
+  setFilters((state) => ({
+    ...state,
+    filterByNumericValues: updatedNumFilters,
+  }));
+};
+
+const columns = ['population', 'rotation_period', 'orbital_period', 'diameter',
+  'surface_water'];
+
 function Filters() {
-  const { setFilters } = useContext(PlanetsContext);
+  const { filters, setFilters } = useContext(PlanetsContext);
+  const [availableColumns, setAvailableColumns] = useState(columns);
+
+  useEffect(() => {
+    const appliedNumFilters = filters.filterByNumericValues.map((z) => z.column);
+    const remainingColumns = columns.filter((c) => !appliedNumFilters.includes(c));
+    setAvailableColumns(remainingColumns);
+  }, [filters]);
+
   return (
     <div>
       <input
@@ -32,11 +54,9 @@ function Filters() {
       />
       <div>
         <select name="column" id="column" data-testid="column-filter">
-          <option value="population">population</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="surface_water">surface_water</option>
+          {availableColumns.map((c) => (
+            <option key={ c } value={ c }>{c}</option>
+          ))}
         </select>
         <select name="comparison" id="comparison" data-testid="comparison-filter">
           <option value="maior que">maior que</option>
@@ -47,10 +67,20 @@ function Filters() {
         <button
           type="button"
           data-testid="button-filter"
-          onClick={ () => numericFilter(setFilters) }
+          onClick={ (evt) => numericFilter(evt, setFilters) }
         >
           Apply
         </button>
+      </div>
+      <div>
+        {filters.filterByNumericValues.map((f) => (
+          <div key={ f.column } id={ f.column } data-testid="filter">
+            <span>{`${f.column} | ${f.comparison} | ${f.value}`}</span>
+            <button type="button" onClick={ (e) => delFilter(e, filters, setFilters) }>
+              X
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );
