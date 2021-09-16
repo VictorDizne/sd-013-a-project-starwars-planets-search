@@ -5,21 +5,21 @@
 }
 
 .container_table-Ta {
-  overflow-x: scroll;
   max-width: 80vw;
+  overflow-x: scroll;
 }
 
 .container_table-Ta table {
   background: rgba(255, 255, 255, 0.294) url('https://i.imgur.com/70sJfY1.png') no-repeat;
   background-size: 100%;
-  object-fit: cover;
   border-collapse: collapse;
+  object-fit: cover;
   text-align: center;
 }
 
 .container_table-Ta table thead {
   background-color: #707070;
-  box-shadow: inset 0 0 4px 1px gold; 
+  box-shadow: inset 0 0 4px 1px gold;
   color: white;
 }
 
