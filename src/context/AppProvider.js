@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import AppContext from './AppContext';
 
@@ -13,6 +14,10 @@ const AppProvider = ({ children }) => {
       </AppContext.Provider>
     </main>
   );
+};
+
+AppProvider.propTypes = {
+  children: PropTypes.shape().isRequired,
 };
 
 export default AppProvider;
