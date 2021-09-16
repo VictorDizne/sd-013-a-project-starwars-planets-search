@@ -1,13 +1,12 @@
 import React from 'react';
-import './App.css';
+import Home from './pages/Home';
+import AppProvider from './providers/AppProvider';
 
 function App() {
   return (
-    <div>
-
-      <span>Hello, App!</span>
-      <span>Starting Project</span>
-    </div>
+    <AppProvider>
+      <Home />
+    </AppProvider>
   );
 }
 
