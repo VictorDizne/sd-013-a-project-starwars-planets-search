@@ -3,13 +3,20 @@ import Context from '../context/index';
 import HeaderTable from './HeaderTable';
 
 function Table() {
-  const { data } = useContext(Context);
-  console.log(data);
+  const { data, filters: { filterByName: { name } } } = useContext(Context);
+
+  const filterPlanets = () => {
+    const namePlanet = data.filter((planet) => (
+      name ? planet.name.includes(name) : data
+    ));
+
+    return namePlanet;
+  };
 
   return (
     <table>
       <HeaderTable />
-      { data.map((item) => (
+      { filterPlanets().map((item) => (
         <tr key={ item }>
           <td>{item.name}</td>
           <td>{item.rotation_period}</td>
