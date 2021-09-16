@@ -39,3 +39,65 @@
     transform: rotate(360deg);
   }
 }
+
+.Tatooine {
+  background-color: #304;
+  color: #ffff;
+  font-weight: 800;
+  
+}
+
+.Alderaan {
+  color: #ffff;
+  font-weight: 800;
+  background-color: #364;
+}
+
+.YavinIV {
+  color: #ffff;
+  font-weight: 800;
+  background-color: #4818;
+}
+
+.Hoth {
+  color: #ffff;
+  font-weight: 800;
+  background-color: #549;
+}
+
+.Dagobah {
+  color: #ffff;
+  font-weight: 800;
+  background-color: #341;
+}
+
+.Bespin {
+  color: #ffff;
+  font-weight: 800;
+  background-color: #511051;
+}
+
+.Endor {
+  color: #ffff;
+  font-weight: 800;
+  background-color: #402;
+}
+
+.Naboo {
+  color: #ffff;
+  font-weight: 800;
+  background-color: #312;
+}
+
+.Coruscant {
+  color: #ffff;
+  font-weight: 800;
+  background-color: #368;
+}
+
+.Kamino {
+  color: #ffff;
+  font-weight: 800;
+  background-color: #463;
+}
+
