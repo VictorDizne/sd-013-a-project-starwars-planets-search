@@ -10,7 +10,12 @@ function PlanetTable() {
       return (
         <thead>
           <tr>
-            { keys.map((i) => <th key={ i }>{ i }</th>) }
+            { keys.map((i) => {
+              const classheaderID = `${i}`;
+              return (
+                <th className={ classheaderID } key={ i }>{ i }</th>
+              );
+            }) }
           </tr>
         </thead>
       );
