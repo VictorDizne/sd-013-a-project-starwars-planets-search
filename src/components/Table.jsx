@@ -21,12 +21,26 @@ const renderPlanets = (planets) => (
   ))
 );
 
-const filterPlanets = (filters, originalData) => {
-  const nameIncludes = originalData.filter((p) => (
-    p.name.includes(filters.filterByName.name)
+const filterPlanets = ({ filterByName, filterByNumericValues }, originalData) => {
+  const { name } = filterByName;
+
+  let filteredPlanets = originalData.filter((p) => (
+    p.name.includes(name)
   ));
 
-  return nameIncludes;
+  filterByNumericValues.forEach((f) => {
+    filteredPlanets = filteredPlanets.filter((p) => {
+      if (f.comparison === 'maior que') {
+        return parseInt(p[f.column], 10) > parseInt(f.value, 10);
+      }
+      if (f.comparison === 'menor que') {
+        return parseInt(p[f.column], 10) < parseInt(f.value, 10);
+      }
+      return parseInt(p[f.column], 10) === parseInt(f.value, 10);
+    });
+  });
+
+  return filteredPlanets;
 };
 
 function Table() {
