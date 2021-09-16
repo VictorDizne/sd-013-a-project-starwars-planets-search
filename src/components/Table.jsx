@@ -28,10 +28,17 @@ const Table = () => {
     eValue = parseInt(eValue, 10);
 
     switch (eComparison) {
-    case 'maior que': return planetColumn > eValue;
-    case 'menor que': return planetColumn < eValue;
-    case 'igual a': return planetColumn === eValue;
-    default: return true;
+    case 'maior que':
+      return planetColumn > eValue;
+
+    case 'menor que':
+      return planetColumn < eValue;
+
+    case 'igual a':
+      return planetColumn === eValue;
+
+    default:
+      return true;
     }
   };
 
@@ -58,7 +65,7 @@ const Table = () => {
               // Aciono o filtro conforme planet[column](combolist population, etc), value(valor a ser informado conforme combolist), comparison(maior que, menor que, etc)
               .filter((planet) => evaluate(planet[column], value, comparison)), planets)
             .filter((planet) => (planet.name).includes(name))
-            // Percorre a variável planets com o array recebido, montando cada linha da tabela(ou <tr>) pegando somente os values, pois as keys/chaves não são necessárias
+          // Percorre a variável planets com o array recebido, montando cada linha da tabela(ou <tr>) pegando somente os values, pois as keys/chaves não são necessárias
             .map((planet, index) => (
               <tr key={ index }>
                 {/* Pega somente os valores para montar a coluna correspondente */}
