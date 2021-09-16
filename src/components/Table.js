@@ -1,8 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Context from '../context/Context';
+import InputFilter from './InputFilter';
 
 function Table() {
   const { data, setData } = useContext(Context);
+  const [filtered, setFilter] = useState('');
 
   useEffect(() => {
     const getData = async () => {
@@ -14,8 +16,13 @@ function Table() {
     getData();
   }, []);
 
+  const onChangeHandler = (e) => {
+    setFilter(e.target.value);
+  };
+
   return (
     <div>
+      <InputFilter onChange={ onChangeHandler } />
       <table>
         <thead>
           <tr>
@@ -35,23 +42,24 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {data.map((planet) => (
-            <tr key={ planet.name }>
-              <td>{ planet.name }</td>
-              <td>{ planet.rotation_period }</td>
-              <td>{ planet.orbital_period }</td>
-              <td>{ planet.diameter }</td>
-              <td>{ planet.climate }</td>
-              <td>{ planet.gravity }</td>
-              <td>{ planet.terrain }</td>
-              <td>{ planet.surface_water }</td>
-              <td>{ planet.population }</td>
-              <td>{ planet.films }</td>
-              <td>{ planet.created }</td>
-              <td>{ planet.edited }</td>
-              <td>{ planet.url }</td>
-            </tr>
-          ))}
+          {data.filter((d) => filtered === '' || d.name.includes(filtered))
+            .map((planet) => (
+              <tr key={ planet.name }>
+                <td>{ planet.name }</td>
+                <td>{ planet.rotation_period }</td>
+                <td>{ planet.orbital_period }</td>
+                <td>{ planet.diameter }</td>
+                <td>{ planet.climate }</td>
+                <td>{ planet.gravity }</td>
+                <td>{ planet.terrain }</td>
+                <td>{ planet.surface_water }</td>
+                <td>{ planet.population }</td>
+                <td>{ planet.films }</td>
+                <td>{ planet.created }</td>
+                <td>{ planet.edited }</td>
+                <td>{ planet.url }</td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
