@@ -1,0 +1,23 @@
+td {
+  background-color: white;
+  border-radius: 2px;
+  max-width: 100px;
+  opacity: 0.8;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+}
+
+table {
+
+  border-collapse: separate;
+  text-indent: initial;
+  border-spacing: 2px;
+}

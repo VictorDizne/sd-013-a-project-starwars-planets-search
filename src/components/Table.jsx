@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Context from '../Context/Context';
+import './TableStyles.css';
 
 const Table = () => {
   const {
@@ -11,13 +12,7 @@ const Table = () => {
   return (
     <table className="App-table">
       <thead className="table-head">
-        <tr
-          style={ { display: 'flex',
-            marginRight: '4px',
-            minWidth: '70px',
-            maxWidth: '70px',
-            maxHeight: '35px' } }
-        >
+        <tr>
           {Object.keys(results[0]).map((key) => (
             <th key={ key }>{`${key.replace('_', ' ')}`}</th>
           ))}
@@ -26,14 +21,11 @@ const Table = () => {
       <tbody className="table-body">
         {results.map(
           (planet, i) => (
-            <tr style={ { display: 'flex' } } key={ i }>
+            <tr
+              key={ i }
+            >
               {Object.values(planet).map((value) => (
                 <td
-                  style={ { marginRight: '4px',
-                    minWidth: '70px',
-                    maxWidth: '70px',
-                    overflow: 'hidden',
-                    maxHeight: '35px' } }
                   key={ value }
                   data-testid={ planet.name === value ? 'planet-name' : null }
                 >
