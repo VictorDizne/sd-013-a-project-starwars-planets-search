@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import MainPage from './pages/MainPage';
+import Table from './components/Table';
 
 function App() {
   return (
     <div>
-      <MainPage />
+      <Table />
     </div>
   );
 }
