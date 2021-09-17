@@ -1,28 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react';
-import Context from '../context/index';
+import React from 'react';
+import TextInput from './subcomponents/TextInput';
+import NumericValues from './subcomponents/NumericValues';
 
 function Inputs() {
-  const [nameInput, setNameInput] = useState('');
-  const { handleFilters } = useContext(Context);
-
-  const handleName = ({ target }) => {
-    setNameInput(target.value);
-  };
-
-  useEffect(() => {
-    handleFilters(nameInput);
-  }, [nameInput]);
-
   return (
-    <label htmlFor="nameInput">
-      Busca por nome:
-      <input
-        data-testid="name-filter"
-        type="text"
-        onChange={ handleName }
-        id="nameInput"
-      />
-    </label>
+    <>
+      <TextInput />
+      <NumericValues />
+    </>
   );
 }
 

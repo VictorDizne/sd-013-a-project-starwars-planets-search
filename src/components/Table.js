@@ -3,13 +3,36 @@ import Context from '../context/index';
 import HeaderTable from './HeaderTable';
 
 function Table() {
-  const { data, filters: { filterByName: { name } } } = useContext(Context);
+  const {
+    data,
+    filters: {
+      filterByName: { name },
+      filterByNumericValues,
+    },
+  } = useContext(Context);
 
   const filterPlanets = () => {
-    const namePlanet = data.filter((planet) => (
+    let namePlanet = data.filter((planet) => (
       name ? planet.name.includes(name) : data
     ));
 
+    if (filterByNumericValues) {
+      filterByNumericValues
+        .forEach(({ comparison, value, column }) => {
+          namePlanet = namePlanet.filter((planet) => {
+            switch (comparison) {
+            case 'maior que':
+              return Number(planet[column]) > Number(value);
+            case 'menor que':
+              return Number(planet[column]) < Number(value);
+            case 'igual a':
+              return Number(planet[column]) === Number(value);
+            default:
+              return null;
+            }
+          });
+        });
+    }
     return namePlanet;
   };
 

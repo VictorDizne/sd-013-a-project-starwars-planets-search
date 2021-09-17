@@ -8,23 +8,49 @@ function Provider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
 
-  const handleFilters = (name) => {
+  const [optionColumn, setOptionColumn] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ]);
+
+  const [optionComparison, setOptionComparison] = useState([
+    'maior que', 'menor que', 'igual a']);
+
+  const handleFiltersName = (name) => {
     setFilters({
       filterByName: {
-        ...filters.filterByName,
         name,
       },
+      filterByNumericValues: [...filters.filterByNumericValues],
     });
+  };
+
+  const handleFiltersNumeric = ({ column, comparison, value }) => {
+    setFilters({
+      filterByName: { ...filters.filterByName },
+      filterByNumericValues: [
+        { column, comparison, value }, ...filters.filterByNumericValues],
+    });
+
+    const filteredOptionsColumn = optionColumn.filter((option) => option !== column);
+    setOptionColumn(filteredOptionsColumn);
+
+    const filteredOptionsComparison = optionComparison
+      .filter((option) => option !== comparison);
+    setOptionComparison(filteredOptionsComparison);
   };
 
   const data = useFetch();
 
   const valueState = {
     data,
-    handleFilters,
+    handleFiltersName,
+    handleFiltersNumeric,
     filters,
+    optionColumn,
+    optionComparison,
   };
 
   return (
