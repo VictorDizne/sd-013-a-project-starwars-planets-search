@@ -12,17 +12,20 @@ function TableBody(props) {
       planet.name.includes(filterByName.name)
     ));
 
-    filterByNumericValues.forEach((obj) => {
-      filteredName = filteredName.filter((planet) => {
-        if (obj.comparison === 'menor que') {
-          return Number(planet[obj.column]) < Number(obj.value);
-        }
-        if (obj.comparison === 'maior que') {
-          return Number(planet[obj.column]) > Number(obj.value);
-        }
-        return Number(planet[obj.column]) === Number(obj.value);
+    if (filterByNumericValues) {
+      filterByNumericValues.forEach((obj) => {
+        filteredName = filteredName.filter((planet) => {
+          if (obj.comparison === 'menor que') {
+            return Number(planet[obj.column]) < Number(obj.value);
+          }
+          if (obj.comparison === 'maior que') {
+            return Number(planet[obj.column]) > Number(obj.value);
+          }
+          return Number(planet[obj.column]) === Number(obj.value);
+        });
       });
-    });
+    }
+
     return filteredName;
   }
 
