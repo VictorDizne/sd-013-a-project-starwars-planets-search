@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 export const DataContext = React.createContext();
 export const FilterContext = React.createContext();
 
-function isNumeric(str) {
+export function isNumeric(str) {
   return /^\d+$/.test(str);
 }
 
 export default function DataProvider({ children }) {
   const initialRender = useRef(true);
   const backup = useRef([]);
-
   const [data, setData] = useState();
   const [isReady, setIsReady] = useState(false);
   const [columns, setColumns] = useState([]);
@@ -20,7 +19,12 @@ export default function DataProvider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
+
   // https://swapi-trybe.herokuapp.com/api/planets/
   useEffect(() => {
     fetch('https://swapi.dev/api/planets/')
