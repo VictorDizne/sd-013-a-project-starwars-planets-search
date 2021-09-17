@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from 'react';
-import Main from './components/main'
-import ContextProvider from './context/context'
+import React from 'react';
+import Main from './components/main';
+import ContextProvider from './context/context';
 
 function App() {
   return (
     <ContextProvider>
-      <Main/>
+      <Main />
     </ContextProvider>
-  )
+  );
 }
 
 export default App;

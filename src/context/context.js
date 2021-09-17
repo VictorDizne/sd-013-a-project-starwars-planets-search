@@ -5,12 +5,15 @@ import dataContext from './createContext';
 function ContextProvider({ children }) {
   const [data, setData] = useState({ data: [] });
   const [isLoading, setIsLoading] = useState({ loading: true });
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
 
   const context = {
     data,
     setData,
     setIsLoading,
     isLoading,
+    filters,
+    setFilters,
   };
 
   return (

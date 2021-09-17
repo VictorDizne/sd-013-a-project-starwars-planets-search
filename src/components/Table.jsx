@@ -1,29 +1,24 @@
 import React, { useContext } from 'react';
 import dataContext from '../context/createContext';
+import ShoudBeFiltered from './filters';
+import FilterInputs from './FilterInputs';
 
 function Table() {
   const { data } = useContext(dataContext);
 
-    const firstTableRule = Object.keys(data.data.results[0]);
-    firstTableRule.splice(9,1);
-    
-    function generateContent() {
-      const TableContent = data.data.results;
-     
-      return TableContent.map((result) => {
-        const planet = Object.values(result);
-        planet.splice(9,1);
-        return <tr>{planet.map((item) => <td>{item}</td>)}</tr>
-      })
-    }
+  const firstTableRule = Object.keys(data.data.results[0]);
+  const removeIndex = 9;
+  firstTableRule.splice(removeIndex, 1);
 
- 
   return (
-    <table border='1'>
-      {<tr>{firstTableRule.map((item) => <th>{ item }</th>)}</tr>}
-      {generateContent()}
-    </table>
-  )
+    <div>
+      <FilterInputs />
+      <table border="1">
+        <tr>{firstTableRule.map((item) => <th key={ item }>{ item }</th>)}</tr>
+        <ShoudBeFiltered />
+      </table>
+    </div>
+  );
 }
 
 export default Table;
