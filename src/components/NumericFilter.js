@@ -13,12 +13,14 @@ const NumericFilter = () => {
         },
       },
   } = useContext(Context);
-  const { filters: { columnNumericFilters } } = useContext(Context);
+  const { filters: { columnNumericFilters, changeNumericFilters } } = useContext(Context);
   const { activateFilter, handleFilterActicvate } = useContext(Context);
 
   async function handleClick() {
     await handleFilterActicvate(activateFilter + 1);
-    delete columnNumericFilters[column];
+    const newFilters = Object.values(columnNumericFilters)
+      .filter((fltr) => fltr !== column);
+    changeNumericFilters(newFilters);
     changeColumnNumericFilter(columnNumericFilters[0]);
   }
 

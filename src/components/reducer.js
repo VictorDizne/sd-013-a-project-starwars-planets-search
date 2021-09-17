@@ -12,6 +12,13 @@ function Provider({ children }) {
   const [numericFilter, changeNumericFilter] = useState(0);
   const [activateFilter, handleFilterActicvate] = useState(0);
   const [activeFilters, saveActiveFilters] = useState([]);
+  const [columnNumericFilters, changeNumericFilters] = useState({
+    population: 'population',
+    orbital_period: 'orbital_period',
+    diameter: 'diameter',
+    rotation_period: 'rotation_period',
+    surface_water: 'surface_water',
+  });
 
   useEffect(() => {
     async function fetchData() {
@@ -27,14 +34,6 @@ function Provider({ children }) {
     }
     fetchData();
   }, [endFetch]);
-
-  const columnNumericFilters = {
-    population: 'population',
-    orbital_period: 'orbital_period',
-    diameter: 'diameter',
-    rotation_period: 'rotation_period',
-    surface_water: 'surface_water',
-  };
 
   useEffect(() => {
     if (activateFilter > 0) {
@@ -61,7 +60,6 @@ function Provider({ children }) {
         comparisonNumericFilter,
         numericFilter,
       }]);
-      console.log(activeFilters);
     }
   }, [activateFilter]);
 
@@ -93,6 +91,7 @@ function Provider({ children }) {
         changeNumericFilter,
       },
       columnNumericFilters,
+      changeNumericFilters,
     },
   };
 
