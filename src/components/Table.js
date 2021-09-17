@@ -2,9 +2,13 @@ import React, { useContext } from 'react';
 import AppContext from '../context/AppContext';
 
 const Table = () => {
-  const { data } = useContext(AppContext); // desestrutura data usando o useContext.
+  const { data, filter } = useContext(AppContext); // desestrutura data usando o useContext.
+  const { filterByName: { name } } = filter;
   if (!data.length) return <span>Loading...</span>; // caso não haja length retorna loading na tela.
   const tableItens = Object.keys(data[0]).filter((key) => key !== 'residents');
+  const filteredData = data
+    .filter((planet) => planet.name.toLowerCase()
+      .includes(name.toLowerCase()));
   return (
     <table>
       <thead>
@@ -15,7 +19,7 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        { data.map((planet) => (
+        { filteredData.map((planet) => (
           <tr key={ planet.name }>
             {tableItens.map((item) => (
               <td key={ planet[item] }>
