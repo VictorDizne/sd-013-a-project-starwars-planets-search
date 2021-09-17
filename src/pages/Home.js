@@ -1,13 +1,12 @@
 import React from 'react';
+import Header from '../components/Header';
 import Table from '../components/Table';
 
-const Home = () => {
-  console.log('a');
-  return (
-    <div>
-      <Table />
-    </div>
-  );
-};
+const Home = () => (
+  <div>
+    <Header />
+    <Table />
+  </div>
+);
 
 export default Home;
