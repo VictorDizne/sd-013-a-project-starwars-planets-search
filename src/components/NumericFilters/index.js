@@ -4,7 +4,13 @@ import Input from '../Input';
 import Select from '../Select';
 
 function NumericFilters() {
-  const { filterNumeric, setFilterNumeric, columnsFilter, setColumnsFilter } = usePlanetsContext();
+  const {
+    filterNumeric,
+    setFilterNumeric,
+    columnsFilter,
+    setColumnsFilter,
+  } = usePlanetsContext();
+
   const [currentFilter, setCurrentFilter] = useState({
     column: 'population', comparison: 'maior que', value: 0,
   });
