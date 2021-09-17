@@ -3,6 +3,7 @@ import myContext from '../context/MyContext';
 
 function Table() {
   const { data, dataKeys } = useContext(myContext);
+  const [movie, setMovie] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -14,8 +15,8 @@ function Table() {
     value: '',
   });
 
-  const handleChange = ({ target: { value } }) => {
-    setFilters({ ...filters, filterByName: { name: value } });
+  const handleChange = ({ target: { value: values } }) => {
+    setFilters({ ...filters, filterByName: { name: values } });
   };
 
   const handleSelect = ({ target: { value: values, name } }) => {
@@ -25,25 +26,31 @@ function Table() {
     }));
   };
 
-  const handleClick = () => {
-    const { column, value, comparison } = selectFilters;
-    const result = data;
-    switch (comparison) {
-    case 'maior que':
-      return result.filter((item) => item[column] > value);
-    case 'menor que':
-      return result.filter((item) => item[column] < value);
-    case 'igual a':
-      return result.filter((item) => item[column] === value);
-    default: return result;
-    }
-  };
-
   const filterPlanet = () => {
     const { filterByName: { name } } = filters;
-    const resultado = data
-      .filter((item) => item.name.toLowerCase().includes(name.toLowerCase()));
-    return resultado;
+    if (movie.length === 0) {
+      return data.filter((item) => item.name.toLowerCase().includes(name.toLowerCase()));
+    }
+    return movie;
+  };
+
+  const handleClick = () => {
+    const { column, comparison, value } = selectFilters;
+    if (comparison === 'maior que') {
+      const moveValue = data
+        .filter((item) => Number(item[column]) > Number(value));
+      return setMovie(moveValue);
+    }
+    if (comparison === 'menor que') {
+      const moveValue = data
+        .filter((item) => Number(item[column]) < Number(value));
+      return setMovie(moveValue);
+    }
+    if (comparison === 'igual a') {
+      const moveValue = data
+        .filter((item) => Number(item[column]) === Number(value));
+      return setMovie(moveValue);
+    }
   };
 
   return (
@@ -57,14 +64,24 @@ function Table() {
           data-testid="name-filter"
         />
       </label>
-      <select data-testid="column-filter" name="column" onChange={ handleSelect }>
+      <select
+        data-testid="column-filter"
+        name="column"
+        id="select-1"
+        onChange={ handleSelect }
+      >
         <option>population</option>
         <option>orbital_period</option>
         <option>diameter</option>
         <option>rotation_period</option>
         <option>surface_water</option>
       </select>
-      <select data-testid="comparison-filter" name="comparison" onChange={ handleSelect }>
+      <select
+        data-testid="comparison-filter"
+        name="comparison"
+        id="select-2"
+        onChange={ handleSelect }
+      >
         <option>maior que</option>
         <option>menor que</option>
         <option>igual a</option>
@@ -82,7 +99,7 @@ function Table() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ handleClick }
+        onClick={ () => handleClick() }
       >
         Filtrar
       </button>
