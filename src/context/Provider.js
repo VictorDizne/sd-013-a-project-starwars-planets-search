@@ -16,31 +16,59 @@ function Provider({ children }) {
     filters: {
       filterByName: {
         name: '',
-        age: 10,
       },
+      filterByNumericValues: [
+        {
+          column: 'population',
+          comparison: 'maior que',
+          value: '100000',
+        },
+      ],
     },
   });
 
   const handleFilterByName = (newName) => {
-    const { filters: { filterByName } } = filter;
+    const { filters: { filterByName, filterByNumericValues } } = filter;
     setFilter({
-      ...filter, filters: { filterByName: { ...filterByName, name: newName } } });
+      ...filter,
+      filters:
+      { filterByName:
+        { ...filterByName, name: newName },
+      filterByNumericValues: [...filterByNumericValues] } });
+  };
+
+  const handleFilterByNumericValues = (column, comparison, value) => {
+    const { filters: { filterByName, filterByNumericValues } } = filter;
+    setFilter({
+      ...filter,
+      filters:
+      { filterByName:
+        { ...filterByName },
+      filterByNumericValues:
+      [{ column, comparison, value }] } });
+    // [...filterByNumericValues, { column, comparison, value }] } });
   };
 
   useEffect(() => {
     const fetchPlanets = async () => {
       setLoading(true);
       const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
-      const results = await (await fetch(url)).json();
+      const response = await (await fetch(url)).json();
+      response.results.forEach((planet) => {
+        delete planet.residents;
+      });
       setLoading(false);
-      setData(results);
+      setData({ ...response, results: response.results });
     };
 
     fetchPlanets();
   }, []);
 
+  const context = {
+    data, loading, handleFilterByName, filter, handleFilterByNumericValues };
+
   return (
-    <tableContext.Provider value={ { data, loading, handleFilterByName, filter } }>
+    <tableContext.Provider value={ context }>
       {children}
     </tableContext.Provider>
   );
