@@ -20,7 +20,7 @@ function Table() {
           <th scope="col">Terrain</th>
           <th scope="col">Population</th>
           <th scope="col">Films</th>
-          {/* <th scope="col">Residents</th> */}
+          <th scope="col">url</th>
           <th scope="col">Created</th>
           <th scope="col">Edited</th>
 
@@ -60,9 +60,9 @@ function Table() {
               <td>
                 {planet.films}
               </td>
-              {/* <td>
-                {planet.residents}
-              </td> */}
+              <td>
+                {planet.url}
+              </td>
               <td>
                 {planet.created}
               </td>
