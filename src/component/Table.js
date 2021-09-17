@@ -1,13 +1,35 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import StarsContext from '../context/StarContext';
 
 function Table() {
   const { data } = useContext(StarsContext);
+  const [state, setState] = useState(
+    {
+      nome: '',
+    },
+  );
+
+  function handleChange(event) {
+    setState({
+      nome: event.target.value,
+    });
+  }
+
+  function searchPlanet() {
+    if (state.nome === '') {
+      return data;
+    }
+    const result = data.filter((planet) => planet.name.toLowerCase()
+      .includes(state.nome.toLowerCase()));
+    return result;
+  }
   if (data.length === 0) {
     return <p>...loading</p>;
   }
+
   return (
     <div>
+      <input type="text" onChange={ handleChange } data-testid="name-filter" />
       <table>
         <thead>
           <tr>
@@ -27,7 +49,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          { data.map((planet) => (
+          {searchPlanet().map((planet) => (
             <tr key={ planet.name }>
               <td>{ planet.name }</td>
               <td>{ planet.rotation_period }</td>
