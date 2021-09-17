@@ -2,13 +2,11 @@ import React, { useContext, useState } from 'react';
 import context from '../context/context';
 
 const SearchForm = () => {
-  const { filters: { filterByName: { name, setName }, filterByNumericValues },
-    setFilters: { setNumericFilters } } = useContext(context);
-
-  const columnFilters = ['population', 'orbital_period',
-    'diameter', 'rotation_period', 'surface_water'];
-
-  const comparisonFilters = ['maior que', 'menor que', 'igual a'];
+  const {
+    filters: { filterByName: { name, setName }, filterByNumericValues },
+    setFilters: { setNumericFilters },
+    options: { columnOptions, comparisonOptions, setColumnOptions, setComparisonOptions },
+  } = useContext(context);
 
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
@@ -16,8 +14,18 @@ const SearchForm = () => {
 
   const newFilter = { column, comparison, numberValue };
 
+  const updateOptions = (filter) => {
+    const newColumnOptions = columnOptions.filter((option) => option !== filter.column);
+    setColumnOptions(newColumnOptions);
+
+    const newComparisonOptions = comparisonOptions
+      .filter((option) => option !== filter.comparison);
+    setComparisonOptions(newComparisonOptions);
+  };
+
   function addNewFilter() {
     setNumericFilters([...filterByNumericValues, newFilter]);
+    updateOptions(newFilter);
     setColumn('');
     setComparison('');
     setNumberValue('');
@@ -38,8 +46,8 @@ const SearchForm = () => {
         onChange={ ({ target }) => setColumn(target.value) }
         data-testid="column-filter"
       >
-        {columnFilters.map((columnFilter) => (
-          <option key={ columnFilter }>{columnFilter}</option>))}
+        {columnOptions.map((columnOption) => (
+          <option key={ columnOption }>{columnOption}</option>))}
       </select>
       <select
         name="comparisonFilter"
@@ -47,8 +55,8 @@ const SearchForm = () => {
         onChange={ ({ target }) => setComparison(target.value) }
         data-testid="comparison-filter"
       >
-        {comparisonFilters.map((comparisonFilter) => (
-          <option key={ comparisonFilter }>{comparisonFilter}</option>))}
+        {comparisonOptions.map((comparisonOption) => (
+          <option key={ comparisonOption }>{comparisonOption}</option>))}
       </select>
       <input
         type="number"

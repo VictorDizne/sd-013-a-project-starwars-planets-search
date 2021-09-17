@@ -9,8 +9,6 @@ const Table = () => {
     filters: { filterByName: { name }, filterByNumericValues },
   } = useContext(context);
 
-  // const [filteredData, setFilteredData] = useState(data);
-
   if (data.length < 1) return <Loading />;
 
   const getTitles = () => {
@@ -19,12 +17,6 @@ const Table = () => {
   };
 
   const titles = getTitles();
-
-  // const comparisonUsage = (comparison, number, numberComparison) => {
-  //   if (comparison === 'maior que' && number > numberComparison) return [...acc] ;
-  //   if (comparison === 'menor que') return '<';
-  //   return '===';
-  // };
 
   const filterNumericValues = () => filterByNumericValues
     .reduce((acc, { column, comparison, numberValue }) => {

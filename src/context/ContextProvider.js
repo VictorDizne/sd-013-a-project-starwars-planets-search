@@ -11,6 +11,12 @@ const ContextProvider = ({ children }) => {
   const [name, setName] = useState('');
   const [numericFilters, setNumericFilters] = useState([]);
 
+  const [columnOptions, setColumnOptions] = useState(['population', 'orbital_period',
+    'diameter', 'rotation_period', 'surface_water']);
+
+  const [comparisonOptions, setComparisonOptions] = useState(['maior que',
+    'menor que', 'igual a']);
+
   const contextValue = {
     data,
     filters: {
@@ -23,6 +29,12 @@ const ContextProvider = ({ children }) => {
     setFilters: {
       setName,
       setNumericFilters,
+    },
+    options: {
+      columnOptions,
+      comparisonOptions,
+      setColumnOptions,
+      setComparisonOptions,
     },
   };
 
