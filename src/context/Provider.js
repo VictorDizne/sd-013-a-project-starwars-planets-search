@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import MyContext from './MyContext';
 
 const INITIAL_FILTER = {
-  filterByName: {
-    name: '',
+  filters: {
+    filterByName: {
+      name: '',
+    },
   },
 };
 
 function Provider({ children }) {
   const [statewars, setStatewars] = useState([]);
-  const [filterwars, setfilterWars] = useState([INITIAL_FILTER]);
+  const [filterwars, setfilterWars] = useState(INITIAL_FILTER);
 
   useEffect(() => {
     const response = async () => {

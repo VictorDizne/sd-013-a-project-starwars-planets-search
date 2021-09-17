@@ -3,10 +3,10 @@ import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 
 function PlanetTable() {
-  const { statewars } = useContext(MyContext);
+  const { statewars, filterwars } = useContext(MyContext);
 
   const THead = () => {
-    if (statewars.length !== 0) {
+    if (statewars.length) {
       const keys = Object.keys(statewars[0]);
       return (
         <thead>
@@ -23,12 +23,12 @@ function PlanetTable() {
     }
   };
 
-  const TBody = () => {
-    if (statewars.length !== 0) {
+  const TBody = (mapfilterresult) => {
+    if (mapfilterresult.length) {
       return (
         <tbody>
 
-          { statewars.map((i) => {
+          { mapfilterresult.map((i) => {
             const classplanet = `${i.name}`.replace(/\s/g, '');
             return (
               <tr key={ i.name }>
@@ -54,10 +54,19 @@ function PlanetTable() {
     }
   };
 
+  const mapFilter = () => {
+    const { filters: { filterByName: { name } } } = filterwars;
+    if (name) {
+      const statewarsfilter = statewars.filter((i) => i.name.includes(name));
+      return TBody(statewarsfilter);
+    }
+    return TBody(statewars);
+  };
+
   return (
     <table>
       { THead()}
-      { TBody() }
+      { mapFilter() }
     </table>
   );
 }
