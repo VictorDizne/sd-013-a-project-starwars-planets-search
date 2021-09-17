@@ -3,6 +3,7 @@ import MyContext from '../context/MyContext';
 
 function Table() {
   const { data, dataKey } = useContext(MyContext);
+  const [movie, setMovie] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -28,26 +29,30 @@ function Table() {
 
   const filterInput = () => {
     const { filterByName: { name } } = filters;
-    const result = data
-      .filter((item) => item.name.toLowerCase().includes(name.toLowerCase()));
-    return result;
+    if (movie.length === 0) {
+      return data.filter((item) => item.name.toLowerCase().includes(name.toLowerCase()));
+    }
+    return movie.filter((item) => item.name.toLowerCase().includes(name.toLowerCase()));
   };
 
   const handleClick = () => {
-    const { column, value, comparison } = selectFilters;
+    // const columns = document.getElementById('select-1').value;
+    // const inputValue = document.getElementById('number').value;
+    const { column, comparison, value } = selectFilters;
     const result = data;
-
-    switch (comparison) {
-    case 'maior que':
-      return result.filter((item) => item[column] > value);
-
-    case 'menor que':
-      return result.filter((item) => item[column] < value);
-
-    case 'igual a':
-      return result.filter((item) => item[column] === value);
-    default: return result;
+    if (comparison === 'maior que') {
+      const moveValue = result.filter((item) => Number(item[column]) > Number(value));
+      return setMovie(moveValue);
     }
+    if (comparison === 'menor que') {
+      const moveValue = result.filter((item) => Number(item[column]) < Number(value));
+      return setMovie(moveValue);
+    }
+    if (comparison === 'igual a') {
+      const moveValue = result.filter((item) => item[column] === value);
+      return setMovie(moveValue);
+    }
+    return result;
   };
 
   return (
@@ -66,6 +71,7 @@ function Table() {
         data-testid="column-filter"
         onChange={ handleSelect }
         name="column"
+        id="select-1"
       >
         <option>population</option>
         <option>orbital_period</option>
@@ -77,6 +83,7 @@ function Table() {
         data-testid="comparison-filter"
         onChange={ handleSelect }
         name="comparison"
+        id="select-2"
       >
         <option>maior que</option>
         <option>menor que</option>
@@ -94,7 +101,7 @@ function Table() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ handleClick }
+        onClick={ () => handleClick() }
       >
         Filtrar
       </button>
