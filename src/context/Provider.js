@@ -19,9 +19,9 @@ function Provider({ children }) {
       },
       filterByNumericValues: [
         {
-          column: 'population',
-          comparison: 'maior que',
-          value: '100000',
+          column: '',
+          comparison: '',
+          value: '0',
         },
       ],
     },
@@ -38,7 +38,7 @@ function Provider({ children }) {
   };
 
   const handleFilterByNumericValues = (column, comparison, value) => {
-    const { filters: { filterByName, filterByNumericValues } } = filter;
+    const { filters: { filterByName } } = filter;
     setFilter({
       ...filter,
       filters:

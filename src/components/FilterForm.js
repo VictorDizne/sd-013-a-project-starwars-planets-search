@@ -42,7 +42,13 @@ function FilterForm() {
         data-testid="value-filter"
         onChange={ (e) => setValue(e.target.value) }
       />
-      <button onClick={ () => handleFilterByNumericValues(column, comparison, value) } type="button" data-testid="button-filter">Filter!</button>
+      <button
+        onClick={ () => handleFilterByNumericValues(column, comparison, value) }
+        type="button"
+        data-testid="button-filter"
+      >
+        Filter!
+      </button>
     </form>
   );
 }
