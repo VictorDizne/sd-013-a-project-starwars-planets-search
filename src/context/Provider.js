@@ -20,16 +20,16 @@ const initialState = {
 };
 
 function Provider({ children }) {
-  const [swapi, setSwapi] = useState(initialState);
+  const [swapi, setSwapi] = useState();
 
   useEffect(() => {
     const fetchSwipe = async () => {
       const request = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
       const data = await request.json();
-      setSwapi({ ...swapi, data: data.results });
+      setSwapi({ ...initialState, data: data.results });
     };
     fetchSwipe();
-  }, [swapi]);
+  }, []);
 
   return (
     <ContextSwapi.Provider value={ { swapi, setSwapi } }>

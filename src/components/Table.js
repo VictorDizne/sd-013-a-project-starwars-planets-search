@@ -3,6 +3,7 @@ import ContextSwapi from '../context/ContextSwapi';
 
 export default function Table() {
   const { swapi } = useContext(ContextSwapi);
+  if (!swapi) return null;
   return (
     <table className="table">
       <tr>
