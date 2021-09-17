@@ -1,9 +1,13 @@
 import React from 'react';
 import './App.css';
+import PlanetsTable from './components/PlanetsTable';
+import SWProvider from './contextAPI/SWProvider';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <SWProvider>
+      <PlanetsTable />
+    </SWProvider>
   );
 }
 
