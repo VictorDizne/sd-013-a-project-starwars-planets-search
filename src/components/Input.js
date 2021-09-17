@@ -1,12 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function Input() {
+function Input({ type, onChange, name, test }) {
   return (
-    <label htmlFor="algumaCoisa">
-      algumNome
-      <input type="text" onChange="algumaFunção" id="algumaCoisa" />
+    <label htmlFor={ name }>
+      {name}
+      <input
+        type={ type }
+        onChange={ onChange }
+        id={ name }
+        data-testid={ test }
+      />
     </label>
   );
 }
+
+Input.propTypes = {
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  test: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 export default Input;

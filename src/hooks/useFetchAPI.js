@@ -6,8 +6,8 @@ function useFetchAPI() {
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
       .then((response) => response.json())
-      .then((result) => {
-        setData(result.results);
+      .then((json) => {
+        setData(json.results);
       });
   }, []);
 
