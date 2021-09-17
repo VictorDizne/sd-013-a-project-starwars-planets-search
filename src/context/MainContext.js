@@ -24,10 +24,9 @@ export default function DataProvider({ children }) {
       sort: 'ASC',
     },
   });
-
-  // https://swapi-trybe.herokuapp.com/api/planets/
+  // https://swapi.dev/api/planets/
   useEffect(() => {
-    fetch('https://swapi.dev/api/planets/')
+    fetch('https://swapi-trybe.herokuapp.com/api/planets/)
       .then((response) => response.json())
       .then((json) => {
         setData(json.results);
