@@ -5,7 +5,15 @@ import './TableStyles.css';
 const Table = () => {
   const {
     data: { results },
-  } = useContext(Context);
+    filters: {
+      filterByName: { name },
+      // filterByNumericValues,
+      // order,
+    } } = useContext(Context);
+
+  function byName(planets, text) {
+    return planets.filter((planet) => planet.name.toLowerCase().includes(text));
+  }
 
   // useEffect(() => {}, []); ComponentDidMount
   if (!results) return <div className="loading">carregando</div>;
@@ -19,7 +27,7 @@ const Table = () => {
         </tr>
       </thead>
       <tbody className="table-body">
-        {results.map(
+        {byName(results, name).map(
           (planet, i) => (
             <tr
               key={ i }

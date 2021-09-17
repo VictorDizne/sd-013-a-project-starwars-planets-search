@@ -4,7 +4,24 @@ import Context from './Context';
 import getAPIPlanets from '../serviceAPI/PlanetAPI';
 
 function Provider({ children }) {
+  const initialState = {
+    filterByName: { name: '' },
+    filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
+  };
+
   const [data, setData] = useState({});
+  const [filters, setFilters] = useState(initialState);
+
+  function handleName({ target: { value } }) {
+    setFilters({
+      ...filters,
+      filterByName: { name: value.toLowerCase() },
+    });
+  }
 
   useEffect(() => {
     async function fetchPlanets() {
@@ -14,6 +31,8 @@ function Provider({ children }) {
 
   const contextValue = {
     data,
+    handleName,
+    filters,
   };
 
   return (
