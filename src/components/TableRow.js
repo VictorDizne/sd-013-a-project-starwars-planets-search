@@ -9,14 +9,14 @@ const TableRow = ({ data }) => {
   return (
     <tr>
       <td>{name}</td>
-      <td>{population}</td>
-      <td>{climate}</td>
-      <td>{terrain}</td>
-      <td>{gravity}</td>
-      <td>{diameter}</td>
-      <td>{ surfaceWater }</td>
       <td>{rotationPeriod}</td>
       <td>{orbitalPeriod}</td>
+      <td>{diameter}</td>
+      <td>{climate}</td>
+      <td>{gravity}</td>
+      <td>{terrain}</td>
+      <td>{ surfaceWater }</td>
+      <td>{population}</td>
       <td>
         {residents.map((resident, index) => (
           <a key={ index } href={ resident }>

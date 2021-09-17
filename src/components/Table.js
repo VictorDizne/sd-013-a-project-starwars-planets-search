@@ -4,11 +4,38 @@ import TableRow from './TableRow';
 import Loading from './Loading';
 
 const Table = () => {
-  const { data, filters: { filterByName: { name } } } = useContext(context);
+  const {
+    data,
+    filters: { filterByName: { name }, filterByNumericValues },
+  } = useContext(context);
+
+  // const [filteredData, setFilteredData] = useState(data);
+
   if (data.length < 1) return <Loading />;
 
-  delete data[0].url;
-  const titles = Object.keys(data[0]);
+  const getTitles = () => {
+    delete data[0].url;
+    return Object.keys(data[0]);
+  };
+
+  const titles = getTitles();
+
+  // const comparisonUsage = (comparison, number, numberComparison) => {
+  //   if (comparison === 'maior que' && number > numberComparison) return [...acc] ;
+  //   if (comparison === 'menor que') return '<';
+  //   return '===';
+  // };
+
+  const filterNumericValues = () => filterByNumericValues
+    .reduce((acc, { column, comparison, numberValue }) => {
+      const afterFilter = acc.filter((dataItem) => {
+        const columnNumber = Number(dataItem[column]);
+        if (comparison === 'maior que') return columnNumber > numberValue;
+        if (comparison === 'menor que') return columnNumber < numberValue;
+        return columnNumber === numberValue;
+      });
+      return afterFilter;
+    }, data);
 
   return (
     <table>
@@ -19,7 +46,7 @@ const Table = () => {
       </thead>
 
       <tbody>
-        {data
+        {filterNumericValues()
           .filter((dataItem) => dataItem.name.toLowerCase().includes(name.toLowerCase()))
           .map((dataItem) => <TableRow key={ dataItem.name } data={ dataItem } />)}
       </tbody>

@@ -9,19 +9,25 @@ const ContextProvider = ({ children }) => {
   const { data } = useFetch(FETCH_URL);
 
   const [name, setName] = useState('');
+  const [numericFilters, setNumericFilters] = useState([]);
 
-  const value = {
+  const contextValue = {
     data,
     filters: {
       filterByName: {
         name,
         setName,
       },
+      filterByNumericValues: numericFilters,
+    },
+    setFilters: {
+      setName,
+      setNumericFilters,
     },
   };
 
   return (
-    <context.Provider value={ value }>
+    <context.Provider value={ contextValue }>
       {children}
     </context.Provider>
   );
