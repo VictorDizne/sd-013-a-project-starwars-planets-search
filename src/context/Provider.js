@@ -7,6 +7,7 @@ function Provider({ children }) {
   const { planets, planetsKeys } = usePlanets();
   const [newPlanets, setNewPlanets] = useState(planets);
   const [queryValue, setQueryValue] = useState('');
+  const [numFilters, setNumFilters] = useState([]);
 
   const handlePlanetsFilter = (key, value) => {
     const newState = { ...newPlanets, [key]: value };
@@ -17,12 +18,14 @@ function Provider({ children }) {
     newPlanets,
     planetsKeys,
     queryValue,
+    numFilters,
     setQueryValue,
+    setNumFilters,
     handlePlanetsFilter,
   };
 
   return (
-    <MyContext.Provider value={ contextValue }>
+    <MyContext.Provider value={ contextValue } displayName="Context Display Name">
       { children }
     </MyContext.Provider>
   );
