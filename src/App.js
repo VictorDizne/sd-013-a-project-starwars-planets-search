@@ -7,7 +7,6 @@ function App() {
   return (
     <Provider>
       <TablePlanets />
-      <span>Hello, Ap!</span>
     </Provider>
 
   );
