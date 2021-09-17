@@ -6,7 +6,7 @@ import Table from './components/Table';
 function App() {
   return (
     <PlanetProvider>
-      <Table name="Luiz" />
+      <Table />
     </PlanetProvider>
   );
 }

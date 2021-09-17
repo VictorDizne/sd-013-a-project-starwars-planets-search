@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PlanetContext from './PlanetContext';
 
-const PlanetProvider = ({ children }) => {
-  console.log(children);
+function PlanetProvider({ children }) {
+  const [tableData, setTableData] = useState([]);
+  const planetValue = { tableData, setTableData };
+
+  useEffect(() => {
+    const fetchResults = async () => {
+      const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+      const data = await response.json();
+      return data.results;
+    };
+    fetchResults().then((results) => setTableData(results));
+  }, []);
+
   return (
-    <PlanetContext.Provider>
+    <PlanetContext.Provider value={ planetValue }>
       {children}
     </PlanetContext.Provider>
   );
-};
+}
+
 PlanetProvider.propTypes = {
-  children: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };
+
 export default PlanetProvider;
