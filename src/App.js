@@ -1,9 +1,13 @@
 import React from 'react';
+import Home from './pages/Home';
+import Provider from './context/Provider';
 import './App.css';
 
 function App() {
   return (
-    <span>Alo Alo Brasil!</span>
+    <Provider>
+      <Home />
+    </Provider>
   );
 }
 
