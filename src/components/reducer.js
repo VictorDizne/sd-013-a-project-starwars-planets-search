@@ -39,17 +39,22 @@ function Provider({ children }) {
     if (activateFilter > 0) {
       if (comparisonNumericFilter === 'maior que') {
         const newPlanets = planets
-          .filter((planet) => planet[columnNumericFilter] > numericFilter);
-        return setPlanets(newPlanets);
+          .filter((planet) => (
+            parseInt(planet[columnNumericFilter], 10) > parseInt(numericFilter, 10)));
+        setPlanets(newPlanets);
       }
       if (comparisonNumericFilter === 'menor que') {
         const newPlanets = planets
-          .filter((planet) => planet[columnNumericFilter] < numericFilter);
-        return setPlanets(newPlanets);
+          .filter((planet) => (
+            parseInt(planet[columnNumericFilter], 10) < parseInt(numericFilter, 10)));
+        setPlanets(newPlanets);
       }
-      const newPlanets = planets
-        .filter((planet) => planet[columnNumericFilter] === numericFilter);
-      return setPlanets(newPlanets);
+      if (comparisonNumericFilter === 'igual a') {
+        const newPlanets = planets
+          .filter((p) => (
+            parseInt(p[columnNumericFilter], 10) === parseInt(numericFilter, 10)));
+        setPlanets(newPlanets);
+      }
     }
   }, [activateFilter]);
 
