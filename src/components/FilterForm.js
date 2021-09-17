@@ -11,15 +11,13 @@ function FilterForm() {
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('0');
-  const [columnOptions, setColumnOptions] = useState([...columnFilter]);
+  const [columnOptions, setColumnOptions] = useState(columnFilter);
 
   const filteredColumn = () => {
-    if (filterByNumericValues.length) {
-      const numericValuesColumns = filterByNumericValues
-        .map((filter) => filter.column);
-      setColumnOptions((prevState) => prevState
-        .filter((option) => !numericValuesColumns.includes(option)));
-    }
+    const numericValuesColumns = filterByNumericValues
+      .map((filter) => filter.column);
+    setColumnOptions(columnFilter
+      .filter((option) => !numericValuesColumns.includes(option)));
   };
   useEffect(filteredColumn, [filterByNumericValues]);
 

@@ -39,8 +39,20 @@ function Provider({ children }) {
       { filterByName:
         { ...filterByName },
       filterByNumericValues:
-      // [{ column, comparison, value }] } });
     [...filterByNumericValues, { column, comparison, value }] } });
+  };
+
+  const handleRemoveFilter = (removeFilterColumn) => {
+    const { filters: { filterByName, filterByNumericValues } } = filter;
+    const removedFilter = filterByNumericValues
+      .filter(({ column }) => removeFilterColumn !== column);
+    setFilter({
+      ...filter,
+      filters:
+        { filterByName:
+          { ...filterByName },
+        filterByNumericValues:
+      [...removedFilter] } });
   };
 
   useEffect(() => {
@@ -59,7 +71,12 @@ function Provider({ children }) {
   }, []);
 
   const context = {
-    data, loading, handleFilterByName, filter, handleFilterByNumericValues };
+    data,
+    loading,
+    handleFilterByName,
+    filter,
+    handleFilterByNumericValues,
+    handleRemoveFilter };
 
   return (
     <tableContext.Provider value={ context }>

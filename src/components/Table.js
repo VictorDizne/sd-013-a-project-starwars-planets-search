@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import TableContext from '../context/TableContext';
 import FilterForm from './FilterForm';
+import SelectedFilters from './SelectedFilters';
 import TableContent from './TableContent';
 
 function Table() {
@@ -15,6 +16,7 @@ function Table() {
       {results[0] && (
         <>
           <FilterForm />
+          <SelectedFilters />
           <TableContent />
         </>
       )}
