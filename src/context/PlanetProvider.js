@@ -7,11 +7,13 @@ const initialFilters = {
   filterByName: {
     name: '',
   },
-  // filterByNumericValues: [],
-  // order: {
-  //   column: 'Name',
-  //   sort: 'ASC',
-  // },
+  filterByNumericValues: [
+    {
+      column: 'population',
+      comparison: 'maior que',
+      value: '0',
+    },
+  ],
 };
 
 const PlanetProvider = ({ children }) => {
@@ -29,24 +31,25 @@ const PlanetProvider = ({ children }) => {
     fetchPlanetAPI();
   }, []);
 
-  // const filterName = (name) => {
-  //   const planetFilteredByName = data
-  //     .filter((planet) => planet.name.includes(name));
-  //   setData(planetFilteredByName);
-  // };
-
-  const filterName = (typedName) => {
-    setFilters({
-      ...filters,
-      filterByName: {
-        name: typedName,
-      },
-    });
+  const filterData = () => {
+    if (data.length) {
+      const resetFilter = data
+        .filter((planet) => planet.name.toLowerCase()
+          .includes(filters.filterByName.name.toLowerCase()));
+      console.log(resetFilter, 'filter');
+      return resetFilter;
+    }
   };
+
+  // useEffect(() => {
+  //   filterData();
+  // }, [filters.filterByName.name]);
 
   const contextData = {
     data,
-    filterName,
+    filters,
+    setFilters,
+    filterData,
   };
 
   return (

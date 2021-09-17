@@ -1,38 +1,44 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 const Filter = () => {
-  const [filters, setFilters] = useState({
-    filterByName: {
-      name: '',
-    },
-  });
+  // const [localFilters, setLocalFilters] = useState({
+  //   filterByName: {
+  //     name: '',
+  //   },
+  // });
 
-  const { filterName } = useContext(PlanetContext);
+  const { filters, setFilters } = useContext(PlanetContext);
 
   const handleChangeName = ({ target: { value } }) => {
+    // setLocalFilters({
+    //   ...localFilters,
+    //   filterByName: {
+    //     name: value,
+    //   },
+    // });
     setFilters({
       ...filters,
       filterByName: {
+        // name: localFilters.filterByName.name,
         name: value,
       },
     });
-    filterName(filters.filterByName.name);
   };
 
   return (
-    <form>
-      <label htmlFor="name">
-        Nome:
-        <input
-          id="name"
-          name="name"
-          value={ filters.filterByName.name }
-          data-testid="name-filter"
-          onChange={ handleChangeName }
-        />
-      </label>
-    </form>
+    // <form>
+    <label htmlFor="name">
+      Nome:
+      <input
+        id="name"
+        name="name"
+        value={ filters.filterByName.name }
+        data-testid="name-filter"
+        onChange={ handleChangeName }
+      />
+    </label>
+    // </form>
   );
 };
 
