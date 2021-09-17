@@ -3,7 +3,8 @@ import starWarsContext from '../Context';
 
 function TableHead() {
   const { data } = useContext(starWarsContext);
-  const titleArray = Object.keys(data[0]);
+  const dataEntries = Object.entries(data);
+  const titleArray = Object.keys(dataEntries[0][1]);
   return (
     <thead>
       <tr>

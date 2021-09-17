@@ -1,14 +1,19 @@
 import React, { useContext } from 'react';
 import starWarsContext from '../Context';
-import DisplayPlanetinfo from './DisplayPlanetInfo';
 
 function TableBody() {
-  const { data } = useContext(starWarsContext);
+  const { backup } = useContext(starWarsContext);
+  const backupEntries = Object.entries(backup);
   return (
     <tbody>
-      { data.map((planet, index) => (
+      { backupEntries.map((planet, index) => (
         <tr key={ index }>
-          <DisplayPlanetinfo planet={ planet } />
+          {Object.entries(planet[1])
+            .map((info, infoIndex) => {
+              if (info[0] !== 'residents') {
+                return <td key={ infoIndex }>{ info[1] }</td>;
+              } return null;
+            })}
         </tr>)) }
     </tbody>
   );
