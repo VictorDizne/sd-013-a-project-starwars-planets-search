@@ -6,12 +6,20 @@ function Provider({ children }) {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({
     filterByName: '',
+    filterByNumerics: '',
   });
 
   const handleChange = ({ target }) => {
     setFilter({
       ...filter,
       filterByName: target.value,
+    });
+  };
+
+  const handleClick = (state) => {
+    setFilter({
+      ...filter,
+      filterByNumerics: [...filter.filterByNumerics, state],
     });
   };
 
@@ -25,7 +33,7 @@ function Provider({ children }) {
     fetchData();
   }, []);
 
-  const context = { data, filter, handleChange };
+  const context = { data, filter, handleChange, handleClick };
 
   return (
     <PlanetsContext.Provider value={ context }>

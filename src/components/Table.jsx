@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
-const headers = ['climate', 'created', 'diameter', 'edited', 'films', 'gravity',
-  'name', 'orbital_period', 'population', 'rotation_period', 'surface_water',
+const headers = ['name', 'climate', 'created', 'diameter', 'edited', 'films', 'gravity',
+  'orbital_period', 'population', 'rotation_period', 'surface_water',
   'terrain', 'url'];
 
 function Table() {
@@ -10,8 +10,32 @@ function Table() {
   const [planets, setPlanets] = useState([]);
 
   useEffect(() => {
-    const { filterByName: name } = filter;
-    const filteredData = data.filter((planet) => planet.name.includes(name));
+    const { filterByName: name, filterByNumerics } = filter;
+
+    const filterPlanets = () => {
+      const nameFilter = data.filter((planet) => planet.name.includes(name));
+
+      if (filterByNumerics.length > 0) {
+        const { column, comparison, value } = filterByNumerics[0];
+        const applyFilter = nameFilter.filter((planet) => {
+          switch (comparison) {
+          case 'maior que':
+            return parseInt(planet[column], 10) > value;
+          case 'menor que':
+            return parseInt(planet[column], 10) < value;
+          case 'igual a':
+            return planet[column] === value;
+          default:
+            return '';
+          }
+        });
+        return applyFilter;
+      }
+
+      return nameFilter;
+    };
+
+    const filteredData = filterPlanets();
     setPlanets(filteredData);
   }, [data, filter]);
 
