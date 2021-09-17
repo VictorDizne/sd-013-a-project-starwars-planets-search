@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 const headers = ['climate', 'created', 'diameter', 'edited', 'films', 'gravity',
@@ -6,7 +6,14 @@ const headers = ['climate', 'created', 'diameter', 'edited', 'films', 'gravity',
   'terrain', 'url'];
 
 function Table() {
-  const { data } = useContext(PlanetsContext);
+  const { data, filter } = useContext(PlanetsContext);
+  const [planets, setPlanets] = useState([]);
+
+  useEffect(() => {
+    const { filterByName: name } = filter;
+    const filteredData = data.filter((planet) => planet.name.includes(name));
+    setPlanets(filteredData);
+  }, [data, filter]);
 
   return (
     <div>
@@ -14,7 +21,7 @@ function Table() {
         <tr>
           {headers.map((field, index) => <th key={ index }>{ field }</th>)}
         </tr>
-        { data.map((planet) => (
+        { planets.map((planet) => (
           <tr key={ planet.name }>
             { headers.map((field, index) => <td key={ index }>{ planet[field] }</td>)}
           </tr>))}
