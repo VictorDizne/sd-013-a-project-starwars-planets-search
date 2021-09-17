@@ -4,11 +4,7 @@ import myContext from '../context/MyContext';
 function Table() {
   const { data, dataKeys } = useContext(myContext);
   const [movie, setMovie] = useState([]);
-  const [filters, setFilters] = useState({
-    filterByName: {
-      name: '',
-    },
-  });
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
   const [selectFilters, setSelectFilters] = useState({
     column: 'population',
     comparison: 'maior que',
@@ -30,25 +26,26 @@ function Table() {
     const { filterByName: { name } } = filters;
     if (movie.length === 0) {
       return data.filter((item) => item.name.toLowerCase().includes(name.toLowerCase()));
-    }
-    return movie;
+    } return movie;
   };
 
   const handleClick = () => {
+    const selectValue = document.getElementById('select-1');
     const { column, comparison, value } = selectFilters;
+
     if (comparison === 'maior que') {
-      const moveValue = data
-        .filter((item) => Number(item[column]) > Number(value));
+      const moveValue = data.filter((item) => Number(item[column]) > Number(value));
+      selectValue.options.remove(column);
       return setMovie(moveValue);
     }
     if (comparison === 'menor que') {
-      const moveValue = data
-        .filter((item) => Number(item[column]) < Number(value));
+      const moveValue = data.filter((item) => Number(item[column]) < Number(value));
+      selectValue.options.remove(column);
       return setMovie(moveValue);
     }
     if (comparison === 'igual a') {
-      const moveValue = data
-        .filter((item) => Number(item[column]) === Number(value));
+      const moveValue = data.filter((item) => Number(item[column]) === Number(value));
+      selectValue.options.remove(column);
       return setMovie(moveValue);
     }
   };
