@@ -6,6 +6,7 @@ function TableProvider({ children }) {
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
+
   const contextValue = {
     data,
     loading,

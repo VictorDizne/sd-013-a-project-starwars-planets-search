@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
-import TableContext from '../utils/TableContext';
+import React from 'react';
+import { useTable, useFilter } from '../hooks/hooks';
 
 export default function Table() {
-  const { data, loading, error } = useContext(TableContext);
+  const { data, loading, error } = useTable();
+  const { planetFilter } = useFilter();
 
   if (loading || data.length === 0) {
     return <p>Carregando filmes...</p>;
@@ -11,6 +12,21 @@ export default function Table() {
   if (error) {
     return <p>Oops, deu error!</p>;
   }
+
+  const filteredData = data.filter((planet) => {
+    const { name } = planetFilter.filters.filterByName;
+    if (name === '') {
+      return true;
+    }
+    const loweredCaseSearchText = name.toLowerCase();
+    const includesTitle = planet.name.toLowerCase().includes(loweredCaseSearchText);
+    // const includesSubtitle = movie.subtitle.toLowerCase()
+    //   .includes(loweredCaseSearchText);
+    // const includesStoryline = movie.storyline.toLowerCase()
+    //   .includes(loweredCaseSearchText);
+    // return includesTitle || includesSubtitle || includesStoryline;
+    return includesTitle;
+  });
 
   return (
     <table>
@@ -33,7 +49,7 @@ export default function Table() {
       </thead>
 
       <tbody>
-        {data && data.map(
+        {filteredData && filteredData.map(
           ({
             name,
             rotation_period: rotationPeriod,
