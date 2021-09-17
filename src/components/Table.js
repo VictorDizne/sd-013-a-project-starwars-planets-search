@@ -2,11 +2,20 @@ import React, { useContext } from 'react';
 import ContextSwapi from '../context/ContextSwapi';
 
 export default function Table() {
-  const { test } = useContext(ContextSwapi);
+  const { swapi } = useContext(ContextSwapi);
   return (
-    <div>
-      <h1>Hello World!</h1>
-      <h1>{test}</h1>
-    </div>
+    <table className="table">
+      <tr>
+        <th>name</th>
+        <th>rotation_period</th>
+        <th>orbital_period</th>
+        <th>diameter</th>
+        <th>climate</th>
+        <th>gravity</th>
+        <th>terrain</th>
+        <th>surface_water</th>
+        <th>population</th>
+      </tr>
+    </table>
   );
 }
