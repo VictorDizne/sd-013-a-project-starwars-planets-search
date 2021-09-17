@@ -16,6 +16,7 @@ function Table() {
       name ? planet.name.includes(name) : data
     ));
 
+    // logica realizada com a ajuda do aluno Vinícius Dionysio
     if (filterByNumericValues) {
       filterByNumericValues
         .forEach(({ comparison, value, column }) => {
