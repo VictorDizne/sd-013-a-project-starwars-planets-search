@@ -7,19 +7,28 @@ function filterTable({ setPlanets, data, filterNumeric, filterName }) {
 
   if (filterNumeric.length !== 0) {
     const filteredByColumns = filteredByName.filter((planet) => {
-      const columnAsNumber = Number(planet[filterNumeric[0].column]);
-      const valueAsNumber = Number(filterNumeric[0].value);
+      const filterResults = filterNumeric.map((filter) => {
+        const columnAsNumber = Number(planet[filter.column]);
+        const valueAsNumber = Number(filter.value);
 
-      switch (filterNumeric[0].comparison) {
-      case 'maior que':
-        return columnAsNumber > valueAsNumber;
-      case 'menor que':
-        return columnAsNumber < valueAsNumber;
-      case 'igual a':
-        return columnAsNumber === valueAsNumber;
-      default:
-        return true;
-      }
+        switch (filter.comparison) {
+        case 'maior que':
+          return columnAsNumber > valueAsNumber;
+        case 'menor que':
+        // console.log('chegou aqui', columnAsNumber < valueAsNumber);
+          return columnAsNumber < valueAsNumber;
+        case 'igual a':
+          return columnAsNumber === valueAsNumber;
+        default:
+          return true;
+        }
+      });
+
+      // console.log(filterResults);
+      const isPassingInAll = filterResults.every((value) => value === true);
+      // console.log(isPassingInAll);
+
+      return isPassingInAll;
     });
 
     return setPlanets(filteredByColumns);

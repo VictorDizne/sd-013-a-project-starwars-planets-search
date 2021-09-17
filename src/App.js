@@ -3,6 +3,7 @@ import './App.css';
 import NumericFilters from './components/NumericFilters';
 import SearchBar from './components/SearchBar';
 import Table from './components/Table';
+import UsedFilters from './components/UsedFilters';
 import PlanetsContextProvider from './contexts/PlanetsContextProvider';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
         <SearchBar />
       </div>
       <NumericFilters />
+      <UsedFilters />
       <Table />
     </PlanetsContextProvider>
   );

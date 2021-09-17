@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
-import testData from '../testData';
+// import testData from '../testData';
 import filterTable from '../utils/filterTable';
 
 function PlanetsContextProvider({ children }) {
-  const [data, setData] = useState(testData);
-  const [planets, setPlanets] = useState(data.results);
+  const [data, setData] = useState({});
+  const [planets, setPlanets] = useState([]);
   const [isPlanetsFilled, setIsPlanetsFilled] = useState(false);
   const [columns, setColumns] = useState([]);
   const [filterName, setFilterName] = useState('');
@@ -19,18 +19,17 @@ function PlanetsContextProvider({ children }) {
       'rotation_period',
       'surface_water'],
   );
-  // const [filterPopulation, setFilterPopulation] = useState('');
-  // const [filterOrbital, setFilterOrbital] = useState('');
-  // const [filterDiameter, setFilterDiameter] = useState('');
 
   useEffect(() => {
-    filterTable({
-      setPlanets,
-      data,
-      filterNumeric,
-      filterName,
-    });
-  }, [data, filterName, filterNumeric]);
+    if (isPlanetsFilled) {
+      filterTable({
+        setPlanets,
+        data,
+        filterNumeric,
+        filterName,
+      });
+    }
+  }, [data, filterName, filterNumeric, isPlanetsFilled]);
 
   useEffect(() => {
     async function getData() {

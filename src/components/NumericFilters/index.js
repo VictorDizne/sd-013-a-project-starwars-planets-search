@@ -12,19 +12,28 @@ function NumericFilters() {
   } = usePlanetsContext();
 
   const [currentFilter, setCurrentFilter] = useState({
-    column: 'population', comparison: 'maior que', value: 0,
+    column: 'population', comparison: 'maior que', value: '',
   });
 
+  const updateCurrentFilter = (differentFromCurrent) => {
+    setCurrentFilter({
+      ...currentFilter,
+      column: differentFromCurrent[0],
+    });
+  };
+
   const removeFilter = () => {
-    const removedFromFilters = columnsFilter
+    const differentFromCurrent = columnsFilter
       .filter((column) => column !== currentFilter.column);
-    setColumnsFilter(removedFromFilters);
+    setColumnsFilter(differentFromCurrent);
+    return differentFromCurrent;
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setFilterNumeric([...filterNumeric, currentFilter]);
-    removeFilter();
+    const differentFromCurrent = removeFilter();
+    updateCurrentFilter(differentFromCurrent);
   };
 
   return (

@@ -10,6 +10,7 @@ function Input({ currentFilter, setCurrentFilter }) {
       name="value"
       id="value"
       data-testid="value-filter"
+      value={ currentFilter.value }
       required
       onChange={ ({ target }) => setCurrentFilter({
         ...currentFilter,

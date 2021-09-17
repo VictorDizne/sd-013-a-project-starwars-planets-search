@@ -6,13 +6,11 @@ const initialValue = {
   setData: () => {},
   isPlanetsFilled: false,
   setIsPlanetsFilled: () => {},
-  columns: [],
   setColumns: () => {},
   filters: {},
   setFilters: () => {},
   planets: testData.results,
   setPlanets: () => {},
-  filterPlanets: () => {},
 };
 
 const PlanetsContext = createContext(initialValue);

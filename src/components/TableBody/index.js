@@ -1,6 +1,5 @@
 import React from 'react';
 import usePlanetsContext from '../../hooks/usePlanetsContext';
-// import EmptyBody from './emptyBody';
 
 function TableBody() {
   const { planets } = usePlanetsContext();

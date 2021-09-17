@@ -17,8 +17,6 @@ function Table() {
       )
       : <Loading />
   );
-
-  // return <div>teste</div>;
 }
 
 export default Table;
