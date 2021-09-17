@@ -3,10 +3,16 @@ import React, { useState } from 'react';
 import useMountEffect from '../hooks/useMountEffect';
 import PlanetsContext from './PlanetsContext';
 
+const initialFilter = {
+  filterByName: {
+    name: '',
+  },
+};
+
 const PlanetsContextProvider = ({ children }) => {
   const [data, setData] = useState([]);
-  const [shouldFetch, setShouldFetch] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
+  const [filter, setFilter] = useState(initialFilter);
 
   const fetchPlanets = () => {
     const fetching = async () => {
@@ -22,6 +28,7 @@ const PlanetsContextProvider = ({ children }) => {
       });
 
       setData([...json.results]);
+      console.log(data);
       setIsFetching(false);
     };
 
@@ -31,7 +38,7 @@ const PlanetsContextProvider = ({ children }) => {
   useMountEffect(fetchPlanets);
 
   const context = {
-    data, setData, shouldFetch, setShouldFetch, isFetching, setIsFetching,
+    data, setData, isFetching, filter, setFilter,
   };
 
   return (

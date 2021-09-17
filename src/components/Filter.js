@@ -2,12 +2,22 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 const Filter = () => {
-  const { isFetching } = useContext(PlanetsContext);
+  const { isFetching, setFilter, filter } = useContext(PlanetsContext);
+
+  const handleOnChange = ({ target }) => {
+    setFilter({ ...filter, filterByName: { name: target.value } });
+  };
+
   return (
     <div className="filters">
-      <select>
-        <option>ae</option>
-      </select>
+      <label htmlFor="text-filter">
+        Filtrar:
+        <input
+          id="text-filter"
+          onChange={ handleOnChange }
+          data-testid="name-filter"
+        />
+      </label>
       {isFetching && <h2>Loading...</h2>}
     </div>
   );
