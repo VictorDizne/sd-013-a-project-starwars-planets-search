@@ -1,11 +1,13 @@
 import React from 'react';
-import './App.css';
+import Page from './components/Page';
+import SWProvider from './context/Provider';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <SWProvider>
+      <Page />
+    </SWProvider>
   );
 }
 
 export default App;
-// initial commit 
