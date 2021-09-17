@@ -1,8 +1,9 @@
 import React from 'react';
-import usePlanetsContext from '../../hooks/usePlanetsContext';
+import PropTypes from 'prop-types';
+// import usePlanetsContext from '../../hooks/usePlanetsContext';
 
-function Input() {
-  const { filterNumeric, setFilterNumeric } = usePlanetsContext();
+function Input({ currentFilter, setCurrentFilter }) {
+  // const { filterNumeric, setFilterNumeric } = usePlanetsContext();
   return (
     <input
       type="number"
@@ -10,12 +11,17 @@ function Input() {
       id="value"
       data-testid="value-filter"
       required
-      onChange={ ({ target }) => setFilterNumeric({
-        ...filterNumeric,
+      onChange={ ({ target }) => setCurrentFilter({
+        ...currentFilter,
         value: target.value,
       }) }
     />
   );
 }
+
+Input.propTypes = {
+  setCurrentFilter: PropTypes.func.isRequired,
+  currentFilter: PropTypes.shape().isRequired,
+};
 
 export default Input;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
 import testData from '../testData';
+import filterTable from '../utils/filterTable';
 
 function PlanetsContextProvider({ children }) {
   const [data, setData] = useState(testData);
@@ -9,43 +10,27 @@ function PlanetsContextProvider({ children }) {
   const [isPlanetsFilled, setIsPlanetsFilled] = useState(false);
   const [columns, setColumns] = useState([]);
   const [filterName, setFilterName] = useState('');
-  const [filterNumeric, setFilterNumeric] = useState({
-    column: 'population', comparison: 'maior que', value: 0,
-  });
+  const [filterNumeric, setFilterNumeric] = useState([]);
+  const [columnsFilter, setColumnsFilter] = useState(
+    [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water'],
+  );
   // const [filterPopulation, setFilterPopulation] = useState('');
   // const [filterOrbital, setFilterOrbital] = useState('');
   // const [filterDiameter, setFilterDiameter] = useState('');
 
-  const filterByName = () => {
-    const filteredResults = data.results.filter(({ name }) => {
-      const nameToLowerCase = name.toLowerCase();
-      const filterToLowerCase = filterName.toLowerCase();
-      return nameToLowerCase.includes(filterToLowerCase);
+  useEffect(() => {
+    filterTable({
+      setPlanets,
+      data,
+      filterNumeric,
+      filterName,
     });
-    setPlanets(filteredResults);
-  };
-
-  useEffect(filterByName, [filterName]);
-
-  const filterByColumn = () => {
-    const filteredResults = planets.filter((planet) => {
-      const columnAsNumber = Number(planet[filterNumeric.column]);
-      const valueAsNumber = Number(filterNumeric.value);
-
-      switch (filterNumeric.comparison) {
-      case 'maior que':
-        return columnAsNumber > valueAsNumber;
-      case 'menor que':
-        return columnAsNumber < valueAsNumber;
-      case 'igual a':
-        return columnAsNumber === valueAsNumber;
-      default:
-        return true;
-      }
-    });
-
-    setPlanets(filteredResults);
-  };
+  }, [data, filterName, filterNumeric]);
 
   useEffect(() => {
     async function getData() {
@@ -71,10 +56,10 @@ function PlanetsContextProvider({ children }) {
         setFilterName,
         planets,
         setPlanets,
-        filterByName,
         filterNumeric,
         setFilterNumeric,
-        filterByColumn,
+        columnsFilter,
+        setColumnsFilter,
       } }
     >
       {children}
