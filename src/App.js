@@ -1,10 +1,13 @@
 import React from 'react';
-import './App.css';
+import Loading from './components/Filter';
+import Table from './components/Table';
+import PlanetsContextProvider from './context/PlanetsContextProvider';
 
-function App() {
-  return (
-    <span>Hello, App!</span>
-  );
-}
+const App = () => (
+  <PlanetsContextProvider>
+    <Loading />
+    <Table />
+  </PlanetsContextProvider>
+);
 
 export default App;
