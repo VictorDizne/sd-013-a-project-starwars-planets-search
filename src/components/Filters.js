@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-export default function Filters({ dispatch, filters }) {
+export default function Filters({
+  dispatch,
+  filters: { filterByNumericValues },
+  children,
+}) {
   const dispatchName = ({ target: { name, value } }) => {
     dispatch({
       type: name,
@@ -21,7 +25,7 @@ export default function Filters({ dispatch, filters }) {
       'rotation_period',
       'surface_water',
     ];
-    const selectedColumns = filters.filterByNumericValues.reduce(
+    const selectedColumns = filterByNumericValues.reduce(
       (prev, curr) => prev.concat(curr.column),
       [],
     );
@@ -88,6 +92,7 @@ export default function Filters({ dispatch, filters }) {
       >
         Filtrar
       </button>
+      {children}
     </>
   );
 }
@@ -96,7 +101,8 @@ Filters.propTypes = {
   dispatch: PropTypes.func.isRequired,
   filters: PropTypes.shape({
     filterByName: PropTypes.objectOf(PropTypes.string),
-    filterByNumericValue: PropTypes.arrayOf(PropTypes.object),
+    filterByNumericValues: PropTypes.arrayOf(PropTypes.object),
     order: PropTypes.objectOf(PropTypes.string),
   }).isRequired,
+  children: PropTypes.node.isRequired,
 };

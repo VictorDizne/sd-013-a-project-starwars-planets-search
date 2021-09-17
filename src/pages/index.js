@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import { Table, Filters } from '../components';
+import { Table, Filters, FilterList } from '../components';
 
 // const FilterDispatch = React.createContext(null);
 
@@ -27,8 +27,10 @@ export default function Main() {
   };
 
   const filterReducer = (state, { type, payload }) => {
-    const filters = state.filterByNumericValues;
-    const filtersAfterDelete = filters.filter((el) => el.column !== payload.column);
+    const numericFilters = state.filterByNumericValues;
+    const filtersAfterDelete = numericFilters.filter(
+      (el) => el.column !== payload.column,
+    );
 
     switch (type) {
     case 'name':
@@ -49,9 +51,7 @@ export default function Main() {
     case 'remove-filter':
       return {
         ...state,
-        filterByNumericValues: [
-          filtersAfterDelete,
-        ],
+        filterByNumericValues: filtersAfterDelete,
       };
 
     default:
@@ -63,7 +63,9 @@ export default function Main() {
 
   return (
     <main>
-      <Filters dispatch={ dispatch } filters={ filters } />
+      <Filters dispatch={ dispatch } filters={ filters }>
+        <FilterList dispatch={ dispatch } filters={ filters } />
+      </Filters>
       <Table data={ data } filters={ filters } />
     </main>
   );
