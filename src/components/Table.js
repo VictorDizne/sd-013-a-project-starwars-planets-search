@@ -2,7 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 const Table = () => {
-  const { data, filters: { filterByName: name }, filterData } = useContext(PlanetContext);
+  // const { data, filters: { filterByName: name }, filterData, filters } = useContext(PlanetContext);
+  const { data, filterData, filters } = useContext(PlanetContext);
+  // const { filters: { filterByName: name } } = filters;
+
+  // const { data, filters: { filterByName: name }, filterData } = useContext(PlanetContext);
   const [filteredPlanets, setFilteredPlanetes] = useState(data);
 
   const getData = () => {
@@ -26,7 +30,7 @@ const Table = () => {
     const filter = filterData();
     setFilteredPlanetes(filter);
     console.log(filteredPlanets, 'filteredPlanets');
-  }, [name]);
+  }, [filters]);
 
   if (!data.length) return <p>loading</p>;
   return (

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 const columns = ['population', 'orbital_period', 'rotation_period', 'diameter',
@@ -6,14 +6,26 @@ const columns = ['population', 'orbital_period', 'rotation_period', 'diameter',
 
 const SelectFilters = () => {
   const { filters, setFilters } = useContext(PlanetContext);
+
+  const [filterOptions, setFilterOptions] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '0',
+  });
+
   const handleChange = ({ target: { value, name } }) => {
+    setFilterOptions({
+      ...filterOptions,
+      [name]: value,
+    });
+  };
+
+  const addFilter = () => {
     setFilters({
       ...filters,
       filterByNumericValues: [
-        {
-          ...filters.filterByNumericValues[0],
-          [name]: value,
-        },
+        ...filters.filterByNumericValues,
+        filterOptions,
       ],
     });
   };
@@ -49,6 +61,7 @@ const SelectFilters = () => {
       <button
         type="button"
         data-testid="button-filter"
+        onClick={ addFilter }
       >
         Apply
       </button>

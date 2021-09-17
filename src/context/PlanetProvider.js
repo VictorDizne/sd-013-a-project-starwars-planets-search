@@ -8,12 +8,13 @@ const initialFilters = {
     name: '',
   },
   filterByNumericValues: [
-    {
-      column: 'population',
-      comparison: 'maior que',
-      value: '0',
-    },
   ],
+};
+
+const objectLiteral = {
+  'maior que': (a, b) => Number(a) > Number(b),
+  'menor que': (a, b) => Number(a) < Number(b),
+  'igual a': (a, b) => Number(a) === Number(b),
 };
 
 const PlanetProvider = ({ children }) => {
@@ -32,14 +33,30 @@ const PlanetProvider = ({ children }) => {
   }, []);
 
   const filterData = () => {
+    // const { column, value, comparison } = filters.filterByNumericValues[0] || {};
+
     if (data.length) {
       const resetFilter = data
-        .filter((planet) => planet.name.toLowerCase()
-          .includes(filters.filterByName.name.toLowerCase()));
+        .filter((planet) => {
+          const filterByName = planet.name.toLowerCase()
+            .includes(filters.filterByName.name.toLowerCase());
+
+          const resultNumeric = filters.filterByNumericValues
+            .every(({ column, value, comparison }) => {
+              const filterNumeric = objectLiteral[comparison](planet[column], value);
+              return filterNumeric;
+            // console.log(`${planet.name} ${column}: ${planet[column]} ---- ${value}  ----- ${filterNumeric}`);
+            });
+          return filterByName && resultNumeric;
+        });
       console.log(resetFilter, 'filter');
       return resetFilter;
     }
   };
+
+  // column: 'population',
+  // comparison: 'maior que',
+  // value: '0',
 
   // useEffect(() => {
   //   filterData();
