@@ -1,9 +1,22 @@
+// React
 import React from 'react';
-import './App.css';
+
+// Children
+import Table from './components/Table';
+
+// Context
+import PlanetsProvider from './context/Planets';
+
+// Styles
+import './styles/index.css';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <PlanetsProvider>
+      <main>
+        <Table />
+      </main>
+    </PlanetsProvider>
   );
 }
 
