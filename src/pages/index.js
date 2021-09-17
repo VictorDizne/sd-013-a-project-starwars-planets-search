@@ -17,7 +17,7 @@ export default function Main() {
 
   const initialFilters = {
     filterByName: {
-      name: 'Cleber',
+      name: '',
     },
     filterByNumericValues: [],
     order: {
@@ -38,16 +38,12 @@ export default function Main() {
           name: payload,
         },
       };
-    case 'numeric_value':
+    case 'numeric-value':
       return {
         ...state,
         filterByNumericValues: [
           ...state.filterByNumericValues,
-          {
-            column: payload.column,
-            comparison: payload.comparison,
-            value: payload.value,
-          },
+          payload,
         ],
       };
     case 'remove-filter':
@@ -67,7 +63,7 @@ export default function Main() {
 
   return (
     <main>
-      <Filters dispatch={ dispatch } />
+      <Filters dispatch={ dispatch } filters={ filters } />
       <Table data={ data } filters={ filters } />
     </main>
   );
