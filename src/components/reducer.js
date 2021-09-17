@@ -2,14 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Context from './mycontext';
 
-const columnNumericFilters = {
-  population: 'population',
-  orbital_period: 'orbital_period',
-  diameter: 'diameter',
-  rotation_period: 'rotation_period',
-  surface_water: 'surface_water',
-};
-
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [ogPlanets, setOgPlanets] = useState([]);
@@ -35,6 +27,14 @@ function Provider({ children }) {
     }
     fetchData();
   }, [endFetch]);
+
+  const columnNumericFilters = {
+    population: 'population',
+    orbital_period: 'orbital_period',
+    diameter: 'diameter',
+    rotation_period: 'rotation_period',
+    surface_water: 'surface_water',
+  };
 
   useEffect(() => {
     if (activateFilter > 0) {
