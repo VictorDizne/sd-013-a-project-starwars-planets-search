@@ -24,9 +24,7 @@ function Table() {
           <th>URL</th>
         </tr>
       </thead>
-      {value.data
-        ? <TableBody planetsList={ value.data } />
-        : <h3>Loading...</h3>}
+      <TableBody planetsList={ value.data } />
     </table>
   );
 }

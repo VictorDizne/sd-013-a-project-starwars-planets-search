@@ -7,10 +7,25 @@ function TableBody(props) {
   const { filters } = useContext(Context);
   const [myList, setMyList] = useState([]);
 
-  function filteredList(planets, filter) {
-    return planets.filter((planet) => (
-      planet.name.includes(filter.filterByName.name)
+  function filteredList(planets, { filterByName, filterByNumericValues }) {
+    let filteredName = planets.filter((planet) => (
+      planet.name.includes(filterByName.name)
     ));
+
+    if (filterByNumericValues) {
+      filterByNumericValues.forEach((obj) => {
+        filteredName = filteredName.filter((planet) => {
+          if (obj.comparison === 'menor que') {
+            return Number(planet[obj.column]) < Number(obj.value);
+          }
+          if (obj.comparison === 'maior que') {
+            return Number(planet[obj.column]) > Number(obj.value);
+          }
+          return Number(planet[obj.column]) === Number(obj.value);
+        });
+      });
+    }
+    return filteredName;
   }
 
   useEffect(() => {
