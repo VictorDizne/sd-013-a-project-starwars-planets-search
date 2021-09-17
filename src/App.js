@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
 import Table from './components/Table';
+import ContextProvider from './contextAPI/ContextProvider';
 
 function App() {
   return (
-    <div>
+    <ContextProvider>
       <Table />
-    </div>
+    </ContextProvider>
   );
 }
 

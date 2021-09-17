@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import planetsContext from '.';
 import fetchStarWarsPlanets from '../services/api';
 
 function PlanetsProvider({ children }) {
-  const getPlanets = async () => {
-    const planets = await fetchStarWarsPlanets();
+  const [planets, setPlanets] = useState([]);
 
-    return planets;
+  const getPlanets = async () => {
+    const fetchedPlanets = await fetchStarWarsPlanets();
+    setPlanets(fetchedPlanets);
   };
 
+  useEffect(() => { // ComponentDidMount
+    getPlanets();
+  }, []);
+
   const contextValue = {
-    data: {
-      planets: getPlanets(),
-    },
+    data: planets,
   };
 
   return (
