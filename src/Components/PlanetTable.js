@@ -5,6 +5,12 @@ import MyContext from '../context/MyContext';
 function PlanetTable() {
   const { statewars, filterwars } = useContext(MyContext);
 
+  const math = {
+    'maior que': (a, b) => (a > b),
+    'menor que': (a, b) => (a < b),
+    'igual a': (a, b) => (a === b),
+  };
+
   const THead = () => {
     if (statewars.length) {
       const keys = Object.keys(statewars[0]);
@@ -54,13 +60,26 @@ function PlanetTable() {
     }
   };
 
+  const filteredColumn = (statewar = statewars) => {
+    const { filterByNumericValues } = filterwars;
+    const { column, comparison, value } = filterByNumericValues[0];
+    if (column) {
+      const statewarfilter2 = statewar.filter((i) => {
+        const ret = math[comparison](parseInt(i[column], 10), parseInt(value, 10));
+        return ret;
+      });
+      return TBody(statewarfilter2);
+    }
+    return TBody(statewar);
+  };
+
   const mapFilter = () => {
-    const { filters: { filterByName: { name } } } = filterwars;
+    const { filterByName: { name } } = filterwars;
     if (name) {
       const statewarsfilter = statewars.filter((i) => i.name.includes(name));
-      return TBody(statewarsfilter);
+      return filteredColumn(statewarsfilter);
     }
-    return TBody(statewars);
+    return filteredColumn();
   };
 
   return (

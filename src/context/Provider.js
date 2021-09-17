@@ -3,11 +3,16 @@ import PropTypes from 'prop-types';
 import MyContext from './MyContext';
 
 const INITIAL_FILTER = {
-  filters: {
-    filterByName: {
-      name: '',
-    },
+  filterByName: {
+    name: '',
   },
+  filterByNumericValues: [
+    {
+      column: '',
+      comparison: 'maior que',
+      value: '0',
+    },
+  ],
 };
 
 function Provider({ children }) {
