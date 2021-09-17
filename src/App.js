@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import ActiveFilter from './components/ActiveFilter';
 import NameFilter from './components/NameFilter';
 import NumericFilter from './components/NumericFilter';
 import Provider from './components/reducer';
@@ -12,6 +13,7 @@ function App() {
         <h1 className="page-header">Bem vindo ao Star Wars Planet Search</h1>
         <NameFilter />
         <NumericFilter />
+        <ActiveFilter />
         <br />
       </div>
       <Table />

@@ -19,6 +19,7 @@ function Provider({ children }) {
   const [comparisonNumericFilter, changeComparisonNumericFilter] = useState('maior que');
   const [numericFilter, changeNumericFilter] = useState(0);
   const [activateFilter, handleFilterActicvate] = useState(0);
+  const [activeFilters, saveActiveFilters] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -55,14 +56,29 @@ function Provider({ children }) {
             parseInt(p[columnNumericFilter], 10) === parseInt(numericFilter, 10)));
         setPlanets(newPlanets);
       }
+      saveActiveFilters([...activeFilters, {
+        columnNumericFilter,
+        comparisonNumericFilter,
+        numericFilter,
+      }]);
+      console.log(activeFilters);
     }
   }, [activateFilter]);
+
+  async function clearFilter(filter) {
+    await setPlanets(ogPlanets);
+    const newFilters = activeFilters.filter((fl) => fl.columnNumericFilter !== filter);
+    saveActiveFilters(newFilters);
+    columnNumericFilters[filter] = filter;
+  }
 
   const contextInitialValue = {
     data: planets,
     setPlanets,
     activateFilter,
     handleFilterActicvate,
+    activeFilters,
+    clearFilter,
     filters: {
       filterByName: {
         name: nameFilter,

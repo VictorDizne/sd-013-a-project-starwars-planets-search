@@ -45,6 +45,10 @@
   margin-right: 150px;
 }
 
+.clear-filter-btn {
+  margin-left: 15px;
+}
+
 .page-header {
   color: white;
   text-align: center;
