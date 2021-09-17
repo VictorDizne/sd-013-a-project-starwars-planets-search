@@ -9,6 +9,10 @@ function Table() {
       filterByName: { name },
       filterByNumericValues,
     },
+    setFilters,
+    filters,
+    setOptionColumn,
+    optionColumn,
   } = useContext(Context);
 
   const filterPlanets = () => {
@@ -38,29 +42,58 @@ function Table() {
     return namePlanet;
   };
 
+  const deleteFilters = (indexElement, { column }) => {
+    console.log(indexElement);
+    const stateFilterByNumericValues = filterByNumericValues.filter((_element, index) => (
+      index !== indexElement
+    ));
+
+    setFilters({
+      filterByName: { ...filters.filterByName },
+      filterByNumericValues: stateFilterByNumericValues,
+    });
+
+    const newOptionsColumn = [...optionColumn, column];
+    setOptionColumn(newOptionsColumn);
+  };
+
   return (
-    <table>
-      <HeaderTable />
-      { filterPlanets().map((item) => (
-        <tr key={ item }>
-          <td>{item.name}</td>
-          <td>{item.rotation_period}</td>
-          <td>{item.orbital_period}</td>
-          <td>{item.diameter}</td>
-          <td>{item.climate}</td>
-          <td>{item.gravity}</td>
-          <td>{item.terrain}</td>
-          <td>{item.surface_water}</td>
-          <td>{item.population}</td>
-          <td>
-            {item.films.map((film, index) => (<a key={ index } href={ film }>Filme</a>))}
-          </td>
-          <td>{item.created}</td>
-          <td>{item.edited}</td>
-          <td><a href={ item.url }>URL</a></td>
-        </tr>
+    <>
+      <h5>Filtros:</h5>
+      { filterByNumericValues.map((item, index) => (
+        <div data-testid="filter" key={ index }>
+          <span>{ item.column }</span>
+          <span> - </span>
+          <span>{ item.comparison }</span>
+          <span> - </span>
+          <span>{ item.value }</span>
+          <button type="button" onClick={ () => deleteFilters(index, item) }>X</button>
+        </div>
       )) }
-    </table>
+      <table>
+        <HeaderTable />
+        { filterPlanets().map((item) => (
+          <tr key={ item }>
+            <td>{item.name}</td>
+            <td>{item.rotation_period}</td>
+            <td>{item.orbital_period}</td>
+            <td>{item.diameter}</td>
+            <td>{item.climate}</td>
+            <td>{item.gravity}</td>
+            <td>{item.terrain}</td>
+            <td>{item.surface_water}</td>
+            <td>{item.population}</td>
+            <td>
+              {item.films
+                .map((film, index) => (<a key={ index } href={ film }>Filme</a>))}
+            </td>
+            <td>{item.created}</td>
+            <td>{item.edited}</td>
+            <td><a href={ item.url }>URL</a></td>
+          </tr>
+        )) }
+      </table>
+    </>
   );
 }
 

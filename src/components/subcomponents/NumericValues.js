@@ -16,7 +16,11 @@ function NumericValues() {
     });
   };
 
-  const { optionColumn, handleFiltersNumeric, optionComparison } = useContext(Context);
+  const {
+    optionColumn,
+    handleFiltersNumeric,
+    optionComparison,
+  } = useContext(Context);
 
   return (
     <>

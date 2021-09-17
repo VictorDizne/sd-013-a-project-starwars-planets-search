@@ -36,10 +36,7 @@ function Provider({ children }) {
 
     const filteredOptionsColumn = optionColumn.filter((option) => option !== column);
     setOptionColumn(filteredOptionsColumn);
-
-    const filteredOptionsComparison = optionComparison
-      .filter((option) => option !== comparison);
-    setOptionComparison(filteredOptionsComparison);
+    setOptionComparison(optionComparison);
   };
 
   const data = useFetch();
@@ -51,6 +48,8 @@ function Provider({ children }) {
     filters,
     optionColumn,
     optionComparison,
+    setFilters,
+    setOptionColumn,
   };
 
   return (
