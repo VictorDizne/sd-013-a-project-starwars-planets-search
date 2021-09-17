@@ -38,7 +38,9 @@ function App() {
 
   // criando uma funçao para atualizar column e comparison
   const updateColumnComparison = {
-    column: 'diameter', value: 0,
+    column: 'diameter',
+    comparison: 'maior que',
+    value: 0,
   };
 
   // criando uma funçao para fazer a filtragem de column e comparison
@@ -49,6 +51,11 @@ function App() {
   // criando mais uma funçao para ao clicar no botao, as mudanças escolhidas sejam atualizadas/alteradas
   const handleClick = () => {
     setfilterByNumericValues([updateColumnComparison]);
+    // criar uma const para remover a opçao escolhida para nao ser repetida
+    // tem que recuperar pelo getElement...
+    // colocar "id" na opçoes para recuperar cada uma da opçoes
+    const notRepiteOption = document.getElementById(updateColumnComparison.column);
+    notRepiteOption.remove();
   };
   return (
     <Context.Provider value={ planets }>
@@ -65,11 +72,11 @@ function App() {
         data-testid="column-filter"
         onChange={ handlechangeColumnComparison }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        <option id="population" value="population">population</option>
+        <option id="orbital_period" value="orbital_period">orbital_period</option>
+        <option id="diameter" value="diameter">diameter</option>
+        <option id="rotation_period" value="rotation_period">rotation_period</option>
+        <option id="surface_water" value="surface_water">surface_water</option>
       </select>
 
       <select
