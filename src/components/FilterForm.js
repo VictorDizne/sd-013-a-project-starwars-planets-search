@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import TableContext from '../context/TableContext';
 import { columnFilter } from '../helpers';
 
@@ -8,9 +8,20 @@ function FilterForm() {
     handleFilterByNumericValues,
     filter: { filters: { filterByNumericValues } } } = useContext(TableContext);
 
-  const [column, setColumn] = useState(filterByNumericValues[0].column);
-  const [comparison, setComparison] = useState(filterByNumericValues[0].comparison);
-  const [value, setValue] = useState(filterByNumericValues[0].value);
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [value, setValue] = useState('0');
+  const [columnOptions, setColumnOptions] = useState([...columnFilter]);
+
+  const filteredColumn = () => {
+    if (filterByNumericValues.length) {
+      const numericValuesColumns = filterByNumericValues
+        .map((filter) => filter.column);
+      setColumnOptions((prevState) => prevState
+        .filter((option) => !numericValuesColumns.includes(option)));
+    }
+  };
+  useEffect(filteredColumn, [filterByNumericValues]);
 
   return (
     <form>
@@ -24,11 +35,16 @@ function FilterForm() {
           placeholder="Eg: Tatooine"
         />
       </label>
-      <select data-testid="column-filter" onChange={ (e) => setColumn(e.target.value) }>
-        {columnFilter
+      <select
+        value={ column }
+        data-testid="column-filter"
+        onChange={ (e) => setColumn(e.target.value) }
+      >
+        {columnOptions
           .map((colum) => <option value={ colum } key={ colum }>{colum}</option>)}
       </select>
       <select
+        value={ comparison }
         data-testid="comparison-filter"
         onChange={ (e) => setComparison(e.target.value) }
       >

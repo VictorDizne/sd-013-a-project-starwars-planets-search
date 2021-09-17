@@ -17,13 +17,7 @@ function Provider({ children }) {
       filterByName: {
         name: '',
       },
-      filterByNumericValues: [
-        {
-          column: '',
-          comparison: '',
-          value: '0',
-        },
-      ],
+      filterByNumericValues: [],
     },
   });
 
@@ -38,15 +32,15 @@ function Provider({ children }) {
   };
 
   const handleFilterByNumericValues = (column, comparison, value) => {
-    const { filters: { filterByName } } = filter;
+    const { filters: { filterByName, filterByNumericValues } } = filter;
     setFilter({
       ...filter,
       filters:
       { filterByName:
         { ...filterByName },
       filterByNumericValues:
-      [{ column, comparison, value }] } });
-    // [...filterByNumericValues, { column, comparison, value }] } });
+      // [{ column, comparison, value }] } });
+    [...filterByNumericValues, { column, comparison, value }] } });
   };
 
   useEffect(() => {

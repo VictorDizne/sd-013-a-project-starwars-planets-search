@@ -1,38 +1,49 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import TableContext from '../context/TableContext';
 
 function TableContent() {
   const { data: { results }, filter } = useContext(TableContext);
 
+  const [planets, setPlanets] = useState([]);
+
+  useEffect(() => {
+    setPlanets(results);
+  }, [results]);
+
+  // Filter Planets by Name
   const filterPlanetsByName = () => {
     const { filters: { filterByName: { name: filterName } } } = filter;
-    return results
+    const planetsFilterByName = results
       .filter(({ name }) => name.toLowerCase().includes(filterName));
+    setPlanets(planetsFilterByName);
   };
+  useEffect(filterPlanetsByName, [filter.filters.filterByName]);
 
+  // Filter Planets by Numeric Value
   const filterPlanetsByNumericValue = () => {
     const { filters: { filterByNumericValues } } = filter;
-    const [firstFilter] = filterByNumericValues;
-    const { comparison, column, value } = firstFilter;
-    if (comparison === 'maior que') {
-      const filteredPlanets = filterPlanetsByName()
-        .filter((planet) => parseInt(planet[column], 10) > parseInt(value, 10));
-      return filteredPlanets;
-    }
-    if (comparison === 'menor que') {
-      const filteredPlanets = filterPlanetsByName()
-        .filter((planet) => parseInt(planet[column], 10) < parseInt(value, 10));
-      return filteredPlanets;
-    }
-    if (comparison === 'igual a') {
-      const filteredPlanets = filterPlanetsByName()
-        .filter((planet) => parseInt(planet[column], 10) === parseInt(value, 10));
-      return filteredPlanets;
-    }
-    return filterPlanetsByName();
+    filterByNumericValues.forEach(({ comparison, column, value }) => {
+      if (comparison === 'maior que') {
+        const filteredPlanets = planets
+          .filter((planet) => parseInt(planet[column], 10) > parseInt(value, 10));
+        setPlanets(filteredPlanets);
+      }
+      if (comparison === 'menor que') {
+        const filteredPlanets = planets
+          .filter((planet) => parseInt(planet[column], 10) < parseInt(value, 10));
+        setPlanets(filteredPlanets);
+      }
+      if (comparison === 'igual a') {
+        const filteredPlanets = planets
+          .filter((planet) => parseInt(planet[column], 10) === parseInt(value, 10));
+        setPlanets(filteredPlanets);
+      }
+      return planets;
+    });
   };
+  useEffect(filterPlanetsByNumericValue, [filter.filters.filterByNumericValues]);
 
-  const renderPlanetRow = () => filterPlanetsByNumericValue().map((planet) => {
+  const renderPlanetRow = () => planets.map((planet) => {
     const plantetInfos = Object.values(planet);
     return (
       <tr key={ planet.name }>
