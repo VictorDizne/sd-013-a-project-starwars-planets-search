@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import MyContext from '../context/MyContext';
 
 function Planets({ planets }) {
+  const { queryValue } = useContext(MyContext);
+
   return (
-    planets.map((planet) => (
+    planets.filter((planet) => (
+      planet.name.toLowerCase().includes(queryValue.toLowerCase())
+    )).map((planet) => (
       <tr key={ planet.name } name={ planet.name }>
         { Object.values(planet).map((planetValue) => (
           <td

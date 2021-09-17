@@ -6,14 +6,20 @@ import usePlanets from '../hooks/usePlanets';
 function Provider({ children }) {
   const { planets, planetsKeys } = usePlanets();
   const [newPlanets, setNewPlanets] = useState(planets);
+  const [queryValue, setQueryValue] = useState('');
 
   const handlePlanets = (key, value) => {
     const newState = { ...newPlanets, [key]: value };
     setNewPlanets(newState);
   };
 
-  const contextValue = { newPlanets, planetsKeys, handlePlanets };
-
+  const contextValue = {
+    newPlanets,
+    planetsKeys,
+    queryValue,
+    setQueryValue,
+    handlePlanets,
+  };
   return (
     <MyContext.Provider value={ contextValue }>
       { children }

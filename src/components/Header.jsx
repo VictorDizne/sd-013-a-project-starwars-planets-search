@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import MyContext from '../context/MyContext';
 
 function Header() {
+  const { setQueryValue } = useContext(MyContext);
+
   return (
-    <header className="header-container">
-      <h1>Project Star Wars</h1>
+    <header className="header-box">
+      <input
+        type="text"
+        name="planet-input"
+        data-testid="name-filter"
+        onChange={ ({ target: { value } }) => setQueryValue(value) }
+      />
     </header>
   );
 }
