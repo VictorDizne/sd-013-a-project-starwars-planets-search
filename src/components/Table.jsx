@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function Table() {
-  const data = useContext(PlanetContext);
+  const { planets } = useContext(PlanetContext);
   // console.log(data);
 
   return (
@@ -20,7 +20,7 @@ function Table() {
           <th scope="col">Terrain</th>
           <th scope="col">Population</th>
           <th scope="col">Films</th>
-          <th scope="col">Residents</th>
+          {/* <th scope="col">Residents</th> */}
           <th scope="col">Created</th>
           <th scope="col">Edited</th>
 
@@ -28,7 +28,7 @@ function Table() {
       </thead>
       <tbody>
         {
-          data.map((planet) => (
+          planets.map((planet) => (
             <tr key={ planet.name }>
               <td>
                 {planet.name}
@@ -60,9 +60,9 @@ function Table() {
               <td>
                 {planet.films}
               </td>
-              <td>
+              {/* <td>
                 {planet.residents}
-              </td>
+              </td> */}
               <td>
                 {planet.created}
               </td>
