@@ -8,10 +8,19 @@ import fetchApi from '../services/fetchApi';
 
 const AppProvider = ({ children }) => {
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState(
+    {
+      filterByName: {
+        name: '',
+      },
+    },
+  );
 
   const contextValue = {
     data,
     setData,
+    filters,
+    setFilters,
   };
 
   useEffect(() => {
