@@ -36,20 +36,27 @@ function Table() {
   };
 
   const handleClick = () => {
-    // const columns = document.getElementById('select-1').value;
-    // const inputValue = document.getElementById('number').value;
+    const columns = document.getElementById('select-1');
+    const inputValue = document.getElementById('number');
     const { column, comparison, value } = selectFilters;
+
     const result = data;
     if (comparison === 'maior que') {
       const moveValue = result.filter((item) => Number(item[column]) > Number(value));
+      columns.options.remove(column);
+      inputValue.value = '';
       return setMovie(moveValue);
     }
     if (comparison === 'menor que') {
       const moveValue = result.filter((item) => Number(item[column]) < Number(value));
+      columns.options.remove(column);
+      inputValue.value = '';
       return setMovie(moveValue);
     }
     if (comparison === 'igual a') {
       const moveValue = result.filter((item) => item[column] === value);
+      columns.options.remove(column);
+      inputValue.value = '';
       return setMovie(moveValue);
     }
     return result;
