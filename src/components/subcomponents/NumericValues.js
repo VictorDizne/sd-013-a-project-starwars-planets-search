@@ -21,7 +21,6 @@ function NumericValues() {
   return (
     <>
       <select data-testid="column-filter" name="column" onChange={ handleNumerics }>
-        <option>Escolha uma categoria</option>
         { optionColumn
           .map((option) => (<option key={ option }>{ option }</option>)) }
       </select>

@@ -31,7 +31,7 @@ function Provider({ children }) {
     setFilters({
       filterByName: { ...filters.filterByName },
       filterByNumericValues: [
-        { column, comparison, value }, ...filters.filterByNumericValues],
+        ...filters.filterByNumericValues, { column, comparison, value }],
     });
 
     const filteredOptionsColumn = optionColumn.filter((option) => option !== column);
