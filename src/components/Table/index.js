@@ -1,18 +1,23 @@
 import React from 'react';
-// import usePlanetsContext from '../../hooks/usePlanetsContext';
-// import Loading from '../Loading';
-// import Loading from '../Loading';
 import TableBody from '../TableBody';
 import TableHeader from '../TableHeader';
+import usePlanetsContext from '../../hooks/usePlanetsContext';
+import Loading from '../Loading';
 
 function Table() {
-  // const { isPlanetsFilled } = usePlanetsContext();
+  const { isPlanetsFilled } = usePlanetsContext();
 
   return (
-    <table>
-      <TableHeader />
-      <TableBody />
-    </table>
+    isPlanetsFilled
+      ? (
+        <table>
+          <tbody>
+            <TableHeader />
+            <TableBody />
+          </tbody>
+        </table>
+      )
+      : <Loading />
   );
 
   // return <div>teste</div>;

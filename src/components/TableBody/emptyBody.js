@@ -1,9 +1,7 @@
 import React from 'react';
 
-const MAX_RANGE = 509;
-
-const tr = (
-  <tr key={ Math.random() * MAX_RANGE }>
+const tds = (
+  <>
     <td>Tatooine</td>
     <td>23</td>
     <td>304</td>
@@ -17,15 +15,19 @@ const tr = (
     <td>2014-12-09T13:50:49.641000Z</td>
     <td>2014-12-20T20:58:18.411000Z</td>
     <td>https://swapi-trybe.herokuapp.com/api/planets/1/</td>
-  </tr>);
+  </>);
 
-const rows = [tr, tr, tr, tr, tr, tr, tr, tr, tr];
+const columns = [tds, tds, tds, tds, tds, tds, tds, tds, tds];
 
 function EmptyBody() {
   return (
     <>
       {
-        rows.map((row) => row)
+        columns.map((row, index) => (
+          <tr key={ index }>
+            {row}
+          </tr>
+        ))
       }
     </>
   );

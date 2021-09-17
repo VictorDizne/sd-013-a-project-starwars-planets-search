@@ -1,7 +1,8 @@
 import { createContext } from 'react';
+import testData from '../testData';
 
 const initialValue = {
-  data: {},
+  data: testData,
   setData: () => {},
   isPlanetsFilled: false,
   setIsPlanetsFilled: () => {},
@@ -9,8 +10,9 @@ const initialValue = {
   setColumns: () => {},
   filters: {},
   setFilters: () => {},
-  planets: [],
+  planets: testData.results,
   setPlanets: () => {},
+  filterPlanets: () => {},
 };
 
 const PlanetsContext = createContext(initialValue);
