@@ -11,10 +11,8 @@ function Table() {
     isPlanetsFilled
       ? (
         <table>
-          <tbody>
-            <TableHeader />
-            <TableBody />
-          </tbody>
+          <TableHeader />
+          <TableBody />
         </table>
       )
       : <Loading />
