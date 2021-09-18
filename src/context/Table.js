@@ -29,6 +29,7 @@ function Table() {
     const { filters: { filterByName: { name: filterName } } } = filter;
     const filteredPlanets = planetsInfo // PEGA O ESTADO PLANETSINFO E FILTRA
       .filter(({ name }) => name.toLowerCase().includes(filterName)); // VERIFICA SE O NOME ESTÁ INCLUSO EM FILTERNAME
+
     return filteredPlanets.map((planet) => { // RETORNA A VARIAVEL FAZENDO UM MAP NOS PLANETAS FILTRADOS
       const plantetInfos = Object.values(planet); // PEGANDO PLANETA POR PLANETA E VENDO SE O VALOR DELE CONTEM PLANETA
       return ( // RETORNA A TABELA PASSANDO COMO KEY O NOME DO PLANETA

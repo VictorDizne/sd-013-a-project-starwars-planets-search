@@ -16,16 +16,37 @@ function Provider({ children }) { // PASSANDO O CHILDREN DESESTRUTURADO
     filters: {
       filterByName: {
         name: '',
-        age: 10,
       },
+      filterByNumericValues: [],
     },
   });
 
   const handleFilterByName = (newName) => { // CRIANDO A FUNCAO QUE É RESPONSÁVEL POR FAZER O FILTRO POR NOME
     const { filters: { filterByName } } = filter; // DESESTRUTURANDO FILTERBYNAME DE FILTERS DE FILTER
     setFilter({ // SETANDO UM NOVO ESTADO COM O SETFILTER, ATUALIZANDO FILTERS
-      ...filter, filters: { filterByName: { ...filterByName, name: newName } } });
+      ...filter,
+      filters: {
+        filterByName: { ...filterByName, name: newName },
+      },
+    });
   }; // PEGA O ESTADO ANTERIOR DE FILTER COM O SPREAD OPERATOR E DO FILTERBYNAME
+
+  const handleFilterByNumericValues = ({ column, comparison, value }) => {
+    setFilter({
+      ...filter,
+      filters: {
+        ...filter.filters,
+        filterByNumericValues: [
+          ...filter.filters.filterByNumericValues,
+          {
+            column,
+            comparison,
+            value,
+          },
+        ],
+      },
+    });
+  };
 
   // componentDidMount
   useEffect(() => { // ATUALIZANDO A APLICACAO COM A REQUISICAO DA API
@@ -40,8 +61,12 @@ function Provider({ children }) { // PASSANDO O CHILDREN DESESTRUTURADO
     fetchPlanets(); // CHAMANDO A FUNCAO
   }, []);
 
+  const context = {
+    data, loading, handleFilterByName, handleFilterByNumericValues, filter,
+  };
+
   return ( // RETORNA O CONTEXT.PROVIDER COM O VALUE COM OS VALORES QUE SERÃO USADOS EM OUTRO COMPONENTE
-    <tableContext.Provider value={ { data, loading, handleFilterByName, filter } }>
+    <tableContext.Provider value={ context }>
       {children}
     </tableContext.Provider> // TODOS OS FILHOS ENGLOBADOS PELO PROVIDER TERAO ACESSO.
   );
