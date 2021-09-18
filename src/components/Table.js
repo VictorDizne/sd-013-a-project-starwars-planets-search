@@ -3,7 +3,7 @@ import StarWarsContext from './StarWarsContext';
 import Loading from './Loading';
 
 const Table = () => {
-  const { key, inputfilter, isFetching } = useContext(StarWarsContext);
+  const { key, filteredData, isFetching } = useContext(StarWarsContext);
 
   const tableElement = (
     <table>
@@ -19,7 +19,7 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        {inputfilter
+        {filteredData
           .map((item, index) => (
             <tr
               key={ index }

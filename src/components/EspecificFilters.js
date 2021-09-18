@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import StarWarsContext from './StarWarsContext';
 
 const EspecificFilters = () => {
-  const { isFetching, handleFiltersChange } = useContext(StarWarsContext);
+  const { isFetching, handleChange, handleClick } = useContext(StarWarsContext);
   const optionA = [
     'population',
     'orbital_period',
@@ -28,7 +28,7 @@ const EspecificFilters = () => {
           data-testid="column-filter"
           id="select"
           name="column"
-          onChange={ handleFiltersChange }
+          onChange={ handleChange }
         >
           {optionA.map((el, i) => (
             <option
@@ -47,7 +47,7 @@ const EspecificFilters = () => {
           data-testid="comparison-filter"
           id="select-comparison"
           name="comparison"
-          onChange={ handleFiltersChange }
+          onChange={ handleChange }
 
         >
           {optionB.map((e, i) => (
@@ -64,16 +64,19 @@ const EspecificFilters = () => {
         htmlFor="input"
       >
         <input
+          type="number"
+          min={ 0 }
           id="input"
           data-testid="value-filter"
           placeholder="valor"
           name="value"
-          onChange={ handleFiltersChange }
+          onChange={ handleChange }
         />
       </label>
       <button
         data-testid="button-filter"
         type="button"
+        onClick={ handleClick }
       >
         filtrar
       </button>

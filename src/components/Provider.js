@@ -7,8 +7,10 @@ const StarWarsProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [key, setKey] = useState([]);
+  const [search, setSearch] = useState(false);
   const [filters, setFilters] = useState({
-    filters: { filterByName: { name: '' },
+    filters: {
+      filterByName: { name: '' },
       filterByNumericValues: [{
         column: '',
         comparison: '',
@@ -17,7 +19,7 @@ const StarWarsProvider = ({ children }) => {
     },
   });
 
-  const { filters: { filterByNumericValues } } = filters;
+  const { filters: { filterByNumericValues, filterByName } } = filters;
 
   const fetchPlanets = async () => {
     const { results } = await getStarWarsPlanets();
@@ -27,42 +29,52 @@ const StarWarsProvider = ({ children }) => {
     setIsFetching(false);
   };
 
-  const handleInputFilter = () => {
-    const { filters: { filterByName: { name } } } = filters;
-
-    if (!name) return data;
+  const handleSearch = () => {
+    const { name } = filterByName;
+    const { column, value = 0, comparison } = filterByNumericValues[0];
+    if (search && comparison === 'maior que') {
+      return data
+        .filter((e) => e.name.toLowerCase().includes(name.toLocaleLowerCase()))
+        .filter((e) => e[column] > Number(value));
+    }
+    if (search && comparison === 'menor que') {
+      return data
+        .filter((e) => e.name.toLowerCase().includes(name.toLocaleLowerCase()))
+        .filter((e) => e[column] < Number(value));
+    }
+    if (search && comparison === 'igual a') {
+      return data
+        .filter((e) => e.name.toLowerCase().includes(name.toLocaleLowerCase()))
+        .filter((e) => e[column] === value);
+    }
     return data
       .filter((e) => e.name.toLowerCase().includes(name.toLocaleLowerCase()));
   };
 
-  const inputfilter = handleInputFilter();
+  const filteredData = handleSearch();
 
-  const handleInputFilterChange = ({ target }) => {
-    const { value } = target;
-    setFilters({
-      filters: {
-        filterByNumericValues,
-        filterByName: {
-          name: value,
-        },
-      },
-    });
+  const handleClick = () => {
+    setSearch(true);
   };
 
-  const handleFiltersChange = ({ target }) => {
+  const handleChange = ({ target }) => {
     const { name, value } = target;
-    setFilters({
-      filters:
-        {
-          filterByName: {
-            name: '',
-          },
-          filterByNumericValues: [
-            { ...filterByNumericValues[0],
-              [name]: value,
-            },
-          ],
+    if (name === 'input') {
+      return setFilters({
+        filters: {
+          filterByNumericValues,
+          filterByName: { name: value },
         },
+      });
+    }
+    return setFilters({
+      filters: {
+        filterByName,
+        filterByNumericValues: [{
+          ...filterByNumericValues[0],
+          [name]: value,
+        }],
+      },
     });
   };
 
@@ -71,18 +83,17 @@ const StarWarsProvider = ({ children }) => {
   }, []);
 
   const context = {
-    inputfilter,
-    setData,
+    filteredData,
     isFetching,
     key,
     filters,
-    handleInputFilterChange,
-    handleFiltersChange,
+    handleChange,
+    handleClick,
   };
 
   return (
     <StarWarsContext.Provider value={ context }>
-      {children}
+      { children }
     </StarWarsContext.Provider>
   );
 };

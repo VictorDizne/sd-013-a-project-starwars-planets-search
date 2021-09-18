@@ -9,14 +9,14 @@ main table {
   flex-direction: column;
 }
 
-main table thead th  {
+main table thead th {
   border: 1px solid black;
   font-size: small;
   font-weight: 700;
   width: 100px;
 }
 
-main table tbody td  {
+main table tbody td {
   border: 1px solid black;
   font-size: xx-small;
   text-align: center;

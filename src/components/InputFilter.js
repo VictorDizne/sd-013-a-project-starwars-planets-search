@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import StarWarsContext from './StarWarsContext';
 
 const InputFilter = () => {
-  const { isFetching, handleInputFilterChange } = useContext(StarWarsContext);
+  const { isFetching, handleChange } = useContext(StarWarsContext);
 
   const inputElement = (
     <div
@@ -16,7 +16,7 @@ const InputFilter = () => {
           data-testid="name-filter"
           placeholder="filtrar planetas"
           name="input"
-          onChange={ handleInputFilterChange }
+          onChange={ handleChange }
         />
       </label>
     </div>
