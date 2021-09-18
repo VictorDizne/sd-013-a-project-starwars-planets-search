@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import TableContext from './tableContext';
+import Selects from '../component/Selects';
 
 function Table() {
   const {
@@ -7,50 +8,52 @@ function Table() {
     loading,
     handleFilterByName,
     filter,
-  } = useContext(TableContext);
-  const [planetsInfo, setPlanetsInfo] = useState([]);
+  } = useContext(TableContext); // TENDO ACESSO A TUDO QUE FOI PASSANDO NO VALUE DO PROVIDER
+  const [planetsInfo, setPlanetsInfo] = useState([]); // CRIANDO USESTATE PARA O ESTADO DO PLANETINFO E SETPLANETINFO
 
+  // COMPONENDIDMOUNT
   useEffect(() => {
-    const getPlanetsInfo = () => {
-      if (results[0]) {
-        const planets = results.map((planet) => {
-          delete planet.residents;
-          return ({ ...planet });
+    const getPlanetsInfo = () => { // PEGANDO AS INFORMACOES DOS PLANETAS
+      if (results[0]) { // SE RESULTS NAO FOR UM ARRAY VAZIO
+        const planets = results.map((planet) => { // FAZ UM MAP NO ARRAY DE RESULTS
+          delete planet.residents; // DELETA A KEY RESIDENTS (PEDIDO PELA QUESTAO)
+          return ({ ...planet }); // RETORNA OS PLANETAS ANTERIORES
         });
-        setPlanetsInfo(planets);
+        setPlanetsInfo(planets); // SETANDO O ESTADO DOS PLANETAS SEM A KEY RESIDENTS
       }
     };
-    getPlanetsInfo();
-  }, [results]);
+    getPlanetsInfo(); // CHAMA A FUNCAO
+  }, [results]); // PASSAR RESULTS DENTRO DO ARRAY.
 
-  const renderPlanetRow = () => {
+  const renderPlanetRow = () => { // FUNCAO QUE RENDERIZA AS INFORMACOES DE CADA PLANETA NAS LINHAS
     const { filters: { filterByName: { name: filterName } } } = filter;
-    const filteredPlanets = planetsInfo
-      .filter(({ name }) => name.toLowerCase().includes(filterName));
-    return filteredPlanets.map((planet) => {
-      const plantetInfos = Object.values(planet);
-      return (
+    const filteredPlanets = planetsInfo // PEGA O ESTADO PLANETSINFO E FILTRA
+      .filter(({ name }) => name.toLowerCase().includes(filterName)); // VERIFICA SE O NOME ESTÁ INCLUSO EM FILTERNAME
+    return filteredPlanets.map((planet) => { // RETORNA A VARIAVEL FAZENDO UM MAP NOS PLANETAS FILTRADOS
+      const plantetInfos = Object.values(planet); // PEGANDO PLANETA POR PLANETA E VENDO SE O VALOR DELE CONTEM PLANETA
+      return ( // RETORNA A TABELA PASSANDO COMO KEY O NOME DO PLANETA
         <tr key={ planet.name }>
           {plantetInfos.map((info) => <td key={ info }>{info}</td>)}
-        </tr>);
+        </tr>); // PEGA AS INFORMACOES DE CADA PLANETA E PASSA NO ELEMENTO
     });
   };
 
-  return (
+  return ( // SE LOADING ESTIVER RODANDO, RENDERIZA `LOADING...`
     <div>
       {loading && <h1>Loading...</h1>}
-      {planetsInfo[0] && (
+      {planetsInfo[0] && ( // SE HOUVER ALGO NO ARRAY PLANETSINFO, RENDERIZA.
         <>
           <label htmlFor="planet-name">
             Nome:
             <input
               data-testid="name-filter"
-              onChange={ (e) => handleFilterByName(e.target.value) }
+              onChange={ (e) => handleFilterByName(e.target.value) } // TODA VEZ QUE O INPUT MUDAR, CHAMA A FUNCAO QUE RECEBE O EXATO VALOR QUE ESTA SENDO PASSADO PELO USUARIO
               type="text"
               id="planet-name"
               placeholder="Eg: Tatooine"
             />
           </label>
+          <Selects />
           <table>
             <thead>
               <tr>

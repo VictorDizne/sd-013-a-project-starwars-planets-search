@@ -84,7 +84,7 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
   });
 });
 
-describe.only('2 - Filtre a tabela através de um texto, inserido num *campo de texto*, exibindo somente os planetas cujos nomes incluam o texto digitado', () => {
+describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto*, exibindo somente os planetas cujos nomes incluam o texto digitado', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
@@ -163,7 +163,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
-  it('Renderize o filtro de coluna', async () => {
+  it.only('Renderize o filtro de coluna', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -178,7 +178,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(foundColumnFilter).toEqual(expect.arrayContaining(columns));
   });
 
-  it('Renderize o filtro de comparação', async () => {
+  it.only('Renderize o filtro de comparação', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -193,7 +193,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(foundComparisonFilter).toEqual(expect.arrayContaining(columns));
   });
 
-  it('Renderize o campo para o valor do filtro', async () => {
+  it.only('Renderize o campo para o valor do filtro', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -201,7 +201,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(await screen.findByTestId(VALUE_FILTER_SELECTOR)).toHaveProperty('nodeName', 'INPUT');
   });
 
-  it('Renderize o botão para executar a filtragem', async () => {
+  it.only('Renderize o botão para executar a filtragem', async () => {
     await act(async () => {
       render(<App />);
     });
