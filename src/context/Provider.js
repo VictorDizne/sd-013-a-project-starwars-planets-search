@@ -1,24 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { /* useEffect, */ useState } from 'react';
 import PropTypes from 'prop-types';
 import Context from './Context';
+import useFilter from '../hooks/useFilter';
 
 function Provider({ children }) {
-  const [data, setData] = useState([]);
   const [filterText, setFilterText] = useState('');
-  const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
-  useEffect(() => {
-    fetch(url)
-      .then((response) => response.json())
-      .then(({ results }) => setData(results));
+  const [filterNumber, setFilterNumber] = useState({
+    column: '',
+    comparison: '',
+    value: '',
   });
+  const data = useFilter(filterText, filterNumber);
+
+  const [optionsColumn, setColumn] = useState(['population', 'orbital_period',
+    'diameter', 'rotation_period', 'surface_water']);
+  const [optionsComparison, setComparison] = useState(['maior que',
+    'menor que', 'igual a']);
 
   const state = {
     data,
     filters: {
       filterText,
+      filterNumber,
     },
+    optionsColumn,
+    optionsComparison,
+    setColumn,
+    setComparison,
     setFilterText,
-    setData,
+    setFilterNumber,
   };
 
   return (
