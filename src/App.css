@@ -43,6 +43,16 @@
   table-layout:fixed;
   /* width:100%; */
 }
+
+.filter-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 35px;
+  background-color: black;
+  margin-top: 2px;
+  color: white;
+}
 @keyframes App-logo-spin {
 
   from {
