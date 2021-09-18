@@ -5,9 +5,8 @@ export default function Table() {
   const { swapi } = useContext(ContextSwapi);
   if (!swapi) return null;
   return (
-    <table className="table">
+    <table className="table-container">
       <thead>
-
         <tr>
           <th>name</th>
           <th>rotation_period</th>
@@ -25,7 +24,6 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-
         {swapi.data.map((item) => (
           <tr key={ item.name }>
             <td>{item.name}</td>
