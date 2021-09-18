@@ -13,23 +13,17 @@ function useFilters() {
 
     switch (comparison) {
     case 'maior que':
-      filteredPlanets = planets.filter((planet) => (
-        Number(planet[column]) > value
-      ));
-      setPlanets(filteredPlanets);
-      break;
+      filteredPlanets = (
+        planets.filter((planet) => Number(planet[column]) > Number(value)));
+      return setPlanets(filteredPlanets);
     case 'menor que':
-      filteredPlanets = planets.filter((planet) => (
-        Number(planet[column]) < value
-      ));
-      setPlanets(filteredPlanets);
-      break;
+      filteredPlanets = (
+        planets.filter((planet) => Number(planet[column]) < Number(value)));
+      return setPlanets(filteredPlanets);
     case 'igual a':
-      filteredPlanets = planets.filter((planet) => (
-        Number(planet[column]) === value
-      ));
-      setPlanets(filteredPlanets);
-      break;
+      filteredPlanets = (
+        planets.filter((planet) => Number(planet[column]) === Number(value)));
+      return setPlanets(filteredPlanets);
     default:
       return filteredPlanets;
     }

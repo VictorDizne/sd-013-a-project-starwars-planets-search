@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
-import usePlanets from '../hooks/usePlanets';
 import Planets from './Planets';
 
 function Table() {
-  const { planets } = useContext(MyContext);
-  const { planetsKeys } = usePlanets();
+  const { planets, planetsKeys } = useContext(MyContext);
 
   return (
     <div className="table-container">
