@@ -11,6 +11,11 @@ function Provider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: {
+      column: 'rotation_period',
+      comparison: 'maior que',
+      value: '0',
+    },
   });
 
   // Fetches the data from the API and sets Loading to false
@@ -27,24 +32,40 @@ function Provider({ children }) {
 
   // Filters everytime the filter is modified
   useEffect(() => {
-    function filterByName(searchText) {
-      if (searchText === '') {
-        return data;
-      }
+    function filterPlanets(searchText, filter) {
       const filteredData = [...data]
         .filter((planet) => planet.name.toLowerCase().includes(searchText.toLowerCase()));
-      return filteredData;
+      console.log(filteredData);
+      switch (filter.comparison) {
+      case 'maior que': {
+        const biggerThan = filteredData
+          .filter((item) => Number(item[filter.column])
+          > Number(filter.value));
+        return biggerThan;
+      }
+      case 'menor que': {
+        const lesserThan = filteredData
+          .filter((item) => Number(item[filter.column])
+          < Number(filter.value));
+        return lesserThan;
+      }
+      default: {
+        const equalsTo = filteredData
+          .filter((item) => Number(item[filter.column])
+          === Number(filter.value));
+        return equalsTo;
+      }
+      }
     }
-
     if (!firstRender.current) {
-      const { name } = filters.filterByName;
-      setBackup(filterByName(name));
+      const { filterByName: { name }, filterByNumericValues } = filters;
+      setBackup(filterPlanets(name, filterByNumericValues));
     } else {
       firstRender.current = false;
     }
   }, [filters, data]);
 
-  const value = { data, backup, loading, filters, setFilters };
+  const value = { data, backup, loading, filters, setFilters, setBackup };
   return (
     <starWarsContext.Provider value={ value }>
       { children }
