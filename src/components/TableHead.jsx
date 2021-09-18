@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Hooks
-import usePlanets from '../hooks/usePlanets';
+import usePlanets from '../context/hooks/usePlanets';
 
 const TableHead = () => {
   const { data } = usePlanets(); // Inicia como um array vazio
