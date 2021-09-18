@@ -7,10 +7,10 @@ const SearchForm = () => {
     setFilters: { setNumericFilters },
   } = useContext(context);
 
-  const [columns, setColumns] = useState(['population', 'orbital_period', 'diameter',
+  const [columns] = useState(['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water']);
   const [columnOptions, setColumnOptions] = useState(columns);
-  const [comparisons, setComparisons] = useState(['maior que', 'menor que', 'igual a']);
+  const [comparisons] = useState(['maior que', 'menor que', 'igual a']);
   const [comparisonOptions, setComparisonOptions] = useState(comparisons);
 
   const [column, setColumn] = useState(columnOptions[0]);
