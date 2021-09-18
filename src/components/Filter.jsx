@@ -1,22 +1,36 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
-const columnField = ['', 'population', 'orbital_period', 'diameter',
+const columnField = ['population', 'orbital_period', 'diameter',
   'rotation_period', 'surface_water'];
 
 const comparisonField = ['', 'maior que', 'menor que', 'igual a'];
 
 function Filter() {
-  const { handleChange, handleClick } = useContext(PlanetsContext);
-  const [filter, setFilter] = useState({
+  const { handleChange, handleClick, filter } = (
+    useContext(PlanetsContext)
+  );
+  const [localFilter, setLocalFilter] = useState({
     column: '',
     comparison: '',
     value: '',
   });
+  const [filters, setFilters] = useState(columnField);
+
+  useEffect(() => {
+    const { filterByNumerics } = filter;
+    if (!filterByNumerics) {
+      return setFilters(columnField);
+    }
+    if (filterByNumerics.length > 0) {
+      const arrayOfFilters = filterByNumerics.map((value) => value.column);
+      return setFilters(columnField.filter((v) => !arrayOfFilters.includes(v)));
+    }
+  }, [filter]);
 
   const updateFilter = ({ target: { name, value } }) => {
-    setFilter({
-      ...filter,
+    setLocalFilter({
+      ...localFilter,
       [name]: value,
     });
   };
@@ -40,7 +54,7 @@ function Filter() {
           onChange={ updateFilter }
         >
           {
-            columnField.map((field, i) => <option key={ i }>{ field }</option>)
+            filters.map((field, i) => <option key={ i }>{ field }</option>)
           }
         </select>
       </label>
@@ -70,7 +84,7 @@ function Filter() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => handleClick(filter) }
+        onClick={ () => handleClick(localFilter) }
       >
         Adicionar Filtro
       </button>

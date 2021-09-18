@@ -6,7 +6,7 @@ function Provider({ children }) {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({
     filterByName: '',
-    filterByNumerics: '',
+    filterByNumerics: [],
   });
 
   const handleChange = ({ target }) => {
