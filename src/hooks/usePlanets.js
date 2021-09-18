@@ -17,7 +17,7 @@ function usePlanets() {
     fetchPlanetsAPI();
   }, []);
 
-  return { planets, planetsKeys };
+  return { planets, planetsKeys, setPlanets };
 }
 
 export default usePlanets;

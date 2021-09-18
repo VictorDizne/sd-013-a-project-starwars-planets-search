@@ -4,24 +4,18 @@ import MyContext from './MyContext';
 import usePlanets from '../hooks/usePlanets';
 
 function Provider({ children }) {
-  const { planets, planetsKeys } = usePlanets();
-  const [newPlanets, setNewPlanets] = useState(planets);
+  const { planets, planetsKeys, setPlanets } = usePlanets();
   const [queryValue, setQueryValue] = useState('');
   const [numFilters, setNumFilters] = useState([]);
 
-  const handlePlanetsFilter = (key, value) => {
-    const newState = { ...newPlanets, [key]: value };
-    setNewPlanets(newState);
-  };
-
   const contextValue = {
-    newPlanets,
+    planets,
     planetsKeys,
     queryValue,
     numFilters,
+    setPlanets,
     setQueryValue,
     setNumFilters,
-    handlePlanetsFilter,
   };
 
   return (

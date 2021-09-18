@@ -1,19 +1,21 @@
 import React, { useContext, useState } from 'react';
-import usePlanets from '../hooks/usePlanets';
+import useFilters from '../hooks/useFilters';
 import MyContext from '../context/MyContext';
 import { Input, Select } from '.';
 
 function Header() {
   const { setQueryValue, setNumFilters } = useContext(MyContext);
-  const { planetsKeys } = usePlanets();
+  const [handleFilter] = useFilters();
   const INITIAL_INPUT_VALUE = {
-    column: 'name',
+    column: 'population',
     comparison: 'maior que',
     value: 0,
   };
   const [inputValues, setInputValues] = useState(INITIAL_INPUT_VALUE);
 
-  const comparisonFilters = ['maior que', 'menor que', 'igual a'];
+  const columnFilters = ['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+  const comparisonFilters = ['maior que', 'igual a', 'menor que'];
 
   const handleFilterChange = ({ target: { name, value } }) => (
     setInputValues({ ...inputValues, [name]: value })
@@ -26,7 +28,8 @@ function Header() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const columnFilter = document.getElementById(planetsKeys[0]);
+    handleFilter();
+    const columnFilter = document.getElementById(columnFilters[0]);
     const comparisonFilter = document.getElementById(comparisonFilters[0]);
 
     setInputValues(INITIAL_INPUT_VALUE);
@@ -48,7 +51,7 @@ function Header() {
           name="column"
           testID="column-filter"
           labelText="Filtro: "
-          options={ planetsKeys }
+          options={ columnFilters }
           onChange={ handleFilterChange }
         />
         <Select
