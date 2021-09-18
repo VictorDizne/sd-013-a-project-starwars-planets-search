@@ -4,13 +4,13 @@ import { Table, Filters, FilterList } from '../components';
 // const FilterDispatch = React.createContext(null);
 
 export default function Main() {
-  const [data, setData] = useState({});
+  const [planets, setPlanets] = useState({});
 
   useEffect(() => {
     const fetchPlanets = async () => {
       const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
-      const planets = await response.json();
-      setData(planets);
+      const data = await response.json();
+      setPlanets(data.results);
     };
     fetchPlanets();
   }, []);
@@ -66,7 +66,7 @@ export default function Main() {
       <Filters dispatch={ dispatch } filters={ filters }>
         <FilterList dispatch={ dispatch } filters={ filters } />
       </Filters>
-      <Table data={ data } filters={ filters } />
+      <Table planets={ planets } filters={ filters } />
     </main>
   );
 }
