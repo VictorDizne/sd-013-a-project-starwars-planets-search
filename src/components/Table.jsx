@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext } from 'react';
 import StarWarsContext from '../context';
+import FilterColumns from './FilterColumns';
 import SearchBarName from './SearchBarName';
 
 const Table = () => {
@@ -15,6 +16,7 @@ const Table = () => {
   return (
     <section>
       <SearchBarName />
+      <FilterColumns />
       <table>
         <thead>
           <tr>

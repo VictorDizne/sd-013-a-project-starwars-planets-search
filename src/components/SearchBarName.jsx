@@ -6,7 +6,7 @@ const SearchBarName = () => {
   const { filterByName } = useContext(StarWarsContext);
 
   const handleChange = ({ target: { value } }) => {
-    console.log('handleChange', value);
+    // console.log('handleChange', value);
     filterByName(value);
     setPlanetName(value);
   };
