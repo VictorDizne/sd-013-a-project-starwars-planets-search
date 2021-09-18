@@ -10,6 +10,7 @@ function PlanetsProvide({ children }) {
       filterByName: {
         name: '',
       },
+      filterByNumericValues: [],
     },
   });
 
@@ -27,6 +28,34 @@ function PlanetsProvide({ children }) {
         filterByName: {
           name: nameFilter,
         },
+        filterByNumericValues: [...filterTable.filters.filterByNumericValues],
+      },
+    });
+  }
+
+  function handleAddFilterTable(valueFilter) {
+    const filterByNumericValuesRemove = filterTable.filters.filterByNumericValues;
+    setFilterTable({
+      filters: {
+        filterByName: {
+          name: '',
+        },
+        filterByNumericValues: [...filterByNumericValuesRemove, valueFilter],
+      },
+    });
+  }
+
+  function handleRemoveFilterTable(valueFilter) {
+    const filterByNumericValuesRemove = filterTable.filters.filterByNumericValues;
+    const removeValue = filterByNumericValuesRemove
+      .filter((filterByNumericValue) => filterByNumericValue.column !== valueFilter);
+
+    setFilterTable({
+      filters: {
+        filterByName: {
+          name: '',
+        },
+        filterByNumericValues: removeValue,
       },
     });
   }
@@ -37,6 +66,8 @@ function PlanetsProvide({ children }) {
         resultsAPI,
         filterTable,
         handleFilterTable,
+        handleAddFilterTable,
+        handleRemoveFilterTable,
       } }
     >
       { children }
