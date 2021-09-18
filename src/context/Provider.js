@@ -22,6 +22,17 @@ const initialState = {
 function Provider({ children }) {
   const [swapi, setSwapi] = useState();
 
+  const setnameOfThePlanet = (event) => {
+    setSwapi({ ...swapi,
+      filters: {
+
+        filterByName: {
+          name: event.target.value,
+        },
+      },
+    });
+  };
+
   useEffect(() => {
     const fetchSwipe = async () => {
       const request = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -32,7 +43,7 @@ function Provider({ children }) {
   }, []);
 
   return (
-    <ContextSwapi.Provider value={ { swapi, setSwapi } }>
+    <ContextSwapi.Provider value={ { swapi, setnameOfThePlanet } }>
       {children}
     </ContextSwapi.Provider>
   );
