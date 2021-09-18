@@ -1,35 +1,47 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import StarsContext from '../context/StarContext';
+import Select from './Select';
 
 function Table() {
-  const { data } = useContext(StarsContext);
-  const [state, setState] = useState(
-    {
-      nome: '',
-    },
-  );
+  const { data, setFilters, filters } = useContext(StarsContext);
 
   function handleChange(event) {
-    setState({
-      nome: event.target.value,
+    setFilters({
+      ...filters,
+      filterByName: { name: event.target.value },
     });
   }
 
+  const objectLiteral = {
+    'maior que': (a, b) => Number(a) > Number(b),
+    'menor que': (a, b) => Number(a) < Number(b),
+    'igual a': (a, b) => Number(a) === Number(b),
+  };
+
   function searchPlanet() {
-    if (state.nome === '') {
-      return data;
+    if (data.length) {
+      const result = data.filter((planet) => {
+        const filterByName = planet.name.toLowerCase()
+          .includes(filters.filterByName.name.toLowerCase());
+        const resultNumeric = filters.filterByNumericValues
+          .every(({ column, value, comparison }) => {
+            const filterNumeric = objectLiteral[comparison](planet[column], value);
+            return filterNumeric;
+          });
+        return filterByName && resultNumeric;
+      });
+      return result;
     }
-    const result = data.filter((planet) => planet.name.toLowerCase()
-      .includes(state.nome.toLowerCase()));
-    return result;
   }
+
   if (data.length === 0) {
     return <p>...loading</p>;
   }
 
   return (
     <div>
-      <input type="text" onChange={ handleChange } data-testid="name-filter" />
+      <input type="text" onChange={ handleChange } data-testid="name-filter" id="name" />
+      <Select />
       <table>
         <thead>
           <tr>

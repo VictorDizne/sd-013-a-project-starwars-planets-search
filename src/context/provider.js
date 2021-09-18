@@ -4,6 +4,17 @@ import StarsContext from './StarContext';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState(
+    {
+      filterByName: {
+        name: '',
+      },
+      filterByNumericValues: [
+
+      ],
+    },
+  );
+
   const StarsApi = async () => {
     const api = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
     const Obj = await api.json();
@@ -15,6 +26,8 @@ function Provider({ children }) {
   }, []);
   const contextValue = {
     data,
+    filters,
+    setFilters,
   };
   return (
     <StarsContext.Provider value={ contextValue }>
