@@ -43,7 +43,7 @@ function PlanetProvider({ children }) {
 
   return (
     <PlanetContext.Provider value={ planetValue }>
-      { children }
+      {children}
     </PlanetContext.Provider>
   );
 }

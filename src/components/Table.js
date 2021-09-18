@@ -10,7 +10,7 @@ function Table() {
   const cols = keys.filter((key) => key !== 'residents');
 
   return (
-    <table>
+    <table className="table">
       <thead>
         <tr>
           {/* map para escrever os títulos/nomes de cada coluna */}
@@ -21,7 +21,7 @@ function Table() {
         {/* filteredPlanets é um array de objetos; cada objeto é um "planeta",
         ou seja, contêm os dados de um planeta; cada objeto tem 13 chaves */}
         {filteredPlanets
-        // map para criar cada row/linha
+          // map para criar cada row/linha
           .map((planet) => (
             <tr key={ planet.name }>
               {/* map para preencher com dados cada célula de cada coluna,
