@@ -4,7 +4,15 @@ import PlanetContext from './PlanetContext';
 
 function PlanetProvider({ children }) {
   const [tableData, setTableData] = useState([]);
-  const planetValue = { tableData, setTableData };
+  const [filters, setFilters] = useState(
+    {
+      filterByName: {
+        name: '',
+      },
+    },
+  );
+
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -15,9 +23,27 @@ function PlanetProvider({ children }) {
     fetchResults().then((results) => setTableData(results));
   }, []);
 
+  useEffect(() => {
+    setFilteredPlanets(tableData);
+  }, [tableData]);
+
+  useEffect(() => {
+    const filterPlanets = tableData
+      .filter((planet) => planet.name.toLowerCase().includes(filters.filterByName.name));
+    setFilteredPlanets(filterPlanets);
+  }, [filters, tableData]);
+
+  const handleChange = ({ target }) => {
+    if (target.id === 'name') {
+      setFilters({ filterByName: { name: target.value } });
+    }
+  };
+
+  const planetValue = { tableData, setTableData, filters, handleChange, filteredPlanets };
+
   return (
     <PlanetContext.Provider value={ planetValue }>
-      {children}
+      { children }
     </PlanetContext.Provider>
   );
 }
