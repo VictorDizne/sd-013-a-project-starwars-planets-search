@@ -6,23 +6,27 @@ import planetAPI from '../Services/PlanetAPI';
 function PlanetProvider({ children }) {
   // component did mount
   const [data, setData] = useState([]);
+  const [rend, setRend] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
-    } });
-
-  // Filtros
-
-  const setFilterByName = ({ target }) => {
-    const { value } = target;
-    setFilters({ ...filters, filterByName: { name: value.toLowerCase() } });
-  };
+    },
+    filterByNumericValues: [
+      {
+        column: ['population',
+          'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+        comparison: 'maior que',
+        value: '0',
+      },
+    ],
+  });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const load = async () => {
       const { results } = await planetAPI();
       setData(results);
+      setRend(results);
     };
 
     load();
@@ -30,8 +34,10 @@ function PlanetProvider({ children }) {
 
   const context = {
     data,
-    setFilterByName,
+    rend,
+    setRend,
     filters,
+    setFilters,
   };
 
   return (
