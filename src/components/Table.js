@@ -5,7 +5,7 @@ import TableRow from './TableRow';
 const Table = () => {
   const [state, setState] = useState({
     column: 'population',
-    comparison: 'bigger',
+    comparison: 'maior que',
     filterValue: '0',
   });
   const {
@@ -88,9 +88,9 @@ const Table = () => {
           name="comparison"
           id="comparison"
         >
-          <option value="bigger">maior que</option>
-          <option value="smaller">menor que</option>
-          <option value="equal">igual a</option>
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
         <input
           value={ state.filterValue }

@@ -44,17 +44,19 @@ const PlanetProvider = ({ children }) => {
   useEffect(() => {
     if (!firstRender.current) {
       let teste = 0;
-      if (numericFilters.comparison === 'bigger') {
+      if (numericFilters.comparison === 'maior que') {
         teste = planets.filter((dado) => (
           Number(dado[numericFilters.column]) > Number(numericFilters.filterValue)));
-        setData(teste);
-      } else if (numericFilters.comparison === 'equal') {
+      } else if (numericFilters.comparison === 'igual a') {
         teste = planets.filter((dado) => (
           Number(dado[numericFilters.column]) === Number(numericFilters.filterValue)));
-        setData(teste);
-      } else if (numericFilters.comparison === 'smaller') {
+      } else if (numericFilters.comparison === 'menor que') {
         teste = planets.filter((dado) => (
           Number(dado[numericFilters.column]) < Number(numericFilters.filterValue)));
+      }
+      if (teste.length === 0) {
+        setNotFound(true);
+      } else if (teste.length !== undefined) {
         setData(teste);
       }
     } else {
