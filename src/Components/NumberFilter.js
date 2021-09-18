@@ -3,25 +3,23 @@ import starWarsContext from '../Context';
 
 function NumberFilter() {
   const { filters, setFilters } = useContext(starWarsContext);
+  const [columnOptions, setColumnOptions] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [currentFilter, setCurrentFilter] = useState({
-    value: '',
     column: '',
     comparison: '',
+    value: '',
   });
-
   // Sets the current filter at the context
-  function setContextFilter(filterByNumericValues) {
+  function setContextFilter(currentValue) {
     setFilters({
       ...filters,
-      filterByNumericValues,
+      filterByNumericValues: [...filters.filterByNumericValues, currentValue],
     });
   }
   // Creates column options
-  function setColumnOptions(optionToRemove) {
-    const options = ['population', 'orbital_period', 'diameter',
-      'rotation_period', 'surface_water'];
-    const filteredOptions = options.filter((option) => option !== optionToRemove);
-    return filteredOptions
+  function ShowcolumnOptions() {
+    return columnOptions
       .map((option, index) => <option value={ option } key={ index }>{ option }</option>);
   }
   // Creates filter options
@@ -36,6 +34,10 @@ function NumberFilter() {
 
   function handleClick() {
     setContextFilter(currentFilter);
+    // Removes the column current selected from the columnOptions filter
+    const columnsFiltered = columnOptions
+      .filter((option) => option !== currentFilter.column);
+    setColumnOptions(columnsFiltered);
   }
 
   return (
@@ -43,8 +45,7 @@ function NumberFilter() {
       <label htmlFor="column">
         Choose a column:
         <select name="column" data-testid="column-filter" onChange={ handleChange }>
-          <option value="" disabled selected hidden>Please Choose...</option>
-          { setColumnOptions() }
+          { ShowcolumnOptions() }
         </select>
       </label>
       <label htmlFor="comparison">
@@ -54,7 +55,6 @@ function NumberFilter() {
           data-testid="comparison-filter"
           onChange={ handleChange }
         >
-          <option value="" disabled selected hidden>Please Choose...</option>
           { setFilterOptions() }
         </select>
       </label>

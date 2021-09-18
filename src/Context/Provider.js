@@ -4,6 +4,7 @@ import starWarsContext from '.';
 
 function Provider({ children }) {
   const firstRender = useRef(true);
+  const filteredPlanets = useRef([]);
   const [data, setData] = useState({});
   const [backup, setBackup] = useState({});
   const [loading, setLoading] = useState(true);
@@ -11,11 +12,12 @@ function Provider({ children }) {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: {
-      column: 'rotation_period',
-      comparison: 'maior que',
-      value: '0',
-    },
+    filterByNumericValues: [
+      {
+        column: 'rotation_period',
+        comparison: 'maior que',
+        value: '0',
+      }],
   });
 
   // Fetches the data from the API and sets Loading to false
@@ -32,34 +34,43 @@ function Provider({ children }) {
 
   // Filters everytime the filter is modified
   useEffect(() => {
-    function filterPlanets(searchText, filter) {
-      const filteredData = [...data]
+    function filterPlanets(searchText, filterByNumericValues) {
+      // Filters by name
+      filteredPlanets.current = [...data]
         .filter((planet) => planet.name.toLowerCase().includes(searchText.toLowerCase()));
-      console.log(filteredData);
-      switch (filter.comparison) {
-      case 'maior que': {
-        const biggerThan = filteredData
-          .filter((item) => Number(item[filter.column])
-          > Number(filter.value));
-        return biggerThan;
-      }
-      case 'menor que': {
-        const lesserThan = filteredData
-          .filter((item) => Number(item[filter.column])
-          < Number(filter.value));
-        return lesserThan;
-      }
-      default: {
-        const equalsTo = filteredData
-          .filter((item) => Number(item[filter.column])
-          === Number(filter.value));
-        return equalsTo;
-      }
-      }
+      // Apply every filter
+      [...filterByNumericValues].forEach((filter) => {
+        switch (filter.comparison) {
+        case 'maior que': {
+          const biggerThan = filteredPlanets.current
+            .filter((item) => Number(item[filter.column])
+            > Number(filter.value));
+          filteredPlanets.current = biggerThan;
+          break;
+        }
+        case 'menor que': {
+          const lesserThan = filteredPlanets.current
+            .filter((item) => Number(item[filter.column])
+            < Number(filter.value));
+          filteredPlanets.current = lesserThan;
+          break;
+        }
+        case 'igual a': {
+          const equalsTo = filteredPlanets.current
+            .filter((item) => Number(item[filter.column])
+            === Number(filter.value));
+          filteredPlanets.current = equalsTo;
+          break;
+        }
+        default:
+          break;
+        }
+      });
     }
     if (!firstRender.current) {
       const { filterByName: { name }, filterByNumericValues } = filters;
-      setBackup(filterPlanets(name, filterByNumericValues));
+      filterPlanets(name, filterByNumericValues);
+      setBackup(filteredPlanets.current);
     } else {
       firstRender.current = false;
     }
