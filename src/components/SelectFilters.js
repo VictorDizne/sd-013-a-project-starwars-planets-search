@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 const columns = ['population', 'orbital_period', 'rotation_period', 'diameter',
@@ -6,6 +6,11 @@ const columns = ['population', 'orbital_period', 'rotation_period', 'diameter',
 
 const SelectFilters = () => {
   const { filters, setFilters } = useContext(PlanetContext);
+  const { filterByNumericValues } = filters;
+  // const { column } = filterByNumericValues;
+  // Requisito 4
+  const [availableColumns, setAvailableColumns] = useState(columns);
+  const [hiddenStatus, setHiddenStatus] = useState(false);
 
   const [filterOptions, setFilterOptions] = useState({
     column: 'population',
@@ -30,6 +35,26 @@ const SelectFilters = () => {
     });
   };
 
+  useEffect(() => {
+    const aplliedColumnFilters = filterByNumericValues.map((af) => af.column);
+    const remainingColumns = columns.filter((c) => !aplliedColumnFilters.includes(c));
+    console.log(remainingColumns, 'remaining');
+    setAvailableColumns(remainingColumns);
+  }, [filterByNumericValues]);
+
+  useEffect(() => {
+    const columnValue = document.getElementById('column').value;
+    setFilterOptions({
+      ...filterOptions,
+      column: columnValue,
+    });
+    if (availableColumns.length === 0) {
+      setHiddenStatus(true);
+    } else {
+      setHiddenStatus(false);
+    }
+  }, [availableColumns]);
+
   return (
     <>
       <select
@@ -37,8 +62,12 @@ const SelectFilters = () => {
         id="column"
         onChange={ handleChange }
         data-testid="column-filter"
+        hidden={ hiddenStatus }
       >
-        {columns.map((c, index) => <option key={ index } value={ c }>{c}</option>)}
+        {
+          availableColumns
+            .map((c, index) => <option key={ index } value={ c }>{c}</option>)
+        }
       </select>
       <select
         name="comparison"
