@@ -25,7 +25,7 @@ export default function Table() {
       </thead>
       <tbody>
         {swapi.data
-          .filter((data) => data.name.includes(swapi.filters.filterByName.name))
+          .filter((data) => data.name.toLowerCase().includes(swapi.filters.filterByName.name))
           .map((item) => (
             <tr key={ item.name }>
               <td>{item.name}</td>
