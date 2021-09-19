@@ -4,10 +4,15 @@ import fetchPlanets from '../services/fetchPlanets';
 
 const Context = createContext();
 
+const initialFiltersState = {
+  filterByName: { name: '' },
+  filterByNumericValues: [],
+};
+
 function PlanetProvider({ children }) {
   const [data, setData] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState(initialFiltersState);
   const [filteredPlanets, filterPlanets] = useState([]);
 
   useEffect(() => {
@@ -24,11 +29,22 @@ function PlanetProvider({ children }) {
     filterPlanets(result);
   }, [filters.filterByName.name, data]);
 
+  const addFilter = (filter) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues,
+        filter,
+      ],
+    });
+  };
+
   const context = {
     planets: filteredPlanets,
     isFetching,
     filters,
     setFilters,
+    addFilter,
   };
 
   return (
