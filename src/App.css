@@ -16,3 +16,19 @@ td {
   margin: 10px;
   padding: 10px;
 }
+
+label {
+  font-size: large;
+  font-style: oblique;
+  font-weight: 800;
+}
+
+.span-space {
+  margin: 3px;
+}
+
+input {
+  border: solid 1px;
+  border-radius: 5px;
+  font-size: large;
+}

@@ -3,10 +3,9 @@ import Context from '../context/Context';
 
 const Table = () => {
   const contexto = useContext(Context);
-  const { data } = contexto;
-  const newData = data.filter((item) => delete item.residents);
-  const dataHeaders = newData.map((item) => Object.keys(item));
-  // console.log(newData);
+  const { data, dataFiltered } = contexto;
+  const dataHeaders = data.map((item) => Object.keys(item));
+  const dataTable = dataFiltered.length === 0 ? data : dataFiltered;
 
   const handleTable = () => (
     <table>
@@ -16,7 +15,7 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        {newData.map((planet, index) => (
+        {dataTable.map((planet, index) => (
           <tr key={ index }>
             <td>{ planet.name }</td>
             <td>{ planet.rotation_period }</td>
@@ -39,7 +38,7 @@ const Table = () => {
 
   return (
     <div>
-      { data.length === 0 ? <h1>llloading...</h1> : handleTable() }
+      { dataTable.length === 0 ? <h1>llloading...</h1> : handleTable() }
     </div>
   );
 };

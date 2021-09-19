@@ -5,17 +5,28 @@ import planetAPI from '../service/planetAPI';
 
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
+  const [dataFiltered, setDataFiltered] = useState([]);
+  const [filter, setFilter] = useState(
+    { filterByName: { name: '' } },
+  );
 
   useEffect(() => {
     const handleAPIRequest = async () => {
       const APIreturn = await planetAPI();
-      setData(APIreturn);
+      const dataAPI = APIreturn
+        .filter((item) => delete item.residents);
+      setData(dataAPI);
     };
     handleAPIRequest();
   }, []);
 
   const contextValue = {
     data,
+    setData,
+    filter,
+    setFilter,
+    dataFiltered,
+    setDataFiltered,
   };
 
   return (
