@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import MyContext from '../Context/MyContext';
+import FiltersOptions from './FiltersOptions';
 import InputFilter from './InputFilter';
 
 function Table() {
@@ -23,6 +24,7 @@ function Table() {
   return (
     <div>
       <InputFilter onChange={ onChangeInputFilter } />
+      <FiltersOptions />
       <table>
         <tr>
           <th>Name</th>
