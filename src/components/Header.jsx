@@ -11,9 +11,11 @@ function Header() {
     comparison: 'maior que',
     value: 0,
   };
+  const initialColumn = ['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+
   const [inputValues, setInputValues] = useState(INITIAL_INPUT_VALUE);
-  const [columnFilters, setColumnFilters] = useState(['population',
-    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const [columnFilters, setColumnFilters] = useState(initialColumn);
 
   const comparisonFilters = ['maior que', 'igual a', 'menor que'];
 
@@ -27,7 +29,8 @@ function Header() {
 
   const handleClick = () => {
     handleFilter();
-    const filterColumn = columnFilters.filter((column) => column !== inputValues.column);
+    setColumnFilters(initialColumn);
+    const filterColumn = initialColumn.filter((column) => column !== inputValues.column);
     setColumnFilters(filterColumn);
   };
 
