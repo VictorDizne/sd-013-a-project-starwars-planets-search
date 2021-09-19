@@ -16,6 +16,7 @@ function App() {
     <PlanetsProvider>
       <main>
         <SearchForm />
+        <br />
         <Table />
       </main>
     </PlanetsProvider>

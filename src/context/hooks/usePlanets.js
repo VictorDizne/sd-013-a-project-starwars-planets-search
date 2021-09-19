@@ -9,12 +9,14 @@ const usePlanets = () => {
     data,
     filters,
     setFilters,
+    applyCompareFilter,
   } = useContext(Planets);
 
   return {
     data,
     filters,
     setFilters,
+    applyCompareFilter,
   };
 };
 
