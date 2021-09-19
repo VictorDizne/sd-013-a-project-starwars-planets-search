@@ -22,7 +22,7 @@ function PlanetProvider({ children }) {
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
   useEffect(() => {
-    const filterPlanets = tableData
+    const filterPlanets = !filters.filterByName.name ? '' : tableData
       .filter((planet) => planet.name.toLowerCase().includes(filters.filterByName.name));
     setFilteredPlanets(filterPlanets);
   }, [filters, tableData]);
@@ -40,6 +40,9 @@ function PlanetProvider({ children }) {
     if (target.id === 'name') {
       setFilters({ filterByName: { name: target.value } });
     }
+    // if (target.id === 'selectFilter') {
+    //   setFilters({ filterByNumericValues: { column: target.value } });
+    // }
   };
 
   useEffect(() => {
