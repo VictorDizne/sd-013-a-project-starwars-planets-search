@@ -7,6 +7,7 @@ const Context = createContext();
 function PlanetProvider({ children }) {
   const [data, setData] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -19,6 +20,8 @@ function PlanetProvider({ children }) {
   const context = {
     planets: data,
     isFetching,
+    filters,
+    setFilters,
   };
 
   return (
