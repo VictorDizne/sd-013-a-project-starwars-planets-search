@@ -7,9 +7,25 @@ import StarWarsPlanetsContext from './StarWarsPlanetsContext';
 const StarWarsPlanetsProvider = ({ children }) => {
   const [data, setData] = useState();
 
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
+
   const fetchPlanetsData = async () => {
     const planetsData = await fetchPlanets();
     setData(planetsData);
+  };
+
+  const filterByName = (event) => {
+    const { value } = event.target;
+    setFilters({
+      ...filters,
+      filterByName: {
+        name: value,
+      },
+    });
   };
 
   useEffect(() => {
@@ -19,6 +35,8 @@ const StarWarsPlanetsProvider = ({ children }) => {
   const context = {
     data,
     setData,
+    filters,
+    filterByName,
   };
 
   return (
