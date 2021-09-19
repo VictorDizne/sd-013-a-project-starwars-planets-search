@@ -1,44 +1,25 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import useMountEffect from '../hooks/useMountEffect';
 import PlanetsContext from './PlanetsContext';
 
-const initialFilter = {
+const INITIAL_FILTER = {
   filterByName: {
     name: '',
   },
+  filterByNumericValues: [],
 };
+
+const INITIAL_OPTIONS = ['population',
+  'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
 const PlanetsContextProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
-  const [filter, setFilter] = useState(initialFilter);
-
-  const fetchPlanets = () => {
-    const fetching = async () => {
-      if (!data || isFetching) return false;
-      setIsFetching(true);
-
-      const res = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
-      const json = await res.json();
-      const dataResults = json.results;
-
-      dataResults.forEach((result) => {
-        delete result.residents;
-      });
-
-      setData([...json.results]);
-      console.log(data);
-      setIsFetching(false);
-    };
-
-    fetching();
-  };
-
-  useMountEffect(fetchPlanets);
+  const [filter, setFilter] = useState(INITIAL_FILTER);
+  const [options, setOptions] = useState(INITIAL_OPTIONS);
 
   const context = {
-    data, setData, isFetching, filter, setFilter,
+    data, setData, isFetching, setIsFetching, filter, setFilter, options, setOptions,
   };
 
   return (
