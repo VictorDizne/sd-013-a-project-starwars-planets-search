@@ -4,7 +4,19 @@ import { fetchPlanets } from '../services/fetchApi';
 import PlanetsContext from './PlanetsContext';
 
 const PlanetsProvider = ({ children }) => {
+  const initialFilters = {
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [],
+    order: {
+      column: 'Name',
+      sort: 'ASC',
+    },
+  };
+
   const [planets, setPlanets] = useState([]);
+  const [filters, setFilters] = useState(initialFilters);
 
   const fetchApi = async () => {
     try {
@@ -19,8 +31,10 @@ const PlanetsProvider = ({ children }) => {
     fetchApi();
   }, []);
 
+  const value = { planets, filters, setFilters };
+
   return (
-    <PlanetsContext.Provider value={ planets }>
+    <PlanetsContext.Provider value={ value }>
       {children}
     </PlanetsContext.Provider>
   );

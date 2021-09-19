@@ -1,8 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
+const oneless = -1;
+
 const Planets = () => {
-  const planets = useContext(PlanetsContext);
+  const { planets, filters } = useContext(PlanetsContext);
+  const [newPlanets, setNewPlanets] = useState([]);
+
+  const filteredPlanets = ({ filterByName }, defaultPlanets) => {
+    const { name } = filterByName;
+    const newArrayPlanets = defaultPlanets.filter((planet) => (
+      planet.name.includes(name)
+    ));
+
+    newArrayPlanets.sort((a, b) => {
+      if (a.name > b.name) return 1;
+      if (a.name < b.name) return oneless;
+      return 0;
+    });
+    return newArrayPlanets;
+  };
+
+  useEffect(() => {
+    setNewPlanets(filteredPlanets(filters, planets));
+  }, [filters, planets]);
 
   return (
     <div>
@@ -25,27 +46,26 @@ const Planets = () => {
           </tr>
         </thead>
         <tbody>
-          { planets
-            .map(({ name, rotation_period: rotationPeriod,
-              orbital_period: orbitalPeriod, diameter, climate, gravity, terrain,
-              surface_water: surfaceWater, population, films, created, edited },
-            id) => (
-              <tr key={ name }>
-                <td>{ id + 1 }</td>
-                <td>{name}</td>
-                <td>{rotationPeriod}</td>
-                <td>{orbitalPeriod}</td>
-                <td>{diameter}</td>
-                <td>{climate}</td>
-                <td>{gravity}</td>
-                <td>{terrain}</td>
-                <td>{surfaceWater}</td>
-                <td>{population}</td>
-                <td>{films}</td>
-                <td>{created.split('T')[0]}</td>
-                <td>{edited.split('T')[0]}</td>
-              </tr>
-            )) }
+          { newPlanets.map(({ name, rotation_period: rotationPeriod,
+            orbital_period: orbitalPeriod, diameter, climate, gravity, terrain,
+            surface_water: surfaceWater, population, films, created, edited },
+          id) => (
+            <tr key={ name }>
+              <td>{ id + 1 }</td>
+              <td>{name}</td>
+              <td>{rotationPeriod}</td>
+              <td>{orbitalPeriod}</td>
+              <td>{diameter}</td>
+              <td>{climate}</td>
+              <td>{gravity}</td>
+              <td>{terrain}</td>
+              <td>{surfaceWater}</td>
+              <td>{population}</td>
+              <td>{films}</td>
+              <td>{created.split('T')[0]}</td>
+              <td>{edited.split('T')[0]}</td>
+            </tr>
+          )) }
         </tbody>
       </table>
     </div>

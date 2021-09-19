@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import InputFilters from './Components/InputFilters';
 import PlanetsProvider from './context/PlanetsProvider';
 import Planets from './pages/Planets';
 
@@ -8,6 +9,7 @@ function App() {
     <PlanetsProvider>
       <span>
         Hello, App!
+        <InputFilters />
         <Planets />
       </span>
     </PlanetsProvider>
