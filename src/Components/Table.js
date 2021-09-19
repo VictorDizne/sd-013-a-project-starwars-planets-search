@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { InputFilter, FiltersOptions } from './index';
 import MyContext from '../Context/MyContext';
-import FiltersOptions from './FiltersOptions';
-import InputFilter from './InputFilter';
 
 function Table() {
   const { data, setData } = useContext(MyContext);
