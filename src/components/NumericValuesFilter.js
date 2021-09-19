@@ -3,7 +3,7 @@ import { Context } from '../context/PlanetProvider';
 
 const initialState = {
   column: 'population',
-  comparison: 'gt',
+  comparison: 'maior que',
   value: '',
 };
 
@@ -52,15 +52,15 @@ function NumericValuesFilter() {
           onChange={ ({ target }) => handleChange(target) }
           data-testid="comparison-filter"
         >
-          <option value="gt">maior que</option>
-          <option value="eq">igual a</option>
-          <option value="lt">menor que</option>
+          <option value="maior que">maior que</option>
+          <option value="igual a">igual a</option>
+          <option value="menor que">menor que</option>
         </select>
       </label>
       <label htmlFor="value">
         <input
           name="value"
-          type="number"
+          type="string"
           value={ value }
           onChange={ ({ target }) => handleChange(target) }
           data-testid="value-filter"

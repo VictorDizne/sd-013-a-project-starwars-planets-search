@@ -29,7 +29,21 @@ function PlanetProvider({ children }) {
     filterPlanets(result);
   }, [filters.filterByName.name, data]);
 
+  const getOperator = (filter) => {
+    const { column, comparison, value } = filter;
+
+    const gt = (planet) => Number(planet[column]) > Number(value);
+    const lt = (planet) => Number(planet[column]) < Number(value);
+    const eq = (planet) => Number(planet[column]) === Number(value);
+    if (comparison === 'maior que') return gt;
+    if (comparison === 'menor que') return lt;
+    return eq;
+  };
+
   const addFilter = (filter) => {
+    const newFilteredPlanets = filteredPlanets.filter(getOperator(filter));
+    filterPlanets(newFilteredPlanets);
+
     setFilters({
       ...filters,
       filterByNumericValues: [
