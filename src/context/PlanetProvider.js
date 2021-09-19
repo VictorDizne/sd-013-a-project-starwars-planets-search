@@ -8,6 +8,7 @@ function PlanetProvider({ children }) {
   const [data, setData] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filteredPlanets, filterPlanets] = useState([]);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -17,8 +18,14 @@ function PlanetProvider({ children }) {
     getPlanets();
   }, []);
 
+  useEffect(() => {
+    const userInput = filters.filterByName.name;
+    const result = data.filter((planet) => planet.name.includes(userInput));
+    filterPlanets(result);
+  }, [filters.filterByName.name, data]);
+
   const context = {
-    planets: data,
+    planets: filteredPlanets,
     isFetching,
     filters,
     setFilters,

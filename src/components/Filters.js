@@ -4,6 +4,10 @@ import { Context } from '../context/PlanetProvider';
 function Filters() {
   const { filters, setFilters } = useContext(Context);
 
+  const handleChange = (userInput) => {
+    setFilters({ ...filters, filterByName: { name: userInput } });
+  };
+
   return (
     <form>
       <label htmlFor="planetName">
@@ -11,7 +15,7 @@ function Filters() {
         <input
           name="planetName"
           type="text"
-          onChange={ (e) => setFilters({ ...filters, filterByName: { name: e.target.value } }) }
+          onChange={ (e) => handleChange(e.target.value) }
           data-testid="name-filter"
         />
       </label>
