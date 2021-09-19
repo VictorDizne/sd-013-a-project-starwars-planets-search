@@ -2,20 +2,13 @@ import React, { useContext } from 'react';
 import StarWarsContext from './StarWarsContext';
 
 const EspecificFilters = () => {
-  const { isFetching, handleChange, handleClick } = useContext(StarWarsContext);
-  const optionA = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
-
-  const optionB = [
-    'maior que',
-    'menor que',
-    'igual a',
-  ];
+  const {
+    dropdowns,
+    isFetching,
+    handleChange,
+    handleClick,
+  } = useContext(StarWarsContext);
+  const { optionA, optionB } = dropdowns;
 
   const elements = (
     <div

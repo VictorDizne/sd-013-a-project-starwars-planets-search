@@ -7,15 +7,33 @@ const StarWarsProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [key, setKey] = useState([]);
-  const [search, setSearch] = useState(false);
+  const [search, setSearch] = useState({
+    column: '',
+    comparison: '',
+    value: '',
+  });
+  const [dropdowns, setDropdowns] = useState({
+    optionA: [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ],
+    optionB: [
+      'maior que',
+      'menor que',
+      'igual a',
+    ],
+  });
   const [filters, setFilters] = useState({
     filters: {
       filterByName: { name: '' },
-      filterByNumericValues: [{
+      filterByNumericValues: {
         column: '',
         comparison: '',
         value: '',
-      }],
+      },
     },
   });
 
@@ -31,18 +49,19 @@ const StarWarsProvider = ({ children }) => {
 
   const handleSearch = () => {
     const { name } = filterByName;
-    const { column, value = 0, comparison } = filterByNumericValues[0];
-    if (search && comparison === 'maior que') {
+    const { column, comparison, value } = search;
+
+    if (comparison === 'maior que') {
       return data
         .filter((e) => e.name.toLowerCase().includes(name.toLocaleLowerCase()))
         .filter((e) => e[column] > Number(value));
     }
-    if (search && comparison === 'menor que') {
+    if (comparison === 'menor que') {
       return data
         .filter((e) => e.name.toLowerCase().includes(name.toLocaleLowerCase()))
         .filter((e) => e[column] < Number(value));
     }
-    if (search && comparison === 'igual a') {
+    if (comparison === 'igual a') {
       return data
         .filter((e) => e.name.toLowerCase().includes(name.toLocaleLowerCase()))
         .filter((e) => e[column] === value);
@@ -51,10 +70,26 @@ const StarWarsProvider = ({ children }) => {
       .filter((e) => e.name.toLowerCase().includes(name.toLocaleLowerCase()));
   };
 
-  const filteredData = handleSearch();
+  const handleOptions = () => {
+    const { column, comparison } = filterByNumericValues;
+    const { optionA, optionB } = dropdowns;
+
+    setDropdowns({
+      optionA: optionA
+        .filter((option) => option !== column),
+      optionB: optionB
+        .filter((option) => option !== comparison),
+    });
+  };
 
   const handleClick = () => {
-    setSearch(true);
+    const { column, value, comparison } = filterByNumericValues;
+    setSearch({
+      column,
+      comparison,
+      value,
+    });
+    handleOptions();
   };
 
   const handleChange = ({ target }) => {
@@ -70,10 +105,10 @@ const StarWarsProvider = ({ children }) => {
     return setFilters({
       filters: {
         filterByName,
-        filterByNumericValues: [{
-          ...filterByNumericValues[0],
+        filterByNumericValues: {
+          ...filterByNumericValues,
           [name]: value,
-        }],
+        },
       },
     });
   };
@@ -82,7 +117,10 @@ const StarWarsProvider = ({ children }) => {
     fetchPlanets();
   }, []);
 
+  const filteredData = handleSearch();
+
   const context = {
+    dropdowns,
     filteredData,
     isFetching,
     key,
@@ -93,7 +131,7 @@ const StarWarsProvider = ({ children }) => {
 
   return (
     <StarWarsContext.Provider value={ context }>
-      { children }
+      {children}
     </StarWarsContext.Provider>
   );
 };
