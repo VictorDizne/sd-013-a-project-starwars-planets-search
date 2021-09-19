@@ -23,6 +23,15 @@ function Provider({ children }) {
     });
   };
 
+  const deleteClick = (column) => {
+    setFilter({
+      ...filter,
+      filterByNumerics: [
+        ...filter.filterByNumerics.filter((f) => f.column !== column),
+      ],
+    });
+  };
+
   useEffect(() => {
     const API = 'https://swapi-trybe.herokuapp.com/api/planets/';
     async function fetchData() {
@@ -33,7 +42,7 @@ function Provider({ children }) {
     fetchData();
   }, []);
 
-  const context = { data, filter, handleChange, handleClick };
+  const context = { data, filter, handleChange, handleClick, deleteClick };
 
   return (
     <PlanetsContext.Provider value={ context }>

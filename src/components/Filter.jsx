@@ -5,9 +5,10 @@ const columnField = ['population', 'orbital_period', 'diameter',
   'rotation_period', 'surface_water'];
 
 const comparisonField = ['', 'maior que', 'menor que', 'igual a'];
+const FIVE = 5;
 
 function Filter() {
-  const { handleChange, handleClick, filter } = (
+  const { handleChange, handleClick, filter, deleteClick } = (
     useContext(PlanetsContext)
   );
   const [localFilter, setLocalFilter] = useState({
@@ -33,6 +34,31 @@ function Filter() {
       ...localFilter,
       [name]: value,
     });
+  };
+
+  const createFilterArea = () => {
+    if (filters.length < FIVE) {
+      return (
+        <div>
+          {
+            filter.filterByNumerics.map(({ column, comparison, value }, index) => (
+              <div key={ index } data-testid="filter">
+                {
+                  `${column} ${comparison} ${value}`
+                }
+                <button
+                  type="button"
+                  onClick={ () => deleteClick(column) }
+                >
+                  X
+                </button>
+              </div>
+            ))
+          }
+        </div>
+      );
+    }
+    return '';
   };
 
   return (
@@ -88,6 +114,9 @@ function Filter() {
       >
         Adicionar Filtro
       </button>
+      <div>
+        {createFilterArea()}
+      </div>
     </form>
   );
 }

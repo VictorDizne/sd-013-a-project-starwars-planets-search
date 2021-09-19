@@ -13,11 +13,11 @@ function Table() {
     const { filterByName: name, filterByNumerics } = filter;
 
     const filterPlanets = () => {
-      const nameFilter = data.filter((planet) => planet.name.includes(name));
+      let nameFilter = data.filter((planet) => planet.name.includes(name));
 
-      if (filterByNumerics.length > 0) {
-        const { column, comparison, value } = filterByNumerics[0];
-        const applyFilter = nameFilter.filter((planet) => {
+      filterByNumerics.forEach((f) => {
+        const { column, comparison, value } = f;
+        nameFilter = nameFilter.filter((planet) => {
           switch (comparison) {
           case 'maior que':
             return parseInt(planet[column], 10) > value;
@@ -29,9 +29,7 @@ function Table() {
             return '';
           }
         });
-        return applyFilter;
-      }
-
+      });
       return nameFilter;
     };
 
@@ -42,13 +40,17 @@ function Table() {
   return (
     <div>
       <table>
-        <tr>
-          {headers.map((field, index) => <th key={ index }>{ field }</th>)}
-        </tr>
-        { planets.map((planet) => (
-          <tr key={ planet.name }>
-            { headers.map((field, index) => <td key={ index }>{ planet[field] }</td>)}
-          </tr>))}
+        <thead>
+          <tr>
+            {headers.map((field, index) => <th key={ index }>{ field }</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          { planets.map((planet) => (
+            <tr key={ planet.name }>
+              { headers.map((field, index) => <td key={ index }>{ planet[field] }</td>)}
+            </tr>))}
+        </tbody>
       </table>
     </div>
   );
