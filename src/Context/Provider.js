@@ -19,6 +19,8 @@ function Provider({ children }) {
         value: '0',
       }],
   });
+  // APENAS PARA O LINT
+  console.log(backup);
 
   // Fetches the data from the API and sets Loading to false
   useEffect(() => {
@@ -26,7 +28,6 @@ function Provider({ children }) {
       const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
       const APIdata = await response.json();
       setData(APIdata.results);
-      setBackup(APIdata.results);
       setLoading(false);
     }
     fetchData();
@@ -42,21 +43,21 @@ function Provider({ children }) {
       [...filterByNumericValues].forEach((filter) => {
         switch (filter.comparison) {
         case 'maior que': {
-          const biggerThan = filteredPlanets.current
+          const biggerThan = [...filteredPlanets.current]
             .filter((item) => Number(item[filter.column])
             > Number(filter.value));
           filteredPlanets.current = biggerThan;
           break;
         }
         case 'menor que': {
-          const lesserThan = filteredPlanets.current
+          const lesserThan = [...filteredPlanets.current]
             .filter((item) => Number(item[filter.column])
             < Number(filter.value));
           filteredPlanets.current = lesserThan;
           break;
         }
         case 'igual a': {
-          const equalsTo = filteredPlanets.current
+          const equalsTo = [...filteredPlanets.current]
             .filter((item) => Number(item[filter.column])
             === Number(filter.value));
           filteredPlanets.current = equalsTo;
@@ -74,9 +75,9 @@ function Provider({ children }) {
     } else {
       firstRender.current = false;
     }
-  }, [filters, data]);
+  }, [filters, data, filteredPlanets]);
 
-  const value = { data, backup, loading, filters, setFilters, setBackup };
+  const value = { data, filteredPlanets, loading, filters, setFilters };
   return (
     <starWarsContext.Provider value={ value }>
       { children }

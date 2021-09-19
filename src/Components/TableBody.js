@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import starWarsContext from '../Context';
 
 function TableBody() {
-  const { backup } = useContext(starWarsContext);
-  const backupEntries = Object.entries(backup);
+  const { filteredPlanets } = useContext(starWarsContext);
+  const filteredPlanetsEntries = Object.entries(filteredPlanets.current);
   return (
     <tbody>
-      { backupEntries.map((planet, index) => (
+      { filteredPlanetsEntries.map((planet, index) => (
         <tr key={ index }>
           {Object.entries(planet[1])
             .map((info, infoIndex) => {
