@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { InputFilter, FiltersOptions } from './index';
+import InputFilter from './InputFilter';
+import FiltersOptions from './FiltersOptions';
 import MyContext from '../Context/MyContext';
 
 function Table() {
@@ -16,8 +17,8 @@ function Table() {
     requestApi();
   }, []);
 
-  const onChangeInputFilter = (e) => {
-    setNameFilt(e.target.value);
+  const onChangeInputFilter = ({ target }) => {
+    setNameFilt(target.value);
   };
 
   return (
