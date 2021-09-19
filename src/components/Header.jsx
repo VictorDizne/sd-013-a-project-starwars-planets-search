@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import useFilters from '../hooks/useFilters';
 import MyContext from '../context/MyContext';
-import { Input, Select } from '.';
+import { Input, Select, Filters } from '.';
 
 function Header() {
   const { setQueryValue, setNumFilters } = useContext(MyContext);
@@ -12,9 +12,9 @@ function Header() {
     value: 0,
   };
   const [inputValues, setInputValues] = useState(INITIAL_INPUT_VALUE);
+  const [columnFilters, setColumnFilters] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
 
-  const columnFilters = ['population',
-    'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
   const comparisonFilters = ['maior que', 'igual a', 'menor que'];
 
   const handleFilterChange = ({ target: { name, value } }) => {
@@ -27,6 +27,8 @@ function Header() {
 
   const handleClick = () => {
     handleFilter();
+    const filterColumn = columnFilters.filter((column) => column !== inputValues.column);
+    setColumnFilters(filterColumn);
   };
 
   const handleSubmit = (event) => {
@@ -80,6 +82,7 @@ function Header() {
           Adicionar Filtro
         </button>
       </form>
+      <Filters />
     </header>
   );
 }
