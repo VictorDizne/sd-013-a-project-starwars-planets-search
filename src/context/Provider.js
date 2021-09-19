@@ -26,6 +26,7 @@ function Provider({ children }) { // PASSANDO O CHILDREN DESESTRUTURADO
     setFilter({ // SETANDO UM NOVO ESTADO COM O SETFILTER, ATUALIZANDO FILTERS
       ...filter,
       filters: {
+        ...filter.filters,
         filterByName: { ...filterByName, name: newName },
       },
     });

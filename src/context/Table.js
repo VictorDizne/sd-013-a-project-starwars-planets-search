@@ -25,12 +25,53 @@ function Table() {
     getPlanetsInfo(); // CHAMA A FUNCAO
   }, [results]); // PASSAR RESULTS DENTRO DO ARRAY.
 
-  const renderPlanetRow = () => { // FUNCAO QUE RENDERIZA AS INFORMACOES DE CADA PLANETA NAS LINHAS
+  const filterByName = () => {
     const { filters: { filterByName: { name: filterName } } } = filter;
-    const filteredPlanets = planetsInfo // PEGA O ESTADO PLANETSINFO E FILTRA
+    const filteredPlanetsByName = planetsInfo // PEGA O ESTADO PLANETSINFO E FILTRA
       .filter(({ name }) => name.toLowerCase().includes(filterName)); // VERIFICA SE O NOME ESTÁ INCLUSO EM FILTERNAME
 
-    return filteredPlanets.map((planet) => { // RETORNA A VARIAVEL FAZENDO UM MAP NOS PLANETAS FILTRADOS
+    return filteredPlanetsByName;
+  };
+
+  const filterBySelect = (filteredPlanetsByName) => {
+    const { filters: { filterByNumericValues } } = filter;
+
+    if (!filterByNumericValues || filterByNumericValues.length === 0) {
+      return filteredPlanetsByName;
+    }
+
+    const { comparison, value, column } = filterByNumericValues[0];
+
+    if (comparison === 'maior que') {
+      return filteredPlanetsByName.filter((item) => {
+        const valorParaSeComparar = Number(item[column]);
+
+        return valorParaSeComparar > Number(value);
+      });
+    }
+
+    if (comparison === 'menor que') {
+      return filteredPlanetsByName.filter((item) => {
+        const valorParaSeComparar = Number(item[column]);
+
+        return valorParaSeComparar < Number(value);
+      });
+    }
+
+    if (comparison === 'igual a') {
+      return filteredPlanetsByName.filter((item) => {
+        const valorParaSeComparar = Number(item[column]);
+
+        return valorParaSeComparar === Number(value);
+      });
+    }
+  };
+
+  const renderPlanetRow = () => { // FUNCAO QUE RENDERIZA AS INFORMACOES DE CADA PLANETA NAS LINHAS
+    const filteredPlanetsByName = filterByName();
+    const planetsFilteredByNumericValues = filterBySelect(filteredPlanetsByName);
+
+    return planetsFilteredByNumericValues.map((planet) => { // RETORNA A VARIAVEL FAZENDO UM MAP NOS PLANETAS FILTRADOS
       const plantetInfos = Object.values(planet); // PEGANDO PLANETA POR PLANETA E VENDO SE O VALOR DELE CONTEM PLANETA
       return ( // RETORNA A TABELA PASSANDO COMO KEY O NOME DO PLANETA
         <tr key={ planet.name }>

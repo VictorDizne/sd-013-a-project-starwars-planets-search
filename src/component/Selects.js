@@ -27,7 +27,6 @@ function Select() {
       .map((option) => <option key={ option }>{ option }</option>);
     return comparisonMap;
   };
-
   // QUANDO HÁ UM CLICK NO SELECT A FUNCAO EXECUTA:
   const handleChange = (event) => {
     // MUDANDO O ESTADO DO SELECT
