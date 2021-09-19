@@ -10,7 +10,7 @@ const PlanetsProvider = ({ children }) => {
     },
     filterByNumericValues: [],
     order: {
-      column: 'Name',
+      column: 'name',
       sort: 'ASC',
     },
   };
