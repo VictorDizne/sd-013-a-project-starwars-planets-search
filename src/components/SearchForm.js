@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import context from '../context/context';
+import RowOrder from './RowOrder';
 
 const SearchForm = () => {
   const {
     filters: { filterByName: { name, setName }, filterByNumericValues },
     setFilters: { setNumericFilters },
+    data,
   } = useContext(context);
 
   const [columns] = useState(['population', 'orbital_period', 'diameter',
@@ -81,6 +83,7 @@ const SearchForm = () => {
       >
         Adicionar Filtro
       </button>
+      {data.length > 0 && <RowOrder />}
     </form>
   );
 };

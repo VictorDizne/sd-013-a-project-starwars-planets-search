@@ -3,16 +3,25 @@ import PropTypes from 'prop-types';
 import context from './context';
 import useFetch from '../hooks/useFetch';
 
-const FETCH_URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
-
 const ContextProvider = ({ children }) => {
-  const { data } = useFetch(FETCH_URL);
-
   const [name, setName] = useState('');
   const [numericFilters, setNumericFilters] = useState([]);
 
+  const [sort, setSort] = useState('ASC');
+  const [columnOption, setColumnOption] = useState('name');
+  const { data } = useFetch();
+
+  const [filteredData, setFilteredData] = useState(data);
+
+  const getTitles = () => {
+    delete data[0].url;
+    return Object.keys(data[0]);
+  };
+
   const contextValue = {
     data,
+    filteredData,
+    setFilteredData,
     filters: {
       filterByName: {
         name,
@@ -20,15 +29,19 @@ const ContextProvider = ({ children }) => {
       },
       filterByNumericValues: numericFilters,
       order: {
-        column: 'Name',
-        sort: 'ASC',
+        columnOption,
+        sort,
+        sortSetters: {
+          setSort,
+          setColumnOption,
+        },
       },
     },
     setFilters: {
       setName,
       setNumericFilters,
     },
-
+    getTitles,
   };
 
   return (

@@ -9,8 +9,6 @@ const Table = () => {
     filters: { filterByName: { name }, filterByNumericValues },
   } = useContext(context);
 
-  useEffect(() => {}, [filterByNumericValues]);
-
   if (data.length < 1) return <Loading />;
 
   const getTitles = () => {
@@ -30,6 +28,10 @@ const Table = () => {
       });
       return afterFilter;
     }, data);
+
+  // useEffect(() => {
+  //   filterNumericValues();
+  // }, [filterByNumericValues, filterNumericValues]);
 
   return (
     <table>
