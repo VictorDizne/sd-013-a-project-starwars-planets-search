@@ -4,7 +4,7 @@ import MyContext from '../context/MyContext';
 import { Input, Select } from '.';
 
 function Header() {
-  const { setQueryValue, setNumFilters } = useContext(MyContext);
+  const { setQueryValue, numFilters, setNumFilters } = useContext(MyContext);
   const [handleFilter] = useFilters();
   const INITIAL_INPUT_VALUE = {
     column: 'population',
@@ -17,18 +17,18 @@ function Header() {
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
   const comparisonFilters = ['maior que', 'igual a', 'menor que'];
 
-  const handleFilterChange = ({ target: { name, value } }) => (
-    setInputValues({ ...inputValues, [name]: value })
-  );
+  const handleFilterChange = ({ target: { name, value } }) => {
+    setInputValues({ ...inputValues, [name]: value });
+    setNumFilters({ ...numFilters, [name]: value });
+  };
 
   const handleClick = () => {
-    setNumFilters(inputValues);
+    handleFilter();
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    handleFilter();
     const columnFilter = document.getElementById(columnFilters[0]);
     const comparisonFilter = document.getElementById(comparisonFilters[0]);
 
