@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import Filters from '../components/Filters';
 import Table from '../components/Table';
-import myContext from '../context';
 
 export default function Home() {
-  useContext(myContext);
   return (
     <div>
       <h1>Home</h1>
+      <Filters />
       <Table />
     </div>
   );

@@ -1,11 +1,8 @@
-import React, { useContext } from 'react';
-import myContext from '../context';
+import React from 'react';
 import TableHeader from './TableHeader';
 import TableContent from './TableContent';
 
 function Table() {
-  const contextValue = useContext(myContext).data;
-  console.log(contextValue);
   return (
     <div className="main">
       <table>
