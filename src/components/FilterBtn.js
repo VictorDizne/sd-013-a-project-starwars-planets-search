@@ -2,13 +2,14 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 const FilterBtn = () => {
-  const { filter, setFilter } = useContext(PlanetsContext);
+  const { filter, setFilter, options, setOptions } = useContext(PlanetsContext);
 
   const handleFilterDiv = ({ target }) => {
     const filterDivFilter = filter.filterByNumericValues.filter(
       (f) => f.column !== target.name,
     );
     setFilter({ ...filter, filterByNumericValues: [...filterDivFilter] });
+    setOptions([...options, target.name]);
   };
 
   return filter.filterByNumericValues
