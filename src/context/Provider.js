@@ -9,23 +9,27 @@ const initialState = {
       filterByName: {
         name: '',
       },
-      filterByNumericValues: [
-        {
-          column: '',
-          comparison: '',
-          value: '',
-        },
-      ],
+      filterByNumericValues: [],
     },
 };
 
 function Provider({ children }) {
   const [swapi, setSwapi] = useState();
 
+  const setfilterByNumericValues = (objectAdd) => {
+    setSwapi({ ...swapi,
+      filters: { ...swapi.filters,
+        filterByNumericValues: [
+          ...swapi.filters.filterByNumericValues,
+          objectAdd,
+        ],
+      },
+    });
+  };
+
   const setnameOfThePlanet = (event) => {
     setSwapi({ ...swapi,
-      filters: {
-
+      filters: { ...swapi.filters,
         filterByName: {
           name: event.target.value,
         },
@@ -43,7 +47,11 @@ function Provider({ children }) {
   }, []);
 
   return (
-    <ContextSwapi.Provider value={ { swapi, setnameOfThePlanet } }>
+    <ContextSwapi.Provider
+      value={ {
+        swapi, setnameOfThePlanet, setfilterByNumericValues,
+      } }
+    >
       {children}
     </ContextSwapi.Provider>
   );
