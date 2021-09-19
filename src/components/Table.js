@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import useMountEffect from '../hooks/useMountEffect';
+import FilterBtn from './FilterBtn';
 
 const Table = () => {
   const [filtered, setFiltered] = useState([]);
@@ -56,44 +57,47 @@ const Table = () => {
   useEffect(setFilteredPlanets, [filter]);
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>name</th>
-          <th>rotation_period</th>
-          <th>orbital_period</th>
-          <th>diameter</th>
-          <th>climate</th>
-          <th>gravity</th>
-          <th>terrain</th>
-          <th>surface_water</th>
-          <th>population</th>
-          <th>films</th>
-          <th>created</th>
-          <th>edited</th>
-          <th>url</th>
-        </tr>
-      </thead>
-      <tbody>
-        {filtered && filtered.map((p, i) => (
-          <tr key={ `${p.name} ${i}` }>
-            <td key={ p.name }>{p.name}</td>
-            <td key={ p.rotation_period }>{p.rotation_period}</td>
-            <td key={ p.orbital_period }>{p.orbital_period}</td>
-            <td key={ p.diameter }>{p.diameter}</td>
-            <td key={ p.climate }>{p.climate}</td>
-            <td key={ p.gravity }>{p.gravity}</td>
-            <td key={ p.terrain }>{p.terrain}</td>
-            <td key={ p.surface_water }>{p.surface_water}</td>
-            <td key={ p.population }>{p.population}</td>
-            <td key={ p.films }>{p.films}</td>
-            <td key={ p.created }>{p.created}</td>
-            <td key={ p.edited }>{p.edited}</td>
-            <td key={ p.url }>{p.url}</td>
+    <>
+      <FilterBtn />
+      <table>
+        <thead>
+          <tr>
+            <th>name</th>
+            <th>rotation_period</th>
+            <th>orbital_period</th>
+            <th>diameter</th>
+            <th>climate</th>
+            <th>gravity</th>
+            <th>terrain</th>
+            <th>surface_water</th>
+            <th>population</th>
+            <th>films</th>
+            <th>created</th>
+            <th>edited</th>
+            <th>url</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {filtered && filtered.map((p, i) => (
+            <tr key={ `${p.name} ${i}` }>
+              <td key={ p.name }>{p.name}</td>
+              <td key={ p.rotation_period }>{p.rotation_period}</td>
+              <td key={ p.orbital_period }>{p.orbital_period}</td>
+              <td key={ p.diameter }>{p.diameter}</td>
+              <td key={ p.climate }>{p.climate}</td>
+              <td key={ p.gravity }>{p.gravity}</td>
+              <td key={ p.terrain }>{p.terrain}</td>
+              <td key={ p.surface_water }>{p.surface_water}</td>
+              <td key={ p.population }>{p.population}</td>
+              <td key={ p.films }>{p.films}</td>
+              <td key={ p.created }>{p.created}</td>
+              <td key={ p.edited }>{p.edited}</td>
+              <td key={ p.url }>{p.url}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 };
 
