@@ -1,9 +1,29 @@
 import React, { useContext } from 'react';
 import ContextSwapi from '../context/ContextSwapi';
 
+const filterByNumericValue = (data, objContext) => {
+  const { filterByNumericValues: filterList } = objContext.filters;
+
+  if (filterList.length === 0) return data;
+  const { value, column, comparison } = filterList[filterList.length - 1];
+  switch (comparison) {
+  case 'maior que':
+    return Number(data[column]) > Number(value);
+  case 'menor que':
+    return Number(data[column]) < Number(value);
+  case 'igual a':
+    return Number(data[column]) === Number(value);
+  default:
+    return data;
+  }
+};
+
 export default function Table() {
   const { swapi } = useContext(ContextSwapi);
+
   if (!swapi) return null;
+
+  const { name } = swapi.filters.filterByName;
   return (
     <table className="table-container">
       <thead>
@@ -25,8 +45,8 @@ export default function Table() {
       </thead>
       <tbody>
         {swapi.data
-          .filter((data) => data.name.toLowerCase()
-            .includes(swapi.filters.filterByName.name))
+          .filter((data) => data.name.toLowerCase().includes(name))
+          .filter((data) => filterByNumericValue(data, swapi))
           .map((item) => (
             <tr key={ item.name }>
               <td>{item.name}</td>

@@ -15,11 +15,12 @@ export default function SelectFilterForm() {
 
   const addNewObjeto = () => {
     setfilterByNumericValues({
-      value: Number(numberPopulation),
+      value: numberPopulation,
       column: document.getElementById('column-filter').value,
       comparison: document.getElementById('comparison-filter').value,
     });
   };
+
   if (!swapi) return null;
 
   return (
@@ -39,9 +40,9 @@ export default function SelectFilterForm() {
           <option value="surface_water">surface_water</option>
         </select>
         <select name="select" id="comparison-filter" data-testid="comparison-filter">
-          <option value="maior_que">maior que</option>
-          <option value="menor_que">menor que</option>
-          <option value="igual_a">igual a</option>
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
         <input
           type="number"
