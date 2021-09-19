@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import useFilters from '../hooks/useFilters';
 import MyContext from '../context/MyContext';
 import { Input, Select } from '.';
 
 function Header() {
-  const { setQueryValue, numFilters, setNumFilters } = useContext(MyContext);
+  const { setQueryValue, setNumFilters } = useContext(MyContext);
   const [handleFilter] = useFilters();
   const INITIAL_INPUT_VALUE = {
     column: 'population',
@@ -19,8 +19,11 @@ function Header() {
 
   const handleFilterChange = ({ target: { name, value } }) => {
     setInputValues({ ...inputValues, [name]: value });
-    setNumFilters({ ...numFilters, [name]: value });
   };
+
+  useEffect(() => {
+    setNumFilters(inputValues);
+  }, [inputValues, setNumFilters]);
 
   const handleClick = () => {
     handleFilter();
