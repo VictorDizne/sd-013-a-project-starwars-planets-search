@@ -3,7 +3,7 @@ import ContextSwapi from '../context/ContextSwapi';
 
 export default function SelectFilterForm() {
   const [numberPopulation, setNumberPopulation] = useState();
-  const columns_filter = [
+  const columnsFilter = [
     'population',
     'orbital_period',
     'diameter',
@@ -40,7 +40,7 @@ export default function SelectFilterForm() {
           onChange={ setnameOfThePlanet }
         />
         <select name="select" id="column-filter" data-testid="column-filter">
-          {columns_filter
+          {columnsFilter
             .filter((i) => !swapi.filters.filterByNumericValues
               .map((j) => j.column).includes(i))
             .map((i, key) => <option key={ key } value={ i }>{i}</option>)}
