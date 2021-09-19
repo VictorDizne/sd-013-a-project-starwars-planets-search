@@ -14,7 +14,7 @@ function usePlanets() {
         delete planet.residents;
         return object;
       });
-      const removeKey = Object.keys(results[0]).filter((key) => key !== 'residents');
+      const removeKey = Object.keys(results[0]);
 
       setPlanets(removeResidents);
       setPlanetsKeys(removeKey);
