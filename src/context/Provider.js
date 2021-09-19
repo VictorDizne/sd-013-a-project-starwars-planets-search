@@ -3,25 +3,25 @@ import PropTypes from 'prop-types';
 import Context from './Context';
 
 export default function Provider({ children }) {
-  const [urlApi, setUrlApi] = useState('https://swapi-trybe.herokuapp.com/api/planets/');
   const [data, setData] = useState('');
+  const [filters, setFilters] = useState();
 
   const fetchApi = async () => {
-    const response = await fetch(urlApi)
+    const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
       .then((results) => results.json())
       .then((fetchData) => fetchData.results);
     setData(response);
   };
 
   useEffect(() => {
-    if (urlApi !== '') {
+    if (data === '') {
       fetchApi();
     }
-  });
+  }, [data]);
 
   return (
     <main>
-      <Context.Provider value={ { setUrlApi, data } }>
+      <Context.Provider value={ { data, filters, setFilters, setData } }>
         {children}
       </Context.Provider>
     </main>
@@ -29,5 +29,5 @@ export default function Provider({ children }) {
 }
 
 Provider.propTypes = {
-  children: PropTypes.shape({}).isRequired,
+  children: PropTypes.node.isRequired,
 };
