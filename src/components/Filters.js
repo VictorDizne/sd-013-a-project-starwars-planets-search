@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Context } from '../context/PlanetProvider';
+import NumericValuesFilter from './NumericValuesFilter';
 
 function Filters() {
   const { filters, setFilters } = useContext(Context);
@@ -19,6 +20,7 @@ function Filters() {
           data-testid="name-filter"
         />
       </label>
+      <NumericValuesFilter />
     </form>
   );
 }
