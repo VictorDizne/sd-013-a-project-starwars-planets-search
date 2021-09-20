@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import PlanetContext from '../context/PlanetContext';
-import { htmlID } from '../util';
+import PlanetContext from '../../context/PlanetContext';
+import { htmlID } from '../../util';
 
 const Table = () => {
   const { planets } = useContext(PlanetContext);
