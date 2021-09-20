@@ -16,7 +16,7 @@ function Provider({ children }) {
       setData(result);
     };
     GetPlanets();
-  }, []);
+  }, []); // funcao e um array vazio === didMount,renderiza uma vez
 
   return (
     <contextApp.Provider value={ contextValue }>
