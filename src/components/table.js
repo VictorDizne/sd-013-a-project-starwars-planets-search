@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import apiContext from '../contexts/apiContext';
 
 function TableItems() {
-  const { data, loaded } = useContext(apiContext);
+  const { data, loaded, dataFiltered } = useContext(apiContext);
   console.log(data);
   const renderTds = () => {
     if (loaded) {
-      return data.map((el) => (
+      return dataFiltered.map((el) => (
         <tbody key={ el.name }>
           <tr key={ el.name }>
             <td>{el.name}</td>

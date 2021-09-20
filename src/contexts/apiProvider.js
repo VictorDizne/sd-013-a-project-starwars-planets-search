@@ -5,6 +5,18 @@ import apiContext from './apiContext';
 const ApiProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [name, setName] = useState('');
+  const [dataFiltered, setDataFiltered] = useState(data);
+
+  const filtrations = {
+    filters: {
+      filterByName: {
+        name,
+      },
+    },
+  };
+
+  console.log(filtrations);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -23,8 +35,13 @@ const ApiProvider = ({ children }) => {
     // loaded: retorna um true enquanto carrega, e depois um false quando está carregado.
   }, []);
 
+  useEffect(() => {
+    const filteredName = data.filter((i) => i.name.includes(name));
+    setDataFiltered(filteredName);
+  }, [name, data]);
+
   return (
-    <apiContext.Provider value={ { data, loaded } }>
+    <apiContext.Provider value={ { dataFiltered, data, loaded, setName } }>
       {children}
     </apiContext.Provider>
   );
