@@ -6,13 +6,14 @@ const TableManager = () => {
   const [filteredPlanets, setFilteredPlanets] = useState();
   const { filter, planets } = useContext(PlanetContext);
   const [componentDidMount, setComponetDidMount] = useState(false);
-  // const [prevFilter, setPrevFilter] = useState();
+  const [prevFilter, setPrevFilter] = useState();
+  const prevFilters = usePrevious(filter);
 
   useEffect(() => { // ao montar o componente gera uma cópia dos planetas que podem ser filtrados
     if (!componentDidMount) {
       setFilteredPlanets([...planets]);
       setComponetDidMount(true);
-      // setPrevFilter(filter);
+      setPrevFilter(filter);
     }
   }, [componentDidMount, filter, planets]);
 
@@ -20,6 +21,7 @@ const TableManager = () => {
     function filterPlanets() {
       const { filters: { filterByName } } = filter;
       const INPUT_FROM_SEARCHBAR = filterByName.name;
+      console.log(filter, prevFilters);
       const planetData = planets
         .filter((planet) => planet.name.includes(INPUT_FROM_SEARCHBAR));
       return planetData;
@@ -28,7 +30,7 @@ const TableManager = () => {
     if (componentDidMount) {
       setFilteredPlanets(filterPlanets());
     }
-  }, [componentDidMount, filter, planets]);
+  }, [componentDidMount, filter, planets, prevFilters]);
 
   return (
     <Table data={ componentDidMount ? filteredPlanets : planets } />
