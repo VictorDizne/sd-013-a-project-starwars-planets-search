@@ -33,8 +33,8 @@ function Filters() {
     const nameFilter = data
       .filter((planet) => planet.name.toLowerCase().includes(name));
 
-    const numericFilter = nameFilter.filter((planet) => {
-      return filterByNumericValues.every(({ column, comparison, value }) => {
+    const numericFilter = nameFilter.filter((planet) => filterByNumericValues
+      .every(({ column, comparison, value }) => {
         switch (comparison) {
         case ('igual a'):
           return (Number(planet[column]) === Number(value));
@@ -45,8 +45,7 @@ function Filters() {
         default:
           return null;
         }
-      });
-    });
+      }));
     return numericFilter;
   };
 
