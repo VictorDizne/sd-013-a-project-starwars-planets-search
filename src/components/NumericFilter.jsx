@@ -3,10 +3,22 @@ import myContext from '../context';
 
 function NumericFilter() {
   const { handleClickNumeric } = useContext(myContext);
+  // INITIAL STATES
+  const INITIAL_COLUMN = '';
+  const INITIAL_COMPARISON = '';
+  const INITIAL_VALUE = 0;
+  // INITIAL STATES
+
   // STATE COMPONENT
-  const [column, setColumn] = useState('population');
-  const [comparison, setComparison] = useState('maior que');
-  const [value, setValue] = useState(0);
+  const [columnComp, setColumn] = useState(INITIAL_COLUMN);
+  const [comparisonComp, setComparison] = useState(INITIAL_COMPARISON);
+  const [value, setValue] = useState(INITIAL_VALUE);
+  const [comparisonMap, setComparisonMap] = useState(['maior que', 'menor que', 'igual a',
+  ]);
+  const [columnMap, setColumnMap] = useState(['population', 'orbital_period', 'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
   // STATE COMPONENT
 
   // FUNCTION SET STATE COMPONENT
@@ -18,24 +30,39 @@ function NumericFilter() {
   // FUNCTION SET STATE COMPONENT
 
   // INITIAL OPTIONS FOR MAP FILTERS
-  const allOptionsColumn = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
 
-  const allOptionscomparison = [
-    'maior que',
-    'menor que',
-    'igual a',
-  ];
   // INITIAL OPTIONS FOR MAP FILTERS
+  const setStatesOptions = () => {
+    setColumn(INITIAL_COLUMN);
+    setComparison(INITIAL_COMPARISON);
+    setValue(INITIAL_VALUE);
+  };
+
+  const deleteFilter = () => {
+    const allOptionsColumn = [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ];
+
+    const allOptionscomparison = [
+      'maior que',
+      'menor que',
+      'igual a',
+    ];
+
+    setColumnMap(allOptionsColumn.filter((e) => e !== columnComp));
+    setComparisonMap(allOptionscomparison.filter((e) => e !== comparisonComp));
+  };
 
   const onClick = () => {
-    handleClickNumeric(column, comparison, value);
+    handleClickNumeric(columnComp, comparisonComp, value);
+    deleteFilter();
+    setStatesOptions();
   };
+
   return (
     <div>
       <label htmlFor="Column">
@@ -43,10 +70,10 @@ function NumericFilter() {
         <select
           name="Column"
           data-testid="column-filter"
-          value={ column }
+          value={ columnComp }
           onChange={ handleChange }
         >
-          {allOptionsColumn.map((option) => (
+          {columnMap.map((option) => (
             <option key={ option } value={ option }>{option}</option>
           ))}
         </select>
@@ -56,10 +83,10 @@ function NumericFilter() {
         <select
           name="Comparison"
           data-testid="comparison-filter"
-          value={ comparison }
+          value={ comparisonComp }
           onChange={ handleChange }
         >
-          {allOptionscomparison.map((option) => (
+          {comparisonMap.map((option) => (
             <option key={ option } value={ option }>{option}</option>
           ))}
         </select>
@@ -79,7 +106,7 @@ function NumericFilter() {
         data-testid="button-filter"
         onClick={ onClick }
       >
-        Filtrar
+        Filter
       </button>
     </div>
   );

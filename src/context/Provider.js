@@ -56,7 +56,8 @@ function Provider({ children }) {
       setData(filteredListContent);
     });
   },
-  [filters.filterByNumericValues, filters.filterByNumericValues.value, unfilteredData]);
+  [filters.filterByNumericValues, filters.filterByNumericValues.value,
+    unfilteredData]);
   // FUNCTION NUMERIC FILTER
 
   // COMPONENTDIDMOUNT
