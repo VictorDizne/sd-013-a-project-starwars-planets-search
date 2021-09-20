@@ -5,18 +5,12 @@ import apiContext from './apiContext';
 const ApiProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [loaded, setLoaded] = useState(false);
-  const [name, setName] = useState('');
-  const [dataFiltered, setDataFiltered] = useState(data);
-
-  const filtrations = {
-    filters: {
-      filterByName: {
-        name,
-      },
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
     },
-  };
-
-  console.log(filtrations);
+  });
+  const [dataFiltered, setDataFiltered] = useState(data);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -36,12 +30,12 @@ const ApiProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const filteredName = data.filter((i) => i.name.includes(name));
+    const filteredName = data.filter((i) => i.name.includes(filters.filterByName.name));
     setDataFiltered(filteredName);
-  }, [name, data]);
+  }, [data, filters.filterByName.name]);
 
   return (
-    <apiContext.Provider value={ { dataFiltered, data, loaded, setName } }>
+    <apiContext.Provider value={ { dataFiltered, data, loaded, setFilters, filters } }>
       {children}
     </apiContext.Provider>
   );

@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import apiContext from '../contexts/apiContext';
 
 function Filters() {
-  const { setName } = useContext(apiContext);
+  const { setFilters, filters } = useContext(apiContext);
 
   const handleChange = ({ target }) => {
-    setName(target.value);
+    setFilters({ ...filters, filterByName: { name: target.value } });
   };
 
   return (
