@@ -1,5 +1,13 @@
-import React, { createContext } from 'react';
+import { createContext } from 'react';
 
-const PlanetContext = createContext();
+const INITIAL_STATE = {
+  filters: {
+    filterByName: { name: '' },
+    filterByNumericValues: ['nao iniciado'],
+  },
+  planets: ['nao iniciado'],
+};
+
+const PlanetContext = createContext(INITIAL_STATE);
 
 export default PlanetContext;

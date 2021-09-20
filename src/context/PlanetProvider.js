@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetContext from './PlanetContext';
+import { fetchAPI } from '../util';
+import TestContext from './TestContext';
 
 function PlanetProvider({ children }) {
   const [filter, setFilter] = useState({
@@ -9,14 +11,18 @@ function PlanetProvider({ children }) {
       filterByNumericValues: [],
     },
   });
-  const [planets, setPlanets] = useState({});
+  const [planets, setPlanets] = useState([]);
+  // const teste = useContext(TestContext);
+  // const store = { PlanetContext, TextContext: teste };
+  const planetProviderValue = { filter, setFilter, planets, setPlanets };
 
   useEffect(() => {
-    console.log(filter);
-  }, [filter]);
+    const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
+    fetchAPI(url).then((dataPlanets) => setPlanets(dataPlanets.results));
+  }, []);
 
   return (
-    <PlanetContext.Provider value="X">
+    <PlanetContext.Provider value={ planetProviderValue }>
       { children }
     </PlanetContext.Provider>
   );
