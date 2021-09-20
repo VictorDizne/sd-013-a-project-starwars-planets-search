@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import Provider from './Context/Provider';
+import PlanetsProvider from './Context/PlanetsProvider';
 
 ReactDOM.render(
-  <Provider>
+  <PlanetsProvider>
     <App />
-  </Provider>,
+  </PlanetsProvider>,
   document.getElementById('root'),
 );
