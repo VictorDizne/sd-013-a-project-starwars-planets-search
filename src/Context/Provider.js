@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { func } from 'prop-types';
+import { node } from 'prop-types';
 import Context from './Context';
 import getAPIPlanets from '../serviceAPI/PlanetAPI';
 
@@ -13,15 +13,51 @@ function Provider({ children }) {
     },
   };
 
+  const initialColums = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+
+  const initialFilter = {
+    column: 'population',
+    comparison: 'maior que',
+    value: '0',
+  };
+
   const [data, setData] = useState({});
   const [filters, setFilters] = useState(initialState);
+  const [selectColumn] = useState(initialColums);
+  const [selectFilter, setSelectFilter] = useState(initialFilter);
 
-  function handleName({ target: { value } }) {
+  const handleName = ({ target: { value } }) => {
     setFilters({
       ...filters,
       filterByName: { name: value.toLowerCase() },
     });
+  };
+
+  const byNumericValue = (payload) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [...filters.filterByNumericValues, { ...payload }],
+    });
+  };
+
+  function handleFilter(payload) {
+    setSelectFilter({ ...payload });
   }
+
+  // function handleSelect({ target: { value } }) {
+  //   setSelectFilter({
+  //     ...selectFilter,
+  //     column: value });
+  //   setSelectColumn([
+  //     ...initialColums.filter((select) => select !== value),
+  //   ]);
+  // }
 
   useEffect(() => {
     async function fetchPlanets() {
@@ -33,6 +69,11 @@ function Provider({ children }) {
     data,
     handleName,
     filters,
+    selectColumn,
+    handleFilter,
+    selectFilter,
+    byNumericValue,
+    setFilters,
   };
 
   return (
@@ -42,6 +83,8 @@ function Provider({ children }) {
   );
 }
 
-Provider.propTypes = { children: func }.isRequired;
+Provider.propTypes = {
+  children: node.isRequired,
+};
 
 export default Provider;
