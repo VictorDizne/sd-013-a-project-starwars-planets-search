@@ -37,6 +37,18 @@ function Provider({ children }) {
     });
   };
 
+  const delFilterByNumericValues = (key) => {
+    setSwapi({ ...swapi,
+      filters: { ...swapi.filters,
+        filterByNumericValues: [
+          ...swapi.filters.filterByNumericValues.filter(
+            (i) => i.column !== key,
+          ),
+        ],
+      },
+    });
+  };
+
   useEffect(() => {
     const fetchSwipe = async () => {
       const request = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -49,7 +61,10 @@ function Provider({ children }) {
   return (
     <ContextSwapi.Provider
       value={ {
-        swapi, setnameOfThePlanet, setfilterByNumericValues,
+        swapi,
+        setnameOfThePlanet,
+        setfilterByNumericValues,
+        delFilterByNumericValues,
       } }
     >
       {children}
