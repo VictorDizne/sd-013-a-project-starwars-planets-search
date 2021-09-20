@@ -42,7 +42,8 @@ function Select() {
 
   // assim que a funcao comecar já envia o valor do array para o estado
 
-  const noRepeat = () => { // funcao responsavel por filtrar os valores já selecionados e removê-los da column para nao serem mais utilizados
+  // requisito 4 realizado com a ajuda de Lanai Conceição
+  const removeSelectedItems = () => { // funcao responsavel por filtrar os valores já selecionados e removê-los da column para nao serem mais utilizados
     setFilterColumn(columns); // o novo estado de filterColumn é o array columns
     const filtersAllColumnItems = filterColumn
       .filter((itemColumn) => (itemColumn !== selectedFilters.column)); // filtro do que é diferente do que foi selecionado
@@ -51,7 +52,7 @@ function Select() {
 
   const handleClick = () => {
     handleFilterByNumericValues(selectedFilters);
-    noRepeat(); // chamando a funcao que filtrou os itens já selecionados e passa para a funcao que realiza o click para que quando o usuário click no botao após marcar as suas options, o valor já seja filtrado.
+    removeSelectedItems(); // chamando a funcao que filtrou os itens já selecionados e passa para a funcao que realiza o click para que quando o usuário click no botao após marcar as suas options, o valor já seja filtrado.
   };
 
   return (
