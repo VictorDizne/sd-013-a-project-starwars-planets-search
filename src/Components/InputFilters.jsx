@@ -30,7 +30,8 @@ function InputFilters() {
     if (columnOptions.length !== 0) {
       setFilters((state) => ({
         ...state,
-        filterByNumericValues: [...state.filterByNumericValues, { column, comparison, value }] }));
+        filterByNumericValues:
+        [...state.filterByNumericValues, { column, comparison, value }] }));
     }
   };
 
@@ -49,10 +50,11 @@ function InputFilters() {
     console.log(filterByNumericValues[test]);
     setFilters((state) => ({
       ...state,
-      filterByNumericValues: [...state.filterByNumericValues.filter((item) => {
+      filterByNumericValues:
+      [...state.filterByNumericValues.filter((item) => (
         // source https://stackoverflow.com/a/57519954
-        return item !== filterByNumericValues[test];
-      })] }));
+        item !== filterByNumericValues[test]
+      ))] }));
   };
 
   return (
