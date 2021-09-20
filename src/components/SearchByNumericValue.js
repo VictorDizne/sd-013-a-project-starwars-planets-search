@@ -1,28 +1,14 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import useFilters from '../hooks/useFilters';
 import Context from '../context/Context';
 
 function SearchByNumericValue() {
-  const { filters } = useContext(Context);
+  const { filters, columnFilter } = useContext(Context);
   const [filterColumn, setFilterColumn] = useState();
   const [filterComparison, setFilterComparison] = useState();
   const [filterValue, setFilterValue] = useState('');
-
   const [setNewFilter] = useFilters();
-
-  const columnFilter = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
   const comparisonFilter = ['maior que', 'menor que', 'igual a'];
-
-  useEffect({
-    
-  });
-
 
   const addNumericFilter = () => {
     const numericValue = {

@@ -3,14 +3,24 @@ import Context from '../context/Context';
 
 function Table() {
   const [titlesTable, setTitlesTable] = useState([]);
-  const { data, filters } = useContext(Context);
+  const { data, filters, setColumnFilter } = useContext(Context);
 
   useEffect(() => {
     if (data !== '' && data !== undefined) {
       setTitlesTable(Object.keys(data[0])
         .filter((title) => title !== 'residents'));
     }
-  }, [data]);
+
+    if (filters !== undefined) {
+      const numericValue = filters.filters.filterByNumericValues;
+      setColumnFilter((prevState) => (
+        prevState.filter((c) => !numericValue
+          .map((z) => z.column).includes(c)) !== prevState
+          && prevState.filter((c) => !numericValue
+            .map((z) => z.column).includes(c))
+      ));
+    }
+  }, [data, filters, setColumnFilter]);
 
   const contentTable = (planet) => (
     <tr>
@@ -45,7 +55,6 @@ function Table() {
           === parseFloat(value));
       }
     });
-
     return dataFilter.map((planet) => contentTable(planet));
   };
 
