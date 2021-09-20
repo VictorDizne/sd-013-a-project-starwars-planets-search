@@ -4,24 +4,21 @@ import MyContext from './MyContext';
 import usePlanets from '../hooks/usePlanets';
 
 function Provider({ children }) {
-  const INITIAL_INPUT_VALUE = {
-    column: 'population',
-    comparison: 'maior que',
-    value: 0,
-  };
-
   const { planets, planetsKeys, setPlanets } = usePlanets();
   const [queryValue, setQueryValue] = useState('');
-  const [numFilters, setNumFilters] = useState(INITIAL_INPUT_VALUE);
+  const [numFilters, setNumFilters] = useState({});
+  const [allFilters, setAllFilters] = useState([]);
 
   const contextValue = {
     planets,
     planetsKeys,
     queryValue,
     numFilters,
+    allFilters,
     setPlanets,
     setQueryValue,
     setNumFilters,
+    setAllFilters,
   };
 
   return (
