@@ -1,9 +1,9 @@
 import React from 'react';
-import './App.css';
+import Provider from './Contexto/Provider';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <Provider />
   );
 }
 
