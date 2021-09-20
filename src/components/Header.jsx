@@ -6,7 +6,13 @@ import Select from './Select';
 import Filters from './Filters';
 
 function Header() {
-  const { setQueryValue, setNumFilters } = useContext(MyContext);
+  const {
+    numFilters,
+    setQueryValue,
+    setNumFilters,
+    allFilters,
+    setAllFilters,
+  } = useContext(MyContext);
   const [handleFilter] = useFilters();
   const INITIAL_INPUT_VALUE = {
     column: 'population',
@@ -15,10 +21,11 @@ function Header() {
   };
   const initialColumn = ['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-  const [inputValues, setInputValues] = useState(INITIAL_INPUT_VALUE);
+  const comparisonFilters = ['maior que', 'igual a', 'menor que'];
+
   const [columnFilters, setColumnFilters] = useState(initialColumn);
 
-  const comparisonFilters = ['maior que', 'igual a', 'menor que'];
+  const [inputValues, setInputValues] = useState(INITIAL_INPUT_VALUE);
 
   const handleFilterChange = ({ target: { name, value } }) => {
     setInputValues({ ...inputValues, [name]: value });
@@ -33,6 +40,7 @@ function Header() {
     setColumnFilters(initialColumn);
     const filterColumn = initialColumn.filter((column) => column !== inputValues.column);
     setColumnFilters(filterColumn);
+    setAllFilters([...allFilters, numFilters]);
   };
 
   const handleSubmit = (event) => {
@@ -41,7 +49,6 @@ function Header() {
     const columnFilter = document.getElementById(columnFilters[0]);
     const comparisonFilter = document.getElementById(comparisonFilters[0]);
 
-    setInputValues(INITIAL_INPUT_VALUE);
     columnFilter.selected = true;
     comparisonFilter.selected = true;
   };
