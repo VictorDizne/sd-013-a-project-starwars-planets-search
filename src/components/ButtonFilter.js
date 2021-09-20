@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import MyContext from '../context/Context';
 
 const columns = ['population', 'orbital_period', 'rotation_period', 'diameter',
@@ -6,6 +6,11 @@ const columns = ['population', 'orbital_period', 'rotation_period', 'diameter',
 
 const SelectFilters = () => {
   const { filters, setFilters } = useContext(MyContext);
+  const { filterByNumericValues } = filters;
+
+  const [availableColumns, setAvailableColumns] = useState(columns);
+
+  const [hiddenStatus, setHiddenStatus] = useState(false);
 
   const [filterOptions, setFilterOptions] = useState({
     column: 'population',
@@ -29,6 +34,26 @@ const SelectFilters = () => {
       ],
     });
   };
+  useEffect(() => {
+    const aplliedColumnFilters = filterByNumericValues.map((af) => af.column);
+    const remainingColumns = columns.filter((c) => !aplliedColumnFilters.includes(c));
+    console.log(remainingColumns, 'remaining');
+    setAvailableColumns(remainingColumns);
+  }, [filterByNumericValues]);
+
+  useEffect(() => {
+    const columnValue = document.getElementById('column').value;
+    setFilterOptions({
+      ...filterOptions,
+      column: columnValue,
+    });
+    if (availableColumns.length === 0) {
+      setHiddenStatus(true);
+    } else {
+      setHiddenStatus(false);
+    }
+  }, [availableColumns]);
+
   return (
     <>
       <select
@@ -36,14 +61,18 @@ const SelectFilters = () => {
         id="column"
         onChange={ handleChange }
         data-testid="column-filter"
+        hidden={ hiddenStatus }
       >
-        {columns.map((c, index) => <option key={ index } value={ c }>{c}</option>)}
+        { availableColumns
+          .map((c, index) => <option key={ index } value={ c }>{c}</option>)}
       </select>
+
       <select
         name="comparison"
         id="comparison"
         data-testid="comparison-filter"
         onChange={ handleChange }
+        hidden={ hiddenStatus }
       >
         <option value="maior que">maior que</option>
         <option value="menor que">menor que</option>
@@ -68,3 +97,7 @@ const SelectFilters = () => {
   );
 };
 export default SelectFilters;
+
+// Req 3 - Feito com o Auxilido do Edu na monitoria, junto com Aline e a Julia.
+
+// Req 4 - Feito com a ajuda da aluna Julia.
