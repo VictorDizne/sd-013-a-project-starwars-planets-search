@@ -10,7 +10,7 @@ const initialColumnsFilter = [
 ];
 
 export default function SelectFilterForm() {
-  const [numberPopulation, setNumberPopulation] = useState(0);
+  const [numberPopulation, setNumberPopulation] = useState('0');
   const [columnsFilter, setColumnsFilter] = useState(initialColumnsFilter);
   const {
     swapi, setnameOfThePlanet, setfilterByNumericValues, delFilterByNumericValues,
@@ -34,7 +34,6 @@ export default function SelectFilterForm() {
 
   const deleteFilter = () => {
     const column = document.getElementById('view-column-filter').innerText;
-    console.log(column);
     setColumnsFilter([...columnsFilter, column]);
     delFilterByNumericValues(column);
   };
@@ -46,7 +45,7 @@ export default function SelectFilterForm() {
           <button type="button" id="view-column-filter">{item.column}</button>
           <button type="button" id="view-column-comparison">{item.comparison}</button>
           <button type="button" id="view-column-value">{item.value}</button>
-          <button type="button" data-testid="filter" onClick={ onclick }>X</button>
+          <button type="button" data-testid="filter" onClick={ onclick }>x</button>
         </li>
       ))}
     </ul>
