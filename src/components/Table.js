@@ -3,13 +3,13 @@ import StarWarsContext from './StarWarsContext';
 import Loading from './Loading';
 
 const Table = () => {
-  const { key, filteredData, isFetching } = useContext(StarWarsContext);
+  const { tableHeader, filteredData, isFetching } = useContext(StarWarsContext);
 
   const tableElement = (
     <table>
       <thead>
         <tr>
-          {key.map((el, i) => (
+          {tableHeader.map((el, i) => (
             <th
               key={ i }
             >
@@ -37,10 +37,10 @@ const Table = () => {
     </table>
   );
   return (
-    <main>
+    <section>
       <Loading />
       {!isFetching && tableElement}
-    </main>
+    </section>
   );
 };
 

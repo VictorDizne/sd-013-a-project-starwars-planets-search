@@ -6,12 +6,13 @@ import StarWarsContext from './StarWarsContext';
 const StarWarsProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
-  const [key, setKey] = useState([]);
+  const [tableHeader, setTableHeader] = useState([]);
   const [search, setSearch] = useState({
     column: '',
     comparison: '',
     value: '',
   });
+  const [searchHistory, setSearchHistory] = useState([]);
   const [dropdowns, setDropdowns] = useState({
     optionA: [
       'population',
@@ -43,7 +44,7 @@ const StarWarsProvider = ({ children }) => {
     const { results } = await getStarWarsPlanets();
     results.forEach((el) => delete el.residents);
     setData(results);
-    setKey(Object.keys(results[0]));
+    setTableHeader(Object.keys(results[0]));
     setIsFetching(false);
   };
 
@@ -89,6 +90,9 @@ const StarWarsProvider = ({ children }) => {
       comparison,
       value,
     });
+
+    setSearchHistory([...searchHistory, filterByNumericValues]);
+
     handleOptions();
   };
 
@@ -121,12 +125,15 @@ const StarWarsProvider = ({ children }) => {
 
   const context = {
     dropdowns,
+    searchHistory,
     filteredData,
     isFetching,
-    key,
+    tableHeader,
     filters,
     handleChange,
     handleClick,
+    setSearchHistory,
+    setDropdowns,
   };
 
   return (

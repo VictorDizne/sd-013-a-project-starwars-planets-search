@@ -3,22 +3,78 @@
   margin: 0;
 }
 
-main table {
-  border: 1px solid black;
+header {
+  display: flex;
+  height: 12vh;
+  justify-content: center;
+  padding: 5px;
+}
+
+header h1 {
+  font-size: 60px;
+  font-weight: 700;
+}
+
+main {
+  align-items: center;
   display: flex;
   flex-direction: column;
 }
 
-main table thead th {
+main .inputName-container {
+  margin: 15px 0;
+}
+
+main .inputName-container input {
+  font-size: large;
+  height: 4vh;
+  width: 15vw;
+}
+
+main .filters-container {
+  margin: 15px 0;
+}
+
+main .filters-container input, main .filters-container select {
+  font-size: large;
+  height: 4vh;
+  margin: 0 10px;
+  width: auto;
+}
+
+main span button {
+  background-color: blue;
+  color: white;
+  margin-left: 10px;
+}
+
+main .filters-container button {
+  font-size: large;
+  height: 4vh;
+  margin: 0 10px;
+}
+
+main table thead tr {
+  background-color: blue;
+  color: white;
+  font-weight: 700;
+  width: 100%;
+}
+
+table thead tr th {
   border: 1px solid black;
   font-size: small;
-  font-weight: 700;
   width: 100px;
 }
 
-main table tbody td {
+table tbody tr td {
   border: 1px solid black;
-  font-size: xx-small;
+  font-size: 12px;
   text-align: center;
   width: 100px;
+}
+
+main span {
+  align-self: flex-start;
+  display: flex;
 }
