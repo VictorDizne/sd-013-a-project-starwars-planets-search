@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import OrderForm from './OrderForm';
 
 const columnField = ['population', 'orbital_period', 'diameter',
   'rotation_period', 'surface_water'];
@@ -114,6 +115,7 @@ function Filter() {
       >
         Adicionar Filtro
       </button>
+      <OrderForm />
       <div>
         {createFilterArea()}
       </div>

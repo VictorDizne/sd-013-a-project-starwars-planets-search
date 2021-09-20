@@ -7,6 +7,10 @@ function Provider({ children }) {
   const [filter, setFilter] = useState({
     filterByName: '',
     filterByNumerics: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
 
   const handleChange = ({ target }) => {
@@ -32,6 +36,13 @@ function Provider({ children }) {
     });
   };
 
+  const submitOrder = (state) => {
+    setFilter({
+      ...filter,
+      order: state,
+    });
+  };
+
   useEffect(() => {
     const API = 'https://swapi-trybe.herokuapp.com/api/planets/';
     async function fetchData() {
@@ -42,7 +53,7 @@ function Provider({ children }) {
     fetchData();
   }, []);
 
-  const context = { data, filter, handleChange, handleClick, deleteClick };
+  const context = { data, filter, handleChange, handleClick, deleteClick, submitOrder };
 
   return (
     <PlanetsContext.Provider value={ context }>
