@@ -4,18 +4,21 @@ import PlanetContext from '../Context/PlanetContext';
 function Filters() {
   const context = useContext(PlanetContext);
   const { filters, setFilters, data, setRend } = context;
-  const [types, setFilterTypes] = useState(['population',
+  const [opcoes, setOpcoes] = useState(['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const [types, setFilterTypes] = useState('population');
   const [filtercomparison, setfilterComparison] = useState('maior que');
   const [filternumber, setNumber] = useState(0);
-  // const typesFilters = ['orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
   const setFilterByName = (event) => {
     const { value } = event.target;
     setFilters({ ...filters, filterByName: { name: value.toLowerCase() } });
   };
 
-  // const deletOption = (type) => typesFilters.slice(typesFilters.indexOf(type), 1);
+  const deleteFilter = (type) => {
+    const newOp = opcoes.filter((opcao) => opcao !== type);
+    setOpcoes(newOp);
+  };
 
   const setFilterByNumericValue = () => {
     const { filterByNumericValues } = filters;
@@ -28,7 +31,7 @@ function Filters() {
     setFilters(
       { ...filters, filterByNumericValues: [...filterByNumericValues, objNumeric] },
     );
-    // deletOption(types);
+    deleteFilter(types);
   };
 
   const applyFilters = () => {
@@ -39,9 +42,13 @@ function Filters() {
 
     const numericFilter = nameFilter.filter((planet) => filterByNumericValues
       .every(({ column, comparison, value }) => {
-        if (column === 'population'
-        && comparison !== 'igual a'
-        && planet.population === 'unknown') return true;
+        // if (column === 'population'
+        // && comparison !== 'menor que'
+        // && comparison !== 'igual a'
+        // && planet.population === 'unknown') return false;
+        // if (column === 'population'
+        // && comparison !== 'igual a'
+        // && planet.population === 'unknown') return true;
         switch (comparison) {
         case ('igual a'):
           return (Number(planet[column]) === Number(value));
@@ -50,7 +57,7 @@ function Filters() {
         case ('maior que'):
           return (Number(planet[column]) > Number(value));
         default:
-          return null;
+          return planet;
         }
       }));
     return numericFilter;
@@ -92,11 +99,7 @@ function Filters() {
         data-testid="column-filter"
         onChange={ setFilterByColumn }
       >
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
+        {opcoes.map((opcao, i) => <option key={ i }>{opcao}</option>)}
       </select>
       <select
         onChange={ setFilterByComparison }
