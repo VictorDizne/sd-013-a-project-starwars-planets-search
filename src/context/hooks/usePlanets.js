@@ -10,6 +10,7 @@ const usePlanets = () => {
     filters,
     setFilters,
     applyCompareFilter,
+    options,
   } = useContext(Planets);
 
   return {
@@ -17,6 +18,7 @@ const usePlanets = () => {
     filters,
     setFilters,
     applyCompareFilter,
+    options,
   };
 };
 

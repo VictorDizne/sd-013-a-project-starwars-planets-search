@@ -9,7 +9,7 @@ const NameInput = () => {
 
   const handleChange = ({ target: { value } }) => {
     setFilters({
-      ...filters,
+      ...filters, // Other filters
       filterByName: {
         name: value,
       },

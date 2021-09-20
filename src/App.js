@@ -16,7 +16,7 @@ function App() {
     <PlanetsProvider>
       <main>
         <SearchForm />
-        <br />
+        <ul id="filter-list" />
         <Table />
       </main>
     </PlanetsProvider>
