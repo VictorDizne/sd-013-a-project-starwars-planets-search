@@ -1,22 +1,34 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Context } from '../context/MyContext';
 import Filters from './Filters';
 
 function Table() {
-  const { data, filters } = useContext(Context);
+  const {
+    data,
+    fetchApi,
+    fazOSwitch,
+    filters,
+    fetchIsPossible,
+  } = useContext(Context);
 
-  /*  com ajuda do meu grande amigo lailson gabriel turbo turma 13 -b */
-  const results = data.filter((item) => delete item.residents);
-  const filtrado = results
-    .filter((item) => item.name.includes(filters.filterByName.name));
   const yuri = ['name', 'rotation_period',
     'orbital_period', 'diameter', 'climate',
     'gravity', 'terrain', 'surface_water', 'population',
     'films', 'created', 'edited', 'url'];
+
+  const filtrado = data
+    .filter((item) => item.name.includes(filters.filterByName.name));
+
+  useEffect(() => {
+    if (fetchIsPossible) {
+      fetchApi();
+    }
+    fazOSwitch();
+  }, [filters]);
+
   return (
     <div>
-      {console.log(filters.filterByName.name)}
-      {console.log(filtrado)}
+      {console.log(data)}
       <Filters />
       <table>
         <thead>
