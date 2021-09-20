@@ -1,31 +1,33 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../context/PlanetProvider';
 
-const initialState = {
-  column: 'population',
-  comparison: 'maior que',
-  value: '',
-};
-
 function NumericValuesFilter() {
-  const { addFilter } = useContext(Context);
-  const [numericFilter, setNumericFilter] = useState(initialState);
+  const { columns, addFilter } = useContext(Context);
+
+  const [filter, setFilter] = useState({
+    column: columns[0],
+    comparison: 'maior que',
+    value: '',
+  });
 
   const handleChange = (target) => {
     const { name, value } = target;
 
-    setNumericFilter({
-      ...numericFilter,
+    setFilter({
+      ...filter,
       [name]: value,
     });
   };
 
   const handleClick = () => {
-    addFilter(numericFilter);
-    setNumericFilter(initialState);
+    addFilter(filter); // Manda para o Provider
   };
 
-  const { column, comparison, value } = numericFilter;
+  useEffect(() => {
+    setFilter({ column: columns[0], comparison: 'maior que', value: '' });
+  }, [columns]);
+
+  const { column, comparison, value } = filter;
 
   return (
     <div>
@@ -37,11 +39,7 @@ function NumericValuesFilter() {
           onChange={ ({ target }) => handleChange(target) }
           data-testid="column-filter"
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {columns.map((col) => <option key={ col } value={ col }>{col}</option>)}
         </select>
       </label>
       <label htmlFor="comparison">
