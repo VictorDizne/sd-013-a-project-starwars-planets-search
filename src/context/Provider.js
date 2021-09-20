@@ -4,24 +4,27 @@ import MyContext from './MyContext';
 import usePlanets from '../hooks/usePlanets';
 
 function Provider({ children }) {
-  const { planets, planetsKeys } = usePlanets();
-  const [newPlanets, setNewPlanets] = useState(planets);
-  const [queryValue, setQueryValue] = useState('');
-
-  const handlePlanets = (key, value) => {
-    const newState = { ...newPlanets, [key]: value };
-    setNewPlanets(newState);
+  const INITIAL_INPUT_VALUE = {
+    column: 'population',
+    comparison: 'maior que',
+    value: 0,
   };
+
+  const { planets, planetsKeys, setPlanets } = usePlanets();
+  const [queryValue, setQueryValue] = useState('');
+  const [numFilters, setNumFilters] = useState(INITIAL_INPUT_VALUE);
 
   const contextValue = {
-    newPlanets,
+    planets,
     planetsKeys,
     queryValue,
+    numFilters,
+    setPlanets,
     setQueryValue,
-    handlePlanets,
+    setNumFilters,
   };
   return (
-    <MyContext.Provider value={ contextValue }>
+    <MyContext.Provider value={ contextValue } displayName="Context Display Name">
       { children }
     </MyContext.Provider>
   );

@@ -9,16 +9,20 @@ function usePlanets() {
       const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
       const thePlanets = await response.json();
       const { results } = thePlanets;
-      const removePlanetKey = Object.keys(results[0])
-        .filter((key) => key !== 'residents');
+      const removeResidents = results.map((planet) => {
+        const object = planet;
+        delete planet.residents;
+        return object;
+      });
+      const removePlanetKey = Object.keys(results[0]);
 
-      setPlanets(results);
+      setPlanets(removeResidents);
       setPlanetsKeys(removePlanetKey);
     };
     fetchPlanetsAPI();
   }, []);
 
-  return { planets, planetsKeys };
+  return { planets, planetsKeys, setPlanets };
 }
 
 export default usePlanets;
