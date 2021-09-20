@@ -19,7 +19,6 @@ const Planets = () => {
 
     filterByNumericValues.forEach((filter) => {
       newArrayPlanets = newArrayPlanets.filter((planet) => {
-        console.log(filter.value);
         if (filter.comparison === 'maior que') {
           return parseInt(planet[filter.column], 10) > parseInt(filter.value, 10);
         }

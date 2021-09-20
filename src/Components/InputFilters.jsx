@@ -30,14 +30,11 @@ function InputFilters() {
     if (columnOptions.length !== 0) {
       setFilters((state) => ({
         ...state,
-        filterByNumericValues:
-      [...state.filterByNumericValues, { column, comparison, value }] }));
+        filterByNumericValues: [...state.filterByNumericValues, { column, comparison, value }] }));
     }
   };
 
   useEffect(() => {
-    console.log(columnOptions.length);
-
     setColumn(columnOptions[0]);
   }, [columnOptions]);
 
@@ -46,6 +43,17 @@ function InputFilters() {
     const newOptions = options.filter((option) => !filterTypes.includes(option));
     setColumnOptions(newOptions);
   }, [filterByNumericValues, filters]);
+
+  const deleteFilter = (columnType) => {
+    const test = filterByNumericValues.findIndex((type) => type.column === columnType);
+    console.log(filterByNumericValues[test]);
+    setFilters((state) => ({
+      ...state,
+      filterByNumericValues: [...state.filterByNumericValues.filter((item) => {
+        console.log(item, test);
+        return item !== filterByNumericValues[test];
+      })] }));
+  };
 
   return (
     <div>
@@ -116,6 +124,18 @@ function InputFilters() {
         >
           Apply
         </button>
+      </div>
+      <div>
+        { filterByNumericValues.map(({ column: type }, index) => (
+          <div key={ index } data-testid="filter">
+            <button
+              type="button"
+              onClick={ () => deleteFilter(type) }
+            >
+              { `${type} x `}
+            </button>
+          </div>
+        )) }
       </div>
     </div>
   );
