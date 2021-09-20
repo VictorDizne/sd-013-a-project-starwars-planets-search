@@ -1,3 +1,5 @@
+// requisitos 1 e 2 foram feitos em conjunto com o meu buddy Cassio Pereira.
+
 import React from 'react';
 import './App.css';
 import Table from './context/Table';

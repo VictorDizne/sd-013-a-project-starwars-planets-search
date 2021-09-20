@@ -1,3 +1,5 @@
+// requisitos 1 e 2 foram feitos em conjunto com o meu buddy Cassio Pereira.
+
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import tableContext from './tableContext'; // IMPORTANDO O CONTEXT PARA UTILIZAÇÃO

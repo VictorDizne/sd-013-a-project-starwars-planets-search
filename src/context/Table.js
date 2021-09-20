@@ -1,3 +1,5 @@
+// requisitos 1 e 2 foram feitos em conjunto com o meu buddy Cassio Pereira.
+
 import React, { useContext, useEffect, useState } from 'react';
 import TableContext from './tableContext';
 import Selects from '../component/Selects';

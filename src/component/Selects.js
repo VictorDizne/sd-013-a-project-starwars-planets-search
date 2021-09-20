@@ -1,3 +1,5 @@
+// requisito 3 também foi realizado com o meu buddy Cassio Pereira, mas refiz o requisito pois não entendia sua lógica.
+
 import React, { useState, useContext } from 'react';
 import tableContext from '../context/tableContext';
 
@@ -8,23 +10,25 @@ function Select() {
     comparison: 'maior que',
     value: '0',
   });
+  const columns = [ // valores do select column
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water'];
 
-  const createColumn = () => {
-    const columns = [
-      'population',
-      'orbital_period',
-      'diameter',
-      'rotation_period',
-      'surface_water'];
-    const columnsMap = columns
-      .map((option) => <option key={ option }>{ option }</option>);
+  const [filterColumn, setFilterColumn] = useState(columns); // setando novo estado para pegar o estado do array columns para utilizar na funcao que filtra o que já foi utilizado
+
+  const ColumnItems = () => { // funcao que mapeia os itens de column e retorna dentro da option do select o próprio ccada item do column
+    const columnsMap = filterColumn
+      .map((column) => <option key={ column }>{ column }</option>);
     return columnsMap;
   };
 
-  const createComparison = () => {
+  const comparisonItems = () => { // funcao que mapeia os itens de comparison e retorna dentro da option do select cada item do comparison
     const comparison = ['maior que', 'menor que', 'igual a'];
     const comparisonMap = comparison
-      .map((option) => <option key={ option }>{ option }</option>);
+      .map((column) => <option key={ column }>{ column }</option>);
     return comparisonMap;
   };
   // QUANDO HÁ UM CLICK NO SELECT A FUNCAO EXECUTA:
@@ -36,8 +40,18 @@ function Select() {
     });
   };
 
+  // assim que a funcao comecar já envia o valor do array para o estado
+
+  const noRepeat = () => { // funcao responsavel por filtrar os valores já selecionados e removê-los da column para nao serem mais utilizados
+    setFilterColumn(columns); // o novo estado de filterColumn é o array columns
+    const filtersAllColumnItems = filterColumn
+      .filter((itemColumn) => (itemColumn !== selectedFilters.column)); // filtro do que é diferente do que foi selecionado
+    setFilterColumn(filtersAllColumnItems); // retornar para o estado o valor já filtrado.
+  };
+
   const handleClick = () => {
     handleFilterByNumericValues(selectedFilters);
+    noRepeat(); // chamando a funcao que filtrou os itens já selecionados e passa para a funcao que realiza o click para que quando o usuário click no botao após marcar as suas options, o valor já seja filtrado.
   };
 
   return (
@@ -49,7 +63,7 @@ function Select() {
             data-testid="column-filter"
             onChange={ handleChange }
           >
-            {createColumn()}
+            {ColumnItems()}
           </select>
 
         </label>
@@ -61,7 +75,7 @@ function Select() {
             data-testid="comparison-filter"
             onChange={ handleChange }
           >
-            {createComparison()}
+            {comparisonItems()}
             {handleChange}
           </select>
         </label>
