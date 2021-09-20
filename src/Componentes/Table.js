@@ -3,7 +3,7 @@ import MyContext from '../Contexto/MyContext';
 import Planet from './Planets';
 
 function Table() {
-  const { planets, titles } = useContext(MyContext);
+  const { planets, titles, nameFilter } = useContext(MyContext);
   return (
     <div>
       <table border={ 1 }>
@@ -13,7 +13,8 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {planets.map((planet, i) => <Planet key={ i } planet={ planet } />)}
+          {planets.filter((plan) => plan.name.toLowerCase().includes(nameFilter))
+            .map((planet, i) => <Planet key={ i } planet={ planet } />)}
         </tbody>
       </table>
     </div>
