@@ -8,11 +8,14 @@ function Filters() {
     'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [filtercomparison, setfilterComparison] = useState('maior que');
   const [filternumber, setNumber] = useState(0);
+  // const typesFilters = ['orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
   const setFilterByName = (event) => {
     const { value } = event.target;
     setFilters({ ...filters, filterByName: { name: value.toLowerCase() } });
   };
+
+  // const deletOption = (type) => typesFilters.slice(typesFilters.indexOf(type), 1);
 
   const setFilterByNumericValue = () => {
     const { filterByNumericValues } = filters;
@@ -25,6 +28,7 @@ function Filters() {
     setFilters(
       { ...filters, filterByNumericValues: [...filterByNumericValues, objNumeric] },
     );
+    // deletOption(types);
   };
 
   const applyFilters = () => {
@@ -35,16 +39,18 @@ function Filters() {
 
     const numericFilter = nameFilter.filter((planet) => filterByNumericValues
       .every(({ column, comparison, value }) => {
-        if (planet.population === 'unknown') return true;
+        if (column === 'population'
+        && comparison !== 'igual a'
+        && planet.population === 'unknown') return true;
         switch (comparison) {
         case ('igual a'):
           return (Number(planet[column]) === Number(value));
         case ('menor que'):
-          return (Number(planet[column]) <= Number(value));
+          return (Number(planet[column]) < Number(value));
         case ('maior que'):
           return (Number(planet[column]) > Number(value));
         default:
-          return planet;
+          return null;
         }
       }));
     return numericFilter;
