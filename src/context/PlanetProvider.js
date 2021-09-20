@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetContext from './PlanetContext';
 import { fetchAPI } from '../util';
-import TestContext from './TestContext';
 
 function PlanetProvider({ children }) {
   const [filter, setFilter] = useState({

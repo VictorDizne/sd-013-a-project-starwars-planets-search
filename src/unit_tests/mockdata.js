@@ -1,3 +1,5 @@
+const ONE_STANDARD = '1 standard';
+
 const PLANETS = {
 
   count: 60,
@@ -10,7 +12,7 @@ const PLANETS = {
       orbital_period: '304',
       diameter: '10465',
       climate: 'arid',
-      gravity: '1 standard',
+      gravity: ONE_STANDARD,
       terrain: 'desert',
       surface_water: '1',
       population: '200000',
@@ -43,7 +45,7 @@ const PLANETS = {
       orbital_period: '364',
       diameter: '12500',
       climate: 'temperate',
-      gravity: '1 standard',
+      gravity: ONE_STANDARD,
       terrain: 'grasslands, mountains',
       surface_water: '40',
       population: '2000000000',
@@ -66,7 +68,7 @@ const PLANETS = {
       orbital_period: '4818',
       diameter: '10200',
       climate: 'temperate, tropical',
-      gravity: '1 standard',
+      gravity: ONE_STANDARD,
       terrain: 'jungle, rainforests',
       surface_water: '8',
       population: '1000',
