@@ -5,20 +5,22 @@ import myContext from './index';
 
 function Provider({ children }) {
   // INITIAL STATES
-  const initialFilteredData = [];
-  const initialData = [];
-  const initialLoading = true;
-  const initialFilters = { filterByName: { name: '' } };
+  const INITIALFILTEREDDATA = [];
+  const INITIALDATA = [];
+  const INITIALLOADING = true;
+  const INITIALFILTERS = {
+    filterByName: { name: '' },
+    filterByNumericValues: [] };
   // INITIAL STATES
 
   // STATES
-  const [unfilteredData, setUnfilteredData] = useState(initialFilteredData);
-  const [data, setData] = useState(initialData);
-  const [loading, setLoading] = useState(initialLoading);
-  const [filters, setFilters] = useState(initialFilters);
+  const [unfilteredData, setUnfilteredData] = useState(INITIALFILTEREDDATA);
+  const [data, setData] = useState(INITIALDATA);
+  const [loading, setLoading] = useState(INITIALLOADING);
+  const [filters, setFilters] = useState(INITIALFILTERS);
   // STATES
 
-  // FUNCTION NAME FILTER
+  // FUNCTION SEARCHBAR FILTER
   const handleChange = ({ target: { value } }) => {
     setFilters(({ ...filters, filterByName: { name: value } }));
   };
@@ -28,8 +30,34 @@ function Provider({ children }) {
       .filter((item) => item.name.includes(filters.filterByName.name));
     setData(filtered);
   };
+
   useEffect(filter, [filters.filterByName.name]);
-  // FUNCTION NAME FILTER
+  // FUNCTION SEARCHBAR FILTER
+
+  // FUNCTION NUMERIC FILTER
+  const handleClickNumeric = (...state) => {
+    setFilters(({ ...filters,
+      filterByNumericValues:
+      [...filters.filterByNumericValues,
+        { column: state[0], comparison: state[1], value: state[2] }] }));
+  };
+
+  useEffect(() => {
+    filters.filterByNumericValues.forEach((item) => {
+      const filteredListContent = unfilteredData.filter((element) => {
+        if (item.comparison === 'maior que') {
+          return parseInt(element[item.column], 10) > parseInt(item.value, 10);
+        }
+        if (item.comparison === 'menor que') {
+          return parseInt(element[item.column], 10) < parseInt(item.value, 10);
+        }
+        return parseInt(element[item.column], 10) === parseInt(item.value, 10);
+      });
+      setData(filteredListContent);
+    });
+  },
+  [filters.filterByNumericValues, filters.filterByNumericValues.value, unfilteredData]);
+  // FUNCTION NUMERIC FILTER
 
   // COMPONENTDIDMOUNT
   useEffect(() => {
@@ -43,7 +71,8 @@ function Provider({ children }) {
   // COMPONENTDIDMOUNT
 
   // VALUE OF PROVIDER
-  const contextValue = { data, loading, filters, handleChange };
+  const contextValue = { data, loading, filters, handleChange, handleClickNumeric };
+
   // VALUE OF PROVIDER
 
   // RENDER CONDITIONAL
