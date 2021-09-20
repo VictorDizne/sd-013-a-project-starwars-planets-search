@@ -1,14 +1,11 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Context } from '../context/MyContext';
 import Filters from './Filters';
 
 function Table() {
   const {
     data,
-    fetchApi,
-    fazOSwitch,
     filters,
-    fetchIsPossible,
   } = useContext(Context);
 
   const yuri = ['name', 'rotation_period',
@@ -19,16 +16,13 @@ function Table() {
   const filtrado = data
     .filter((item) => item.name.includes(filters.filterByName.name));
 
-  useEffect(() => {
-    if (fetchIsPossible) {
-      fetchApi();
-    }
-    fazOSwitch();
-  }, [filters]);
+  // useEffect(() => {
+  //   fetchApi();
+  //   fazOSwitch();
+  // }, []);
 
   return (
     <div>
-      {console.log(data)}
       <Filters />
       <table>
         <thead>

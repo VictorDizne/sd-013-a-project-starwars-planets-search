@@ -1,12 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Context } from '../context/MyContext';
 
 function Filters() {
-  const { filters, handleOnClickState, handleOnChangeFilterInput } = useContext(Context);
-
-  const [colum, setColum] = useState('population');
-  const [comparison, setComparison] = useState('diameter');
-  const [value, setValue] = useState(0);
+  const {
+    filters, setColum, setComparison,
+    setValue, column, comparison, value, handleOnClickState,
+    handleOnChangeFilterInput, dropdonw } = useContext(Context);
 
   return (
     <section>
@@ -21,14 +20,12 @@ function Filters() {
         data-testid="column-filter"
         name="column"
         id="select"
-        value={ colum }
+        value={ column }
         onChange={ (event) => setColum(event.target.value) }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        { dropdonw.map((item) => (
+          <option key={ item } value={ item }>{item}</option>
+        ))}
       </select>
       <select
         data-testid="comparison-filter"
@@ -51,7 +48,7 @@ function Filters() {
       <button
         data-testid="button-filter"
         type="button"
-        onClick={ () => handleOnClickState(colum, comparison, value) }
+        onClick={ () => handleOnClickState(column, comparison, value) }
       >
         filtrar
       </button>
