@@ -2,14 +2,13 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/StartWarsContext';
 
 function PlanetTable() {
-  const { dataPlanet, filters } = useContext(StarWarsContext);
+  const { state } = useContext(StarWarsContext);
+  const { filters, data } = state;
   const { filterByName: { name } } = filters;
 
-  if (!dataPlanet.length) return <p>Loading</p>;
-
-  const filteredPlanet = dataPlanet
-    .filter((planet) => planet.name.toLowerCase()
-      .includes(name.toLowerCase()));
+  if (!data) return <p>Loading</p>;
+  const filteredPlanet = data.filter((planet) => planet.name.toLowerCase()
+    .includes(name.toLowerCase()));
 
   function montaTabela() {
     return filteredPlanet.map((planet, index) => (

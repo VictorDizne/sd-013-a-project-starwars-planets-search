@@ -1,13 +1,16 @@
 import React, { useContext } from 'react';
-
 import StarWarsContext from '../context/StartWarsContext';
 
 function Header() {
-  const { setFilters } = useContext(StarWarsContext);
+  const { setState, state } = useContext(StarWarsContext);
 
   const handleChange = ({ target }) => {
-    setFilters({
-      filterByName: { name: target.value },
+    setState({
+      ...state,
+      filters: {
+        ...state.filters,
+        filterByName: { name: target.value },
+      },
     });
   };
 
