@@ -10,22 +10,23 @@ function PlanetProvider({ children }) {
         name: '',
       },
       filterByNumericValues: [
-        {
-          column: 'population',
-          comparison: 'maior que',
-          value: '100000',
-        },
+        // {
+        //   column: '',
+        //   comparison: '',
+        //   value: '',
+        // },
       ],
     },
   );
-
+  const [initFilters, setInitFilters] = useState({
+    column: '',
+    comparison: '',
+    value: '',
+  });
   const [filteredPlanets, setFilteredPlanets] = useState([]);
-
-  useEffect(() => {
-    const filterPlanets = !filters.filterByName.name ? '' : tableData
-      .filter((planet) => planet.name.toLowerCase().includes(filters.filterByName.name));
-    setFilteredPlanets(filterPlanets);
-  }, [filters, tableData]);
+  // const [column, setColumn] = useState('population');
+  // const [comparison, setComparison] = useState('maior que');
+  // const [valuer, setValuer] = useState(0);
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -36,28 +37,76 @@ function PlanetProvider({ children }) {
     fetchResults().then((results) => setTableData(results));
   }, []);
 
-  const handleChange = ({ target }) => {
-    if (target.id === 'name') {
-      setFilters({ filterByName: { name: target.value } });
-    }
-    // if (target.id === 'selectFilter') {
-    //   setFilters({ filterByNumericValues: { column: target.value } });
-    // }
-  };
-
   useEffect(() => {
     setFilteredPlanets(tableData);
   }, [tableData]);
 
-  // console.log(filters, 'filters');
-  // console.log(tableData, 'tableData');
-  // console.log(filteredPlanets, 'FilteredPlanets');
+  const handleChange = ({ target: { id, value } }) => {
+    if (id === 'name') {
+      setFilters({ filterByName: { name: value } });
+    }
+  };
 
-  const planetValue = { tableData, setTableData, filters, handleChange, filteredPlanets };
+  useEffect(() => {
+    const filterPlanets = tableData
+      .filter((planet) => planet.name.toLowerCase()
+        .includes(filters.filterByName.name.toLowerCase()));
+
+    setFilteredPlanets(filterPlanets);
+  }, [filters, tableData]);
+
+  const filterOptions = (column1, comparison1, value1) => {
+    if (comparison1 === 'igual a') {
+      const equalValue = filteredPlanets.filter(
+        (planet) => +planet[column1] === +value1,
+      );
+      setFilteredPlanets(equalValue); // planet[column] valor dinamico tipo func genérica
+    }
+
+    if (comparison1 === 'maior que') {
+      const bigger = filteredPlanets.filter((planet) => +planet[column1] > +value1);
+      setFilteredPlanets(bigger);
+    }
+
+    if (comparison1 === 'menor que') {
+      const smaller = filteredPlanets.filter((planet) => +planet[column1] < +value1);
+      setFilteredPlanets(smaller);
+    }
+  };
+
+  const handleColumn = ({ target: { name, value } }) => {
+    setInitFilters({
+      ...initFilters,
+      [name]: value,
+    });
+
+    // setFilters({
+    //   ...filters,
+    //   filterByNumericValues: [
+    //     ...filters.filterByNumericValues,
+    //     {
+    //       column: value,
+    //       ...comparison,
+    //       ...value }],
+    // });
+  };
+
+  const planetValue = {
+    tableData,
+    filters,
+    filteredPlanets,
+    initFilters,
+    handleChange,
+    setTableData,
+    filterOptions,
+    handleColumn,
+    // handleComparison,
+    // handleValuer,
+  };
 
   return (
     <PlanetContext.Provider value={ planetValue }>
-      { children }
+      {children}
     </PlanetContext.Provider>
   );
 }
@@ -68,19 +117,13 @@ PlanetProvider.propTypes = {
 
 export default PlanetProvider;
 
-// filterMovies(movieList) {
-//   const { bookmarkedOnly, selectedGenre, searchText } = this.state;
+// const handleComparison = ({ target: { value } }) => {
+//   // maior que, menor que, igual a
+//   setFilters({ ...filters, filterByNumericValues: [{ comparison: value }] });
+// };
 
-//   const search = movieList.filter((movie) => {
-//     const check = (movie.title.toLowerCase().includes(searchText.toLowerCase())
-//     || movie.subtitle.toLowerCase().includes(searchText.toLowerCase())
-//     || movie.storyline.toLowerCase().includes(searchText.toLowerCase()));
-//     return check;
-//   });
-
-//   const favorite = bookmarkedOnly ? search.filter((movie) => movie.bookmarked) : search;
-
-//   const result = selectedGenre ? favorite
-//     .filter((movie) => movie.genre === selectedGenre) : favorite;
-//   return result;
-// }
+// const handleValuer = ({ target: { value } }) => {
+//   // valor numérico
+//   setFilters({ ...filters, filterByNumericValues: [{ valuer: value }] });
+//
+//  };

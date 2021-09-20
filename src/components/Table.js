@@ -6,7 +6,7 @@ function Table() {
 
   if (!tableData.length) return <p> Loading ... </p>;
 
-  const keys = Object.keys(tableData[1]);
+  const keys = Object.keys(tableData[0]);
   const cols = keys.filter((key) => key !== 'residents');
 
   return (
@@ -18,10 +18,10 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {/* tableData é um array de objetos; cada objeto é um "planeta",
-        ou seja contêm os dados de um planeta; cada objeto tem 13 chaves */}
+        {/* filteredPlanets é um array de objetos; cada objeto é um "planeta",
+        ou seja, contêm os dados de um planeta; cada objeto tem 13 chaves */}
         {filteredPlanets
-        // map para criar cada row/linha
+          /* map para criar cada row/linha */
           .map((planet) => (
             <tr key={ planet.name }>
               {/* map para preencher com dados cada célula de cada coluna,
