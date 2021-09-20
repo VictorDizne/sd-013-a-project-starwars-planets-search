@@ -9,11 +9,18 @@ function FiltersOptions() {
     popValue: 0,
   });
 
+  // ----------------LINT RECLAMOU-------------------- //
+  const columnsTable = ['population', 'orbital_period',
+    'diameter', 'rotation_period', 'surface_water'];
+  // ----------------LINT RECLAMOU-------------------- //
+
+  const [filter, setFilter] = useState(columnsTable);
+
   const dropDownConditions = () => {
     const optionsConditions = ['maior que',
       'menor que', 'igual a'];
     return optionsConditions
-      .map((option, id) => <option key={ id }>{ option }</option>);
+      .map((option) => <option key={ option }>{ option }</option>);
   };
 
   const clickChangeState = ({ target }) => {
@@ -22,11 +29,8 @@ function FiltersOptions() {
       [target.id]: target.value });
   };
 
-  const optionColumn = () => {
-    const columnsTable = ['population',
-      'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-    return columnsTable.map((option) => <option key={ option }>{ option }</option>);
-  };
+  const optionColumn = () => filter
+    .map((option) => <option key={ option }>{ option }</option>);
 
   const funcCompare = () => {
     if (selected.popCondition === 'maior que') {
@@ -41,8 +45,15 @@ function FiltersOptions() {
       .filter((item) => Number(item[selected.popColumn]) === Number(selected.popValue));
   };
 
+  // - req 4
+  const oneLessFilter = () => {
+    setFilter(columnsTable);
+    setFilter(filter.filter((column) => column !== selected.popColumn));
+  };
+
   const btnClickCondition = () => {
     setData(funcCompare);
+    oneLessFilter();
   };
 
   return (
@@ -53,7 +64,6 @@ function FiltersOptions() {
           id="popColumn"
           onChange={ clickChangeState }
           data-testid="column-filter"
-          name="name"
         >
           { optionColumn() }
         </select>
@@ -64,7 +74,6 @@ function FiltersOptions() {
           id="popCondition"
           onChange={ clickChangeState }
           data-testid="comparison-filter"
-          name="name"
         >
           { dropDownConditions() }
         </select>
