@@ -8,6 +8,9 @@ const AppProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [name, setName] = useState('');
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('primeira');
+  const [value, setValue] = useState('100000');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,6 +30,13 @@ const AppProvider = ({ children }) => {
       filterByName: {
         name,
       },
+      filterByNumericValues: [
+        {
+          column,
+          comparison,
+          value,
+        },
+      ],
     },
   };
 
@@ -36,6 +46,9 @@ const AppProvider = ({ children }) => {
     isLoading,
     filters,
     setName,
+    setColumn,
+    setComparison,
+    setValue,
   };
 
   return (
