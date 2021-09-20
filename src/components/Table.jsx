@@ -1,21 +1,34 @@
 import React, { useContext } from 'react';
 import dataContext from '../context/createContext';
-import ShoudBeFiltered from './filters';
+import FilteredByName from './filters';
 import FilterInputs from './FilterInputs';
 
 function Table() {
   const { data } = useContext(dataContext);
 
-  const firstTableRule = Object.keys(data.data.results[0]);
-  const removeIndex = 9;
-  firstTableRule.splice(removeIndex, 1);
+  const firsTableRule = () => {
+    const firstTableRule = Object.keys(data[0]);
+    const removeIndex = 9;
+    firstTableRule.splice(removeIndex, 1);
+
+    return (
+      <tr key="table header">
+        {firstTableRule.map((item, i) => (
+          <th key={ `${item} 00${i}` }>
+            { item }
+          </th>))}
+      </tr>
+    );
+  };
 
   return (
     <div>
       <FilterInputs />
       <table border="1">
-        <tr>{firstTableRule.map((item) => <th key={ item }>{ item }</th>)}</tr>
-        <ShoudBeFiltered />
+
+        {firsTableRule()}
+        <FilteredByName />
+
       </table>
     </div>
   );

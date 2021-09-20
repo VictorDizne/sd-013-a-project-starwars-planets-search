@@ -9,22 +9,16 @@ function Main() {
 
   useEffect(() => {
     const Fetch = async () => {
-      const response = await fetchApi();
-      setData({ data: response });
-      setIsLoading({ loading: false });
+      const { results } = await fetchApi();
+      setData(results);
+      setIsLoading(false);
     };
+
     Fetch();
   }, [setData, setIsLoading]);
 
-  if (!isLoading.loading) {
-    return (
-      <Table />
-    );
-  }
-
-  if (isLoading) {
-    return <table />;
-  }
+  if (isLoading) return <table />;
+  if (!isLoading) return <Table />;
 }
 
 export default Main;

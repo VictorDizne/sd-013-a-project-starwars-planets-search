@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import dataContext from './createContext';
 
 function ContextProvider({ children }) {
-  const [data, setData] = useState({ data: [] });
-  const [isLoading, setIsLoading] = useState({ loading: true });
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState({ filterByName: { name: '' } });
 
   const context = {
