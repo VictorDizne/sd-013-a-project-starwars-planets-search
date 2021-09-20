@@ -1,9 +1,21 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import StarWarsContext from '../context/Context';
 
 function TableBody() {
   const data = useContext(StarWarsContext);
-  const [list] = useState(data.data);
+  const { filters } = data;
+  const [list, setlist] = useState([]);
+  const [results] = useState(data.data);
+
+  useEffect(() => {
+    const { name } = filters.filterByName;
+    const search = name.toLowerCase();
+    if (name) {
+      const lUp = results.filter((iten) => iten.name.toLowerCase().includes(search));
+      setlist(lUp);
+    } else { setlist(results); }
+  }, [filters, results]);
+
   return (
     <tbody>
       {list.map((item) => (
