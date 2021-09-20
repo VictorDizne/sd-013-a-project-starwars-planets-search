@@ -3,11 +3,7 @@ import { Context } from '../context/PlanetProvider';
 import NumericValuesFilter from './NumericValuesFilter';
 
 function Filters() {
-  const { filters, setFilters } = useContext(Context);
-
-  const handleChange = (userInput) => {
-    setFilters({ ...filters, filterByName: { name: userInput } });
-  };
+  const { handleSearchByName } = useContext(Context);
 
   return (
     <form>
@@ -16,7 +12,7 @@ function Filters() {
         <input
           name="planetName"
           type="text"
-          onChange={ (e) => handleChange(e.target.value) }
+          onChange={ (e) => handleSearchByName(e.target.value) }
           data-testid="name-filter"
         />
       </label>

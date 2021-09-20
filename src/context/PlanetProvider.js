@@ -37,33 +37,36 @@ function PlanetProvider({ children }) {
 
   useEffect(() => {
     const getPlanets = async () => {
-      setData(await fetchPlanets());
+      const planets = await fetchPlanets();
+      setData(planets);
+      setFilteredPlanets(planets);
       setIsFetching(false);
     };
     getPlanets();
   }, []);
 
-  useEffect(() => {
-    const userInput = filters.filterByName.name;
+  const handleSearchByName = (userInput) => {
     const result = data.filter((planet) => planet.name.includes(userInput));
     setFilteredPlanets(result);
-  }, [filters.filterByName.name, data]);
+
+    setFilters({ ...filters, filterByName: { name: userInput } });
+  };
 
   const addFilter = (filter) => {
     if (!filter.column || !filter.value) return null;
+
+    // Update planets when a `filter` is added
+    const newFilteredPlanets = filteredPlanets.filter(getOperator(filter));
+    setFilteredPlanets(newFilteredPlanets);
 
     setFilters({ ...filters,
       filterByNumericValues: [
         ...filters.filterByNumericValues,
         filter,
       ] });
-
-    // Update planets
-    const newFilteredPlanets = filteredPlanets.filter(getOperator(filter));
-    setFilteredPlanets(newFilteredPlanets);
   };
 
-  // Remove `column` already used
+  // Remove `column` already used when `filterByNumericValues` change
   useEffect(() => {
     const usedColumns = filters.filterByNumericValues.map((filter) => filter.column);
     const newColumnsState = initialColumns.filter((col) => !usedColumns.includes(col));
@@ -74,8 +77,8 @@ function PlanetProvider({ children }) {
     planets: filteredPlanets,
     isFetching,
     filters,
-    setFilters,
     addFilter,
+    handleSearchByName,
     columns,
   };
 

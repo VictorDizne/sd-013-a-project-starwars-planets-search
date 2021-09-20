@@ -20,7 +20,7 @@ function NumericValuesFilter() {
   };
 
   const handleClick = () => {
-    addFilter(filter); // Manda para o Provider
+    addFilter(filter);
   };
 
   useEffect(() => {
