@@ -11,8 +11,7 @@ function PlanetProvider({ children }) {
     },
   });
   const [planets, setPlanets] = useState([]);
-  // const teste = useContext(TestContext);
-  // const store = { PlanetContext, TextContext: teste };
+
   const planetProviderValue = { filter, setFilter, planets, setPlanets };
 
   useEffect(() => {

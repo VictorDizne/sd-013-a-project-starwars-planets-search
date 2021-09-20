@@ -1,29 +1,16 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React from 'react';
 import './App.css';
-import PlanetContext from './context/PlanetContext';
 import Table from './components/Table';
+import PlanetProvider from './context/PlanetProvider'; // mover o provider para APP para atender o requisito 1
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  const { planets } = useContext(PlanetContext);
-
-  useEffect(() => {
-    if (planets.length) setLoading(false);
-  }, [planets]);
-  // componentDidMount
-  // useEffect(async () => {
-  //   const results = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
-  //   const planets = await results.json();
-  //   console.log(planets);
-  // }, []);
+  // const [loading, setLoading] = useState(true);
   return (
-    (loading ? <span>Loading ...</span>
-      : (
-        <>
-          <span>Hello, App!</span>
-          <Table />
-        </>
-      ))
+
+    <PlanetProvider>
+      <Table />
+    </PlanetProvider>
+
   );
 }
 

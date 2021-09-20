@@ -4,7 +4,6 @@ import { htmlID } from '../util';
 
 const Table = () => {
   const { planets } = useContext(PlanetContext);
-  console.log('PLANETS IN TABLE', planets);
   function generateColumns() {
     const columns = { ...planets[0] };
     delete columns.residents; // a coluna residents não deve ser inserida na tabela
@@ -33,13 +32,13 @@ const Table = () => {
       const planetRow = (
         <tr key={ htmlID({ name: `linha${index}` }) }>
           <td key={ htmlID({ name }) }>{ name }</td>
-          <td key={ htmlID({ name: rotation_period }) }>{ planet.rotation_period }</td>
-          <td key={ htmlID({ name: orbital_period }) }>{ planet.orbital_period }</td>
+          <td key={ htmlID({ name: 'rotation_period' }) }>{ planet.rotation_period }</td>
+          <td key={ htmlID({ name: 'orbital_period' }) }>{ planet.orbital_period }</td>
           <td key={ htmlID({ name: diameter }) }>{ diameter }</td>
           <td key={ htmlID({ name: climate }) }>{ climate }</td>
           <td key={ htmlID({ name: gravity }) }>{ gravity }</td>
           <td key={ htmlID({ name: terrain }) }>{ terrain }</td>
-          <td key={ htmlID({ name: surface_water }) }>{ planet.surface_water }</td>
+          <td key={ htmlID({ name: 'surface_water' }) }>{ planet.surface_water }</td>
           <td key={ htmlID({ name: population }) }>{ population }</td>
           <td key={ htmlID({ name: films }) }>{ films }</td>
           <td key={ htmlID({ name: created }) }>{ created }</td>
@@ -49,12 +48,16 @@ const Table = () => {
       return planetRow;
     });
   }
-  return (
-    <>
-      { generateColumns() }
-      { generateRows() }
-    </>
-  );
+
+  function generateTable() {
+    return (
+      <table>
+        <thead>{ generateColumns() }</thead>
+        <tbody>{ generateRows() }</tbody>
+      </table>
+    );
+  }
+  return (generateTable());
 };
 
 export default Table;
