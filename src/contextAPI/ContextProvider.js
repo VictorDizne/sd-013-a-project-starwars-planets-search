@@ -7,13 +7,11 @@ function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [planetNameInput, setPlanetInput] = useState('');
   const [filteredData, setFilteredData] = useState([]);
-  // const [filterByNumericValues, setFilterByNumericValues] = useState([
-  //   {
-  //     column: 'population',
-  //     comparison: 'maior que',
-  //     value: '',
-  //   },
-  // ]);
+  const [filterByNumericValues, setFilterByNumericValues] = useState([]);
+  const [columnOptions, setColumnOptions] = useState([
+    'population', 'orbital_period',
+    'diameter', 'rotation_period', 'surface_water',
+  ]);
   const [actualNumericFilter, setActualNumericFilter] = useState({
     column: 'population',
     comparison: 'maior que',
@@ -42,37 +40,47 @@ function PlanetsProvider({ children }) {
   };
 
   const handleClickNumericFilter = () => {
-    const filteredPlanets = planets.filter(({ name }) => (
-      name.toLocaleLowerCase().includes(planetNameInput.toLocaleLowerCase())))
-      .filter((planet) => {
-        const searchKeyValue = Number(Object.entries(planet)
-          .find(([key]) => key === actualNumericFilter.column)[1]);
+    setFilterByNumericValues([...filterByNumericValues, actualNumericFilter]);
 
-        switch (actualNumericFilter.comparison) {
-        case 'maior que':
-          return searchKeyValue > Number(actualNumericFilter.value);
-        case 'menor que':
-          return searchKeyValue < Number(actualNumericFilter.value);
-        case 'igual a':
-          return searchKeyValue === Number(actualNumericFilter.value);
-        default:
-          return '';
-        }
-      });
-
-    setFilteredData(filteredPlanets);
+    setColumnOptions(columnOptions
+      .filter((option) => option !== actualNumericFilter.column));
   };
 
+  useEffect(() => {
+    setActualNumericFilter({
+      ...actualNumericFilter,
+      column: columnOptions[0],
+    });
+  }, [columnOptions]);
+
   useEffect(() => { // Sempre que o estado planetNameInput e o planets são modificados um novo array de planetas é gerado de acordo com o filtro do input
-    const filteredPlanets = planets.filter(({ name }) => (
-      name.toLocaleLowerCase().includes(planetNameInput.toLocaleLowerCase()))); // filtro pelo nome do planeta
+    // Peguei a referencia do filtro dos numericValues do repositório da Julia Baptista!
+    const comparisonHandler = {
+      'maior que': (firstNumber, secondNumber) => firstNumber > secondNumber,
+      'menor que': (firstNumber, secondNumber) => firstNumber < secondNumber,
+      'igual a': (firstNumber, secondNumber) => firstNumber === secondNumber,
+    };
+
+    const filteredPlanets = planets.filter((planet) => {
+      const filterByName = planet.name.toLowerCase()
+        .includes(planetNameInput.toLowerCase());
+
+      const filterByNumericValue = filterByNumericValues
+        .every(({ column, comparison, value }) => (
+          comparisonHandler[comparison](Number(planet[column]), Number(value))
+        ));
+
+      return filterByName && filterByNumericValue;
+    });
+
     setFilteredData(filteredPlanets);
-  }, [planetNameInput, planets]);
+  }, [planetNameInput, planets, filterByNumericValues]);
 
   const contextValue = {
     data: planets,
     filteredData,
     actualNumericFilter,
+    columnOptions,
     filters: {
       filterByName: {
         name: planetNameInput,
