@@ -33,7 +33,7 @@ export default function SelectFilterForm() {
   };
 
   const deleteFilter = () => {
-    const column = document.getElementById('view-column-filter').innerText;
+    const column = document.getElementById('view-column-filter').textContent;
     setColumnsFilter([...columnsFilter, column]);
     delFilterByNumericValues(column);
   };
@@ -42,9 +42,9 @@ export default function SelectFilterForm() {
     <ul>
       {listaFilter.filters.filterByNumericValues.map((item, index) => (
         <li key={ index * Math.PI } data-testid="filter">
-          <button type="button" id="view-column-filter">{item.column}</button>
-          <button type="button" id="view-column-comparison">{item.comparison}</button>
-          <button type="button" id="view-column-value">{item.value}</button>
+          <span id="view-column-filter">{item.column}</span>
+          <span id="view-column-comparison">{item.comparison}</span>
+          <span id="view-column-value">{item.value}</span>
           <button type="button" onClick={ onclick }>X</button>
         </li>
       ))}
