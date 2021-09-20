@@ -24,7 +24,25 @@ export default function Provider({ children }) {
     if (data === '') {
       fetchApi();
     }
-  }, [data]);
+
+    const column = [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ];
+
+    if (filters !== undefined) {
+      const numericValue = filters.filters.filterByNumericValues;
+      setColumnFilter(
+        column.filter((c) => !numericValue
+          .map((item) => item.column).includes(c)) !== column
+          && column.filter((c) => !numericValue
+            .map((item) => item.column).includes(c)),
+      );
+    }
+  }, [data, filters]);
 
   return (
     <main>
