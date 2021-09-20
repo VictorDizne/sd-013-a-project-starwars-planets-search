@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetContext from './PlanetContext';
 
+// filteredByNumericValues recebe objeto com {column: '', comparison: '', value: 0 }
 const initialFilters = {
   filterbyName: {
     name: '',
@@ -10,11 +11,11 @@ const initialFilters = {
   ],
 };
 
-// const objectLiteral = {
-//   'more-than': () => { console.log('more-than'); },
-//   'lesser-than': () => {},
-//   'equal-to': () => {},
-// };
+const objectLiteral = {
+  'maior que': (a, b) => Number(a) > Number(b),
+  'menor que': (a, b) => Number(a) < Number(b),
+  'igual a': (a, b) => Number(a) === Number(b),
+};
 
 // objectLiteral['more-than']();
 
@@ -41,23 +42,35 @@ const PlanetProvider = ({ children }) => {
     setSearchText(value);
   };
 
-  const contextValue = {
-    data,
-    planets,
-    handleChange,
-    searchText,
-    filters,
-    setFilters,
-  };
-
   const nameFilter = () => {
-    const filteredPlanetsByName = data.filter((item) => item.name.includes(searchText));
+    const filteredPlanetsByName = data
+      .filter((planet) => planet.name.includes(searchText));
+    // console.log(filteredPlanetsByName)
     setPlanets(filteredPlanetsByName);
   };
   //
   const filterData = () => {
-  //  filters.filterByNumericValues.forEach()
-    console.log(filters);
+    // const {column, comparison, value} = filters.filterByNumericValues;
+    // console.log(filters.filterByNumericValues);
+
+    const filteredByNumber = data.filter((planet) => {
+      const comparisonToUse = filters.filterByNumericValues[0].comparison;
+      const valueToCompare = filters.filterByNumericValues[0].value;
+      const columnToCompare = filters.filterByNumericValues[0].column;
+
+      // console.log(filters.filterByNumericValues[0]);
+      // console.log(comparisonToUse);
+      // console.log((planet[columnToCompare]));
+      // console.log(valueToCompare);
+      // console.log(columnToCompare);
+
+      return objectLiteral[comparisonToUse](Number(planet[columnToCompare]),
+        Number(valueToCompare));
+    });
+    setPlanets(filteredByNumber);
+    //  filters.filterByNumericValues.forEach()
+    // console.log(filters);
+    // console.log(filters.filterByNumericValues.length);
   };
 
   //
@@ -68,6 +81,15 @@ const PlanetProvider = ({ children }) => {
   // useEffect(setFilters, [filters]);
   useEffect(filterData, [filters]);
 
+  const contextValue = {
+    data,
+    planets,
+    handleChange,
+    searchText,
+    filters,
+    setFilters,
+    filterData,
+  };
   return (
     <PlanetContext.Provider value={ contextValue }>
       {children}
