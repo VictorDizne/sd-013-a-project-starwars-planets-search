@@ -6,17 +6,19 @@ function Table() {
   const { planets, planetsKeys } = useContext(MyContext);
 
   return (
-    <div className="table-box">
+    <div className="table-container">
       <table className="table">
-        <thead className="tb-header">
-          <tr className="tb-row">
-            { planetsKeys.map((key) => (
+        <thead className="table-head">
+          <tr className="thead-row">
+            {planetsKeys.map((key) => (
               <th key={ key } name={ key }>{ key }</th>
-            )) }
+            ))}
           </tr>
         </thead>
-        <tbody className="tb-body">
-          <Planets planets={ planets } />
+        <tbody className="table-body">
+          <Planets
+            planets={ planets }
+          />
         </tbody>
       </table>
     </div>

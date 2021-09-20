@@ -1,30 +1,38 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import useFilters from '../hooks/useFilters';
 import MyContext from '../context/MyContext';
 import Input from './Input';
 import Select from './Select';
+import Filters from './Filters';
 
 function Header() {
-  const { setQueryValue, numFilters, setNumFilters } = useContext(MyContext);
+  const { setQueryValue, setNumFilters } = useContext(MyContext);
   const [handleFilter] = useFilters();
   const INITIAL_INPUT_VALUE = {
     column: 'population',
     comparison: 'maior que',
     value: 0,
   };
-  const [inputValues, setInputValues] = useState(INITIAL_INPUT_VALUE);
-
-  const columnFilters = ['population',
+  const initialColumn = ['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+  const [inputValues, setInputValues] = useState(INITIAL_INPUT_VALUE);
+  const [columnFilters, setColumnFilters] = useState(initialColumn);
+
   const comparisonFilters = ['maior que', 'igual a', 'menor que'];
 
   const handleFilterChange = ({ target: { name, value } }) => {
     setInputValues({ ...inputValues, [name]: value });
-    setNumFilters({ ...numFilters, [name]: value });
   };
+
+  useEffect(() => {
+    setNumFilters(inputValues);
+  }, [inputValues, setNumFilters]);
 
   const handleClick = () => {
     handleFilter();
+    setColumnFilters(initialColumn);
+    const filterColumn = initialColumn.filter((column) => column !== inputValues.column);
+    setColumnFilters(filterColumn);
   };
 
   const handleSubmit = (event) => {
@@ -78,6 +86,7 @@ function Header() {
           Adicionar Filtro
         </button>
       </form>
+      <Filters />
     </header>
   );
 }
