@@ -18,12 +18,15 @@ const Provider = ({ children }) => {
         .then((response) => {
           response.json().then((data) => {
             const planets = data.results;
-            delete planets.residents;
-            setStatePlanets(planets);
-            console.log(planets);
-          });
-        });
-    }
+            const planetsOff = planets.map((planet) => {
+              const planetsOffResidents = planet;
+              delete planetsOffResidents.residents;
+              setStatePlanets(planetsOffResidents);
+              console.log(planets);
+          })
+        }),
+      })
+    };
     fechtApi();
   }, []);
 
