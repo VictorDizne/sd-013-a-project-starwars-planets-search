@@ -1,9 +1,14 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import StarsContext from '../context/StarContext';
 
 function Select() {
-  const { setFilters, filters } = useContext(StarsContext);
-  const [localFilter, setLocalFilter] = useState({
+  const optionColumns = ['population', 'orbital_period', 'rotation_period', 'diameter',
+    'surface_water'];// options parte column criada de forma dinamica
+  const { filters, setFilters } = useContext(StarsContext);// chamando do contexto;
+  const { filterByNumericValues } = filters; // descontruindo filterByNumericValue
+  const [columnState, setColumnState] = useState(optionColumns); // um estado para as colunas
+  const [hiddenStatus, setHiddenStatus] = useState(false);
+  const [localFilter, setLocalFilter] = useState({ // filtro local para receber os selects e as mudanças de valores
     column: 'population',
     comparison: 'maior que',
     value: '',
@@ -16,23 +21,52 @@ function Select() {
     });
   }
 
-  function changeData() {
+  function changeFilterContext() {
     setFilters({
-      ...filters,
-      filterByNumericValues: [...filters.filterByNumericValues, localFilter],
+      ...filters, // para nao perder o nome
+      filterByNumericValues: [...filters.filterByNumericValues, localFilter], // alterando a chave filterByNumericValues, depois juntando objeto com o novo objeto que chega.Ex: population maior que 2000, junta com diametro menor que 100.
     });
   }
 
+  // Ajuda da Júlia, e consulta ao pr da Júlia: https://github.com/tryber/sd-013-a-project-starwars-planets-search/pull/52
+  useEffect(() => {
+    const columnFilter = filterByNumericValues.map((filterNum) => filterNum.column); // vai vir  columns, comparion e value, eu só quero o column selecionado pela pessoa
+    const filterRest = optionColumns.filter((oc) => !columnFilter.includes(oc)); // filtrando as colunas restantes e deixando só elas nas options;
+    setColumnState(filterRest);
+    console.log(optionColumns, 'columns');
+    console.log(filterRest);
+  }, [filterByNumericValues]);
+
+  useEffect(() => {
+    const columnValue = document.getElementById('column').value;
+    setLocalFilter({ // setando valor no filtro local
+      ...localFilter,
+      column: columnValue, // deixando o valor da option que sobrou porque a handleChange não monitora alterações da column state
+    });
+    if (columnState.length === 0) {
+      setHiddenStatus(true);
+    } else {
+      setHiddenStatus(false);
+    }
+  }, [columnState]);
+
   return (
     <div>
-      <select name="column" data-testid="column-filter" onChange={ handleChange }>
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+      <select
+        name="column"
+        id="column"
+        data-testid="column-filter"
+        onChange={ handleChange }
+        hidden={ hiddenStatus }
+      >
+        {columnState.map((c, index) => <option key={ index } value={ c }>{c}</option>)}
       </select>
-      <select name="comparison" data-testid="comparison-filter" onChange={ handleChange }>
+      <select
+        name="comparison"
+        data-testid="comparison-filter"
+        onChange={ handleChange }
+        hidden={ hiddenStatus }
+      >
         <option value="maior que">maior que</option>
         <option value="menor que">menor que</option>
         <option value="igual a">igual a</option>
@@ -42,11 +76,12 @@ function Select() {
         name="value"
         data-testid="value-filter"
         onChange={ handleChange }
+        hidden={ hiddenStatus }
       />
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ changeData }
+        onClick={ changeFilterContext }
       >
         Acionar filtro
       </button>

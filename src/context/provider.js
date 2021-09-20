@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import StarsContext from './StarContext';
 
-function Provider({ children }) {
-  const [data, setData] = useState([]);
+function Provider({ children }) { // descontruiu o children
+  const [data, setData] = useState([]); // criado para receber a api
   const [filters, setFilters] = useState(
     {
       filterByName: {
@@ -21,10 +21,10 @@ function Provider({ children }) {
     const arrayResult = Obj.results;
     setData(arrayResult);
   };
-  useEffect(() => {
+  useEffect(() => { // semelhante ao componente didmount
     StarsApi();
   }, []);
-  const contextValue = {
+  const contextValue = { // passando para o contexto para terem acesso os elelementos filhos
     data,
     filters,
     setFilters,
