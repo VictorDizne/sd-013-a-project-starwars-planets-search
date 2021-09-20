@@ -4,6 +4,7 @@ import Context from './Context';
 
 export default function Provider({ children }) {
   const [data, setData] = useState('');
+  const [titlesTable, setTitlesTable] = useState([]);
   const [filters, setFilters] = useState();
   const [columnFilter, setColumnFilter] = useState([
     'population',
@@ -45,18 +46,18 @@ export default function Provider({ children }) {
   }, [data, filters]);
 
   return (
-    <main>
-      <Context.Provider
-        value={ { data,
-          filters,
-          setFilters,
-          setData,
-          columnFilter,
-          setColumnFilter } }
-      >
-        {children}
-      </Context.Provider>
-    </main>
+    <Context.Provider
+      value={ { data,
+        filters,
+        setFilters,
+        setData,
+        columnFilter,
+        setColumnFilter,
+        titlesTable,
+        setTitlesTable } }
+    >
+      {children}
+    </Context.Provider>
   );
 }
 

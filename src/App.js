@@ -6,16 +6,18 @@ import Table from './components/Table';
 import SearchByName from './components/SearchByName';
 import SearchByNumericValue from './components/SearchByNumericValue';
 import FilterButton from './components/FilterButton';
+import OrderPlanet from './components/OrderPlanet';
 
 function App() {
   return (
-    <Provider>
+    <Provider key="provider">
       <div style={ { display: 'flex', flexDirection: 'column' } }>
         <SearchByName />
         <SearchByNumericValue />
+        <OrderPlanet />
       </div>
       <FilterButton />
-      <Table />
+      <Table key="table" />
     </Provider>
   );
 }

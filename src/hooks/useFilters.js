@@ -12,6 +12,10 @@ function useFilters() {
           name: '',
         },
         filterByNumericValues: [],
+        order: {
+          column: 'name',
+          sort: 'ASC',
+        },
       },
     };
 
