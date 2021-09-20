@@ -15,7 +15,7 @@ function PlanetProvider({ children }) {
       {
         column: 'population',
         comparison: 'maior que',
-        value: 0,
+        value: '0',
       },
     ],
   });

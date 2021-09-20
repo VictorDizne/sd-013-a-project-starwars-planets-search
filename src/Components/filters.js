@@ -35,6 +35,7 @@ function Filters() {
 
     const numericFilter = nameFilter.filter((planet) => filterByNumericValues
       .every(({ column, comparison, value }) => {
+        if (planet.population === 'unknown') return true;
         switch (comparison) {
         case ('igual a'):
           return (Number(planet[column]) === Number(value));
@@ -43,7 +44,7 @@ function Filters() {
         case ('maior que'):
           return (Number(planet[column]) > Number(value));
         default:
-          return null;
+          return planet;
         }
       }));
     return numericFilter;
