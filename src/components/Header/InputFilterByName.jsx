@@ -7,7 +7,7 @@ const InputFilterByName = () => {
     filter: { filters: { filterByName: { name } } },
   } = useContext(PlanetContext);
 
-  const handleOnChange = ({ target: { value } }) => {
+  function handleOnChange({ target: { value } }) {
     setFilter({ filters: { filterByName: { name: value } } });
   };
 

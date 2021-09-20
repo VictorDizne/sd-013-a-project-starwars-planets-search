@@ -7,7 +7,7 @@ function PlanetProvider({ children }) {
   const [filter, setFilter] = useState({
     filters: {
       filterByName: { name: '' },
-      filterByNumericValues: [],
+      filterByNumericValues: ['a'],
     },
   });
   const [planets, setPlanets] = useState([]);
