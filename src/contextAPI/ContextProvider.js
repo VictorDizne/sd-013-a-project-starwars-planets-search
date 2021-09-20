@@ -18,8 +18,6 @@ function PlanetsProvider({ children }) {
     value: '',
   });
 
-  const [buttonIsClicked, setButtonIsClicked] = useState(false);
-
   const getPlanets = async () => {
     const fetchedPlanets = await fetchStarWarsPlanets();
     setPlanets(fetchedPlanets);
@@ -42,29 +40,10 @@ function PlanetsProvider({ children }) {
   };
 
   const handleClickNumericFilter = () => {
-    // const filteredPlanets = planets.filter(({ name }) => (
-    //   name.toLowerCase().includes(planetNameInput.toLowerCase())))
-    //   .filter((planet, index, lastFilteredPlanets) => {
-    //     const searchKeyValue = Number(Object.entries(planet)
-    //       .find(([key]) => key === actualNumericFilter.column)[1]);
-
-    //     switch (actualNumericFilter.comparison) {
-    //     case 'maior que':
-    //       return searchKeyValue > Number(actualNumericFilter.value);
-    //     case 'menor que':
-    //       return searchKeyValue < Number(actualNumericFilter.value);
-    //     case 'igual a':
-    //       return searchKeyValue === Number(actualNumericFilter.value);
-    //     default:
-    //       return lastFilteredPlanets;
-    //     }
-    //   });
     setFilterByNumericValues([...filterByNumericValues, actualNumericFilter]);
+
     setColumnOptions(columnOptions
       .filter((option) => option !== actualNumericFilter.column));
-    setButtonIsClicked(true);
-
-    // setFilteredData(filteredPlanets);
   };
 
   useEffect(() => {
@@ -75,44 +54,24 @@ function PlanetsProvider({ children }) {
   }, [columnOptions]);
 
   useEffect(() => { // Sempre que o estado planetNameInput e o planets são modificados um novo array de planetas é gerado de acordo com o filtro do input
-    // const filteredPlanets = planets.filter(({ name }) => (
-    //   name.toLocaleLowerCase().includes(planetNameInput.toLocaleLowerCase()))); // filtro pelo nome do planeta
-    // setFilteredData(filteredPlanets);
-    const filteredPlanets = planets.filter(({ name }) => (
-      name.toLowerCase().includes(planetNameInput.toLowerCase())))
-      .filter((planet, index, lastFilteredPlanets) => {
-        if (!buttonIsClicked) return lastFilteredPlanets;
+    // Peguei a referencia do filtro dos numericValues do repositório da Julia Baptista!
+    const comparisonHandler = {
+      'maior que': (firstNumber, secondNumber) => firstNumber > secondNumber,
+      'menor que': (firstNumber, secondNumber) => firstNumber < secondNumber,
+      'igual a': (firstNumber, secondNumber) => firstNumber === secondNumber,
+    };
 
-        const [planetKey, planetValue] = Object.entries(planet)
-          .find(([key]) => key === filterByNumericValues[0].column);
-        console.log(planetKey);
-        switch (filterByNumericValues[0].comparison) {
-        case 'maior que':
-          return planetValue > filterByNumericValues[0].value;
-        case 'menor que':
-          return planetValue < filterByNumericValues[0].value;
-        case 'igual a':
-          return planetValue === filterByNumericValues[0].value;
-        default:
-          return lastFilteredPlanets;
-        }
-      });
+    const filteredPlanets = planets.filter((planet) => {
+      const filterByName = planet.name.toLowerCase()
+        .includes(planetNameInput.toLowerCase());
 
-      // .filter((planet, index, lastFilteredPlanets) => {
-      //   if (!buttonIsClicked) return lastFilteredPlanets;
-      //   const searchKeyValue = Number(Object.entries(planet)
-      //     .find(([key]) => key === actualNumericFilter.column)[1]);
-      //   switch (actualNumericFilter.comparison) {
-      //   case 'maior que':
-      //     return searchKeyValue > Number(actualNumericFilter.value);
-      //   case 'menor que':
-      //     return searchKeyValue < Number(actualNumericFilter.value);
-      //   case 'igual a':
-      //     return searchKeyValue === Number(actualNumericFilter.value);
-      //   default:
-      //     return lastFilteredPlanets;
-      //   }
-      // });
+      const filterByNumericValue = filterByNumericValues
+        .every(({ column, comparison, value }) => (
+          comparisonHandler[comparison](Number(planet[column]), Number(value))
+        ));
+
+      return filterByName && filterByNumericValue;
+    });
 
     setFilteredData(filteredPlanets);
   }, [planetNameInput, planets, filterByNumericValues]);
