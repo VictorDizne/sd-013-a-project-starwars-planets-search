@@ -6,7 +6,8 @@ const Table = () => {
   const { planets, isLoading, filters } = contextValue;
   const { filters: { filterByName, filterByNumericValues } } = filters;
   const { name } = filterByName;
-  const { column, comparison, value } = filterByNumericValues[0];
+  const { column, comparison, value } = filterByNumericValues[
+    filterByNumericValues.length - 1];
 
   const filterUsingNumericValues = () => {
     let comparisonFunction;

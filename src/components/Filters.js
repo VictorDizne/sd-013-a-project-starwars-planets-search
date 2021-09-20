@@ -5,11 +5,12 @@ import Input from './Input';
 
 const Filters = () => {
   const { contextValue } = useContext(AppContext);
-  const { setName, setColumn, setComparison, setValue } = contextValue;
+  const { setName, setArrayNumericValues, arrayNumericValues } = contextValue;
 
   const [localColumn, setlocalColumn] = useState('population');
   const [localComparison, setlocalComparison] = useState('maior que');
   const [localValue, setlocalValue] = useState('100000');
+  const [options, setOptions] = useState(columns);
 
   return (
     <form>
@@ -29,7 +30,7 @@ const Filters = () => {
         name: 'Paramêtro: ',
         testId: 'column-filter',
         onChange: (e) => setlocalColumn(e.target.value),
-        data: columns } }
+        data: options } }
       />
       <Input
         propsObject={ { id:
@@ -52,9 +53,21 @@ const Filters = () => {
         data-testid="button-filter"
         type="button"
         onClick={ () => {
-          setColumn(localColumn);
-          setComparison(localComparison);
-          setValue(localValue);
+          setOptions(options.filter(((e) => e !== localColumn)));
+          setlocalColumn(options[1]);
+          if (arrayNumericValues.length === 1) {
+            setArrayNumericValues([{
+              column: localColumn,
+              comparison: localComparison,
+              value: localValue,
+            }]);
+          } else {
+            setArrayNumericValues([...arrayNumericValues, {
+              column: localColumn,
+              comparison: localComparison,
+              value: localValue,
+            }]);
+          }
         } }
       >
         Pesquisar
