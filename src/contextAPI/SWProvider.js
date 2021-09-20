@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import PlanetsContext from './SWContext';
 import useFetchSW from '../hooks/useFetchSW';
 
@@ -14,5 +15,9 @@ function SWProvider({ children }) {
     </PlanetsContext.Provider>
   );
 }
+
+SWProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default SWProvider;

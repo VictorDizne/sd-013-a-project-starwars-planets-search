@@ -1,12 +1,14 @@
 import React from 'react';
 import './App.css';
-import PlanetsTable from './components/PlanetsTable';
+import PlanetsTable from './pages/PlanetsTable';
 import SWProvider from './contextAPI/SWProvider';
+import useFetchSW from './hooks/useFetchSW';
 
 function App() {
+  const [, isLoading] = useFetchSW();
   return (
     <SWProvider>
-      <PlanetsTable />
+      {isLoading ? 'loading...' : <PlanetsTable />}
     </SWProvider>
   );
 }

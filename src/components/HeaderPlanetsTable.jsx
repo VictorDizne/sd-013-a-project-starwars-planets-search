@@ -7,7 +7,7 @@ function HeaderPlanetsTable() {
   return (
     <thead>
       <tr>
-        {isLoading ? 'loading...'
+        {isLoading ? null
           : Object.keys(planets[0]).map((column, index) => (
             <th key={ index }>{ column }</th>))}
       </tr>
