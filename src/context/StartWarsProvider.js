@@ -4,6 +4,13 @@ import StarWarsContext from './StartWarsContext';
 
 function StarWarsProvider({ children }) {
   const [dataPlanet, setDataPlanet] = useState([]);
+  const [filters, setFilters] = useState(
+    {
+      filterByName: {
+        name: '',
+      },
+    },
+  );
 
   useEffect(() => {
     async function fetchData() {
@@ -14,15 +21,22 @@ function StarWarsProvider({ children }) {
     fetchData();
   }, []);
 
+  const contextValue = {
+    dataPlanet,
+    setDataPlanet,
+    filters,
+    setFilters,
+  };
+
   return (
-    <StarWarsContext.Provider value={ dataPlanet }>
+    <StarWarsContext.Provider value={ contextValue }>
       {children}
     </StarWarsContext.Provider>
   );
 }
 
 StarWarsProvider.propTypes = {
-  children: PropTypes.objectOf(Object).isRequired,
-};
+  children: PropTypes.arrayOf,
+}.isRequired;
 
 export default StarWarsProvider;
