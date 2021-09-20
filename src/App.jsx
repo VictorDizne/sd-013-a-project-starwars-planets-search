@@ -4,8 +4,8 @@ import Table from './components/Table/Table';
 import PlanetProvider from './context/PlanetProvider'; // mover o provider para APP para atender o requisito 1
 import Header from './components/Header/Header';
 
-function App() {
-  // const [loading, setLoading] = useState(true);
+const App = () => {
+  const [loading, setLoading] = useState(true);
   return (
 
     <PlanetProvider>
@@ -15,6 +15,6 @@ function App() {
 
     </PlanetProvider>
   );
-}
+};
 
 export default App;

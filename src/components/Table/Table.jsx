@@ -28,7 +28,7 @@ const Table = () => {
         created,
         edited,
         url,
-      } = planet;
+      } = planet; // lint não aceita camel_case, é preciso acessar a property pelo objeto
       const planetRow = (
         <tr key={ htmlID({ name: `linha${index}` }) }>
           <td key={ htmlID({ name }) }>{ name }</td>
@@ -49,7 +49,7 @@ const Table = () => {
     });
   }
 
-  function generateTable() {
+  function renderTable() {
     return (
       <table>
         <thead>{ generateColumns() }</thead>
@@ -57,7 +57,7 @@ const Table = () => {
       </table>
     );
   }
-  return (generateTable());
+  return (renderTable());
 };
 
 export default Table;
