@@ -9,7 +9,7 @@ const InputFilterByName = () => {
 
   function handleOnChange({ target: { value } }) {
     setFilter({ filters: { filterByName: { name: value } } });
-  };
+  }
 
   return (
     <>

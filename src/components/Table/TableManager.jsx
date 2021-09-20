@@ -7,8 +7,8 @@ const TableManager = () => {
   const { filter, planets } = useContext(PlanetContext);
   const [componentDidMount, setComponetDidMount] = useState(false);
   // const [prevFilter, setPrevFilter] = useState();
-  // ao montar o componente gera uma cópia dos planetas que podem ser filtrados
-  useEffect(() => {
+
+  useEffect(() => { // ao montar o componente gera uma cópia dos planetas que podem ser filtrados
     if (!componentDidMount) {
       setFilteredPlanets([...planets]);
       setComponetDidMount(true);
@@ -16,34 +16,23 @@ const TableManager = () => {
     }
   }, [componentDidMount, filter, planets]);
 
-  // ao atualizar o texto na searchbar executar um filtro de nome nos componetes
-  useEffect(() => {
+  useEffect(() => { // ao atualizar o filtro Númerico ou a SearchBar atualiza a tabela
     function filterPlanets() {
-      const {
-        filters: {
-          filterByName,
-        },
-      } = filter;
-
+      const { filters: { filterByName } } = filter;
       const INPUT_FROM_SEARCHBAR = filterByName.name;
-
       const planetData = planets
         .filter((planet) => planet.name.includes(INPUT_FROM_SEARCHBAR));
       return planetData;
     }
 
-    // if (filteredPlanets) filterPlanets();
-    // setFilteredPlanets(filterPlanets());
     if (componentDidMount) {
-      console.log('L37', filter);
-      console.log('L38', filter.filters.filterByName.name);
-      // console.log(prevFilter);
-      // console.log('L39', filteredPlanets);
       setFilteredPlanets(filterPlanets());
     }
   }, [componentDidMount, filter, planets]);
 
-  return (<Table data={ filteredPlanets } />);
+  return (
+    <Table data={ componentDidMount ? filteredPlanets : planets } />
+  );
 };
 
 export default TableManager;

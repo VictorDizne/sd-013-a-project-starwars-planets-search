@@ -1,10 +1,8 @@
-import React, { useContext } from 'react';
-import PlanetContext from '../../context/PlanetContext';
+import React from 'react';
 import { htmlID } from '../../util';
 
-const Table = () => {
-  const { planets } = useContext(PlanetContext);
-  function generateColumns() {
+const Table = ({ data }) => {
+  function generateColumns(planets) {
     const columns = { ...planets[0] };
     delete columns.residents; // a coluna residents não deve ser inserida na tabela
     return (
@@ -15,7 +13,7 @@ const Table = () => {
       </tr>);
   }
 
-  function generateRows() {
+  function generateRows(planets) {
     return planets.map((planet, index) => {
       const {
         name,
@@ -49,15 +47,15 @@ const Table = () => {
     });
   }
 
-  function renderTable() {
+  function renderTable(planets) {
     return (
       <table>
-        <thead>{ generateColumns() }</thead>
-        <tbody>{ generateRows() }</tbody>
+        <thead>{ generateColumns(planets) }</thead>
+        <tbody>{ generateRows(planets) }</tbody>
       </table>
     );
   }
-  return (renderTable());
+  return (renderTable(data));
 };
 
 export default Table;
