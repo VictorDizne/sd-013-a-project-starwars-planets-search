@@ -1,16 +1,19 @@
-.tr-header {
+.table {
   border: 1px solid black;
-  margin: 10px;
-  padding: 10px;
 }
 
 .th {
+  background-color: black;
   border: 1px solid black;
+  color: red;
+  font-weight: 900;
   padding: 10px;
-  text-align: center;
+}
+
+.tr {
+  border: 1px solid black;
 }
 
 .td {
   border: 1px solid black;
-  text-align: center;
 }
