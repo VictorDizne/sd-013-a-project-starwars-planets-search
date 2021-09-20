@@ -8,7 +8,7 @@ function OrderForm() {
   const { submitOrder } = useContext(PlanetsContext);
   const [localOrder, setLocalOrder] = useState({
     column: '',
-    order: '',
+    sort: '',
   });
 
   const handleChange = ({ target: { value, name } }) => {
@@ -37,7 +37,7 @@ function OrderForm() {
           type="radio"
           id="asc-opt"
           value="ASC"
-          name="order"
+          name="sort"
           onChange={ handleChange }
           data-testid="column-sort-input-asc"
         />
@@ -48,7 +48,7 @@ function OrderForm() {
           type="radio"
           id="desc-opt"
           value="DESC"
-          name="order"
+          name="sort"
           onChange={ handleChange }
           data-testid="column-sort-input-desc"
         />
