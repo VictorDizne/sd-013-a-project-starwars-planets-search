@@ -41,11 +41,11 @@ export default function SelectFilterForm() {
   const tableViewFilter = (listaFilter, onclick) => (
     <ul>
       {listaFilter.filters.filterByNumericValues.map((item, index) => (
-        <li key={ index * Math.PI }>
+        <li key={ index * Math.PI } data-testid="filter">
           <button type="button" id="view-column-filter">{item.column}</button>
           <button type="button" id="view-column-comparison">{item.comparison}</button>
           <button type="button" id="view-column-value">{item.value}</button>
-          <button type="button" data-testid="filter" onClick={ onclick }>x</button>
+          <button type="button" onClick={ onclick }>X</button>
         </li>
       ))}
     </ul>

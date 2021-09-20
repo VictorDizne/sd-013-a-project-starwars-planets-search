@@ -6,7 +6,6 @@ const filterByNumericValue = (data, objContext) => {
 
   if (filterList.length === 0) return data;
   const { value, column, comparison } = filterList[filterList.length - 1];
-
   switch (comparison) {
   case 'maior que':
     return Number(data[column]) > Number(value);
