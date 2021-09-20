@@ -6,8 +6,8 @@ function NumberFilter() {
   const [columnOptions, setColumnOptions] = useState([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [currentFilter, setCurrentFilter] = useState({
-    column: '',
-    comparison: '',
+    column: 'population',
+    comparison: 'maior que',
     value: '',
   });
   const [filtersSelected, setFiltersSelected] = useState([]);
@@ -34,9 +34,9 @@ function NumberFilter() {
   }
 
   function removeFilter(filterRemoved) {
-    // Removes the selected filter from showing
+    // Removes the filter already used from the options
     setFiltersSelected(filtersSelected.filter((filter) => filter !== filterRemoved));
-    // Fetches the Context Filter and filters it to remove the one desired
+    // Fetches the Context Filter and removes the filtering option clicked
     const { filterByNumericValues } = filters;
     const newNumericValues = filterByNumericValues
       .filter((filter) => filter !== filterRemoved);
@@ -72,7 +72,7 @@ function NumberFilter() {
   return (
     <div>
       <label htmlFor="column">
-        Choose a column:
+        Choose a column to compare:
         <select name="column" data-testid="column-filter" onChange={ handleChange }>
           { ShowcolumnOptions() }
         </select>

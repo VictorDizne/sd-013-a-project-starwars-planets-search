@@ -1,5 +1,6 @@
 import React from 'react';
 import NumberFilter from './NumberFilter';
+import OrderFilters from './OrderFilters';
 import TextSearch from './TextSearch';
 
 function FilterBar() {
@@ -7,6 +8,7 @@ function FilterBar() {
     <>
       <TextSearch />
       <NumberFilter />
+      <OrderFilters />
     </>
   );
 }

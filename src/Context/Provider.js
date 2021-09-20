@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import starWarsContext from '.';
 
+// TENTAR COLOCAR TODA A LÓGICA NO COMPONENTDIDMOUNT, NÃO ESQUECER DE TRATAR A QUESTÃO DE ASSINCRONICIDADE POR CONTA DO DATA
+
 function Provider({ children }) {
   const firstRender = useRef(true);
   const filteredPlanets = useRef([]);
@@ -18,9 +20,11 @@ function Provider({ children }) {
         comparison: 'maior que',
         value: '0',
       }],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
-  // APENAS PARA O LINT
-  console.log(backup);
 
   // Fetches the data from the API and sets Loading to false
   useEffect(() => {
@@ -33,13 +37,28 @@ function Provider({ children }) {
     fetchData();
   }, []);
 
+  function compare(a, b, column) {
+    const oneNegative = -1;
+    const onePositive = 1;
+    const zero = 0;
+    if (column === 'name') {
+      if (a[column] < b[column]) {
+        return oneNegative;
+      }
+      if (a[column] > b[column]) {
+        return onePositive;
+      }
+      return zero;
+    } return a[column] - b[column];
+  }
+
   // Filters everytime the filter is modified
   useEffect(() => {
-    function filterPlanets(searchText, filterByNumericValues) {
+    function filterPlanets(searchText, filterByNumericValues, order) {
       // Filters by name
       filteredPlanets.current = [...data]
         .filter((planet) => planet.name.toLowerCase().includes(searchText.toLowerCase()));
-      // Apply every filter
+      // Applies every filter
       [...filterByNumericValues].forEach((filter) => {
         switch (filter.comparison) {
         case 'maior que': {
@@ -67,17 +86,25 @@ function Provider({ children }) {
           break;
         }
       });
+      const { column, sort } = order;
+      if (sort === 'ASC') {
+        const sorted = [...filteredPlanets.current].sort((a, b) => compare(a, b, column));
+        filteredPlanets.current = sorted;
+      } else {
+        const sorted = [...filteredPlanets.current].sort((a, b) => compare(b, a, column));
+        filteredPlanets.current = sorted;
+      }
     }
     if (!firstRender.current) {
-      const { filterByName: { name }, filterByNumericValues } = filters;
-      filterPlanets(name, filterByNumericValues);
+      const { filterByName: { name }, filterByNumericValues, order } = filters;
+      filterPlanets(name, filterByNumericValues, order);
       setBackup(filteredPlanets.current);
     } else {
       firstRender.current = false;
     }
-  }, [filters, data, filteredPlanets]);
+  }, [filters, data]);
 
-  const value = { data, filteredPlanets, loading, filters, setFilters };
+  const value = { data, backup, filteredPlanets, loading, filters, setFilters };
   return (
     <starWarsContext.Provider value={ value }>
       { children }
