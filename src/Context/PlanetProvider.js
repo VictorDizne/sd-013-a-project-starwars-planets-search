@@ -13,10 +13,9 @@ function PlanetProvider({ children }) {
     },
     filterByNumericValues: [
       {
-        column: ['population',
-          'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+        column: 'population',
         comparison: 'maior que',
-        value: '0',
+        value: 0,
       },
     ],
   });

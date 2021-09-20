@@ -1,20 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PlanetContext from '../Context/PlanetContext';
 
 function Table() {
   const context = useContext(PlanetContext);
-  const { data, rend, setRend, filters } = context;
-
-  const applyFilters = () => {
-    const { filterByName: { name } } = filters;
-    const afterFilterName = data
-      .filter((planet) => planet.name.toLowerCase().includes(name));
-    setRend(afterFilterName);
-  };
-
-  useEffect(() => {
-    applyFilters();
-  }, [filters]);
+  const { rend } = context;
 
   return (
     <div>

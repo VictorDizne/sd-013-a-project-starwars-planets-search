@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PlanetContext from '../Context/PlanetContext';
 
 function Filters() {
   const context = useContext(PlanetContext);
-  const { filters, setFilters } = context;
+  const { filters, setFilters, data, setRend } = context;
   const [types, setFilterTypes] = useState(['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [filtercomparison, setfilterComparison] = useState('maior que');
@@ -14,7 +14,7 @@ function Filters() {
     setFilters({ ...filters, filterByName: { name: value.toLowerCase() } });
   };
 
-  const handleFilter = () => {
+  const setFilterByNumericValue = () => {
     const { filterByNumericValues } = filters;
     const objNumeric = {
       column: types,
@@ -26,6 +26,33 @@ function Filters() {
       { ...filters, filterByNumericValues: [...filterByNumericValues, objNumeric] },
     );
   };
+
+  const applyFilters = () => {
+    const { filterByName: { name }, filterByNumericValues } = filters;
+
+    const nameFilter = data
+      .filter((planet) => planet.name.toLowerCase().includes(name));
+
+    const numericFilter = nameFilter.filter((planet) => {
+      return filterByNumericValues.every(({ column, comparison, value }) => {
+        switch (comparison) {
+        case ('igual a'):
+          return (Number(planet[column]) === Number(value));
+        case ('menor que'):
+          return (Number(planet[column]) <= Number(value));
+        case ('maior que'):
+          return (Number(planet[column]) > Number(value));
+        default:
+          return null;
+        }
+      });
+    });
+    return numericFilter;
+  };
+
+  useEffect(() => {
+    setRend(applyFilters());
+  }, [filters]);
 
   const setFilterByNumber = ({ target }) => {
     const { value } = target;
@@ -80,7 +107,13 @@ function Filters() {
         type="number"
         data-testid="value-filter"
       />
-      <input onClick={ handleFilter } type="button" data-testid="button-filter" />
+      <button
+        onClick={ setFilterByNumericValue }
+        type="button"
+        data-testid="button-filter"
+      >
+        Filtrar
+      </button>
     </div>
   );
 }
