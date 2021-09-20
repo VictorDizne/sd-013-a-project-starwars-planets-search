@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import FilterSelector from './components/FilterSelector';
 import SearchBar from './components/SearchBar';
 import Table from './components/Table';
 // import PlanetContext from './context/PlanetContext';
@@ -11,6 +12,7 @@ function App() {
   return (
     <PlanetProvider>
       <SearchBar />
+      <FilterSelector />
       <Table />
       <div>
         {/* <span>Hello, App!</span> */}
