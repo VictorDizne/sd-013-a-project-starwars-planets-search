@@ -6,9 +6,10 @@ import planetAPI from '../service/planetAPI';
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
   const [dataFiltered, setDataFiltered] = useState([]);
-  const [filter, setFilter] = useState(
-    { filterByName: { name: '' } },
-  );
+  const [filter, setFilter] = useState({
+    filterByName: { name: '' },
+    filterByMeasurments: { column: 'population', comparison: 'maior que', value: 0 },
+  });
 
   useEffect(() => {
     const handleAPIRequest = async () => {

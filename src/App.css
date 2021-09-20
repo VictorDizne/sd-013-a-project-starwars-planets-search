@@ -17,7 +17,7 @@ td {
   padding: 10px;
 }
 
-label {
+span {
   font-size: large;
   font-style: oblique;
   font-weight: 800;
@@ -31,4 +31,23 @@ input {
   border: solid 1px;
   border-radius: 5px;
   font-size: large;
+  margin: 10px;
+}
+
+select {
+  border: solid 1px;
+  border-radius: 5px;
+  font-size: large;
+  margin: 10px;
+}
+
+option {
+  border: solid 1px;
+  border-radius: 5px;
+  font-size: large;
+  margin: 10px;
+}
+
+.value-filter {
+  width: 100px;
 }
