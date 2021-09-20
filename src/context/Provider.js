@@ -1,61 +1,77 @@
-import React, { useEffect, useState } from 'react';
-import { oneOfType, arrayOf, node } from 'prop-types';
-import reqAPI from '../services/Api';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import MyContext from './Context';
+import reqAPI from '../services/Api';
 
-function Provider({ children }) {
+const initialFilters = {
+  filterByName: {
+    name: '',
+  },
+  filterByNumericValues: [
+  ],
+};
+
+const objectLiteral = {
+  'maior que': (a, b) => Number(a) > Number(b),
+  'menor que': (a, b) => Number(a) < Number(b),
+  'igual a': (a, b) => Number(a) === Number(b),
+};
+
+const PlanetProvider = ({ children }) => {
   const [data, setData] = useState([]);
-  const [loading, setLoadind] = useState(true);
-  const [name, setName] = useState({
-    filters:
-      {
-        filterByName: {
-          name: '',
-        },
-        filterByNumericValues: [
-          {
-            column: 'population',
-            comparison: 'maior que',
-            value: '',
-          },
-        ],
-      },
-  }); /* state para o filter */
-
-  // const getPlanets = async () => {
-  //   const getAPI = await reqAPI();
-  //   getAPI.forEach((element) => delete element.residents);
-  //   setData(getAPI);
-  //   setLoadind(false);
-  // };
-
-  // const handleChange = ({ target: { value } }) => {
-  //   setFilters({ filters: { filtersByName: { name: value } } });
-  // };
-
+  const [filters, setFilters] = useState(initialFilters);
+  // console.log(data, 'fora');
+  // ComponentDidMount
   useEffect(() => {
-    reqAPI()
-      .then((dados) => {
-        dados
-          .forEach((dado) => delete dado.residents);
-        setData(dados);
-        setLoadind(false);
-      });
+    const fetchPlanetAPI = async () => {
+      const planetList = await reqAPI();
+      setData(planetList);
+    };
+    fetchPlanetAPI();
   }, []);
 
-  const context = { data, loading, ...name, setName };
+  const filterData = () => {
+    // const { column, value, comparison } = filters.filterByNumericValues[0] || {};
 
+    if (data.length) {
+      const resetFilter = data
+        .filter((planet) => {
+          const filterByName = planet.name.toLowerCase()
+            .includes(filters.filterByName.name.toLowerCase());
+
+          const resultNumeric = filters.filterByNumericValues
+            .every(({ column, value, comparison }) => {
+              const filterNumeric = objectLiteral[comparison](planet[column], value);
+              return filterNumeric;
+            // console.log(`${planet.name} ${column}: ${planet[column]} ---- ${value}  ----- ${filterNumeric}`);
+            });
+          return filterByName && resultNumeric;
+        });
+      // console.log(resetFilter, 'filter');
+      return resetFilter;
+    }
+  };
+
+  // column: 'population',
+  // comparison: 'maior que',
+  // value: '0',
+
+  // useEffect(() => {
+  //   filterData();
+  // }, [filters.filterByName.name]);
+  const contextData = {
+    data,
+    filters,
+    setFilters,
+    filterData,
+  };
   return (
-    <MyContext.Provider value={ context }>
+    <MyContext.Provider value={ contextData }>
       { children }
     </MyContext.Provider>
   );
-}
-export default Provider;
-
-Provider.propTypes = {
-  children: oneOfType([
-    arrayOf(node),
-    node,
-  ]).isRequired,
 };
+PlanetProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+export default PlanetProvider;
