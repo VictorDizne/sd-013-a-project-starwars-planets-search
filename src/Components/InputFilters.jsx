@@ -50,7 +50,7 @@ function InputFilters() {
     setFilters((state) => ({
       ...state,
       filterByNumericValues: [...state.filterByNumericValues.filter((item) => {
-        console.log(item, test);
+        // source https://stackoverflow.com/a/57519954
         return item !== filterByNumericValues[test];
       })] }));
   };
