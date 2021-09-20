@@ -1,6 +1,7 @@
 // @ts-check
 import React, { useContext, useEffect } from 'react';
 import MyContext from '../Context/MyContext';
+import TableInfo from './TableInfo';
 
 function Table() {
   const { planetsAtributes, setPlanetsAtributes } = useContext(MyContext);
@@ -11,10 +12,10 @@ function Table() {
       const data = await response.json();
       console.log(data);
 
-      setPlanetsAtributes(data.results);
+      setPlanetsAtributes(data.results || []);
     };
     loadData();
-  });
+  }, [setPlanetsAtributes]);
 
   return (
     <table>
@@ -34,25 +35,7 @@ function Table() {
         <th>URL</th>
       </tr>
       <tbody>
-        {planetsAtributes.map(
-          (planet) => (
-            <tr key={ planet.name }>
-              <td>{planet.name}</td>
-              <td>{planet.rotation_period}</td>
-              <td>{planet.orbital_period}</td>
-              <td>{planet.diameter}</td>
-              <td>{planet.climate}</td>
-              <td>{planet.gravity}</td>
-              <td>{planet.terrain}</td>
-              <td>{planet.surface_water}</td>
-              <td>{planet.population}</td>
-              <td>{planet.films}</td>
-              <td>{planet.created}</td>
-              <td>{planet.edited}</td>
-              <td>{planet.url}</td>
-            </tr>
-          ),
-        )}
+        {planetsAtributes.map(TableInfo)}
       </tbody>
     </table>
   );
