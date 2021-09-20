@@ -44,7 +44,6 @@ function Select() {
 
   // requisito 4 realizado com a ajuda de Lanai Conceição
   const removeSelectedItems = () => { // funcao responsavel por filtrar os valores já selecionados e removê-los da column para nao serem mais utilizados
-    setFilterColumn(columns); // o novo estado de filterColumn é o array columns
     const filtersAllColumnItems = filterColumn
       .filter((itemColumn) => (itemColumn !== selectedFilters.column)); // filtro do que é diferente do que foi selecionado
     setFilterColumn(filtersAllColumnItems); // retornar para o estado o valor já filtrado.
