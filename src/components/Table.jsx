@@ -9,8 +9,8 @@ function StarWarsTable() {
     <table>
       <thead>
         <tr>
-          <th>rotation_period</th>
           <th>name</th>
+          <th>rotation_period</th>
           <th>orbital_period</th>
           <th>diameter</th>
           <th>climate</th>
