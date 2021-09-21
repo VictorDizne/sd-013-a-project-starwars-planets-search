@@ -74,6 +74,8 @@ export default function PlanetsProvider({ children }) {
       /* Remove opção de coluna do DOM */
       const columnSelect = document.getElementById('column');
       const optionDlt = document.querySelectorAll(`[value=${column}]`)[0];
+
+      // ERRO: Node.removeChild ~ Argument 1 is not an object
       columnSelect.removeChild(optionDlt);
     }
   }, [filters.filterByNumericValues, raw]);

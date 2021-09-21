@@ -27,6 +27,21 @@ const NumericInputs = () => {
     });
   };
 
+  /*
+    Redefinir o campo de coluna do objeto de filtro.
+    Obs: Isso é necessário pois apesar do "option" ser deletado
+    quando o novo filtro for adicionado, o objeto de filtro continua
+    com os valores anteriores.
+  */
+  const resetColSelect = () => {
+    const currentValue = document.getElementById('column').value;
+
+    setFilter((prev) => ({
+      ...prev,
+      column: currentValue,
+    }));
+  };
+
   /* Salvar novo objeto de filtro em filters */
   const handleClick = () => {
     // Push new object into the filters array
@@ -37,6 +52,9 @@ const NumericInputs = () => {
         filter, // My current filter object
       ],
     });
+
+    const interval = 0; // "Async" function
+    setTimeout(() => resetColSelect(), interval);
   };
 
   return (

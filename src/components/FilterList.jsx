@@ -6,7 +6,6 @@ import usePlanets from '../context/hooks/usePlanets';
 
 const FilterList = () => {
   const { filters, setFilters } = usePlanets();
-  console.log(filters);
 
   const deleteFilter = ({ target: { id } }) => {
     /* Remover filtro de filters */
