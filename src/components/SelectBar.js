@@ -3,16 +3,14 @@ import PlanetContext from '../context/PlanetContext';
 
 function SelectBar() {
   const {
-    column,
-    comparison,
-    valuer,
-    filterOptions,
-    handleColumn,
-    handleComparison,
-    handleValuer,
+    handleClick,
+    handleSelect,
+    inputNumber,
+    inputColumn,
+    setInputColumn,
   } = useContext(PlanetContext);
 
-  const options = [
+  const columnOptions = [
     'population',
     'orbital_period',
     'diameter',
@@ -20,7 +18,7 @@ function SelectBar() {
     'surface_water',
   ];
 
-  const comparations = [
+  const compareOptions = [
     'maior que',
     'menor que',
     'igual a',
@@ -28,10 +26,11 @@ function SelectBar() {
 
   return (
     <>
-      <select data-testid="column-filter" name="column" onChange={ handleColumn }>
-        {options.map((option, index) => (
-          <option key={ index } label={ option } value={ option }>
-            {option}
+
+      <select data-testid="column-filter" name="column" value={ inputColumn } onChange={ (event) => setInputColumn(event.target.value) }>
+        {columnOptions.map((columnOption, index) => (
+          <option key={ index } label={ columnOption } value={ columnOption }>
+            {columnOption}
           </option>
         ))}
       </select>
@@ -39,26 +38,27 @@ function SelectBar() {
       <select
         data-testid="comparison-filter"
         name="comparison"
-        onChange={ handleColumn }
+        onChange={ handleSelect }
       >
-        {comparations.map((compare, index) => (
-          <option value={ compare } label={ compare } key={ index }>
-            {compare}
+        {compareOptions.map((compareOption, index) => (
+          <option value={ compareOption } label={ compareOption } key={ index }>
+            {compareOption}
           </option>
         ))}
       </select>
 
       <input
-        name="value"
-        onChange={ handleColumn }
-        data-testid="value-filter"
         type="number"
+        data-testid="value-filter"
+        name="value"
+        value={ inputNumber }
+        onChange={ handleSelect }
       />
 
       <button
-        data-testid="button-filter"
         type="button"
-        onClick={ () => filterOptions(column, comparison, valuer) }
+        data-testid="button-filter"
+        onClick={ () => handleClick(inputNumber) }
       >
         Filtrar
       </button>
