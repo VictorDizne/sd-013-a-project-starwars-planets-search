@@ -9,6 +9,10 @@ const PlanetsProvider = ({ children }) => {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   };
 
   const filterReducer = (state, { type, payload }) => {
@@ -31,6 +35,14 @@ const PlanetsProvider = ({ children }) => {
         filterByNumericValues: [...state.filterByNumericValues]
           .filter((f) => f.id !== payload),
       };
+    case 'sortFilter':
+      return {
+        ...state,
+        order: {
+          column: payload.column,
+          sort: payload.sort,
+        },
+      };
     default:
       return state;
     }
@@ -50,6 +62,10 @@ const PlanetsProvider = ({ children }) => {
     dispatch({ type: 'removeFilter', payload });
   };
 
+  const handleSortFilter = (payload) => {
+    dispatch({ type: 'sortFilter', payload });
+  };
+
   const value = {
     planets,
     next,
@@ -58,6 +74,7 @@ const PlanetsProvider = ({ children }) => {
     handleNameFilter,
     handleAddFilter,
     handleRemoveFilter,
+    handleSortFilter,
     setNext,
   };
 
