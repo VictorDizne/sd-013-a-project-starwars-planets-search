@@ -28,12 +28,8 @@ const PlanetsProvider = ({ children }) => {
     case 'removeFilter':
       return {
         ...state,
-        filterByNumericValues: [...state.filterByNumericValues].filter((f) => {
-          const validateColumn = f.column !== payload.column;
-          const validateComparison = f.comparison !== payload.comparison;
-          const validateNumber = f.number !== payload.number;
-          return validateColumn && validateComparison && validateNumber;
-        }),
+        filterByNumericValues: [...state.filterByNumericValues]
+          .filter((f) => f.id !== payload),
       };
     default:
       return state;

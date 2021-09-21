@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { PlanetsContext } from '../../context';
 
 const Form = () => {
@@ -11,6 +11,8 @@ const Form = () => {
   const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('');
   const [number, setNumber] = useState('');
+  const [columns, setColumns] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
 
   const renderAppliedFilters = () => (
     <section>
@@ -21,7 +23,11 @@ const Form = () => {
           <div>{filter.number}</div>
           <button
             type="button"
-            onClick={ () => handleRemoveFilter(filter) }
+            data-testid="filter"
+            onClick={ () => {
+              handleRemoveFilter(filter.id);
+              setColumns([...columns, filter.column]);
+            } }
           >
             Remover Filtro
           </button>
@@ -31,9 +37,9 @@ const Form = () => {
   );
 
   const renderFilterByNumbers = () => {
-    const columns = ['population',
-      'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
     const comparisons = ['maior que', 'menor que', 'igual a'];
+    const keysColumns = filterByNumericValues.map(({ column: columnFilter }) => columnFilter);
+    const filteredColumns = columns.filter((c) => c !== keysColumns);
     return (
       <section>
         <select
@@ -41,7 +47,7 @@ const Form = () => {
           data-testid="column-filter"
           onChange={ ({ target: { value } }) => setColumn(value) }
         >
-          {columns.map((text) => <option key={ text } value={ text }>{text}</option>)}
+          {filteredColumns.map((text) => <option key={ text } value={ text }>{text}</option>)}
         </select>
 
         <select
@@ -60,7 +66,10 @@ const Form = () => {
         />
 
         <button
-          onClick={ () => handleAddFilter({ column, comparison, number }) }
+          onClick={ () => {
+            handleAddFilter({ id: Date(), column, comparison, number });
+            setColumns([...columns].filter((c) => c !== column));
+          } }
           type="button"
           data-testid="button-filter"
         >
