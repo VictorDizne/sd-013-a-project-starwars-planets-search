@@ -13,20 +13,20 @@ function PlanetProvider({ children }) {
   const [filterByNumericValues, setFilterByNumericValues] = useState([]); // armazena os valores dos filtros inputColum, inputComparison e inputValue
 
   // filters: objeto utilizado para setar os parâmetros dos planetas que serão listados no map
-  const [filters, setFilters] = useState(
-    {
-      filterByName: {
-        name: '',
-      },
-      filterByNumericValues: [
-        {
-          column: '',
-          comparison: '',
-          value: '',
-        },
-      ],
-    },
-  );
+  // const [filters, setFilters] = useState(
+  //   {
+  //     filterByName: {
+  //       name: '',
+  //     },
+  //     filterByNumericValues: [
+  //       {
+  //         column: '',
+  //         comparison: '',
+  //         value: '',
+  //       },
+  //     ],
+  //   },
+  // );
 
   // fetch com a requisição da api, trazendo o array de objetos com os planetas, realizado no primeiro render, salvando no tableData
   useEffect(() => {
@@ -51,51 +51,51 @@ function PlanetProvider({ children }) {
   }, [inputName, tableData]);
 
   // handleName acionado no input, salvando a digitação no filters, name
-  const handleName = ({ target: { name, value } }) => {
+  const handleName = ({ target: { value } }) => {
     setInputName(value);
-    setFilters({
-      ...filters,
-      filterByName: { [name]: value },
-    });
+    // setFilters({
+    //   ...filters,
+    //   filterByName: { [name]: value },
+    // });
   };
 
   // handleColumn acionado no select, salvando a seleção no filters, column
-  const handleColumn = ({ target: { name, value } }) => {
+  const handleColumn = ({ target: { value } }) => {
     setInputColumn(value);
-    setFilters({
-      ...filters,
-      filterByNumericValues: [{
-        [name]: value,
-        comparison: inputComparison,
-        value: inputValue,
-      }],
-    });
+    // setFilters({
+    //   ...filters,
+    //   filterByNumericValues: [{
+    //     [name]: value,
+    //     comparison: inputComparison,
+    //     value: inputValue,
+    //   }],
+    // });
   };
 
   // handleComparison acionado no select, salvando a seleção no filters, comparison
-  const handleComparison = ({ target: { name, value } }) => {
+  const handleComparison = ({ target: { value } }) => {
     setInputComparison(value);
-    setFilters({
-      ...filters,
-      filterByNumericValues: [{
-        column: inputColumn,
-        [name]: value,
-        value: inputValue,
-      }],
-    });
+    // setFilters({
+    //   ...filters,
+    //   filterByNumericValues: [{
+    //     column: inputColumn,
+    //     [name]: value,
+    //     value: inputValue,
+    //   }],
+    // });
   };
 
   // handleValue acionado no input, salvando a digitação no filters, value
-  const handleValue = ({ target: { name, value } }) => {
+  const handleValue = ({ target: { value } }) => {
     setInputValue(value);
-    setFilters({
-      ...filters,
-      filterByNumericValues: [{
-        column: inputColumn,
-        comparison: inputComparison,
-        [name]: value,
-      }],
-    });
+    // setFilters({
+    //   ...filters,
+    //   filterByNumericValues: [{
+    //     column: inputColumn,
+    //     comparison: inputComparison,
+    //     [name]: value,
+    //   }],
+    // });
   };
 
   // handleClick acionado ao clicar no botão filtrar, recebe os valores dos inputs numeric numbers. Ao entrar em um case, salva o novo array de objetos em filteredPlanets.

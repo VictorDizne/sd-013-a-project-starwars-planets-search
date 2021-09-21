@@ -8,8 +8,11 @@ import SelectBar from './components/SelectBar';
 function App() {
   return (
     <PlanetProvider>
-      <SearchBar />
-      <SelectBar />
+      <h1>STAR WARS PLANETS</h1>
+      <div className="header">
+        <SearchBar />
+        <SelectBar />
+      </div>
       <Table />
     </PlanetProvider>
   );
