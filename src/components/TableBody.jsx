@@ -3,7 +3,7 @@ import tableContext from '../context';
 
 const TableBody = () => {
   const { dataTable } = useContext(tableContext);
-
+  // refatorei com a ajuda do Lima Lima
   return (
     <div>
       { dataTable.map((listPlanets, indi) => (

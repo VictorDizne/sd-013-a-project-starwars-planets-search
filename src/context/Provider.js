@@ -25,7 +25,7 @@ const Provider = ({ children }) => {
   useEffect(() => {
     const filterPlanet = () => {
       const planetFiltered = data
-        .filter((planet) => planet.name.includes(filters.filterByName.name));
+        .filter((planet) => (planet.name).toUpperCase().includes(filters.filterByName.name.toUpperCase()));
       setDataTable(planetFiltered);
     };
     filterPlanet();
