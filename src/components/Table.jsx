@@ -1,13 +1,18 @@
 import React from 'react';
 import TableBody from './TableBody';
 import TableTitles from './TableTitles';
+import '../css/Table.css';
+import InputSearch from './InputSearch';
 
 function Table() {
   return (
-    <table>
-      <TableTitles />
-      <TableBody />
-    </table>
+    <>
+      <InputSearch />
+      <table>
+        <TableTitles />
+        <TableBody />
+      </table>
+    </>
   );
 }
 

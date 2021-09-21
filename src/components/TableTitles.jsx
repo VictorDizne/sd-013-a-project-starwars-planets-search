@@ -7,7 +7,7 @@ const TableTitles = () => {
   return (
 
     <thead>
-      <tr>
+      <tr className="linha-titulo">
         {dataKey.map((results, ind) => (
           <th key={ ind }>
             {results}

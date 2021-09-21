@@ -2,13 +2,13 @@ import React, { useContext } from 'react';
 import tableContext from '../context';
 
 const TableBody = () => {
-  const { dataValues } = useContext(tableContext);
+  const { dataTable } = useContext(tableContext);
 
   return (
     <div>
-      { dataValues.map((listPlanets, indi) => (
+      { dataTable.map((listPlanets, indi) => (
         <tr key={ indi }>
-          {listPlanets.map((result, ind) => (
+          {Object.values(listPlanets).map((result, ind) => (
             <td key={ ind }>
               { result }
             </td>))}

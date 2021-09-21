@@ -1,0 +1,6 @@
+.linha-titulo {
+  background-color: rgb(92, 58, 14);
+  color: white;
+  display: flex;
+  justify-content: space-around;
+}

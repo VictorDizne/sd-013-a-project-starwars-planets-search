@@ -4,8 +4,9 @@ import tableContext from '.';
 
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
+  const [dataTable, setDataTable] = useState([]);
   const [dataKey, setDataKey] = useState([]);
-  const [dataValues, setDataValues] = useState([]);
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -22,17 +23,20 @@ const Provider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const fetchApiValues = () => {
-      const values = data.map((result) => Object.values(result));
-      setDataValues(values);
+    const filterPlanet = () => {
+      const planetFiltered = data
+        .filter((planet) => planet.name.includes(filters.filterByName.name));
+      setDataTable(planetFiltered);
     };
-    fetchApiValues();
-  }, [data]);
+    filterPlanet();
+  }, [data, filters.filterByName.name]);
 
   const contextValues = {
     data,
     dataKey,
-    dataValues,
+    setFilters,
+    filters,
+    dataTable,
   };
 
   return (
