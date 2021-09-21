@@ -2,25 +2,55 @@ import React, { useContext } from 'react';
 import dataContext from '../context/createContext';
 
 function FilteredByName() {
-  const { data, filters } = useContext(dataContext);
-  const { filterByName: { name } } = filters;
+  const { data, filters, actFilter } = useContext(dataContext);
+  const { filterByName: { name }, filterByNumericValues } = filters;
+  const {
+    column,
+    comparison,
+    value } = filterByNumericValues[filterByNumericValues.length - 1];
+
+  const converMathSignalAndCalc = (tableParam, inputParam, comparisonf) => {
+    let calc;
+    switch (comparisonf) {
+    case 'maior que':
+      calc = tableParam > inputParam;
+      return calc;
+    case 'menor que':
+      calc = tableParam < inputParam;
+      return calc;
+    case 'igual a':
+      calc = tableParam === inputParam;
+      return calc;
+    default:
+      break;
+    }
+  };
+
+  const matchPlanetsTable = (arrayCaseFilter, i) => (
+    <tr key={ i }>
+      {/* {console.log(arrayCaseFilter)} */}
+      {arrayCaseFilter.map((planetInf, ind) => (
+        <td key={ `${planetInf[0]} ${ind}` }>
+          {planetInf}
+        </td>))}
+    </tr>);
 
   function factoryFilteredByName() {
     return data.map((planet, i) => {
-      const planetInfs = Object.values(planet);
-      const removeIndex = 9;
-      planetInfs.splice(removeIndex, 1);
+      delete planet.residents;
 
-      const matchPlanet = planetInfs[0].match(name);
+      const matchPlanet = planet.name.match(name);
+      const formatedPlanetValues = Object.values(planet);
 
-      if (matchPlanet) {
-        return (
-          <tr key={ i }>
-            {planetInfs.map((planetInf, ind) => (
-              <td key={ `${planetInf[0]} ${ind}` }>
-                {planetInf}
-              </td>))}
-          </tr>);
+      if (matchPlanet && actFilter) {
+        const planetColumn = parseInt(planet[column], 10);
+        const param1 = parseInt(planetColumn, 10);
+        const param2 = parseInt(value, 10);
+        console.log(typeof planetColumn);
+        const isTrue = converMathSignalAndCalc(param1, param2, comparison);
+        if (isTrue) return matchPlanetsTable(formatedPlanetValues, i);
+      } else if (matchPlanet) {
+        return matchPlanetsTable(formatedPlanetValues, i);
       }
       return null;
     });

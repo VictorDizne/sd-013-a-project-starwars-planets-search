@@ -2,18 +2,41 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import dataContext from './createContext';
 
+const INITIAL_STATE = {
+  filterByName: {
+    name: '',
+  },
+  filterByNumericValues: [
+    {
+      column: 'population',
+      comparison: 'maior que',
+      value: 100000,
+    },
+  ],
+};
+
 function ContextProvider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [actFilter, setActFilter] = useState(false);
+  const [newState, setNewState] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: 100000,
+  });
+  const [filters, setFilters] = useState(INITIAL_STATE);
 
   const context = {
     data,
     setData,
-    setIsLoading,
     isLoading,
+    setIsLoading,
     filters,
     setFilters,
+    actFilter,
+    setActFilter,
+    newState,
+    setNewState,
   };
 
   return (
