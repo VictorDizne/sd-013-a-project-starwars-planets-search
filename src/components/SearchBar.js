@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function SearchBar() {
-  const { name, handleChange } = useContext(PlanetContext);
+  const { inputName, handleName } = useContext(PlanetContext);
 
   return (
     <div>
@@ -10,11 +10,11 @@ function SearchBar() {
         <label htmlFor="name">
           Nome do Planeta
           <input
-            id="name"
-            data-testid="name-filter"
             type="text"
-            value={ name }
-            onChange={ handleChange }
+            data-testid="name-filter"
+            name="name"
+            value={ inputName }
+            onChange={ handleName }
           />
         </label>
       </form>

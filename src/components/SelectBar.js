@@ -3,11 +3,14 @@ import PlanetContext from '../context/PlanetContext';
 
 function SelectBar() {
   const {
+    handleColumn,
+    handleComparison,
+    handleValue,
     handleClick,
-    handleSelect,
-    inputNumber,
     inputColumn,
-    setInputColumn,
+    inputComparison,
+    inputValue,
+    filterByNumericValues,
   } = useContext(PlanetContext);
 
   const columnOptions = [
@@ -16,7 +19,7 @@ function SelectBar() {
     'diameter',
     'rotation_period',
     'surface_water',
-  ];
+  ].filter((option) => !filterByNumericValues.some((object) => object.column === option));
 
   const compareOptions = [
     'maior que',
@@ -27,7 +30,12 @@ function SelectBar() {
   return (
     <>
 
-      <select data-testid="column-filter" name="column" value={ inputColumn } onChange={ (event) => setInputColumn(event.target.value) }>
+      <select
+        data-testid="column-filter"
+        name="column"
+        value={ inputColumn }
+        onChange={ handleColumn }
+      >
         {columnOptions.map((columnOption, index) => (
           <option key={ index } label={ columnOption } value={ columnOption }>
             {columnOption}
@@ -38,7 +46,8 @@ function SelectBar() {
       <select
         data-testid="comparison-filter"
         name="comparison"
-        onChange={ handleSelect }
+        value={ inputComparison }
+        onChange={ handleComparison }
       >
         {compareOptions.map((compareOption, index) => (
           <option value={ compareOption } label={ compareOption } key={ index }>
@@ -51,14 +60,14 @@ function SelectBar() {
         type="number"
         data-testid="value-filter"
         name="value"
-        value={ inputNumber }
-        onChange={ handleSelect }
+        value={ inputValue }
+        onChange={ handleValue }
       />
 
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => handleClick(inputNumber) }
+        onClick={ () => handleClick(inputColumn, inputComparison, inputValue) }
       >
         Filtrar
       </button>
