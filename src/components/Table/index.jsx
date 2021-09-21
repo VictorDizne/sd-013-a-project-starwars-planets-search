@@ -23,16 +23,16 @@ const Table = () => {
           // filtro coluna
           .filter((planet) => {
             const validate = filterByNumericValues.every((
-              { column, comparison, number },
+              { column, comparison, value },
             ) => {
               if (comparison === 'maior que') {
-                return Number(planet[column]) > Number(number);
+                return Number(planet[column]) > Number(value);
               }
               if (comparison === 'menor que') {
-                return Number(planet[column]) < Number(number);
+                return Number(planet[column]) < Number(value);
               }
               if (comparison === 'igual a') {
-                return Number(planet[column]) === Number(number);
+                return Number(planet[column]) === Number(value);
               }
               return false;
             });

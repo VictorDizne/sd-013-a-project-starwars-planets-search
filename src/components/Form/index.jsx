@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { PlanetsContext } from '../../context';
 
 const Form = () => {
@@ -8,43 +8,47 @@ const Form = () => {
     handleRemoveFilter,
     filters: { filterByNumericValues },
   } = useContext(PlanetsContext);
-  const [column, setColumn] = useState('');
-  const [comparison, setComparison] = useState('');
-  const [number, setNumber] = useState('');
-  const [columns, setColumns] = useState(['population',
-    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const [selectedColumns, setSelectedColumns] = useState([]);
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [number, setNumber] = useState(0);
+
+  useEffect(() => {
+    setColumn(selectedColumns[0]);
+  }, [selectedColumns, setColumn, setSelectedColumns]);
 
   const renderAppliedFilters = () => (
     <section>
       {filterByNumericValues.map((filter, i) => (
-        <article key={ i }>
-          <div>{filter.column}</div>
-          <div>{filter.comparison}</div>
-          <div>{filter.number}</div>
+        <div key={ i } data-testid="filter">
+          {filter.column}
+          {filter.comparison}
+          {filter.value}
           <button
             type="button"
-            data-testid="filter"
             onClick={ () => {
               handleRemoveFilter(filter.id);
-              setColumns([...columns, filter.column]);
+              setSelectedColumns((prevState) => [...prevState].filter((c) => c !== filter.column));
             } }
           >
-            Remover Filtro
+            X
           </button>
-        </article>
+        </div>
       ))}
     </section>
   );
 
   const renderFilterByNumbers = () => {
     const comparisons = ['maior que', 'menor que', 'igual a'];
-    const keysColumns = filterByNumericValues.map(({ column: columnFilter }) => columnFilter);
-    const filteredColumns = columns.filter((c) => c !== keysColumns);
+    const columns = ['population',
+      'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+    const filteredColumns = columns.filter((c) => !selectedColumns.includes(c));
     return (
       <section>
         <select
           name="column"
           data-testid="column-filter"
+          value={ column }
           onChange={ ({ target: { value } }) => setColumn(value) }
         >
           {filteredColumns.map((text) => <option key={ text } value={ text }>{text}</option>)}
@@ -54,6 +58,7 @@ const Form = () => {
           onChange={ ({ target: { value } }) => setComparison(value) }
           name="comparison"
           data-testid="comparison-filter"
+          value={ comparison }
         >
           {comparisons.map((text) => <option key={ text } value={ text }>{text}</option>)}
         </select>
@@ -63,12 +68,13 @@ const Form = () => {
           name="value"
           type="number"
           data-testid="value-filter"
+          value={ number }
         />
 
         <button
           onClick={ () => {
-            handleAddFilter({ id: Date(), column, comparison, number });
-            setColumns([...columns].filter((c) => c !== column));
+            handleAddFilter({ id: Date(), column, comparison, value: number });
+            setSelectedColumns((prevState) => [...prevState, column]);
           } }
           type="button"
           data-testid="button-filter"
