@@ -1,13 +1,12 @@
 import React from 'react';
 import './App.css';
-import Input from './components/Input';
-import Table from './components/Table';
+import { Form, Table } from './components';
 import { PlanetsProvider } from './context';
 
 function App() {
   return (
     <PlanetsProvider>
-      <Input />
+      <Form />
       <Table />
     </PlanetsProvider>
   );

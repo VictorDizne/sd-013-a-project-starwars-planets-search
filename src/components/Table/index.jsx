@@ -3,7 +3,11 @@ import { PlanetsContext } from '../../context';
 import Planet from '../Planet';
 
 const Table = () => {
-  const { planets, titles, queryFilter } = useContext(PlanetsContext);
+  const { planets,
+    titles,
+    filters: { filterByName: { name: query },
+      filterByNumericValues },
+  } = useContext(PlanetsContext);
   if (planets.length === 0) return <div>Carregando</div>;
 
   return (
@@ -16,8 +20,26 @@ const Table = () => {
       </thead>
       <tbody>
         {planets
-          .filter((planet) => planet.name.toLowerCase()
-            .includes(queryFilter.toLowerCase()))
+          // filtro coluna
+          .filter((planet) => {
+            const validate = filterByNumericValues.every((
+              { column, comparison, number },
+            ) => {
+              if (comparison === 'maior que') {
+                return Number(planet[column]) > Number(number);
+              }
+              if (comparison === 'menor que') {
+                return Number(planet[column]) < Number(number);
+              }
+              if (comparison === 'igual a') {
+                return Number(planet[column]) === Number(number);
+              }
+              return false;
+            });
+            return validate ? planet : null;
+          })
+          // filtro nome
+          .filter(({ name }) => name.toLowerCase().includes(query.toLowerCase()))
           .map((planet) => (
             <Planet key={ planet.name } planet={ planet } />
           ))}

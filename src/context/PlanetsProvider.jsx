@@ -1,29 +1,73 @@
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import PlanetsContext from './PlanetsContext';
 import usePlanets from '../hooks/usePlanets';
 
 const PlanetsProvider = ({ children }) => {
   const { planets, titles, next, setNext } = usePlanets();
-  const [queryFilter, setQueryFilter] = useState('');
+  const filterState = {
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [],
+  };
+
+  const filterReducer = (state, { type, payload }) => {
+    switch (type) {
+    case 'nameFilter':
+      return {
+        ...state,
+        filterByName: { name: payload },
+      };
+
+    case 'addFilter':
+      return {
+        ...state,
+        filterByNumericValues: [...state.filterByNumericValues, payload],
+      };
+
+    case 'removeFilter':
+      return {
+        ...state,
+        filterByNumericValues: [...state.filterByNumericValues].filter((f) => {
+          const validateColumn = f.column !== payload.column;
+          const validateComparison = f.comparison !== payload.comparison;
+          const validateNumber = f.number !== payload.number;
+          return validateColumn && validateComparison && validateNumber;
+        }),
+      };
+    default:
+      return state;
+    }
+  };
+
+  const [filters, dispatch] = useReducer(filterReducer, filterState);
+
+  const handleNameFilter = ({ target: { value } }) => {
+    dispatch({ type: 'nameFilter', payload: value });
+  };
+
+  const handleAddFilter = (payload) => {
+    dispatch({ type: 'addFilter', payload });
+  };
+
+  const handleRemoveFilter = (payload) => {
+    dispatch({ type: 'removeFilter', payload });
+  };
 
   const value = {
     planets,
     next,
     titles,
-    queryFilter,
-    setQueryFilter,
+    filters,
+    handleNameFilter,
+    handleAddFilter,
+    handleRemoveFilter,
     setNext,
   };
 
   return (
-    <PlanetsContext.Provider value={ value }>
-      {children}
-    </PlanetsContext.Provider>
+    <PlanetsContext.Provider value={ value }>{children}</PlanetsContext.Provider>
   );
 };
 
-PlanetsProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 export default PlanetsProvider;
