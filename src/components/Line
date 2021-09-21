@@ -1,0 +1,72 @@
+// const makeTableHTML = (myObj) => {
+//   let result = '<table border=1>';
+//   <tr>
+//       <td>Name</td>
+//       <td>Rotation_period</td>
+//       <td>Orbital_period</td>
+//       <td>diameter</td>
+//       <td>climate</td>
+//       <td>gravity</td>
+//       <td>terrain</td>
+//       <td>surface_water</td>
+//       <td>population</td>
+//   </tr>;
+//      "name": "Tatooine",
+//      "rotation_period": "23",
+//      "orbital_period": "304",
+//      "diameter": "10465",
+//      "climate": "arid",
+//      "gravity": "1 standard",
+//      "terrain": "desert",
+//      "surface_water": "1",
+//      "population": "200000",
+//   for (const key in myObj) {
+//     result += '<tr>';
+//     for (const key in object) {
+//       if (Object.hasOwnProperty.call(object, key)) {
+//         const element = object[key];
+//       }
+//     }
+//   }
+//   for (let i = 0; i < myArray.length; i++) {
+//     result += '<tr>';
+//     for (let j = 0; j < myArray[i].length; j++) {
+//       result += `<td>${myArray[i][j]}</td>`;
+//     }
+//     result += '</tr>';
+//   }
+//   result += '</table>';
+
+//   return result;
+// };
+// <tr>
+//     <td>Nome</td>
+//     <td>Idade</td>
+//     <td>Profissão</td>
+// </tr>
+// <tr>
+//     <td>Ted</td>
+//     <td>22</td>
+//     <td>Estudante</td>
+// </tr>
+// <tr>
+//     <td>Ralf</td>
+//     <td>26</td>
+//     <td>Designer</td>
+// </tr>
+// data.map((item) => {
+
+//   <li key={ item.name }>{ item.name }</li>;
+// })
+//   function makeTableHTML(myArray) {
+//     var result = "<table border=1>";
+//     for(var i=0; i<myArray.length; i++) {
+//         result += "<tr>";
+//         for(var j=0; j<myArray[i].length; j++){
+//             result += "<td>"+myArray[i][j]+"</td>";
+//         }
+//         result += "</tr>";
+//     }
+//     result += "</table>";
+//     return result;
+// }
