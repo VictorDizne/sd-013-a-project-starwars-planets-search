@@ -27,18 +27,19 @@ const Provider = ({ children }) => {
       filterByName: {
         name: '',
       },
-      filterByNumericValues: [
-        {
-          column: '',
-          comparison: '',
-          value: '',
-        },
-      ],
+      filterByNumericValues: [],
     },
   });
 
+  // {
+  //   column: '',
+  //   comparison: '',
+  //   value: '',
+  // },
+
   const [saveResults, setSaveResults] = useState([]);
   const [saveResultsClone, setSaveResultsClone] = useState([]);
+  // const [saveResultsForReset, setSaveResultsForReset] = useState([]);
 
   const fetchData = () => {
     // const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -50,6 +51,7 @@ const Provider = ({ children }) => {
         setState({ ...state, data: results });
         setSaveResults(results);
         setSaveResultsClone(results);
+        // setSaveResultsForReset(results);
       })
       .catch((error) => console.log(`Problem ${error.message}`));
   };
@@ -71,13 +73,60 @@ const Provider = ({ children }) => {
       }
       return false;
     });
-    setState({ ...state, data: filteredDataByNumerics });
+    setSaveResultsClone(filteredDataByNumerics);
+    setState({
+      ...state,
+      data: filteredDataByNumerics,
+      filters: {
+        ...state.filters,
+        filterByNumericValues: [
+          ...state.filters.filterByNumericValues,
+          {
+            column,
+            comparison,
+            value: numCriteria,
+          },
+        ],
+      } });
+  };
+
+  const [cumulativeFilters, setCumulativeFilters] = useState([]);
+
+  const resetData = (arrayFilters) => {
+    // const { filters: { filterByNumericValues } } = state;
+    console.log('resetData', arrayFilters);
+    if (arrayFilters.length !== 0) {
+      setCumulativeFilters(arrayFilters);
+      cumulativeFilters.forEach((item) => {
+        const { column, comparison, value } = item;
+        filterByNumerics(column, comparison, value);
+        setState({
+          ...state,
+          filters: {
+            ...state.filters,
+            filterByNumericValues: [...cumulativeFilters],
+          },
+        });
+      });
+      setSaveResultsClone(saveResults);
+    } else {
+      console.log('filtro vazio', saveResults);
+      setState({
+        ...state,
+        data: saveResults,
+        filters: {
+          ...state.filters,
+          filterByNumericValues: [...cumulativeFilters],
+        },
+      });
+    }
   };
 
   const contextValue = {
     state,
     setState,
     fetchData,
+    resetData,
     saveResults,
     filterByName,
     filterByNumerics,
