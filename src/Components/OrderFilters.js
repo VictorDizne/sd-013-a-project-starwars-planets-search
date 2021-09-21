@@ -12,6 +12,7 @@ function OrderFilters() {
     setOrder({ ...order, [name]: value });
   }
   function handleButton() {
+    // Sets the contextFilter to the component's state
     setFilters({
       ...filters,
       order,
@@ -25,33 +26,35 @@ function OrderFilters() {
       .map((option, index) => <option value={ option } key={ index }>{ option }</option>);
   }
   return (
-    <div>
-      <label htmlFor="column">
-        Choose a column to sort:
-        <select data-testid="column-sort" name="column" onChange={ handleClick }>
-          { ShowcolumnOptions() }
-        </select>
-      </label>
-      <label htmlFor="ASC">
-        <p>ASC</p>
-        <input
-          type="radio"
-          name="sort"
-          value="ASC"
-          data-testid="column-sort-input-asc"
-          onClick={ handleClick }
-        />
-      </label>
-      <label htmlFor="DESC">
-        <p>DESC</p>
-        <input
-          type="radio"
-          name="sort"
-          value="DESC"
-          data-testid="column-sort-input-desc"
-          onClick={ handleClick }
-        />
-      </label>
+    <div className="order-filter">
+      <h3>Choose a column to sort:</h3>
+      <div className="flex-row">
+        <label htmlFor="column">
+          <select data-testid="column-sort" name="column" onChange={ handleClick }>
+            { ShowcolumnOptions() }
+          </select>
+        </label>
+        <label htmlFor="ASC" className="flex-row">
+          <p>ASC</p>
+          <input
+            type="radio"
+            name="sort"
+            value="ASC"
+            data-testid="column-sort-input-asc"
+            onClick={ handleClick }
+          />
+        </label>
+        <label htmlFor="DESC" className="flex-row">
+          <p>DESC</p>
+          <input
+            type="radio"
+            name="sort"
+            value="DESC"
+            data-testid="column-sort-input-desc"
+            onClick={ handleClick }
+          />
+        </label>
+      </div>
       <button
         type="button"
         data-testid="column-sort-button"

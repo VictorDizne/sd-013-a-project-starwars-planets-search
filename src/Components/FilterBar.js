@@ -5,11 +5,11 @@ import TextSearch from './TextSearch';
 
 function FilterBar() {
   return (
-    <>
+    <div className="filter-area">
       <TextSearch />
-      <NumberFilter />
       <OrderFilters />
-    </>
+      <NumberFilter />
+    </div>
   );
 }
 

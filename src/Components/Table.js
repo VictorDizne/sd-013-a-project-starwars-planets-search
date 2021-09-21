@@ -6,7 +6,7 @@ import TableHead from './TableHead';
 function Table() {
   const { loading } = useContext(starWarsContext);
   if (loading) {
-    return <p>CARREGANDO....</p>;
+    return <p>LOADING TABLE....</p>;
   }
   return (
     <table>

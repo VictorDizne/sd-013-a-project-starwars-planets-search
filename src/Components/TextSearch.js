@@ -14,11 +14,14 @@ function TextSearch() {
   }
 
   return (
-    <input
-      type="text"
-      data-testid="name-filter"
-      onChange={ handleChange }
-    />
+    <div className="text-search">
+      <h3>Filter by name</h3>
+      <input
+        type="text"
+        data-testid="name-filter"
+        onChange={ handleChange }
+      />
+    </div>
   );
 }
 

@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import starWarsContext from '.';
 
-// TENTAR COLOCAR TODA A LÓGICA NO COMPONENTDIDMOUNT, NÃO ESQUECER DE TRATAR A QUESTÃO DE ASSINCRONICIDADE POR CONTA DO DATA
-
 function Provider({ children }) {
   const firstRender = useRef(true);
   const filteredPlanets = useRef([]);
@@ -37,48 +35,53 @@ function Provider({ children }) {
     fetchData();
   }, []);
 
+  // This is needed because we must order string, not just numbers
   function compare(a, b, column) {
     const oneNegative = -1;
-    const onePositive = 1;
-    const zero = 0;
+    // This checks if we are going to order the names, if we are, then we need to return a value
+    // to the sort function
     if (column === 'name') {
       if (a[column] < b[column]) {
         return oneNegative;
       }
       if (a[column] > b[column]) {
-        return onePositive;
+        return 1;
       }
-      return zero;
-    } return a[column] - b[column];
+      return 0;
+    }
+    // If we are sorting numbers, then we can just subtract eachother
+    return a[column] - b[column];
   }
 
   // Filters everytime the filter is modified
   useEffect(() => {
     function filterPlanets(searchText, filterByNumericValues, order) {
-      // Filters by name
+      // Filters by name. We set both the searchword as the planet names to lowercase
+      // so the filter won't be case sensitive
       filteredPlanets.current = [...data]
         .filter((planet) => planet.name.toLowerCase().includes(searchText.toLowerCase()));
       // Applies every filter
       [...filterByNumericValues].forEach((filter) => {
-        switch (filter.comparison) {
+        const { comparison, column, value } = filter;
+        switch (comparison) {
         case 'maior que': {
           const biggerThan = [...filteredPlanets.current]
-            .filter((item) => Number(item[filter.column])
-            > Number(filter.value));
+            .filter((item) => Number(item[column])
+            > Number(value));
           filteredPlanets.current = biggerThan;
           break;
         }
         case 'menor que': {
           const lesserThan = [...filteredPlanets.current]
-            .filter((item) => Number(item[filter.column])
-            < Number(filter.value));
+            .filter((item) => Number(item[column])
+            < Number(value));
           filteredPlanets.current = lesserThan;
           break;
         }
         case 'igual a': {
           const equalsTo = [...filteredPlanets.current]
-            .filter((item) => Number(item[filter.column])
-            === Number(filter.value));
+            .filter((item) => Number(item[column])
+            === Number(value));
           filteredPlanets.current = equalsTo;
           break;
         }
@@ -104,7 +107,7 @@ function Provider({ children }) {
     }
   }, [filters, data]);
 
-  const value = { data, backup, filteredPlanets, loading, filters, setFilters };
+  const value = { data, backup, loading, filters, setFilters };
   return (
     <starWarsContext.Provider value={ value }>
       { children }

@@ -1,13 +1,61 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-image: url('./CSS/star-wars-backgrounds-25.jpg');
+  color: rgb(194, 194, 0);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h3 {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.header-title {
+  background-color: rgba(50, 50, 50, 0.7);
+  font-size: 60px;
+  padding: 10px;
+  text-align: center;
+}
+
+.filter-area {
+  background-color: rgba(50, 50, 50, 0.7);
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px;
+}
+
+.order-filter {
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px;
+}
+
+.flex-row {
+  align-items: baseline;
+  display: flex;
+}
+
+.number-filter {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.text-search {
+  margin-right: 20px;
+}
+
+.selected-filter {
+  display: flex;
+  flex-direction: row;
+}
+
+table {
+  border-collapse: collapse;
+  max-width: 720px;
+}
+
+table, td, th {
+  background-color: rgba(50, 50, 50, 0.7);
+  border: 3px solid black;
+  text-align: center;
 }
