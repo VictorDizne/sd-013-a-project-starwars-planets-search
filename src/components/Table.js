@@ -3,8 +3,10 @@ import MyContext from '../context/MyContext';
 
 function Table() {
   const contextValue = useContext(MyContext);
-  const { data } = contextValue;
-
+  const { data, valueInput } = contextValue;
+  if (!data) return <p>loading...</p>;
+  const filter = data.filter((planet) => (
+    planet.name.toLowerCase().includes(valueInput.toLowerCase())));
   return (
     <div className="container">
       <table>
@@ -27,7 +29,7 @@ function Table() {
         </thead>
         <tbody>
           {
-            data.map((planet, index) => (
+            filter.map((planet, index) => (
               <tr key={ index }>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>

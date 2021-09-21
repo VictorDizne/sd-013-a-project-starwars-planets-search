@@ -5,6 +5,11 @@ import fetchPlanets from '../Api';
 
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
+  const [valueInput, setValueInput] = useState('');
+
+  const handleChange = ({ target: { value } }) => {
+    setValueInput(value);
+  };
 
   useEffect(() => {
     async function getApi() {
@@ -13,7 +18,17 @@ const Provider = ({ children }) => {
     } getApi();
   }, []);
 
-  const contextValue = { data };
+  // useEffect(() => {
+  //   // Source: https://stackoverflow.com/questions/35582978/best-way-to-filter-table-in-react
+  //   const checkIncludes = data.filter(({ name }) => name.includes(valueInput));
+  //   setData(checkIncludes);
+  // }, [valueInput]);
+
+  const contextValue = {
+    data,
+    handleChange,
+    valueInput,
+  };
 
   return (
     <MyContext.Provider value={ contextValue }>
