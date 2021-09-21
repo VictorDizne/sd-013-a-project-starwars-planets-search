@@ -7,6 +7,8 @@ function DataProvider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterByName, SetFilterByName] = useState('');
+  const [filterNumeric, setFilterNumeric] = useState([]);
+
   const ref = useRef(false);
   const backup = useRef([]);
   // Usando a função da aula 18.3 do Course para requisitar API
@@ -19,13 +21,29 @@ function DataProvider({ children }) {
     backup.current = results;
   };
 
-  const filterName = () => {
-    // Atualiza o Data, filtrando o nome dos planetas de acordo com a chave name de cada planeta
+  const allFilters = () => {
+    // Atualiza o backup(cópia do data), filtrando o nome dos planetas de acordo com a chave name de cada planeta
     // toLowerCase passa os valores para minúsculo
-    setData(
-      backup.current.filter((planet) => planet.name.toLowerCase()
-        .includes(filterByName.toLowerCase())),
-    );
+    setData(() => {
+      let currentData = backup.current.filter((planet) => planet.name.toLowerCase()
+        .includes(filterByName.toLowerCase()));
+      filterNumeric.forEach((filter) => {
+        const { column, comparison, value } = filter;
+        currentData = currentData.filter((planet) => {
+          switch (comparison) {
+          case 'maior que':
+            return Number(planet[column]) > Number(value);
+          case 'menor que':
+            return Number(planet[column]) < Number(value);
+          case 'igual a':
+            return Number(planet[column]) === Number(value);
+          default:
+            return null;
+          }
+        });
+      });
+      return currentData;
+    });
   };
 
   // DidMount
@@ -36,16 +54,18 @@ function DataProvider({ children }) {
   // DidUpdate
   useEffect(() => {
     if (ref.current) {
-      filterName();
+      allFilters();
     } else {
       ref.current = true;
     }
-  }, [filterByName]);
+  }, [filterByName, filterNumeric]);
 
   const contextValue = {
     data,
     isLoading,
     SetFilterByName,
+    filterNumeric,
+    setFilterNumeric,
   };
 
   return (

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import DataContext from '../context/DataContext';
+import SelectFilters from './SelectFilters';
 
 function Form() {
   const { SetFilterByName } = useContext(DataContext);
@@ -10,15 +11,19 @@ function Form() {
   };
 
   return (
-    <label htmlFor="filter-name">
-      Nome
-      <input
-        type="text"
-        id="filter-name"
-        data-testid="name-filter"
-        onChange={ handleName }
-      />
-    </label>
+    <div>
+
+      <label htmlFor="filter-name">
+        Nome
+        <input
+          type="text"
+          id="filter-name"
+          data-testid="name-filter"
+          onChange={ handleName }
+        />
+      </label>
+      <SelectFilters />
+    </div>
   );
 }
 
