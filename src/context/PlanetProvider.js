@@ -32,6 +32,7 @@ const PlanetProvider = ({ children }) => {
     fetchPlanetAPI();
   }, []);
 
+  // Fnção criada com a juda da monitoria do Eduardo Santos
   const filterData = () => {
     // const { column, value, comparison } = filters.filterByNumericValues[0] || {};
 

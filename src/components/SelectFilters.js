@@ -35,6 +35,7 @@ const SelectFilters = () => {
     });
   };
 
+  // Função criada com ajuda do Gabriel Gaspar
   useEffect(() => {
     const aplliedColumnFilters = filterByNumericValues.map((af) => af.column);
     const remainingColumns = columns.filter((c) => !aplliedColumnFilters.includes(c));
@@ -74,6 +75,7 @@ const SelectFilters = () => {
         id="comparison"
         data-testid="comparison-filter"
         onChange={ handleChange }
+        hidden={ hiddenStatus }
       >
         <option value="maior que">maior que</option>
         <option value="menor que">menor que</option>
@@ -86,11 +88,13 @@ const SelectFilters = () => {
         data-testid="value-filter"
         placeholder="Value"
         onChange={ handleChange }
+        hidden={ hiddenStatus }
       />
       <button
         type="button"
         data-testid="button-filter"
         onClick={ addFilter }
+        hidden={ hiddenStatus }
       >
         Apply
       </button>
