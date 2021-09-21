@@ -9,6 +9,7 @@ function Filters() {
   const [types, setFilterTypes] = useState('population');
   const [filtercomparison, setfilterComparison] = useState('maior que');
   const [filternumber, setNumber] = useState(0);
+  const [buttonPressed, setButtonPressed] = useState(false);
 
   const setFilterByName = (event) => {
     const { value } = event.target;
@@ -32,6 +33,7 @@ function Filters() {
       { ...filters, filterByNumericValues: [...filterByNumericValues, objNumeric] },
     );
     deleteFilter(types);
+    setButtonPressed(true);
   };
 
   const applyFilters = () => {
@@ -40,27 +42,24 @@ function Filters() {
     const nameFilter = data
       .filter((planet) => planet.name.toLowerCase().includes(name));
 
-    const numericFilter = nameFilter.filter((planet) => filterByNumericValues
-      .every(({ column, comparison, value }) => {
-        // if (column === 'population'
-        // && comparison !== 'menor que'
-        // && comparison !== 'igual a'
-        // && planet.population === 'unknown') return false;
-        // if (column === 'population'
-        // && comparison !== 'igual a'
-        // && planet.population === 'unknown') return true;
-        switch (comparison) {
-        case ('igual a'):
-          return (Number(planet[column]) === Number(value));
-        case ('menor que'):
-          return (Number(planet[column]) < Number(value));
-        case ('maior que'):
-          return (Number(planet[column]) > Number(value));
-        default:
-          return planet;
-        }
-      }));
-    return numericFilter;
+    if (buttonPressed === true) {
+      const numericFilter = nameFilter.filter((planet) => filterByNumericValues
+        .every(({ column, comparison, value }) => {
+          switch (comparison) {
+          case ('igual a'):
+            return (Number(planet[column]) === Number(value));
+          case ('menor que'):
+            return (Number(planet[column]) <= Number(value));
+          case ('maior que'):
+            return (Number(planet[column]) > Number(value));
+          default:
+            return planet;
+          }
+        }));
+      return numericFilter;
+    }
+
+    return nameFilter;
   };
 
   useEffect(() => {
