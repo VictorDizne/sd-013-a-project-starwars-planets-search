@@ -38,10 +38,11 @@ const Table = () => {
     }
   }, [shouldReloadOptions, setOptions, options, optName]);
 
-  let tableHeadValues = {};
   if (planetsWithAllFilters.length === 0) {
     return <p>Loading</p>;
   }
+
+  let tableHeadValues = {};
   tableHeadValues = Object.keys(planetsWithAllFilters[0]);
   const elemIndex = 9;
   tableHeadValues.splice(elemIndex, 1);
@@ -72,8 +73,8 @@ const Table = () => {
     button.hidden = true;
     setShouldReloadOptions(true);
     setOptName(name);
-    setLoadFilters(true);
     setDeletedFilter(name);
+    setLoadFilters(true);
   };
 
   const createButton = () => {

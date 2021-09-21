@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import fetchSWAPI from '../utils/fetchSWAPI';
 import planetContext from './planetContext';
 
 const PlanetProvider = ({ children }) => {
-  const firstRender = useRef(true);
   const [planets, setPlanets] = useState([]);
   const [planetsFilteredByName, setPlanetsFilteredByName] = useState([]);
   const [planetsWithAllFilters, setPlanetsWithAllFilters] = useState([]);
@@ -12,7 +11,6 @@ const PlanetProvider = ({ children }) => {
   const [deletedFilter, setDeletedFilter] = useState(null);
   const [nameFiltered, setNameFiltered] = useState('');
   const [numericFilters, setNumericFilters] = useState([]);
-
   const [notFound, setNotFound] = useState(false);
   const arrOptions = [
     'population',
@@ -22,6 +20,15 @@ const PlanetProvider = ({ children }) => {
     'surface_water',
   ];
   const [options, setOptions] = useState(arrOptions);
+
+  useEffect(() => {
+    const request = async () => {
+      const response = await fetchSWAPI();
+      setPlanets(response);
+      setPlanetsFilteredByName(response);
+    };
+    request();
+  }, []);
 
   useEffect(() => {
     if (deletedFilter) {
@@ -36,27 +43,14 @@ const PlanetProvider = ({ children }) => {
   }, [deletedFilter, numericFilters]);
 
   useEffect(() => {
-    const request = async () => {
-      const response = await fetchSWAPI();
-      setPlanets(response);
-      setPlanetsFilteredByName(response);
-    };
-    request();
-  }, []);
-
-  useEffect(() => {
-    if (!firstRender.current) {
-      const filteredArray = planets.filter((planet) => (
-        planet.name.includes(nameFiltered)));
-      if (filteredArray.length === 0) {
-        setNotFound(true);
-      } else {
-        setPlanetsFilteredByName(filteredArray);
-        setLoadFilters(true);
-        setNotFound(false);
-      }
+    const filteredArray = planets.filter((planet) => (
+      planet.name.includes(nameFiltered)));
+    if (filteredArray.length === 0) {
+      setNotFound(true);
     } else {
-      firstRender.current = false;
+      setPlanetsFilteredByName(filteredArray);
+      setLoadFilters(true);
+      setNotFound(false);
     }
   }, [nameFiltered, planets]);
 
@@ -76,6 +70,7 @@ const PlanetProvider = ({ children }) => {
   useEffect(() => {
     if (loadFilters) {
       setNotFound(false);
+      setLoadFilters(false);
       let arrWithFilters = planetsFilteredByName;
       if (numericFilters.length !== 0) {
         numericFilters.forEach((filter) => {
@@ -85,10 +80,8 @@ const PlanetProvider = ({ children }) => {
       if (arrWithFilters.length === 0) {
         setNotFound(true);
       } else if (arrWithFilters.length !== undefined) {
-        setLoadFilters(false);
         setPlanetsWithAllFilters(arrWithFilters);
       }
-      setLoadFilters(false);
     }
   }, [numericFilters, planetsFilteredByName, loadFilters]);
 
