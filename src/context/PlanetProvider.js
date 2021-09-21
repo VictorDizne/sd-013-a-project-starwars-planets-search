@@ -32,7 +32,6 @@ function PlanetProvider({ children }) {
   const [data, setData] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [filters, setFilters] = useState(initialFiltersState);
-  const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [columns, setColumns] = useState(initialColumns);
 
   useEffect(() => {
@@ -74,7 +73,7 @@ function PlanetProvider({ children }) {
   }, [filters.filterByNumericValues]);
 
   const context = {
-    planets: filteredPlanets,
+    data,
     isFetching,
     filters,
     addFilter,
