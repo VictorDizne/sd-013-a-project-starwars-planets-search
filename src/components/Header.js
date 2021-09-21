@@ -17,7 +17,7 @@ function Header() {
     'menor que',
     'igual a',
   ];
-  const [stateColumns, setStateColumn] = useState(columnFilter);
+  const [stateColumns] = useState(columnFilter);
 
   function handleClick() {
     const column = document.getElementById('column-filter-id');
