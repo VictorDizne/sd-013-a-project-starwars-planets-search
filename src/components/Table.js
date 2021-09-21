@@ -3,7 +3,7 @@ import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
   const [planetsInfo, setPlanetsInfo] = useState([]);
-  const { data, loading } = useContext(PlanetsContext);
+  const { data, loading, handleFilterName, filter } = useContext(PlanetsContext);
 
   useEffect(() => {
     const deleteInfo = () => {
@@ -26,35 +26,46 @@ function Table() {
     return titleInfo;
   };
 
-  const renderInfoPlanet = () => (
-    planetsInfo.map((planet) => {
+  const renderInfoPlanet = () => {
+    const { filters: { filterByName: { name: filterName } } } = filter;
+    const filteredPlanets = planetsInfo
+      .filter(({ name }) => name.toLowerCase().includes(filterName));
+    return filteredPlanets.map((planet) => {
       const infoPlanets = Object.values(planet);
       return (
         <tr key={ planet.name }>
           {infoPlanets.map((info) => <td key={ info }>{info}</td>)}
         </tr>);
-    })
-  );
-
-  const frutas = ['maca', 'banana', 'uva'];
-
-  const render = () => frutas.map((fruta) => <td key={ fruta }>{fruta}</td>);
+    });
+  };
 
   return (
     <div>
       { loading && <span>Loading...</span>}
       {planetsInfo[0] && (
-        <table>
-          <thead>
-            <tr>
-              {renderHeader()}
-            </tr>
-          </thead>
-          <tbody>
-            {renderInfoPlanet()}
-          </tbody>
-          { render() }
-        </table>
+        <div>
+          <label
+            htmlFor="input-name"
+          >
+            Name:
+            <input
+              type="text"
+              data-testid="name-filter"
+              id="input-name"
+              onChange={ (event) => handleFilterName(event.target.value) }
+            />
+          </label>
+          <table>
+            <thead>
+              <tr>
+                {renderHeader()}
+              </tr>
+            </thead>
+            <tbody>
+              {renderInfoPlanet()}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

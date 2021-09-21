@@ -5,6 +5,14 @@ import PlanetsContext from './PlanetsContext';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+        age: 10,
+      },
+    },
+  });
 
   async function apiPlanets() {
     const API_URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -18,9 +26,18 @@ function Provider({ children }) {
     apiPlanets();
   }, []);
 
+  const handleFilterName = (filterName) => {
+    const { filters: { filterByName } } = filter;
+    setFilter({
+      ...filter, filters: { filterByName: { ...filterByName, name: filterName } },
+    });
+  };
+
   const contextValue = {
     data,
     loading,
+    handleFilterName,
+    filter,
   };
 
   return (
