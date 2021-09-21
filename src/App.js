@@ -4,6 +4,7 @@ import React from 'react';
 // Children
 import Table from './components/Table';
 import SearchForm from './components/SearchForm';
+import FilterList from './components/FilterList';
 
 // Context
 import PlanetsProvider from './context/Planets';
@@ -16,7 +17,7 @@ function App() {
     <PlanetsProvider>
       <main>
         <SearchForm />
-        <ul id="filter-list" />
+        <FilterList />
         <Table />
       </main>
     </PlanetsProvider>

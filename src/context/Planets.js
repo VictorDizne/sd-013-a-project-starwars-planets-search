@@ -7,9 +7,6 @@ import PropTypes from 'prop-types';
 // Services
 import getPlanetsData from '../services/planetsAPI';
 
-// Helpers
-import colOptions from '../helpers/colOptions';
-
 // Context
 export const Planets = createContext();
 
@@ -39,7 +36,6 @@ export default function PlanetsProvider({ children }) {
     como estado inicial */
   const defaultFilters = { filterByNumericValues: [] };
   const [filters, setFilters] = useState(defaultFilters); // Filtros
-  const [options, setOptions] = useState(colOptions()); // Select colunas
 
   /* Aplicar o filtro de nome */
   const applyNameFilter = useCallback(() => {
@@ -56,21 +52,7 @@ export default function PlanetsProvider({ children }) {
 
   useEffect(() => {
     applyNameFilter();
-  }, [applyNameFilter]);
-
-  /* Imprimir um item de lista no DOM */
-  const logCompareFilter = useCallback((col, comp, val) => {
-    // Cria novo item de filtro
-    const listItem = document.createElement('li');
-    listItem.innerHTML = `${col} ${comp} ${val}`;
-
-    // Renderiza elemento no DOM
-    const filterList = document.getElementById('filter-list');
-    filterList.appendChild(listItem);
-
-    // Remove opção de options
-    setOptions(options.filter(({ value }) => value !== col));
-  }, [options]);
+  }, [applyNameFilter]); // Memoizing
 
   /* Aplicar o filtro de comparação */
   const applyCompareFilter = useCallback(() => {
@@ -89,13 +71,16 @@ export default function PlanetsProvider({ children }) {
         return boolean;
       }));
 
-      // logCompareFilter(column, comparison, value);
+      /* Remove opção de coluna do DOM */
+      const columnSelect = document.getElementById('column');
+      const optionDlt = document.querySelectorAll(`[value=${column}]`)[0];
+      columnSelect.removeChild(optionDlt);
     }
   }, [filters.filterByNumericValues, raw]);
 
   useEffect(() => {
     applyCompareFilter();
-  }, [applyCompareFilter]);
+  }, [applyCompareFilter]); // Memoizing
 
   /*
     Retornar this.children aninhado dentro do Provider, agora com a
@@ -104,8 +89,6 @@ export default function PlanetsProvider({ children }) {
     data,
     filters,
     setFilters,
-    applyCompareFilter,
-    options,
   };
 
   return (

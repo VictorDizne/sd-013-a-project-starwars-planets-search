@@ -8,8 +8,6 @@ const NumericInputs = () => {
   const {
     filters,
     setFilters,
-    applyCompareFilter,
-    options,
   } = usePlanets();
 
   const defaultFilter = {
@@ -18,8 +16,8 @@ const NumericInputs = () => {
     value: '0',
   };
 
-  const [filter, setFilter] = useState(defaultFilter);
-  console.log(filters);
+  const [filter, setFilter] = useState(defaultFilter); // Objeto de filtro
+  console.log(filter);
 
   /* Criar um novo objeto de filtro */
   const handleChange = ({ target: { id, value } }) => {
@@ -31,19 +29,14 @@ const NumericInputs = () => {
 
   /* Salvar novo objeto de filtro em filters */
   const handleClick = () => {
-    const isEmpty = (obj) => Object.keys(obj).length === 0;
-
     // Push new object into the filters array
     setFilters({
       ...filters, // Other filters
       filterByNumericValues: [
         ...filters.filterByNumericValues, // My previous filter objects
-        isEmpty(filter) ? defaultFilter : filter, // My current filter object
+        filter, // My current filter object
       ],
     });
-
-    // Apply the new filter
-    applyCompareFilter();
   };
 
   return (
@@ -52,14 +45,13 @@ const NumericInputs = () => {
       <select
         id="column"
         data-testid="column-filter"
-        defaultValue="population"
         onChange={ (evt) => handleChange(evt) }
       >
-        {
-          options.map(({ value }, i) => (
-            <option name="col" value={ value } key={ i }>{ value }</option>
-          ))
-        }
+        <option name="col" value="population">population</option>
+        <option name="col" value="orbital_period">orbital_period</option>
+        <option name="col" value="diameter">diameter</option>
+        <option name="col" value="rotation_period">rotation_period</option>
+        <option name="col" value="surface_water">surface_water</option>
       </select>
       {/* Operador de comparação */}
       <select
