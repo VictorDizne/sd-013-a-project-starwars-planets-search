@@ -1,3 +1,4 @@
+// requisição API starwarsplanet
 import { useState, useEffect } from 'react';
 
 function FetchAPI() {
