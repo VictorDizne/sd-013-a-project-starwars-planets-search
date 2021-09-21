@@ -17,7 +17,7 @@ function Header() {
     'menor que',
     'igual a',
   ];
-  const [stateColumns] = useState(columnFilter);
+  const [stateColumns, setStateColumn] = useState(columnFilter);
 
   function handleClick() {
     const column = document.getElementById('column-filter-id');
@@ -26,6 +26,8 @@ function Header() {
     const optionColumn = column.options[column.selectedIndex].value;
     const optionComparison = comparison.options[comparison.selectedIndex].value;
     values(input, optionColumn, optionComparison);
+    const unusedOptions = columnFilter.filter((arrColumn) => arrColumn !== optionColumn);
+    setStateColumn(unusedOptions);
   }
 
   return (
