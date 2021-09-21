@@ -1,28 +1,20 @@
 import React, { useContext } from 'react';
 import MyContext from '../Context/MyContext';
+import PlanetBody from './PlanetBody';
 
 function DataTable() {
-  const { data } = useContext(MyContext);
-  // console.log(data);
+  const { data, head } = useContext(MyContext);
+  console.log(data);
+
   return (
-    <table>
+    <table border={ 1 }>
       <thead>
         <tr>
-          {/* Objct.keys(contextValue)
-          .map((planet, index) => <th keys="" value=""> />) */}
-          <th> Name</th>
-          <th> Name</th>
-          <th> Name</th>
-          <th> Name</th>
+          {head.map((item, id) => <th key={ id }>{head}</th>)}
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>data</td>
-          <td>data</td>
-          <td>data</td>
-          <td>data</td>
-        </tr>
+        {data.map((planet, i) => <PlanetBody key={ i } planet={ planet } />)}
       </tbody>
     </table>
   );

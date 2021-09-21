@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import MyContext from './MyContext';
 
 const Provider = ({ children }) => {
-  const [statePlanets, setStatePlanets] = useState({
-    data: [],
-  });
+  const [data, setData] = useState([]);
+  const [head, setHead] = useState([]);
 
   //  const contextValue = {
-  //    statePlanets,
+  //    data,
   //  };
 
   useEffect(() => {
@@ -16,22 +15,25 @@ const Provider = ({ children }) => {
     function fechtApi() {
       fetch('https://swapi-trybe.herokuapp.com/api/planets/')
         .then((response) => {
-          response.json().then((data) => {
-            const planets = data.results;
-            const planetsOff = planets.map((planet) => {
-              const planetsOffResidents = planet;
-              delete planetsOffResidents.residents;
-              setStatePlanets(planetsOffResidents);
-              console.log(planets);
-          })
-        }),
-      })
-    };
+          response.json().then((res) => {
+            const planetsData = res.results;
+            // console.log(planetsData);
+            const planets = planetsData.map((planeta) => {
+              const planetOffResidents = planeta;
+              delete planetOffResidents.residents;
+              return planetOffResidents;
+            });
+            setData(planets);
+            const keys = Object.keys(planets[0]);
+            setHead(keys);
+          });
+        });
+    }
     fechtApi();
   }, []);
 
   return (
-    <MyContext.Provider value={ statePlanets }>
+    <MyContext.Provider value={ { data, head } }>
       { children }
     </MyContext.Provider>
   );
