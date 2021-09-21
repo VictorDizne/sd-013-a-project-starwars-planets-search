@@ -3,7 +3,27 @@ import myContext from '../context/myContext';
 import Planet from './Planet';
 
 function Table() {
-  const { planets, titles, nameFilter } = useContext(myContext);
+  const { planets, titles, nameFilter, stateFiltered: {
+    colummFilter,
+    quantityFilter,
+    numberFilter } } = useContext(myContext);
+
+  const filterPlanets = (planet) => {
+    if (planet[colummFilter] !== 'unknown') {
+      switch (quantityFilter) {
+      case 'maior que':
+        return (planet[colummFilter] > numberFilter);
+      case 'menor que':
+        return planet[colummFilter] < numberFilter;
+      case 'igual a':
+        return planet[colummFilter] === numberFilter;
+      default:
+        break;
+      }
+    }
+    return planet.name.toLowerCase().includes(nameFilter.toLowerCase());
+  };
+
   return (
     <div>
       <table border={ 1 }>
@@ -14,7 +34,7 @@ function Table() {
         </thead>
         <tbody>
           {planets
-            .filter((plan) => plan.name.toLowerCase().includes(nameFilter.toLowerCase()))
+            .filter((plan) => filterPlanets(plan))
             .map((planet, i) => <Planet key={ i } planet={ planet } />)}
         </tbody>
       </table>

@@ -2,12 +2,12 @@ import React from 'react';
 import './App.css';
 import Provider from './context/Provider';
 import Table from './Components/Table';
-import Input from './Components/Input';
+import Form from './Components/Form';
 
 function App() {
   return (
     <Provider>
-      <Input />
+      <Form />
       <Table />
     </Provider>
   );
