@@ -3,9 +3,16 @@ import { Context } from '../context/PlanetProvider';
 import TableRow from './TableRow';
 
 function Table() {
-  const { planets, isFetching } = useContext(Context);
+  const { data, isFetching, filters } = useContext(Context);
+
+  const filterPlanetsByName = () => {
+    const userInput = filters.filterByName.name;
+    return data.filter((planet) => planet.name.includes(userInput));
+  };
 
   if (isFetching) return <h1>Loading...</h1>;
+
+  const planets = filterPlanetsByName();
 
   return (
     <table>
