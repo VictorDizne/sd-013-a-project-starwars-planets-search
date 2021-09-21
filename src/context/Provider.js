@@ -18,16 +18,27 @@ const Provider = ({ children }) => {
     } getApi();
   }, []);
 
-  // useEffect(() => {
-  //   // Source: https://stackoverflow.com/questions/35582978/best-way-to-filter-table-in-react
-  //   const checkIncludes = data.filter(({ name }) => name.includes(valueInput));
-  //   setData(checkIncludes);
-  // }, [valueInput]);
+  function values(input, optionColumn, optionComparison) {
+    const resultFilter = data.filter((planet) => {
+      if (optionComparison === 'maior que') {
+        return Number(planet[optionColumn]) > Number(input);
+      }
+      if (optionComparison === 'menor que') {
+        return Number(planet[optionColumn]) < Number(input);
+      }
+      if (optionComparison === 'igual a') {
+        return Number(planet[optionColumn]) === Number(input);
+      }
+      return false;
+    });
+    setData(resultFilter);
+  }
 
   const contextValue = {
     data,
     handleChange,
     valueInput,
+    values,
   };
 
   return (
