@@ -34,7 +34,7 @@ const Planet = ({
   </tr>
 );
 
-const { shape, string } = PropTypes;
+const { arrayOf, shape, string } = PropTypes;
 
 Planet.propTypes = {
   planet: shape({
@@ -42,7 +42,7 @@ Planet.propTypes = {
     created: string,
     diameter: string,
     edited: string,
-    films: string,
+    films: arrayOf(string),
     gravity: string,
     name: string,
     orbital_period: string,

@@ -1,4 +1,5 @@
-import React, { useState, useReducer, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import React, { useReducer } from 'react';
 import PlanetsContext from './PlanetsContext';
 import usePlanets from '../hooks/usePlanets';
 
@@ -81,6 +82,10 @@ const PlanetsProvider = ({ children }) => {
   return (
     <PlanetsContext.Provider value={ value }>{children}</PlanetsContext.Provider>
   );
+};
+
+PlanetsProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default PlanetsProvider;

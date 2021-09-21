@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { PlanetsContext } from '../../context';
 
 const Form = () => {
@@ -23,18 +23,42 @@ const Form = () => {
 
   const renderSortFilters = () => (
     <section>
-      <select onChange={ ({ target: { value } }) => setColumnSort(value) } data-testid="column-sort">
+      <select
+        onChange={ ({ target: { value } }) => setColumnSort(value) }
+        data-testid="column-sort"
+      >
         {titles.map((title, i) => <option key={ i } value={ title }>{title}</option>)}
       </select>
       <label htmlFor="asc">
         ASC
-        <input onChange={ ({ target: { value } }) => setTypeSort(value) } id="asc" type="radio" name="sort" value="ASC" data-testid="column-sort-input-asc" />
+        <input
+          onChange={ ({ target: { value } }) => setTypeSort(value) }
+          id="asc"
+          type="radio"
+          name="sort"
+          value="ASC"
+          data-testid="column-sort-input-asc"
+        />
       </label>
       <label htmlFor="desc">
         DESC
-        <input onChange={ ({ target: { value } }) => setTypeSort(value) } id="desc" type="radio" name="sort" value="DESC" data-testid="column-sort-input-desc" />
+        <input
+          onChange={ ({ target: { value } }) => setTypeSort(value) }
+          id="desc"
+          type="radio"
+          name="sort"
+          value="DESC"
+          data-testid="column-sort-input-desc"
+        />
       </label>
-      <button onClick={ () => handleSortFilter({ column: columnSort, sort: typeSort }) } type="button" data-testid="column-sort-button">Ordenar</button>
+      <button
+        onClick={ () => handleSortFilter({ column: columnSort, sort: typeSort }) }
+        type="button"
+        data-testid="column-sort-button"
+      >
+        Ordenar
+
+      </button>
     </section>
   );
 
@@ -49,7 +73,8 @@ const Form = () => {
             type="button"
             onClick={ () => {
               handleRemoveFilter(filter.id);
-              setSelectedColumns((prevState) => [...prevState].filter((c) => c !== filter.column));
+              setSelectedColumns([...selectedColumns]
+                .filter((c) => c !== filter.column));
             } }
           >
             X
@@ -72,7 +97,14 @@ const Form = () => {
           value={ column }
           onChange={ ({ target: { value } }) => setColumn(value) }
         >
-          {filteredColumns.map((text) => <option key={ text } value={ text }>{text}</option>)}
+          {filteredColumns.map((text) => (
+            <option
+              key={ text }
+              value={ text }
+            >
+              {text}
+            </option>
+          ))}
         </select>
 
         <select
@@ -95,7 +127,8 @@ const Form = () => {
         <button
           onClick={ () => {
             handleAddFilter({ id: Date(), column, comparison, value: number });
-            setSelectedColumns((prevState) => [...prevState, column]);
+            setSelectedColumns([...selectedColumns, column]);
+            setColumn(selectedColumns[0]);
           } }
           type="button"
           data-testid="button-filter"

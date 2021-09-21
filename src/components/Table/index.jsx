@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { PlanetsContext } from '../../context';
 import Planet from '../Planet';
-
+import { compareColumns, filterColumns } from './helpers';
 // LINK https://stackoverflow.com/a/1129270
 
 const Table = () => {
@@ -22,45 +22,9 @@ const Table = () => {
       </thead>
       <tbody>
 
-        {planets
-          .sort((a, b) => {
-            if (['rotation_period', 'orbital_period', 'diameter'].includes(sortColumn)) {
-              if (typeSort === 'ASC') return a[sortColumn] - b[sortColumn];
-              if (typeSort === 'DESC') return b[sortColumn] - a[sortColumn];
-            }
-
-            if (
-              (a[sortColumn] < b[sortColumn] && typeSort === 'ASC')
-              || (a[sortColumn] > b[sortColumn] && typeSort === 'DESC')
-            ) {
-              return -1;
-            }
-            if (
-              (a[sortColumn] > b[sortColumn] && typeSort === 'ASC')
-              || (a[sortColumn] < b[sortColumn] && typeSort === 'DESC')
-            ) {
-              return 1;
-            }
-            return 0;
-          })
+        {compareColumns(planets, sortColumn, typeSort)
           // filtro coluna
-          .filter((planet) => {
-            const validate = filterByNumericValues.every((
-              { column, comparison, value },
-            ) => {
-              if (comparison === 'maior que') {
-                return Number(planet[column]) > Number(value);
-              }
-              if (comparison === 'menor que') {
-                return Number(planet[column]) < Number(value);
-              }
-              if (comparison === 'igual a') {
-                return Number(planet[column]) === Number(value);
-              }
-              return false;
-            });
-            return validate ? planet : null;
-          })
+          .filter((planet) => filterColumns(planet, filterByNumericValues))
           // filtro nome
           .filter(({ name }) => name.toLowerCase().includes(query.toLowerCase()))
           .map((planet) => (
