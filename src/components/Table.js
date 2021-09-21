@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import planetContext from '../context/planetContext';
+import sortFunc from '../utils/mySortFunc';
 import TableRow from './TableRow';
 
 const Table = () => {
@@ -9,6 +10,11 @@ const Table = () => {
     filterValue: '0',
   };
   const [state, setState] = useState(initialState);
+  const [order, setOrder] = useState({
+    column: 'name',
+    sort: 'ASC',
+  });
+  const [shouldSort, setShouldSort] = useState(true);
   const [filters, setFilters] = useState([]);
   const [shouldReloadOptions, setShouldReloadOptions] = useState(false);
   const [optName, setOptName] = useState('');
@@ -32,19 +38,33 @@ const Table = () => {
     }
   }, [shouldReloadOptions, setOptions, options, optName]);
 
-  let keys = {};
+  let tableHeadValues = {};
   if (planetsWithAllFilters.length === 0) {
     return <p>Loading</p>;
   }
-  keys = Object.keys(planetsWithAllFilters[0]);
+  tableHeadValues = Object.keys(planetsWithAllFilters[0]);
   const elemIndex = 9;
-  keys.splice(elemIndex, 1);
+  tableHeadValues.splice(elemIndex, 1);
 
   const handleChange = ({ target: { name, value } }) => {
     setState({
       ...state,
       [name]: value,
     });
+  };
+
+  const handleOrder = ({ target: { name, value } }) => {
+    setOrder({
+      ...order,
+      [name]: value,
+    });
+  };
+
+  const handleSort = () => {
+    if (shouldSort) {
+      sortFunc(planetsWithAllFilters, order);
+      setShouldSort(false);
+    }
   };
 
   const handleClearFilter = ({ target: { name } }) => {
@@ -119,11 +139,6 @@ const Table = () => {
               >
                 {column}
               </option>))}
-            {/* <option name="population" value="population">population</option>
-        <option name="orbital_period" value="orbital_period">orbital_period</option>
-        <option name="diameter" value="diameter">diameter</option>
-        <option name="rotation_period" value="rotation_period">rotation_period</option>
-        <option name="surface_water" value="surface_water">surface_water</option> */}
           </select>
         </label>
         <select
@@ -152,6 +167,47 @@ const Table = () => {
           Aplicar filtros
         </button>
       </div>
+      <div>
+        Ordenar por:
+        <select
+          value={ order.column }
+          onChange={ handleOrder }
+          data-testid="column-sort"
+          name="column"
+          id=""
+        >
+          {tableHeadValues.map((key) => <option value={ key } key={ key }>{key}</option>)}
+        </select>
+        <label htmlFor="asc">
+          ASC
+          <input
+            onChange={ handleOrder }
+            id="asc"
+            name="sort"
+            data-testid="column-sort-input-asc"
+            value="ASC"
+            type="radio"
+          />
+        </label>
+        <label htmlFor="desc">
+          DESC
+          <input
+            onChange={ handleOrder }
+            id="desc"
+            name="sort"
+            data-testid="column-sort-input-desc"
+            value="DESC"
+            type="radio"
+          />
+        </label>
+        <button
+          onClick={ () => setShouldSort(true) }
+          data-testid="column-sort-button"
+          type="button"
+        >
+          Ordenar
+        </button>
+      </div>
       <div id="filters">
         <p>Filtros ativos:</p>
         {filters}
@@ -159,11 +215,13 @@ const Table = () => {
       <table>
         <tbody>
           <tr>
-            {keys.map((key) => <th key={ key }>{key}</th>)}
+            {tableHeadValues.map((key) => <th key={ key }>{key}</th>)}
           </tr>
           {notFound ? <p>Elemento não encontrado</p>
-            : planetsWithAllFilters.map((planet, index) => (
-              <TableRow key={ index } info={ planet } />))}
+            : (
+              handleSort(),
+              planetsWithAllFilters
+                .map((planet, index) => <TableRow key={ index } info={ planet } />))}
         </tbody>
       </table>
     </div>

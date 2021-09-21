@@ -75,8 +75,8 @@ const PlanetProvider = ({ children }) => {
 
   useEffect(() => {
     if (loadFilters) {
-      let arrWithFilters = planetsFilteredByName;
       setNotFound(false);
+      let arrWithFilters = planetsFilteredByName;
       if (numericFilters.length !== 0) {
         numericFilters.forEach((filter) => {
           arrWithFilters = applyNumericFilters(filter, arrWithFilters);
