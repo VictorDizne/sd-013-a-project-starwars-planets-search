@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import planetsContext from '../context/PlanetsContext';
-import { Planets } from '.';
+import Planets from './Planets';
 // import usePlanets from '../hooks/usePlanets';
 
 function Table() {

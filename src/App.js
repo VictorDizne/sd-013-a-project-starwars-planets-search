@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Table } from './components';
+import { Table, Header } from './components';
 import Provider from './context/Provider';
 
 // Tive ajuda do Gessé
@@ -9,6 +9,7 @@ function App() {
   return (
     <Provider>
       Hello, Brasil!
+      <Header />
       <Table />
     </Provider>
   );
