@@ -1,26 +1,42 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import planetContext from '../context/planetContext';
 import TableRow from './TableRow';
 
 const Table = () => {
-  const [state, setState] = useState({
+  const initialState = {
     column: 'population',
     comparison: 'maior que',
     filterValue: '0',
-  });
+  };
+  const [state, setState] = useState(initialState);
+  const [filters, setFilters] = useState([]);
+  const [shouldReloadOptions, setShouldReloadOptions] = useState(false);
+  const [optName, setOptName] = useState('');
   const {
-    data,
     setNameFiltered,
     setNumericFilters,
-    options,
     setOptions,
+    setLoadFilters,
+    setDeletedFilter,
+    numericFilters,
+    planetsWithAllFilters,
+    options,
     notFound,
   } = useContext(planetContext);
+
+  useEffect(() => {
+    if (shouldReloadOptions) {
+      setOptions([...options, optName]);
+      setShouldReloadOptions(false);
+      setOptName('');
+    }
+  }, [shouldReloadOptions, setOptions, options, optName]);
+
   let keys = {};
-  if (data.length === 0) {
+  if (planetsWithAllFilters.length === 0) {
     return <p>Loading</p>;
   }
-  keys = Object.keys(data[0]);
+  keys = Object.keys(planetsWithAllFilters[0]);
   const elemIndex = 9;
   keys.splice(elemIndex, 1);
 
@@ -31,16 +47,45 @@ const Table = () => {
     });
   };
 
-  const handleClick = () => {
-    setNumericFilters(state);
+  const handleClearFilter = ({ target: { name } }) => {
+    const button = document.getElementById(name);
+    button.hidden = true;
+    setShouldReloadOptions(true);
+    setOptName(name);
+    setLoadFilters(true);
+    setDeletedFilter(name);
+  };
+
+  const createButton = () => {
     const opt = state.column;
-    // const select = document.getElementById('column');
-    // select.remove(opt);
-    let optionDisabled = options.indexOf(opt);
-    const magicNumber = -1;
-    if (optionDisabled === magicNumber) optionDisabled = 0;
-    options.splice(optionDisabled, 1);
-    setOptions(options);
+    return (
+      <div data-testid="filter" key={ filters.length } id={ opt }>
+        <button onClick={ handleClearFilter } name={ opt } type="button">x</button>
+        {` ${opt} ${state.comparison} ${state.filterValue}`}
+      </div>);
+  };
+
+  const handleClick = () => {
+    const opt = state.column;
+    if (opt) {
+      setNumericFilters([...numericFilters, state]);
+      const optionDisabled = options.indexOf(opt);
+      options.splice(optionDisabled, 1);
+      setOptions(options);
+      setState({
+        column: options[0],
+        comparison: 'maior que',
+        filterValue: '0',
+
+      });
+      const div = document.getElementById(opt);
+      if (div === null) {
+        setFilters(filters.concat(createButton()));
+      } else {
+        div.hidden = false;
+      }
+      setLoadFilters(true);
+    }
   };
 
   return (
@@ -66,9 +111,9 @@ const Table = () => {
             name="column"
             id="column"
           >
-            {options.map((column) => (
+            {options.map((column, index) => (
               <option
-                key={ column }
+                key={ `${column}${index}` }
                 name={ column }
                 value={ column }
               >
@@ -107,13 +152,18 @@ const Table = () => {
           Aplicar filtros
         </button>
       </div>
+      <div id="filters">
+        <p>Filtros ativos:</p>
+        {filters}
+      </div>
       <table>
         <tbody>
           <tr>
             {keys.map((key) => <th key={ key }>{key}</th>)}
           </tr>
           {notFound ? <p>Elemento não encontrado</p>
-            : data.map((dado, index) => <TableRow key={ index } info={ dado } />)}
+            : planetsWithAllFilters.map((planet, index) => (
+              <TableRow key={ index } info={ planet } />))}
         </tbody>
       </table>
     </div>
