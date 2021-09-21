@@ -6,10 +6,18 @@ import planetAPI from '../service/planetAPI';
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
   const [dataFiltered, setDataFiltered] = useState([]);
+  const [filterIN, setFilterIN] = useState(false);
   const [filter, setFilter] = useState({
     filterByName: { name: '' },
     filterByMeasurments: { column: 'population', comparison: 'maior que', value: 0 },
   });
+  const [opt1, setOpt1] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   useEffect(() => {
     const handleAPIRequest = async () => {
@@ -28,6 +36,10 @@ const Provider = ({ children }) => {
     setFilter,
     dataFiltered,
     setDataFiltered,
+    filterIN,
+    setFilterIN,
+    opt1,
+    setOpt1,
   };
 
   return (
