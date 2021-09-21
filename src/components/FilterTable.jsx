@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import StarWarsContext from '../context/StartWarsContext';
 
 function FilterTable() {
@@ -16,6 +16,8 @@ function FilterTable() {
 
   const { filterbyNumerics } = useContext(StarWarsContext);
 
+  const [columnFilters, setColumnFilters] = useState(columnParam);
+
   function handleClik() {
     // Source: https://www.w3schools.com/jsref/prop_select_selectedindex.asp
     const selectColum = document.getElementById('id-column-filter');
@@ -29,6 +31,10 @@ function FilterTable() {
     const optionNumber = document.getElementById('id-value-filter').value;
 
     filterbyNumerics(optionColum, optionCompare, optionNumber);
+
+    const filterColumn = columnParam.filter((column) => column !== optionColum);
+
+    setColumnFilters(filterColumn);
   }
 
   return (
@@ -36,7 +42,7 @@ function FilterTable() {
       <label htmlFor="id-column-filter">
         Column Filter:
         <select data-testid="column-filter" id="id-column-filter">
-          {columnParam.map((column) => (
+          {columnFilters.map((column) => (
             <option key={ column } value={ column }>{ column }</option>))}
         </select>
       </label>

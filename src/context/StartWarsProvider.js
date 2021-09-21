@@ -39,18 +39,30 @@ function StarWarsProvider({ children }) {
     fetchData();
   }, []);
 
-  const filterbyNumerics = (column, comparison, num) => {
+  const filterbyNumerics = (column, comparison, value) => {
     const filteredDataByNumerics = saveResultsFilter.filter((planet) => {
       if (comparison === 'maior que') {
-        return (Number(planet[column]) > Number(num));
+        // console.log(Number(planet[column]));
+        return (Number(planet[column]) > Number(value));
       } if (comparison === 'menor que') {
-        return (Number(planet[column]) < Number(num));
+        return (Number(planet[column]) < Number(value));
       } if (comparison === 'igual a') {
-        return (Number(planet[column]) === Number(num));
+        return (Number(planet[column]) === Number(value));
       }
       return false;
     });
     setState({ ...state, data: filteredDataByNumerics });
+    // setState({
+    //   ...state,
+    //   filters: {
+    //     ...state.filters,
+    //     filterByNumericValues: {
+    //       column,
+    //       comparison,
+    //       value,
+    //     },
+    //   },
+    // });
   };
 
   const contextValue = {
