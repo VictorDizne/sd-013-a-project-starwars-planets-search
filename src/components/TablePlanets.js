@@ -1,24 +1,20 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context';
-import useInputName from '../hooks/useInputName';
 
 const TablePlanets = () => {
   const contextValue = useContext(StarWarsContext);
-  const inputValue = useInputName();
-  const { filters: { filterByName: { name } }, handleInput } = inputValue;
-  console.log(name);
   const { data: { results }, isLoading } = contextValue;
+  const { filters: { filterByName: { name } } } = contextValue;
+  const { setFiltered, filtered } = contextValue;
+  const { setLoaded, loaded } = contextValue;
+
   if (isLoading === true) return <h1>Carregando Tabela</h1>;
+  if (loaded === false) {
+    setLoaded(true);
+    setFiltered(results);
+  }
   return (
     <main>
-      <label htmlFor="name">
-        <input
-          id="name"
-          value={ name }
-          data-testid="name-filter"
-          onChange={ (e) => handleInput(e.target.value) }
-        />
-      </label>
       <table>
         <thead>
           <tr>
@@ -38,7 +34,7 @@ const TablePlanets = () => {
           </tr>
         </thead>
         <tbody>
-          {results.filter((result) => result.name.includes(name))
+          {filtered.filter((result) => result.name.includes(name))
             .map((result) => (
               <tr key={ result.name }>
                 <td>{result.climate}</td>

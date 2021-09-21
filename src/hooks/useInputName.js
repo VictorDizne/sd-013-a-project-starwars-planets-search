@@ -6,6 +6,13 @@ const useInputName = () => {
       filterByName: {
         name: '',
       },
+      filterByNumericValues: [
+        {
+          column: '',
+          comparision: '',
+          value: '',
+        },
+      ],
     },
   });
 
