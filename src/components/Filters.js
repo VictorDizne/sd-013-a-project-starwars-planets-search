@@ -7,6 +7,7 @@ const Filters = () => {
   const { data: { results }, setFiltered } = contextValue;
   const { column, value, comparision, setColumn, setValue,
     setComparision, handleOnClick } = contextValue;
+  // const { setDataArray, dataArray } = contextValue;
 
   // Funcao para filtrar os filtros selecionados
   const selectedFilter = () => {
@@ -34,6 +35,11 @@ const Filters = () => {
       return results;
     }
   };
+
+  // Funcao para alterar o estado do dataArray + chamar Funcao de filtro
+  /* const handleOnClick = () => {
+    const newArrayData = [];
+  } */
 
   return (
     <main>

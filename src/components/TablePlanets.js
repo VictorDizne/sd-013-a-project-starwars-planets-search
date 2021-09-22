@@ -7,7 +7,6 @@ const TablePlanets = () => {
   const { filters: { filterByName: { name } } } = contextValue;
   const { setFiltered, filtered } = contextValue;
   const { setLoaded, loaded } = contextValue;
-
   if (isLoading === true) return <h1>Carregando Tabela</h1>;
   if (loaded === false) {
     setLoaded(true);

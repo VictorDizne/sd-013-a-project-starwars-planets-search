@@ -4,7 +4,8 @@ import StarWarsContext from '.';
 import getPlanetsFetch from '../services/starWarsApi';
 
 const Provider = ({ children }) => {
-  const [data, setData] = useState({ data: {}, isLoading: true });
+  const [data, setData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const [column, setColumn] = useState('population');
   const [comparision, setComparision] = useState('maior que');
   const [value, setValue] = useState(0);
@@ -18,6 +19,7 @@ const Provider = ({ children }) => {
   });
   const [filtered, setFiltered] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [dataArray, setDataArray] = useState([]);
 
   // Funcao para filtrar por nome
   const handleInput = (nome) => {
@@ -27,6 +29,7 @@ const Provider = ({ children }) => {
           filterByName: {
             name: nome,
           },
+          filterByNumericValues: dataArray,
         },
       },
     );
@@ -41,40 +44,39 @@ const Provider = ({ children }) => {
         },
         filterByNumericValues: [{ column, comparision, value }],
       },
-
     });
     funcao();
   };
 
   // Chama API
-  const getPlanets = () => {
-    getPlanetsFetch()
-      .then((response) => setData({
-        ...data,
-        data: response,
-        isLoading: false,
-      }));
-  };
+  async function getPlanets() {
+    await getPlanetsFetch()
+      .then((response) => setData(response));
+    setIsLoading(false);
+  }
 
   // ComponentDidMount
   useEffect(() => {
     getPlanets();
-  });
+  }, []);
 
   const context = {
     ...filters,
-    ...data,
+    data,
     column,
     comparision,
     value,
     filtered,
     loaded,
+    dataArray,
+    isLoading,
     handleInput,
     setColumn,
     setComparision,
     setValue,
     setFiltered,
     setLoaded,
+    setDataArray,
     handleOnClick,
   };
 
