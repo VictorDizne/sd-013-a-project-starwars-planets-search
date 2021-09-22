@@ -10,28 +10,34 @@ function Table() {
   const cols = keys.filter((key) => key !== 'residents');
 
   return (
-    <table>
-      <thead>
-        <tr>
-          {/* map para escrever os títulos/nomes de cada coluna */}
-          {cols.map((col) => (<th key={ col }>{col}</th>))}
-        </tr>
-      </thead>
-      <tbody>
-        {/* filteredPlanets é um array de objetos; cada objeto é um "planeta",
-        ou seja, contêm os dados de um planeta; cada objeto tem 13 chaves */}
-        {filteredPlanets
-          /* map para criar cada row/linha */
-          .map((planet) => (
-            <tr key={ planet.name }>
-              {/* map para preencher com dados cada célula de cada coluna,
-              na linha do seu respectivo planeta */}
-              {cols.map((col) => (<td key={ planet[col] }>{planet[col]}</td>))}
-            </tr>
-          ))}
-      </tbody>
+    <div className="background-image">
 
-    </table>
+      <table>
+
+        <thead>
+          <tr>
+            {/* map para escrever os títulos/nomes de cada coluna */}
+            {cols.map((col) => (<th key={ col }>{col}</th>))}
+          </tr>
+        </thead>
+
+        <tbody>
+          {/* filteredPlanets é um array de objetos; cada objeto é um "planeta",
+          ou seja, contêm os dados de um planeta; cada objeto tem 13 chaves */}
+          {filteredPlanets
+            /* map para criar cada row/linha */
+            .map((planet) => (
+              <tr key={ planet.name }>
+                {/* map para preencher com dados cada célula de cada coluna,
+                na linha do seu respectivo planeta */}
+                {cols.map((col) => (<td key={ planet[col] }>{planet[col]}</td>))}
+              </tr>
+            ))}
+        </tbody>
+
+      </table>
+
+    </div>
   );
 }
 
