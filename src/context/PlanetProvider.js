@@ -4,14 +4,6 @@ import fetchPlanets from '../services/fetchPlanets';
 
 const Context = createContext();
 
-const initialColumns = [
-  'population',
-  'orbital_period',
-  'diameter',
-  'rotation_period',
-  'surface_water',
-];
-
 const initialFiltersState = {
   filterByName: { name: '' },
   filterByNumericValues: [],

@@ -1,36 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Context } from '../context/PlanetProvider';
+import React, { useContext, useState } from 'react';
+import { Context } from '../context/Provider';
 
-function NumericValuesFilter() {
-  const { columns, addFilter } = useContext(Context);
+const initialColumns = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water'];
+
+function FilterByNumbers() {
+  const { handleNewNumericFilter } = useContext(Context);
 
   const [filter, setFilter] = useState({
-    column: columns[0],
+    column: 'population',
     comparison: 'maior que',
-    value: '',
-  });
+    value: '' });
+  const [columns] = useState(initialColumns);
 
   const handleChange = (target) => {
     const { name, value } = target;
 
-    setFilter({
-      ...filter,
-      [name]: value,
-    });
+    setFilter({ ...filter, [name]: value });
   };
-
-  const handleClick = () => {
-    addFilter(filter);
-  };
-
-  useEffect(() => {
-    setFilter({ column: columns[0], comparison: 'maior que', value: '' });
-  }, [columns]);
 
   const { column, comparison, value } = filter;
 
   return (
-    <div>
+    <>
       <label htmlFor="column">
         Column
         <select
@@ -58,21 +54,21 @@ function NumericValuesFilter() {
       <label htmlFor="value">
         <input
           name="value"
-          type="string"
+          type="number"
           value={ value }
           onChange={ ({ target }) => handleChange(target) }
           data-testid="value-filter"
         />
       </label>
       <button
+        onClick={ () => handleNewNumericFilter(filter) }
         type="button"
-        onClick={ handleClick }
         data-testid="button-filter"
       >
         Apply Filter
       </button>
-    </div>
+    </>
   );
 }
 
-export default NumericValuesFilter;
+export default FilterByNumbers;
