@@ -3,10 +3,11 @@ import React, { useContext } from 'react';
 import AppContext from '../../contexts/AppContext';
 
 const NameFilter = () => {
-  const { setFilters } = useContext(AppContext);
+  const { filters, setFilters } = useContext(AppContext);
 
   const handleChange = ({ target }) => {
     setFilters({
+      ...filters,
       filterByName: { name: target.value },
     });
   };

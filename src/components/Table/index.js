@@ -3,17 +3,17 @@ import React, { useContext } from 'react';
 import AppContext from '../../contexts/AppContext';
 
 const Table = () => {
-  const { data, filters } = useContext(AppContext);
+  const {
+    data,
+    filteredData,
+  } = useContext(AppContext);
+
+  // let { filteredData } = useContext(AppContext);
+  // const { filterByName: { name } } = filters;
 
   if (!data.length) return <p>Loading</p>;
 
   const headers = Object.keys(data[0]).filter((key) => key !== 'residents');
-
-  const { filterByName: { name } } = filters;
-
-  const filteredData = data
-    .filter((planet) => planet.name.toLowerCase()
-      .includes(name.toLowerCase()));
 
   return (
     <table>
