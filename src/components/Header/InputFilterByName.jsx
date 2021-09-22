@@ -4,13 +4,21 @@ import PlanetContext from '../../context/PlanetContext';
 const InputFilterByName = () => {
   const {
     setFilter,
-    filter: { filters: { filterByName: { name } } },
+    filter,
   } = useContext(PlanetContext);
 
   function handleOnChange({ target: { value } }) {
-    setFilter({ filters: { filterByName: { name: value } } });
+    const { filters: { filterByNumericValues } } = filter;
+    setFilter({
+      ...filter,
+      ...{ filters: {
+        filterByName: { name: value },
+        filterByNumericValues },
+      },
+    });
   }
 
+  const { filter: { filters: { filterByName: { name } } } } = useContext(PlanetContext);
   return (
     <>
       <input

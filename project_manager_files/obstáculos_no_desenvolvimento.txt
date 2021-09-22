@@ -1,17 +1,18 @@
 Requisito 1:
-  Mover o provider para o componente App.js ao invés do index.js, para poder contemplar o teste.
+  - Mover o provider para o componente App.js ao invés do index.js, para poder contemplar o teste.
 
 Requisito 2:
-  Como fazer um componentDidUpdate com Hooks.js
-  Como implmentar um algoritmo mais rápido que o includes para dar match nas strings
-  Vale a pena implmentar componentes que gerenciam outros componentes, ex.; Table Manager, FilterManager ?
+  - Como fazer um componentDidUpdate com Hooks.js
+  - Como implmentar um algoritmo mais rápido que o includes para dar match nas strings
+  - Vale a pena implmentar componentes que gerenciam outros componentes, ex.; Table Manager, FilterManager ?
 
 Requisito 3:
-  Como aplicar o filtro dinamicamente só na parte de interesse ao invés da estrutura abaixo:
-  const filteredData = data
-    .filter1()
-    .filter2()  ;
-    sem o auxílio de componentDidUpdate(prevProps,prevState,data)
+  - Como aplicar o filtro dinamicamente só na parte de interesse ao invés da estrutura abaixo:
+      const filteredData = data
+        .filter1()
+        .filter2()  ;
+        sem o auxílio de componentDidUpdate(prevProps,prevState,data)
+  - Merge Nested Objects ( filter )
 
 
   

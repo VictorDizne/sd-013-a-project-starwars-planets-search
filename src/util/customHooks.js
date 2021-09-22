@@ -15,4 +15,5 @@ function usePrevious(value) {
   return ref.current;
 }
 
+export default usePrevious;
 // fonte:https://usehooks.com/usePrevious/

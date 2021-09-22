@@ -4,10 +4,12 @@ import PlanetContext from './PlanetContext';
 import { fetchAPI } from '../util';
 
 function PlanetProvider({ children }) {
+  // console.log('redering Provider');
+
   const [filter, setFilter] = useState({
     filters: {
       filterByName: { name: '' },
-      filterByNumericValues: ['a'],
+      filterByNumericValues: [],
     },
   });
   const [planets, setPlanets] = useState([]);

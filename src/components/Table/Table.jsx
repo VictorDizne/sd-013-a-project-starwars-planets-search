@@ -2,6 +2,7 @@ import React from 'react';
 import { htmlID } from '../../util';
 
 const Table = ({ data }) => {
+  // console.log('rendering Table');
   function generateColumns(planets) {
     const columns = { ...planets[0] };
     delete columns.residents; // a coluna residents não deve ser inserida na tabela
@@ -30,13 +31,13 @@ const Table = ({ data }) => {
       const planetRow = (
         <tr key={ htmlID({ name: `linha${index}` }) }>
           <td key={ htmlID({ name }) }>{ name }</td>
-          <td key={ htmlID({ name: 'rotation_period' }) }>{ planet.rotation_period }</td>
-          <td key={ htmlID({ name: 'orbital_period' }) }>{ planet.orbital_period }</td>
+          <td key={ htmlID({ name: 'rotation' }) }>{ planet.rotation_period }</td>
+          <td key={ htmlID({ name: 'orbital' }) }>{ planet.orbital_period }</td>
           <td key={ htmlID({ name: diameter }) }>{ diameter }</td>
           <td key={ htmlID({ name: climate }) }>{ climate }</td>
           <td key={ htmlID({ name: gravity }) }>{ gravity }</td>
           <td key={ htmlID({ name: terrain }) }>{ terrain }</td>
-          <td key={ htmlID({ name: 'surface_water' }) }>{ planet.surface_water }</td>
+          <td key={ htmlID({ name: 'surface' }) }>{ planet.surface_water }</td>
           <td key={ htmlID({ name: population }) }>{ population }</td>
           <td key={ htmlID({ name: films }) }>{ films }</td>
           <td key={ htmlID({ name: created }) }>{ created }</td>

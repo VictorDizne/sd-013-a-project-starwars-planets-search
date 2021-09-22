@@ -1,34 +1,22 @@
-import React from 'react';
+// import React, { useEffect, useState } from 'react';
+// import PropTypes from 'prop-types';
+// import { htmlID } from '../../util';
 
-const DropDown = () => (
-  <div className="dropdown">
-    <h2>{ title }</h2>
-    <button
-      className="btn btn-secondary dropdown-toggle"
-      type="button"
-      id="dropdownMenuButton1"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    >
-      { nameBtn }
-    </button>
-    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      { options.map((option, index) => (
-        <li key={ option }>
-          <button
-            id={ index }
-            className="dropdown-item"
-            type="button"
-            value={ option }
-            onClick={ onClick }
-            name={ title.toLowerCase() }
-          >
-            { option }
-          </button>
-        </li>
-      ))}
-    </ul>
-  </div>
-);
+// const DropDown = ({ options, testid, onChange, state }) => {
+//   console.log('Rendering DropDown');
+//   return (
 
-export default DropDown;
+//     <select data-testid={ testid } onChange={ onChange } value={ state }>
+//       {options.map((name, index) => (
+//         <option key={ htmlID({ name }) } value={ name }>{ name }</option>)) }
+//     </select>
+//   );
+// };
+
+// DropDown.propTypes = {
+//   options: PropTypes.arrayOf(PropTypes.String).isRequired,
+//   testid: PropTypes.string.isRequired,
+//   onClick: PropTypes.func.isRequired,
+// };
+
+// export default DropDown;
