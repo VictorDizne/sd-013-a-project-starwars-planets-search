@@ -1,21 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '../context/Provider';
 
-const initialColumns = [
-  'population',
-  'orbital_period',
-  'diameter',
-  'rotation_period',
-  'surface_water'];
-
 function FilterByNumbers() {
-  const { handleNewNumericFilter } = useContext(Context);
+  const { handleNewNumericFilter, columns } = useContext(Context);
 
   const [filter, setFilter] = useState({
-    column: 'population',
+    column: columns[0],
     comparison: 'maior que',
     value: '' });
-  const [columns] = useState(initialColumns);
 
   const handleChange = (target) => {
     const { name, value } = target;

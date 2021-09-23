@@ -4,17 +4,23 @@ import fetchPlanets from '../services/fetchPlanets';
 
 const Context = createContext();
 
+const initialColumns = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water'];
+
 function Provider({ children }) {
   const [data, setData] = useState([]);
-
   const [fetching, setFetching] = useState(true);
-
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
     filterByNumericValues: [],
   });
+  const [columns, setColumns] = useState(initialColumns);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -31,14 +37,28 @@ function Provider({ children }) {
       filterByName: { name: userInput } });
   };
 
+  const removeColumnUsedInAFilter = (filter) => {
+    const usedColumn = columns.indexOf(filter.column);
+    const newColumns = [...columns];
+    newColumns.splice(usedColumn, 1);
+    setColumns(newColumns);
+  };
+
   const handleNewNumericFilter = (newFilter) => {
+    removeColumnUsedInAFilter(newFilter);
+
     setFilters({
       ...filters,
-      filterByNumericValues: [newFilter] }); // Handle apenas um `filter` (requisito 3)
+      filterByNumericValues: [...filters.filterByNumericValues, newFilter] });
   };
 
   const context = {
-    data, fetching, handleSearchByName, filters, handleNewNumericFilter };
+    data,
+    fetching,
+    filters,
+    columns,
+    handleSearchByName,
+    handleNewNumericFilter };
 
   return (
     <Context.Provider value={ context }>
