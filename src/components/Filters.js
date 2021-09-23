@@ -6,8 +6,14 @@ const Filters = () => {
   const { filters: { filterByName: { name } }, handleInput } = contextValue;
   const { data: { results }, setFiltered } = contextValue;
   const { column, value, comparision, setColumn, setValue,
-    setComparision, handleOnClick } = contextValue;
-  // const { setDataArray, dataArray } = contextValue;
+    setComparision } = contextValue;
+  const { setDataArray, dataArray } = contextValue;
+  const { arrayOptions, setArrayOptions } = contextValue;
+  const arrayOption = ['population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water'];
 
   // Funcao para filtrar os filtros selecionados
   const selectedFilter = () => {
@@ -37,9 +43,23 @@ const Filters = () => {
   };
 
   // Funcao para alterar o estado do dataArray + chamar Funcao de filtro
-  /* const handleOnClick = () => {
-    const newArrayData = [];
-  } */
+  const handleOnClickFinal = () => {
+    let newArrayData = [];
+    arrayOption.forEach((option, index) => {
+      if (option === column) {
+        arrayOption.splice(index, 1);
+        setArrayOptions(arrayOption);
+      }
+    });
+    if (dataArray.length === 0) {
+      newArrayData.push({ column, comparision, value });
+      setDataArray(newArrayData);
+    } else {
+      newArrayData = { column, comparision, value };
+      setDataArray([...dataArray, newArrayData]);
+    }
+    selectedFilter();
+  };
 
   return (
     <main>
@@ -62,11 +82,7 @@ const Filters = () => {
             data-testid="column-filter"
             onChange={ (e) => setColumn(e.target.value) }
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            {arrayOptions.map((a) => (<option key={ a } value={ a }>{a}</option>))}
           </select>
         </label>
         <label htmlFor="comparision">
@@ -95,7 +111,7 @@ const Filters = () => {
         <button
           type="button"
           data-testid="button-filter"
-          onClick={ () => handleOnClick(selectedFilter) }
+          onClick={ () => handleOnClickFinal() }
         >
           Adicionar filtro
         </button>

@@ -20,6 +20,19 @@ const Provider = ({ children }) => {
   const [filtered, setFiltered] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [dataArray, setDataArray] = useState([]);
+  const [disableButtons, setDisableButtons] = useState({
+    disablePopulation: false,
+    disableDiameter: false,
+    disableRotation: false,
+    disableOrbital: false,
+    disableSurface: false,
+  });
+  const [arrayOptions, setArrayOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water']);
 
   // Funcao para filtrar por nome
   const handleInput = (nome) => {
@@ -35,19 +48,6 @@ const Provider = ({ children }) => {
     );
   };
 
-  const handleOnClick = (funcao) => {
-    setFilters({
-      ...filters,
-      filters: {
-        filterByName: {
-          name: '',
-        },
-        filterByNumericValues: [{ column, comparision, value }],
-      },
-    });
-    funcao();
-  };
-
   // Chama API
   async function getPlanets() {
     await getPlanetsFetch()
@@ -58,7 +58,7 @@ const Provider = ({ children }) => {
   // ComponentDidMount
   useEffect(() => {
     getPlanets();
-  }, []);
+  });
 
   const context = {
     ...filters,
@@ -70,6 +70,8 @@ const Provider = ({ children }) => {
     loaded,
     dataArray,
     isLoading,
+    disableButtons,
+    arrayOptions,
     handleInput,
     setColumn,
     setComparision,
@@ -77,7 +79,8 @@ const Provider = ({ children }) => {
     setFiltered,
     setLoaded,
     setDataArray,
-    handleOnClick,
+    setDisableButtons,
+    setArrayOptions,
   };
 
   return (
