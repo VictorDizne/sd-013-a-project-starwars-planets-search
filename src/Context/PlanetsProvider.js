@@ -5,12 +5,14 @@ import PlanetsContext from './PlanetsContext';
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [firstObject, setFirstObject] = useState({});
-  const [filterData, setFilterData] = useState([]);
   const [filterPlanet, setFilterPlanet] = useState({ filters: {
     filterByName: {
       name: '',
     },
   } });
+  const [dataBase, setDataBase] = useState([]);
+
+  const [numberFilter, setNumberFilter] = useState([]);
 
   useEffect(() => {
     const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -19,21 +21,21 @@ function PlanetsProvider({ children }) {
       const responseJson = await response.json();
       setData(responseJson.results);
       setFirstObject(responseJson.results[0]);
-      setFilterData(responseJson.results);
+      setDataBase(responseJson.results);
     };
     fetchPlanets();
   }, []);
 
-  const handleChange = ({ target: { value } }) => {
-    setFilterPlanet({ filters: { filterByName: { name: value } } });
-  };
-
   const objectProvider = {
     firstObject,
     data,
+    setData,
     filterPlanet,
-    handleChange,
-    filterData,
+    setFilterPlanet,
+    numberFilter,
+    setNumberFilter,
+    dataBase,
+    setDataBase,
   };
 
   return (
