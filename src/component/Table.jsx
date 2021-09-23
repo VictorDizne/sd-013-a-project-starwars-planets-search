@@ -4,7 +4,7 @@ import planetContext from '../context';
 function Table() {
   const { planets } = useContext(planetContext);
   return (
-    <table>
+    <table className="tabela">
       <thead>
         <tr>
           <th>Name</th>

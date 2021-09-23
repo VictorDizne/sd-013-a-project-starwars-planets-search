@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import planetContext from '../context';
 
 const SearchBar = () => {
-  const { filters: { filterByName: { name, handleChange } } } = useContext(planetContext);
+  const { name, handleChange } = useContext(planetContext);
 
   return (
     <div>
