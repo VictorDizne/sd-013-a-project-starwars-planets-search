@@ -46,18 +46,9 @@ function Provider({ children }) {
       filterByNumericValues: newFilterByNumericValues });
   };
 
-  const removeColumnUsedInAFilter = (filter) => {
-    const usedColumn = columns.indexOf(filter.column);
-    const newColumns = [...columns];
-    newColumns.splice(usedColumn, 1);
-    setColumns(newColumns);
-  };
-
-  const handleNewNumericFilter = (newFilter) => {
+  const addFilter = (newFilter) => {
     const { column, value } = newFilter;
     if (!column || !value) return null;
-
-    removeColumnUsedInAFilter(newFilter);
 
     setFilters({
       ...filters,
@@ -69,9 +60,10 @@ function Provider({ children }) {
     fetching,
     filters,
     columns,
+    setColumns,
     removeFilter,
     handleSearchByName,
-    handleNewNumericFilter };
+    addFilter };
 
   return (
     <Context.Provider value={ context }>

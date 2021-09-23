@@ -2,20 +2,41 @@ import React, { useContext, useState } from 'react';
 import { Context } from '../context/Provider';
 
 function FilterByNumbers() {
-  const { handleNewNumericFilter, columns } = useContext(Context);
+  const { addFilter, columns, setColumns } = useContext(Context);
 
-  const [filter, setFilter] = useState({
+  const initialState = {
     column: columns[0],
     comparison: 'maior que',
-    value: '' });
+    value: '',
+  };
+  const [currentFilter, setCurrentFilter] = useState(initialState);
 
   const handleChange = (target) => {
     const { name, value } = target;
 
-    setFilter({ ...filter, [name]: value });
+    setCurrentFilter({ ...currentFilter, [name]: value });
   };
 
-  const { column, comparison, value } = filter;
+  const removeColumnUsedInAFilter = () => {
+    const usedColumn = columns.indexOf(currentFilter.column);
+    const newColumns = [...columns];
+    newColumns.splice(usedColumn, 1);
+    setColumns(newColumns);
+
+    // Reset the current filter form
+    setCurrentFilter({
+      column: newColumns[0],
+      comparison: 'maior que',
+      value: '',
+    });
+  };
+
+  const handleClick = () => {
+    addFilter(currentFilter);
+    removeColumnUsedInAFilter();
+  };
+
+  const { column, comparison, value } = currentFilter;
 
   return (
     <>
@@ -53,7 +74,7 @@ function FilterByNumbers() {
         />
       </label>
       <button
-        onClick={ () => handleNewNumericFilter(filter) }
+        onClick={ handleClick }
         type="button"
         data-testid="button-filter"
       >
