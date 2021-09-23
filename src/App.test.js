@@ -286,12 +286,13 @@ describe('4 - Não utilize filtros repetidos', () => {
   });
 });
 
-describe.skip('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos dados da tabela ao clicar no ícone de `X` de um dos filtros', () => {
+describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos dados da tabela ao clicar no ícone de `X` de um dos filtros', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
   const removeFilter = async () => {
     const filters = await screen.findAllByTestId(REMOVE_FILTER_SELECTOR);
+    console.log(filters[0].innerHTML);
     fireEvent.click(filters[0].querySelector('button'));
   };
 

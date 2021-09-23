@@ -15,7 +15,7 @@ const COMPARISON_OPTIONS = ['menor que', 'maior que', 'igual a'];
 const NumericFilter = () => {
   const [columnOption, setColumnOption] = useState(NUMERIC_COLUMN_OPTIONS[0]);
   const [comparisonOption, setComparisonOption] = useState(COMPARISON_OPTIONS[0]);
-  const [inputValue, setInputValue] = useState('0');
+  const [inputValue, setInputValue] = useState(0);
   const { filter, setFilter } = useContext(PlanetContext);
   const { filters: { filterByName, filterByNumericValues } } = filter;
 
@@ -36,18 +36,18 @@ const NumericFilter = () => {
       },
     });
   }
-  // function removeFilter(columnToBeRemoved) {
-  //   setFilter({
-  //     ...filter,
-  //     ...{ filters:
-  //       {
-  //         filterByName,
-  //         filterByNumericValues: filterByNumericValues
-  //           .filter(({ column }) => column !== columnToBeRemoved),
-  //       },
-  //     },
-  //   });
-  // }
+  function removeFilter(columnToBeRemoved) {
+    setFilter({
+      ...filter,
+      ...{ filters:
+        {
+          filterByName,
+          filterByNumericValues: filterByNumericValues
+            .filter(({ column }) => column !== columnToBeRemoved),
+        },
+      },
+    });
+  }
 
   function addFilterOnClick() {
     if (filterIsAvaible(columnOption)) {
@@ -58,6 +58,9 @@ const NumericFilter = () => {
       };
       addFilter(newNumericFilter);
     }
+  }
+  function removeFilterOnClick({ target: { value } }) {
+    removeFilter(value);
   }
 
   function setColumnOnChange({ target: { value } }) {
@@ -71,11 +74,18 @@ const NumericFilter = () => {
   }
   function renderActiveNumericFilters() {
     return filterByNumericValues.map(({ column, comparison, value }, index) => (
-      <div key={ index } className="btn-group" role="group" aria-label="Basic example">
+      <div key={ index } data-testid="filter" className="btn-group" role="group" aria-label="Basic example">
+        <button
+          type="button"
+          className="btn-close"
+          aria-label="Close"
+          value={ column }
+          onClick={ removeFilterOnClick }
+        />
         <button type="button" className="btn-success" aria-label="Close">
           {`${column} ${getComparisonSymbol(comparison)} ${value}`}
         </button>
-        <button type="button" className="btn-close" aria-label="Close" />
+
       </div>));
   }
   return (
