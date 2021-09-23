@@ -15,9 +15,7 @@ function Provider({ children }) {
   const [data, setData] = useState([]);
   const [fetching, setFetching] = useState(true);
   const [filters, setFilters] = useState({
-    filterByName: {
-      name: '',
-    },
+    filterByName: { name: '' },
     filterByNumericValues: [],
   });
   const [columns, setColumns] = useState(initialColumns);
@@ -39,11 +37,11 @@ function Provider({ children }) {
 
   const removeFilter = (column) => {
     const { filterByNumericValues } = filters;
-    const newFilterByNumericValues = filterByNumericValues.filter((filter) => filter.column !== column);
+    const newState = filterByNumericValues.filter((filter) => filter.column !== column);
     setColumns([...columns, column]);
     setFilters({
       ...filters,
-      filterByNumericValues: newFilterByNumericValues });
+      filterByNumericValues: newState });
   };
 
   const addFilter = (newFilter) => {

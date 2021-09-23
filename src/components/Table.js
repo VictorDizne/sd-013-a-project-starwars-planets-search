@@ -24,19 +24,22 @@ function Table() {
   };
 
   const filterByName = () => {
-    const { filterByName: { name: filterName } } = filters;
+    const { filterByName: { name } } = filters;
     return data
-      .filter(({ name }) => name.toLowerCase().includes(filterName));
+      .filter((planet) => planet.name.toLowerCase().includes(name));
   };
 
   const filterPlanetsByNumericValue = () => {
     const { filterByNumericValues } = filters;
-    const filteredSoFar = filterByName();
+    let filteredSoFar = filterByName();
 
     if (!filterByNumericValues.length) return filteredSoFar;
 
-    const anyFilter = filterByNumericValues[0];
-    return filteredSoFar.filter(getOperator(anyFilter));
+    filterByNumericValues.forEach((f) => {
+      filteredSoFar = filteredSoFar.filter(getOperator(f));
+    });
+
+    return filteredSoFar;
   };
 
   const planets = filterPlanetsByNumericValue();
