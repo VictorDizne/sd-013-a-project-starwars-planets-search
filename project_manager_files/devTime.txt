@@ -1,0 +1,14 @@
+
+Requisito | Tempo Estimado(revisão/aprofundamento de conteúdo + exe) | Tempo Gaston | 
+  1 - 4h - 7h50
+  2 - 6h - 6h47
+  3 - 4h - 12h11
+  4 - 2h - 1h 
+  5 - 2h - 1h30
+
+  bônus
+  6 - 1h - ?
+  7 - xh - ?
+
+
+  Tempo Estimado(revisão/aprofundamento de conteúdo + execução do requisito(com ou sem testes))
