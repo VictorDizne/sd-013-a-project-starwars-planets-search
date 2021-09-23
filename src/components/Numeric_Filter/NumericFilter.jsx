@@ -74,7 +74,13 @@ const NumericFilter = () => {
   }
   function renderActiveNumericFilters() {
     return filterByNumericValues.map(({ column, comparison, value }, index) => (
-      <div key={ index } data-testid="filter" className="btn-group" role="group" aria-label="Basic example">
+      <div
+        key={ index }
+        data-testid="filter"
+        className="btn-group"
+        role="group"
+        aria-label="Basic example"
+      >
         <button
           type="button"
           className="btn-close"
