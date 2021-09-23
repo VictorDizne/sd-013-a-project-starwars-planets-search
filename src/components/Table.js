@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Context } from '../context/Provider';
 import FilterByName from './FilterByName';
 import FilterByNumbers from './FilterByNumbers';
+import FiltersList from './FiltersList';
 import TableRow from './TableRow';
 
 function Table() {
@@ -44,6 +45,7 @@ function Table() {
     <main>
       <FilterByName />
       <FilterByNumbers />
+      <FiltersList />
       <table>
         <thead>
           <tr>

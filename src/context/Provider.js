@@ -37,6 +37,15 @@ function Provider({ children }) {
       filterByName: { name: userInput } });
   };
 
+  const removeFilter = (column) => {
+    const { filterByNumericValues } = filters;
+    const newFilterByNumericValues = filterByNumericValues.filter((filter) => filter.column !== column);
+    setColumns([...columns, column]);
+    setFilters({
+      ...filters,
+      filterByNumericValues: newFilterByNumericValues });
+  };
+
   const removeColumnUsedInAFilter = (filter) => {
     const usedColumn = columns.indexOf(filter.column);
     const newColumns = [...columns];
@@ -45,6 +54,9 @@ function Provider({ children }) {
   };
 
   const handleNewNumericFilter = (newFilter) => {
+    const { column, value } = newFilter;
+    if (!column || !value) return null;
+
     removeColumnUsedInAFilter(newFilter);
 
     setFilters({
@@ -57,6 +69,7 @@ function Provider({ children }) {
     fetching,
     filters,
     columns,
+    removeFilter,
     handleSearchByName,
     handleNewNumericFilter };
 
