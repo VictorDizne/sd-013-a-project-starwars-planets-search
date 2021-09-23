@@ -20,9 +20,9 @@ const NumericFilter = () => {
   const { filters: { filterByName, filterByNumericValues } } = filter;
 
   // verifica se um filtro já foi selecionado, cada column só pode ter 1 filtro
-  function filterIsAvaible() {
+  function filterIsAvaible(columnName) {
     return filterByNumericValues
-      .every(({ column }) => column !== columnOption);
+      .every(({ column }) => column !== columnName);
   }
 
   function addFilter(numericFilter) {
@@ -36,21 +36,21 @@ const NumericFilter = () => {
       },
     });
   }
-  function removeFilter(columnToBeRemoved) {
-    setFilter({
-      ...filter,
-      ...{ filters:
-        {
-          filterByName,
-          filterByNumericValues: filterByNumericValues
-            .filter(({ column }) => column !== columnToBeRemoved),
-        },
-      },
-    });
-  }
+  // function removeFilter(columnToBeRemoved) {
+  //   setFilter({
+  //     ...filter,
+  //     ...{ filters:
+  //       {
+  //         filterByName,
+  //         filterByNumericValues: filterByNumericValues
+  //           .filter(({ column }) => column !== columnToBeRemoved),
+  //       },
+  //     },
+  //   });
+  // }
 
   function addFilterOnClick() {
-    if (filterIsAvaible()) {
+    if (filterIsAvaible(columnOption)) {
       const newNumericFilter = {
         column: columnOption,
         comparison: comparisonOption,
@@ -88,7 +88,9 @@ const NumericFilter = () => {
         value={ columnOption }
       >
         { NUMERIC_COLUMN_OPTIONS.map((name) => (
-          <option key={ htmlID({ name }) } value={ name }>{ name }</option>))}
+          filterIsAvaible(name)
+            ? (<option key={ htmlID({ name }) } value={ name }>{ name }</option>)
+            : []))}
       </select>
       {/* Dropdown: Comparações */}
       <select
@@ -117,7 +119,7 @@ const NumericFilter = () => {
       >
         Add Filter
       </button>
-      {/* mostra os filtros numéricos na tela */}
+      {/* Renderiz os filtros numéricos na tela */}
       { renderActiveNumericFilters() }
     </div>
   );
