@@ -32,7 +32,7 @@ const FilterNumber = () => {
           name="column"
           id="column-filter"
           data-testid="column-filter"
-          onChange={ (e) => setColumn({ column: e.target.value }) }
+          onChange={ (e) => setColumn(e.target.value) }
         >
           <option selected value="population">population</option>
           <option value="orbital_period">orbital_period</option>
@@ -46,7 +46,7 @@ const FilterNumber = () => {
         <select
           id="comparison-filter"
           data-testid="comparison-filter"
-          onChange={ (e) => setComparison({ comparison: e.target.value }) }
+          onChange={ (e) => setComparison(e.target.value) }
         >
           <option value="maior que">maior que</option>
           <option value="menor menor">menor que</option>
@@ -57,7 +57,7 @@ const FilterNumber = () => {
         Escolha um valor:
         <input
           type="number"
-          onChange={ (e) => setValue({ value: e.target.value }) }
+          onChange={ (e) => setValue(e.target.value) }
           id="number-value"
         />
       </label>
