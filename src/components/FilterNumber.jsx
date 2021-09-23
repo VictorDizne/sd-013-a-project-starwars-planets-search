@@ -6,7 +6,7 @@ const FilterNumber = () => {
   const [comparison, setComparison] = useState('');
   const [value, setValue] = useState('');
 
-  const { setFilters, filters, data, setDataTable } = useContext(tableContext);
+  const { setFilters, filters, dataTable, setDataTable } = useContext(tableContext);
 
   const setInformation = () => {
     setFilters({ ...filters,
@@ -18,10 +18,18 @@ const FilterNumber = () => {
         },
       ],
     });
-    console.log('ate aqui xeguei');
-    const filteredPlanet = data.filter((planet) => console.log(planet[column]));
+    let planetFilter;
+    if (comparison === 'maior que') {
+      planetFilter = dataTable.filter((planet) => planet[column] > value);
+    }
+    if (comparison === 'igual a') {
+      planetFilter = dataTable.filter((planet) => planet[column] === value);
+    }
+    if (comparison === 'menor que') {
+      planetFilter = dataTable.filter((planet) => planet[column] < value);
+    }
 
-    setDataTable(filteredPlanet);
+    setDataTable(planetFilter);
   };
 
   return (
