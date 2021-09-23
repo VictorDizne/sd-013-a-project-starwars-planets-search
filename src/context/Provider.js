@@ -6,7 +6,14 @@ const Provider = ({ children }) => {
   const [data, setData] = useState([]);
   const [dataTable, setDataTable] = useState([]);
   const [dataKey, setDataKey] = useState([]);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState({ filterByName: { name: '' },
+    filterByNumericValues: [
+      {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    ] });
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -16,6 +23,7 @@ const Provider = ({ children }) => {
       results.map((item) => delete item.residents);
       const filteredKey = Object.keys(results[0]);
       setData(results);
+      setDataTable(results);
       setDataKey(filteredKey);
     };
 
@@ -25,7 +33,8 @@ const Provider = ({ children }) => {
   useEffect(() => {
     const filterPlanet = () => {
       const planetFiltered = data
-        .filter((planet) => (planet.name).toUpperCase().includes(filters.filterByName.name.toUpperCase()));
+        .filter((planet) => (planet.name).toUpperCase()
+          .includes(filters.filterByName.name.toUpperCase()));
       setDataTable(planetFiltered);
     };
     filterPlanet();
@@ -35,6 +44,7 @@ const Provider = ({ children }) => {
     data,
     dataKey,
     setFilters,
+    setDataTable,
     filters,
     dataTable,
   };
