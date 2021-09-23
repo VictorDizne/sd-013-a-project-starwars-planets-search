@@ -3,7 +3,6 @@ import PlanetsContext from '../Context/PlanetsContext';
 
 function NumericFilter() {
   const { objectProvider: {
-    dataBase,
     data,
     setData,
   } } = useContext(PlanetsContext);
@@ -22,8 +21,6 @@ function NumericFilter() {
   };
 
   const handleClick = () => {
-    setData(dataBase);
-
     if (filterBy.comparison === 'maior que') {
       const filter = data
         .filter((planet) => Number(planet[filterBy.column]) > filterBy.value);
