@@ -8,9 +8,7 @@ const AppProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [name, setName] = useState('');
-  const [arrayNumericValues, setArrayNumericValues] = useState([{
-    comparison: 'primeira',
-  }]);
+  const [arrayNumericValues, setArrayNumericValues] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {

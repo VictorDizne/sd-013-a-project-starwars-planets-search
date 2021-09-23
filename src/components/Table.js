@@ -6,28 +6,29 @@ const Table = () => {
   const { planets, isLoading, filters } = contextValue;
   const { filters: { filterByName, filterByNumericValues } } = filters;
   const { name } = filterByName;
-  const { column, comparison, value } = filterByNumericValues[
-    filterByNumericValues.length - 1];
 
   const filterUsingNumericValues = () => {
-    let comparisonFunction;
-    switch (comparison) {
-    case 'primeira':
-      return planets;
-    case 'maior que':
-      comparisonFunction = (a, b) => parseInt(a, 10) > parseInt(b, 10);
-      break;
-    case 'menor que':
-      comparisonFunction = (a, b) => parseInt(a, 10) < parseInt(b, 10);
-      break;
-    case 'igual a':
-      comparisonFunction = (a, b) => parseInt(a, 10) === parseInt(b, 10);
-      break;
-    default:
-      comparisonFunction = () => console.log('erro');
-    }
-    return planets
-      .filter((planet) => comparisonFunction(planet[column], value));
+    let filteredPlanets = planets;
+    filterByNumericValues.forEach((filter) => {
+      const { column, comparison, value } = filter;
+      let comparisonFunction;
+      switch (comparison) {
+      case 'maior que':
+        comparisonFunction = (a, b) => parseInt(a, 10) > parseInt(b, 10);
+        break;
+      case 'menor que':
+        comparisonFunction = (a, b) => parseInt(a, 10) < parseInt(b, 10);
+        break;
+      case 'igual a':
+        comparisonFunction = (a, b) => parseInt(a, 10) === parseInt(b, 10);
+        break;
+      default:
+        return planets;
+      }
+      filteredPlanets = filteredPlanets
+        .filter((planet) => comparisonFunction(planet[column], value));
+    });
+    return filteredPlanets;
   };
 
   if (isLoading) {

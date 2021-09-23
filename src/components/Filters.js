@@ -12,6 +12,11 @@ const Filters = () => {
   const [localValue, setlocalValue] = useState('100000');
   const [options, setOptions] = useState(columns);
 
+  const removeFilter = (filterName) => {
+    setArrayNumericValues(arrayNumericValues
+      .filter((filter) => filter.column !== filterName));
+  };
+
   return (
     <form>
       <h1>Filtros</h1>
@@ -55,23 +60,30 @@ const Filters = () => {
         onClick={ () => {
           setOptions(options.filter(((e) => e !== localColumn)));
           setlocalColumn(options[1]);
-          if (arrayNumericValues.length === 1) {
-            setArrayNumericValues([{
-              column: localColumn,
-              comparison: localComparison,
-              value: localValue,
-            }]);
-          } else {
-            setArrayNumericValues([...arrayNumericValues, {
-              column: localColumn,
-              comparison: localComparison,
-              value: localValue,
-            }]);
-          }
+          setArrayNumericValues([...arrayNumericValues, {
+            column: localColumn,
+            comparison: localComparison,
+            value: localValue,
+          }]);
         } }
       >
         Pesquisar
       </button>
+      {arrayNumericValues.map((numericValue) => (
+        // Código inspirado no projeto do Felipe Lima https://github.com/tryber/sd-013-a-project-starwars-planets-search/pull/45
+        // Anteriormente eu apenas renderizava um button
+        // O avaliador não reconhecia o data-testID
+        // Acredito por separar o nome da coluna do 'x' passou a funcionar
+        <div data-testid="filter" key={ numericValue.column }>
+          <span>{numericValue.column}</span>
+          <button
+            onClick={ () => removeFilter(numericValue.column) }
+            type="button"
+          >
+            x
+          </button>
+        </div>
+      ))}
     </form>
   );
 };
