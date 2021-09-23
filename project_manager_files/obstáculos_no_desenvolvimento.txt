@@ -14,5 +14,16 @@ Requisito 3:
         sem o auxílio de componentDidUpdate(prevProps,prevState,data)
   - Merge Nested Objects ( filter )
 
+Requisito 4:
+  - Tentativa de usar HashTable para acessar ativar/desativar o filtro número por 1 flag 
+    # Tentativa abortada, a legibilidade não compensou essa otimização e o ganho foi muito pequeno ~1%
+
+Requisito 5:
+  - Utilizei um compnente do Bootstrap que me confundiu em relação ao teste 
+  - O estado inicial do inputValue foi trocado para numérico em ../components/Numeric........
+
+Reuisito 6:
+
+
 
   
