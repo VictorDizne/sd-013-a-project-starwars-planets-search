@@ -7,7 +7,6 @@ export default function FilterList({ dispatch, filters: { filterByNumericValues 
       type: 'remove-filter',
       payload,
     });
-    console.log(payload);
   };
 
   const renderFilter = (filter, index) => (
@@ -38,7 +37,7 @@ FilterList.propTypes = {
   dispatch: PropTypes.func.isRequired,
   filters: PropTypes.shape({
     filterByName: PropTypes.objectOf(PropTypes.string),
-    filterByNumericValue: PropTypes.arrayOf(PropTypes.object),
+    filterByNumericValues: PropTypes.arrayOf(PropTypes.object),
     order: PropTypes.objectOf(PropTypes.string),
   }).isRequired,
 };

@@ -10,7 +10,7 @@ export default function Main() {
     const fetchPlanets = async () => {
       const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
       const data = await response.json();
-      setPlanets(data.results);
+      await setPlanets(data.results);
     };
     fetchPlanets();
   }, []);
@@ -66,7 +66,7 @@ export default function Main() {
       <Filters dispatch={ dispatch } filters={ filters }>
         <FilterList dispatch={ dispatch } filters={ filters } />
       </Filters>
-      <Table planets={ planets } filters={ filters } />
+      {planets.length > 0 && <Table planets={ planets } filters={ filters } />}
     </main>
   );
 }

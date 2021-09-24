@@ -32,9 +32,7 @@ export default function Filters({
     return optionsArray
       .filter((option) => !selectedColumns.includes(option))
       .map((option, index) => (
-        index === 0
-          ? <option key={ index } value={ option } selected>{option}</option>
-          : <option key={ index } value={ option }>{option}</option>
+        <option key={ index } value={ option }>{option}</option>
       ));
   };
 
@@ -66,6 +64,7 @@ export default function Filters({
         name="column"
         onChange={ (e) => handleChange(e) }
         data-testid="column-filter"
+        defaultValue="population"
       >
         {createColumnOptions()}
       </select>
@@ -73,8 +72,9 @@ export default function Filters({
         name="comparison"
         onChange={ (e) => handleChange(e) }
         data-testid="comparison-filter"
+        defaultValue="maior que"
       >
-        <option value="maior que" selected>maior que</option>
+        <option value="maior que">maior que</option>
         <option value="menor que">menor que</option>
         <option value="igual a">igual a</option>
       </select>
