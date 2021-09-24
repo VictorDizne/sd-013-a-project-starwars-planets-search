@@ -3,19 +3,12 @@ import PlanetsContext from '../Context/PlanetsContext';
 
 function NameSubmit() {
   const {
-    objectProvider: { filterPlanet, setFilterPlanet },
+    objectProvider: { filterName, setFilterName },
   } = useContext(PlanetsContext);
-  const {
-    // filters,
-    filters: {
-      filterByName: { name },
-    },
-  } = filterPlanet;
+  const { name } = filterName;
 
   const handleChangeName = ({ target: { value } }) => {
-    setFilterPlanet({
-      filters: { filterByName: { name: value } },
-    });
+    setFilterName({ name: value });
   };
 
   return (

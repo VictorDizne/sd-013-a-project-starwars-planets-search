@@ -5,13 +5,8 @@ import PlanetsContext from './PlanetsContext';
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [firstObject, setFirstObject] = useState({});
-  const [filterPlanet, setFilterPlanet] = useState({ filters: {
-    filterByName: {
-      name: '',
-    },
-  } });
+  const [filterName, setFilterName] = useState({ name: '' });
   const [dataBase, setDataBase] = useState([]);
-
   const [numberFilter, setNumberFilter] = useState([]);
 
   useEffect(() => {
@@ -30,8 +25,8 @@ function PlanetsProvider({ children }) {
     firstObject,
     data,
     setData,
-    filterPlanet,
-    setFilterPlanet,
+    filterName,
+    setFilterName,
     numberFilter,
     setNumberFilter,
     dataBase,

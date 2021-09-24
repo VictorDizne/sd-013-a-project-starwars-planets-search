@@ -5,11 +5,11 @@ import './table.css';
 
 function Table() {
   const {
-    objectProvider: { numberFilter, filterPlanet, firstObject, data },
+    objectProvider: { numberFilter, filterName, firstObject, data },
   } = useContext(PlanetsContext);
 
   const headerKeys = Object.keys(firstObject);
-  const { filters: { filterByName: { name } } } = filterPlanet;
+  const { name } = filterName;
 
   const myProps = {
     name,
