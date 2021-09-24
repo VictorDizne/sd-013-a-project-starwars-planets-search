@@ -8,11 +8,6 @@ const Provider = ({ children }) => {
   const [dataKey, setDataKey] = useState([]);
   const [filters, setFilters] = useState({ filterByName: { name: '' },
     filterByNumericValues: [
-      {
-        column: '',
-        comparison: '',
-        value: '',
-      },
     ] });
 
   useEffect(() => {

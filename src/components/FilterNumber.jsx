@@ -1,16 +1,49 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import tableContext from '../context';
 
 const FilterNumber = () => {
-  const [column, setColumn] = useState('population');
+  const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('');
 
-  const { setFilters, filters, data, setDataTable } = useContext(tableContext);
+  const [population, setPopulation] = useState(true);
+  const [orbital, setOrbital] = useState(true);
+  const [diameter, setDiameter] = useState(true);
+  const [rotation, setRotation] = useState(true);
+  const [surface, setSurface] = useState(true);
+
+  const { setFilters, filters,
+    filters: { filterByNumericValues }, data, setDataTable } = useContext(tableContext);
+
+  useEffect(() => {
+    const removeFilter = () => {
+      if (column === 'population') {
+        setPopulation(false);
+      }
+      if (column === 'orbital_period') {
+        setOrbital(false);
+      }
+      if (column === 'diameter') {
+        setDiameter(false);
+      }
+      if (column === 'rotation_period') {
+        setRotation(false);
+      }
+      if (column === 'surface_water') {
+        setSurface(false);
+      }
+    };
+    removeFilter();
+  }, [column]);
+
+  const columnSelect = (e) => {
+    setColumn(e.target.value);
+  };
 
   const setInformation = () => {
     setFilters({ ...filters,
       filterByNumericValues: [
+        ...filterByNumericValues,
         {
           column,
           comparison,
@@ -32,6 +65,12 @@ const FilterNumber = () => {
     setDataTable(planetFilter);
   };
 
+  const addPopulation = () => setPopulation(true);
+  const addOrbital = () => setOrbital(true);
+  const addDiameter = () => setDiameter(true);
+  const addRotation = () => setRotation(true);
+  const addSurface = () => setSurface(true);
+
   return (
     <div>
       <label htmlFor="column-filter">
@@ -40,13 +79,13 @@ const FilterNumber = () => {
           name="column"
           id="column-filter"
           data-testid="column-filter"
-          onChange={ (e) => setColumn(e.target.value) }
+          onChange={ columnSelect }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          { population && <option value="population">population</option> }
+          { orbital && <option value="orbital_period">orbital_period</option>}
+          { diameter && <option value="diameter">diameter</option>}
+          { rotation && <option value="rotation_period">rotation_period</option>}
+          { surface && <option value="surface_water">surface_water</option>}
         </select>
       </label>
       <label htmlFor="comparison-filter">
@@ -77,6 +116,18 @@ const FilterNumber = () => {
       >
         Buscar
       </button>
+      <div>
+        { !population
+          && <button type="button" onClick={ addPopulation }>population</button> }
+        { !orbital
+          && <button type="button" onClick={ addOrbital }>orbital</button> }
+        { !diameter
+          && <button type="button" onClick={ addDiameter }>diameter</button> }
+        { !rotation
+          && <button type="button" onClick={ addRotation }>rotation</button> }
+        { !surface
+          && <button type="button" onClick={ addSurface }>surface</button> }
+      </div>
     </div>
   );
 };
