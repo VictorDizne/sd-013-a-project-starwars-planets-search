@@ -10,7 +10,7 @@ export default function FilterList({ dispatch, filters: { filterByNumericValues 
   };
 
   const renderFilter = (filter, index) => (
-    <div key={ index }>
+    <div key={ index } data-testid="filter">
       <p>{filter.column}</p>
       <p>{filter.comparison}</p>
       <p>{filter.value}</p>
