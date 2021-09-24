@@ -1,6 +1,7 @@
 // import React from 'react';
 import React, { useContext } from 'react';
 import MyContext from '../Contexto/MyContext';
+import FilterRemove from './FilterRemove';
 import Tr from './Tr';
 
 function Table() {
@@ -85,6 +86,12 @@ function Table() {
         />
         <button type="submit" data-testid="button-filter"> Filtrar </button>
       </form>
+      <section>
+        <ol>
+          { filterByNumericValues
+            .map((filter, index) => <FilterRemove key={ index } filter={ filter } />)}
+        </ol>
+      </section>
       <table>
         <thead>
           <tr>{ header.map((title) => <th key={ title }>{ title }</th>)}</tr>

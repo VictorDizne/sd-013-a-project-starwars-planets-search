@@ -35,3 +35,5 @@ MyProvider.propTypes = {
 }.isRequired;
 
 export default MyProvider;
+
+// Projeito feito com ajuda do colega Adriano Monteiro da turma 13A
