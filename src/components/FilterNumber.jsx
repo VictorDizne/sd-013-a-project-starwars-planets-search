@@ -2,11 +2,11 @@ import React, { useContext, useState } from 'react';
 import tableContext from '../context';
 
 const FilterNumber = () => {
-  const [column, setColumn] = useState('');
-  const [comparison, setComparison] = useState('');
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('');
 
-  const { setFilters, filters, dataTable, setDataTable } = useContext(tableContext);
+  const { setFilters, filters, data, setDataTable } = useContext(tableContext);
 
   const setInformation = () => {
     setFilters({ ...filters,
@@ -20,13 +20,13 @@ const FilterNumber = () => {
     });
     let planetFilter;
     if (comparison === 'maior que') {
-      planetFilter = dataTable.filter((planet) => planet[column] > value);
+      planetFilter = data.filter((planet) => Number(planet[column]) > Number(value));
     }
     if (comparison === 'igual a') {
-      planetFilter = dataTable.filter((planet) => planet[column] === value);
+      planetFilter = data.filter((planet) => Number(planet[column]) === Number(value));
     }
     if (comparison === 'menor que') {
-      planetFilter = dataTable.filter((planet) => planet[column] < value);
+      planetFilter = data.filter((planet) => Number(planet[column]) < Number(value));
     }
 
     setDataTable(planetFilter);
@@ -42,7 +42,7 @@ const FilterNumber = () => {
           data-testid="column-filter"
           onChange={ (e) => setColumn(e.target.value) }
         >
-          <option selected value="population">population</option>
+          <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
           <option value="diameter">diameter</option>
           <option value="rotation_period">rotation_period</option>
@@ -57,13 +57,14 @@ const FilterNumber = () => {
           onChange={ (e) => setComparison(e.target.value) }
         >
           <option value="maior que">maior que</option>
-          <option value="menor menor">menor que</option>
+          <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
         </select>
       </label>
       <label htmlFor="number-value">
         Escolha um valor:
         <input
+          data-testid="value-filter"
           type="number"
           onChange={ (e) => setValue(e.target.value) }
           id="number-value"
