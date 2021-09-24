@@ -26,15 +26,36 @@ function Table() {
   function handleSubmit(evento) {
     evento.preventDefault();
     const { target: { children } } = evento;
-    setFilters({
-      ...filters,
-      filterByNumericValues: [{
-        column: children[1].value,
-        comparison: children[2].value,
-        value: children[3].value,
-      }],
-    });
+
+    if (filterByNumericValues[0].column !== '') {
+      setFilters({
+        ...filters,
+        filterByNumericValues: [
+          ...filters.filterByNumericValues,
+          {
+            column: children[1].value,
+            comparison: children[2].value,
+            value: children[3].value,
+          }],
+      });
+    } else {
+      setFilters({
+        ...filters,
+        filterByNumericValues: [{
+          column: children[1].value,
+          comparison: children[2].value,
+          value: children[3].value,
+        }],
+      });
+    }
+    const busColumn = Object.values(children[1].children)
+      .findIndex((option) => option.value === children[1].value);
+    children[1].children[busColumn].remove();
   }
+  // o filterByNumericValues é um array de objetos, com o primeiro objeto vazio. O if verifica se não existe
+  // um primeiro objeto com o valor vazio, se não existir ele adiciona um novo objeto em uma nova posição.
+  // se existir ele sobrescreve o obejo vazio na posição zero.
+
   return (
     <div>
       <form onSubmit={ handleSubmit }>
@@ -47,9 +68,9 @@ function Table() {
           />
         </label>
         <select data-testid="column-filter">
-          <option value="population">population </option>
-          <option value="orbital_period">orbital_period </option>
-          <option value="diameter">diameter </option>
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
           <option value="rotation_period">rotation_period</option>
           <option value="surface_water">surface_water</option>
         </select>
