@@ -18,15 +18,7 @@ const Provider = ({ children }) => {
     },
   });
   const [filtered, setFiltered] = useState([]);
-  const [loaded, setLoaded] = useState(false);
   const [dataArray, setDataArray] = useState([]);
-  const [disableButtons, setDisableButtons] = useState({
-    disablePopulation: false,
-    disableDiameter: false,
-    disableRotation: false,
-    disableOrbital: false,
-    disableSurface: false,
-  });
   const [arrayOptions, setArrayOptions] = useState([
     'population',
     'orbital_period',
@@ -49,16 +41,17 @@ const Provider = ({ children }) => {
   };
 
   // Chama API
-  async function getPlanets() {
-    await getPlanetsFetch()
-      .then((response) => setData(response));
-    setIsLoading(false);
-  }
 
   // ComponentDidMount
   useEffect(() => {
+    async function getPlanets() {
+      const response = await getPlanetsFetch();
+      setData(response);
+      setFiltered(response);
+      setIsLoading(false);
+    }
     getPlanets();
-  });
+  }, []);
 
   const context = {
     ...filters,
@@ -67,20 +60,17 @@ const Provider = ({ children }) => {
     comparision,
     value,
     filtered,
-    loaded,
     dataArray,
     isLoading,
-    disableButtons,
     arrayOptions,
     handleInput,
     setColumn,
     setComparision,
     setValue,
     setFiltered,
-    setLoaded,
     setDataArray,
-    setDisableButtons,
     setArrayOptions,
+    setFilters,
   };
 
   return (

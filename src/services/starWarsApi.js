@@ -5,7 +5,7 @@ export default async function getPlanetsFetch() {
   try {
     const fetchResult = await fetch(URL);
     const planets = await fetchResult.json();
-    return planets;
+    return planets.results;
   } catch (error) {
     console.error(error);
   }

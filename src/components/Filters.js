@@ -4,51 +4,46 @@ import StarWarsContext from '../context';
 const Filters = () => {
   const contextValue = useContext(StarWarsContext);
   const { filters: { filterByName: { name } }, handleInput } = contextValue;
-  const { data: { results }, setFiltered } = contextValue;
+  const { data, setFiltered } = contextValue;
   const { column, value, comparision, setColumn, setValue,
     setComparision } = contextValue;
   const { setDataArray, dataArray } = contextValue;
   const { arrayOptions, setArrayOptions } = contextValue;
-  const arrayOption = ['population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water'];
 
   // Funcao para filtrar os filtros selecionados
   const selectedFilter = () => {
     const newArray = [];
     switch (comparision) {
     case 'maior que':
-      results.filter((result) => Number(result[column]) > Number(value))
+      data.filter((result) => Number(result[column]) > Number(value))
         .map((final) => newArray.push(final));
       setFiltered(newArray);
       break;
 
     case 'menor que':
-      results.filter((result) => Number(result[column]) < Number(value))
+      data.filter((result) => Number(result[column]) < Number(value))
         .map((final) => newArray.push(final));
       setFiltered(newArray);
       break;
 
     case 'igual a':
-      results.filter((result) => Number(result[column]) === Number(value))
+      data.filter((result) => Number(result[column]) === Number(value))
         .map((final) => newArray.push(final));
       setFiltered(newArray);
       break;
 
     default:
-      return results;
+      return data;
     }
   };
 
   // Funcao para alterar o estado do dataArray + chamar Funcao de filtro
   const handleOnClickFinal = () => {
     let newArrayData = [];
-    arrayOption.forEach((option, index) => {
+    arrayOptions.forEach((option, index) => {
       if (option === column) {
-        arrayOption.splice(index, 1);
-        setArrayOptions(arrayOption);
+        arrayOptions.splice(index, 1);
+        setArrayOptions(arrayOptions);
       }
     });
     if (dataArray.length === 0) {
@@ -58,6 +53,7 @@ const Filters = () => {
       newArrayData = { column, comparision, value };
       setDataArray([...dataArray, newArrayData]);
     }
+
     selectedFilter();
   };
 

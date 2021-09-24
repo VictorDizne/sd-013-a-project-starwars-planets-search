@@ -3,15 +3,10 @@ import StarWarsContext from '../context';
 
 const TablePlanets = () => {
   const contextValue = useContext(StarWarsContext);
-  const { data: { results }, isLoading } = contextValue;
+  const { isLoading } = contextValue;
   const { filters: { filterByName: { name } } } = contextValue;
-  const { setFiltered, filtered } = contextValue;
-  const { setLoaded, loaded } = contextValue;
+  const { filtered } = contextValue;
   if (isLoading === true) return <h1>Carregando Tabela</h1>;
-  if (loaded === false) {
-    setLoaded(true);
-    setFiltered(results);
-  }
   return (
     <main>
       <table>
