@@ -10,6 +10,7 @@ function MyProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [{ column: '', comparison: '', value: '' }],
   });
 
   const fetchStar = () => {
