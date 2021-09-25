@@ -10,7 +10,27 @@ import Table from './components/Table';
 function App() {
   const [dataPlanets, setdataPlanets] = useState([1]);
   const [name, setName] = useState('');
-  
+  const [data, setData] = useState([]);
+  const [filter, setFilter] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+      filterByNumericValues: [
+        {
+          column: '',
+          comparison: '',
+          value: '',
+        },
+        {
+          column: '',
+          comparison: '',
+          value: '',
+        },
+      ],
+    },
+  });
+
   useEffect(() => {
     const fetchApi = async () => {
       const planetsURL = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -21,15 +41,21 @@ function App() {
     fetchApi();
   }, []);
 
-  const handleChange = ({ target }) => setName(target.value);
+  // const handleChange = ({ target }) => setName(target.value);
   
-  const exportData = { dataPlanets, filters:{ filterByName: { name } } };
+  const handleFilter = ({ target }) => {
+    if (target.name === 'name') setName(target.value);
+  }
+
+  const exportData = { data, setData, filter, dataPlanets, filters: { filterByName: { name } } };
   return (
     <Context.Provider value={ exportData }>
       <input 
         type="text"
         data-testid="name-filter"
-        onChange={ handleChange }
+        onChange={ handleFilter }
+        // onChange={ handleChange }
+        // value={ name }
       />  
       {/* JavaScript para verificar se há algo no data e só depois renderizar table */}
       { (dataPlanets.length > 0 && <Table />) }

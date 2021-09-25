@@ -2,32 +2,31 @@
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
 // https://pt-br.reactjs.org/docs/hooks-reference.html#usecontext
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/map
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Context from '../context/Context';
+import fetchApi from '../services/fetchApi';
 
 function Table() {
-  const { dataPlanets, filters: { filterByName: { name } } } = useContext(Context);
-  const head = Object.keys(dataPlanets[0]);
-
-  const header = head.map((headIndex, index) => {
-    if (headIndex !== 'residents') {
-      return <th key={ index }>{ headIndex }</th>;
+  const { data, setData, filter, dataPlanets } = useContext(Context);
+  const { filters: { filterByName: { name } } } = filter;
+  
+  const dataFilter = data.filter((element) => element.name.includes(filter.filters.filterByName.name));
+  
+  let filterPlanets = dataPlanets.reduce((__, acc) => acc, []);
+  filterPlanets = Object.keys(filterPlanets).filter((key) => key !== 'residents');
+  
+  const header = filterPlanets.map((element, index) => (
+    <th key={ index }>{ element }</th>
+    ));
+    
+  async function setDataPlanets() {
+    try {
+      const response = fetchApi();
+      setData(response);
+    } catch (error) {
+      setData(error);
     }
-    return null;
-  });
-  // Criar filtros com renderização condicional
-  // const filterDataPlanets = dataPlanets.results.name.includes('o');
-  const body = dataPlanets.map((results, index) => {
-    if (results !== 'residents') {
-      const result = Object.values(results);
-      return (
-        <tr key={ index }>
-          { result.map((planetEntrie) => <td key={ planetEntrie }>{ planetEntrie }</td>)}
-        </tr>
-      );
-    }
-    return null;
-  });
+  }
 
   return (
     <table>
@@ -37,7 +36,23 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { body }
+        { dataPlanets.map((element) => (
+          <tr key={ element.name }>
+            <td>{element.name}</td>
+            <td>{element.rotation_period}</td>
+            <td>{element.orbital_period}</td>
+            <td>{element.diameter}</td>
+            <td>{element.climate}</td>
+            <td>{element.gravity}</td>
+            <td>{element.terrain}</td>
+            <td>{element.surface_water}</td>
+            <td>{element.population}</td>
+            <td>{element.films}</td>
+            <td>{element.created}</td>
+            <td>{element.edited}</td>
+            <td>{element.url}</td>
+          </tr>
+        )) }
       </tbody>
     </table>
   );
