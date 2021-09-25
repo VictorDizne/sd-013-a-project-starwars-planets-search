@@ -9,21 +9,30 @@ import Table from './components/Table';
 
 function App() {
   const [dataPlanets, setdataPlanets] = useState([1]);
-  const planets = { dataPlanets };
-
+  const [name, setName] = useState('');
+  
   useEffect(() => {
     const fetchApi = async () => {
       const planetsURL = 'https://swapi-trybe.herokuapp.com/api/planets/';
       const response = await fetch(planetsURL)
-        .then((result) => result.json());
+      .then((result) => result.json());
       setdataPlanets(response.results);
     };
     fetchApi();
   }, []);
 
+  const handleChange = ({ target }) => setName(target.value);
+  
+  const exportData = { dataPlanets, filters:{ filterByName: { name } } };
   return (
-    <Context.Provider value={ planets }>
-      <Table />
+    <Context.Provider value={ exportData }>
+      <input 
+        type="text"
+        data-testid="name-filter"
+        onChange={ handleChange }
+      />  
+      {/* JavaScript para verificar se há algo no data e só depois renderizar table */}
+      { (dataPlanets.length > 0 && <Table />) }
     </Context.Provider>
   );
 }

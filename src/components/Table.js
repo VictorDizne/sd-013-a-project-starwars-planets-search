@@ -6,14 +6,17 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 
 function Table() {
-  const { dataPlanets } = useContext(Context);
+  const { dataPlanets, filters: { filterByName: { name } } } = useContext(Context);
   const head = Object.keys(dataPlanets[0]);
+
   const header = head.map((headIndex, index) => {
     if (headIndex !== 'residents') {
       return <th key={ index }>{ headIndex }</th>;
     }
     return null;
   });
+  // Criar filtros com renderização condicional
+  // const filterDataPlanets = dataPlanets.results.name.includes('o');
   const body = dataPlanets.map((results, index) => {
     if (results !== 'residents') {
       const result = Object.values(results);
