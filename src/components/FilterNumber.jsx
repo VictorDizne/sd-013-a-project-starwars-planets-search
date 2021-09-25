@@ -6,7 +6,7 @@ const FilterNumber = () => {
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('');
 
-  const [population, setPopulation] = useState(true);
+  const [population, setPopulatio] = useState(true);
   const [orbital, setOrbital] = useState(true);
   const [diameter, setDiameter] = useState(true);
   const [rotation, setRotation] = useState(true);
@@ -14,11 +14,11 @@ const FilterNumber = () => {
 
   const { setFilters, filters,
     filters: { filterByNumericValues }, data, setDataTable } = useContext(tableContext);
-
+    // esse useEffect vai rodar a função dentro dele, apenas quando o estado Column for atualizado;
   useEffect(() => {
     const removeFilter = () => {
       if (column === 'population') {
-        setPopulation(false);
+        setPopulatio(false);
       }
       if (column === 'orbital_period') {
         setOrbital(false);
@@ -39,6 +39,8 @@ const FilterNumber = () => {
   const columnSelect = (e) => {
     setColumn(e.target.value);
   };
+
+  // Essa função faz os filters e ao mesmo tempo manda as informações de cada busca para o Filter que está no arquivo Provider;
 
   const setInformation = () => {
     setFilters({ ...filters,
@@ -65,15 +67,9 @@ const FilterNumber = () => {
     setDataTable(planetFilter);
   };
 
-  const addPopulation = () => setPopulation(true);
-  const addOrbital = () => setOrbital(true);
-  const addDiameter = () => setDiameter(true);
-  const addRotation = () => setRotation(true);
-  const addSurface = () => setSurface(true);
-
   return (
     <div>
-      <label htmlFor="column-filter">
+      <label className="LabelMuda" htmlFor="column-filter">
         Selecione um(s) Filtro:
         <select
           name="column"
@@ -88,7 +84,7 @@ const FilterNumber = () => {
           { surface && <option value="surface_water">surface_water</option>}
         </select>
       </label>
-      <label htmlFor="comparison-filter">
+      <label className="LabelMuda" htmlFor="comparison-filter">
         Selecione a faixa de valor do Filtro:
         <select
           id="comparison-filter"
@@ -100,7 +96,7 @@ const FilterNumber = () => {
           <option value="igual a">igual a</option>
         </select>
       </label>
-      <label htmlFor="number-value">
+      <label className="LabelMuda" htmlFor="number-value">
         Escolha um valor:
         <input
           data-testid="value-filter"
@@ -111,22 +107,23 @@ const FilterNumber = () => {
       </label>
       <button
         type="button"
+        className="btn-search"
         data-testid="button-filter"
         onClick={ setInformation }
       >
         Buscar
       </button>
-      <div>
+      <div className="buttons-container">
         { !population
-          && <button type="button" onClick={ addPopulation }>population</button> }
+        && <button type="button" onClick={ () => setPopulatio(true) }>population</button>}
         { !orbital
-          && <button type="button" onClick={ addOrbital }>orbital</button> }
+          && <button type="button" onClick={ () => setOrbital(true) }>orbital</button> }
         { !diameter
-          && <button type="button" onClick={ addDiameter }>diameter</button> }
+          && <button type="button" onClick={ () => setDiameter(true) }>diameter</button> }
         { !rotation
-          && <button type="button" onClick={ addRotation }>rotation</button> }
+          && <button type="button" onClick={ () => setRotation(true) }>rotation</button> }
         { !surface
-          && <button type="button" onClick={ addSurface }>surface</button> }
+          && <button type="button" onClick={ () => setSurface(true) }>surface</button> }
       </div>
     </div>
   );

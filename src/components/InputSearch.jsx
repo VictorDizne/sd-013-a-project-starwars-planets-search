@@ -5,7 +5,7 @@ const InputSearch = () => {
   const { setFilters, filters } = useContext(tableContext);
   return (
     <form action="">
-      <label htmlFor="input-search">
+      <label className="LabelMuda" htmlFor="input-search">
         Planetas:
         <input
           data-testid="name-filter"

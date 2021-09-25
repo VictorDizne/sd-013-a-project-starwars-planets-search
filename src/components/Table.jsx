@@ -2,19 +2,17 @@ import React from 'react';
 import TableBody from './TableBody';
 import TableTitles from './TableTitles';
 import '../css/Table.css';
-import InputSearch from './InputSearch';
-import FilterNumber from './FilterNumber';
+import TableHeader from './TableHeader';
 
 function Table() {
   return (
-    <>
-      <InputSearch />
-      <FilterNumber />
+    <div className="countainerTable">
+      <TableHeader />
       <table>
         <TableTitles />
         <TableBody />
       </table>
-    </>
+    </div>
   );
 }
 
