@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-// REFERENCE https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
-import PropTypes from 'prop-types';
-import StarWarsContext from './StarWarsContext';
-
+import StarWarsContext from './Context';
 import fetchApi from '../services/api';
 
-function StarwarsProvider({ children }) {
+function Provider({ children }) {
   const [data, setData] = useState([]);
   const [counter, setCouter] = useState(0);
   const [columns, setColumns] = useState([]);
@@ -17,35 +14,35 @@ function StarwarsProvider({ children }) {
         name: '',
       },
       filterByNumericValues: [],
-      order: {
-        column: 'name',
-        sort: 'ASC',
-      },
     },
   });
+  function newFilter() {
+    let newData = [];
+    let values = [];
 
-  const columnText = ['name', 'terrain', 'films', 'url'];
-  const { column, sort } = filter.filters.order;
-  if (sort === 'ASC') {
-    if (columnText.includes(column)) {
-      data.sort((a, b) => (
-        +(a[column] > b[column]) || +(a[column] === b[column]) - 1
-      ));
-    } else {
-      data.sort((a, b) => Number(a[column]) - Number(b[column]));
+    if (filter.filters.filterByNumericValues.length > 0) {
+      values = Object.values(filter.filters.filterByNumericValues[counter - 1]);
     }
-  } else if (sort === 'DESC') {
-    if (columnText.includes(column)) {
-      data.sort((a, b) => (
-        +(a[column] < b[column]) || +(a[column] === b[column]) - 1
-      ));
+
+    if (values[1] === 'maior que') {
+      newData = data.filter((element) => element[values[0]] > Number(values[2]))
+        .filter((element) => element.name.toLowerCase()
+          .includes(filter.filters.filterByName.name.toLowerCase()));
+    } else if (values[1] === 'menor que') {
+      newData = data.filter((element) => element[values[0]] < Number(values[2]))
+        .filter((element) => element.name.toLowerCase()
+          .includes(filter.filters.filterByName.name.toLowerCase()));
+    } else if (values[1] === 'igual a') {
+      newData = data.filter((element) => element[values[0]] === values[2])
+        .filter((element) => element.name.toLowerCase()
+          .includes(filter.filters.filterByName.name.toLowerCase()));
     } else {
-      data.sort((a, b) => Number(b[column]) - Number(a[column]));
+      newData = data.filter((element) => element.name.toLowerCase()
+        .includes(filter.filters.filterByName.name.toLowerCase()));
     }
+
+    return newData;
   }
-
-  let arrayData = data.reduce((__, acc) => acc, []);
-  arrayData = Object.keys(arrayData).filter((key) => key !== 'residents');
 
   async function setPlanets() {
     try {
@@ -68,10 +65,10 @@ function StarwarsProvider({ children }) {
   return (
     <StarWarsContext.Provider
       value={ {
-        arrayData,
+        data,
         filter,
         setFilter,
-        data,
+        newFilter,
         setCouter,
         counter,
         columns,
@@ -85,8 +82,8 @@ function StarwarsProvider({ children }) {
   );
 }
 
-StarwarsProvider.propTypes = {
+Provider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default StarwarsProvider;
+export default Provider;

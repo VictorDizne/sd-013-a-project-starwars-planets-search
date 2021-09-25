@@ -1,39 +1,8 @@
-// https://blog.betrybe.com/javascript/javascript-map/
-// https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
-// https://pt-br.reactjs.org/docs/hooks-reference.html#usecontext
-// https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/Context';
 
 function Table() {
-  const { arrayData, filter, data, counter } = useContext(StarWarsContext);
-
-  function newFilter() {
-    let newData = [];
-    let values = [];
-
-    if (filter.filters.filterByNumericValues.length > 0) {
-      values = Object.values(filter.filters.filterByNumericValues[counter - 1]);
-    }
-
-    if (values[1] === 'maior que') {
-      newData = data.filter((element) => element[values[0]] > Number(values[2]))
-        .filter((element) => element.name.toLowerCase()
-          .includes(filter.filters.filterByName.name.toLowerCase()));
-    } else if (values[1] === 'menor que') {
-      newData = data.filter((element) => element[values[0]] < Number(values[2]))
-        .filter((element) => element.name.toLowerCase()
-          .includes(filter.filters.filterByName.name.toLowerCase()));
-    } else if (values[1] === 'igual a') {
-      newData = data.filter((element) => element[values[0]] === values[2])
-        .filter((element) => element.name.toLowerCase()
-          .includes(filter.filters.filterByName.name.toLowerCase()));
-    } else {
-      newData = data.filter((element) => element.name.toLowerCase()
-        .includes(filter.filters.filterByName.name.toLowerCase()));
-    }
-    return newData;
-  }
+  const { arrayData, newFilter } = useContext(StarWarsContext);
 
   return (
     <table>
@@ -66,4 +35,5 @@ function Table() {
     </table>
   );
 }
+
 export default Table;
