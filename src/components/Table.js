@@ -2,31 +2,22 @@
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
 // https://pt-br.reactjs.org/docs/hooks-reference.html#usecontext
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/map
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Context from '../context/Context';
-import fetchApi from '../services/fetchApi';
 
 function Table() {
-  const { data, setData, filter, dataPlanets } = useContext(Context);
-  const { filters: { filterByName: { name } } } = filter;
-  
-  const dataFilter = data.filter((element) => element.name.includes(filter.filters.filterByName.name));
-  
+  const { filter, dataPlanets } = useContext(Context);
+
+  const dataFilter = dataPlanets.filter((element) => element
+    .name
+    .includes(filter.filters.filterByName.name));
+
   let filterPlanets = dataPlanets.reduce((__, acc) => acc, []);
   filterPlanets = Object.keys(filterPlanets).filter((key) => key !== 'residents');
-  
+
   const header = filterPlanets.map((element, index) => (
     <th key={ index }>{ element }</th>
-    ));
-    
-  async function setDataPlanets() {
-    try {
-      const response = fetchApi();
-      setData(response);
-    } catch (error) {
-      setData(error);
-    }
-  }
+  ));
 
   return (
     <table>
@@ -36,7 +27,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { dataPlanets.map((element) => (
+        { dataFilter.map((element) => (
           <tr key={ element.name }>
             <td>{element.name}</td>
             <td>{element.rotation_period}</td>
