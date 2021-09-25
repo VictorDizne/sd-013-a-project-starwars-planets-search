@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+// import FilterInput from './components/FIlterInput';
 import Table from './components/Table';
 import Context from './context/Context';
 
@@ -19,12 +20,19 @@ function App() {
     };
     fetchApi();
   }, []);
+  // const filters = {
+  //   filters: {
+  //     filtersByName: {
+  //       name,
+  //     },
+  //   },
+  // };
+  // const [name, setName] = useState('');
 
   return (
     <Context.Provider value={ planets }>
-      <div>
-        <Table />
-      </div>
+      {/* <FilterInput /> */}
+      <Table />
     </Context.Provider>
   );
 }
