@@ -1,22 +1,21 @@
-import React, { useContext, useState } from 'react';
-import Context from '../context/Context';
+import React, { useContext } from 'react';
+import { Context } from '../context/Context';
 import Loading from './Loading';
 import Input from './Input';
 
 export default function Table() {
-  const [filterName, setFilterName] = useState('');
-  const planets = useContext(Context);
+  const { planets, filters, setFilters } = useContext(Context);
+  const { filterByName: { name } } = filters;
 
   if (!planets.length) return <Loading />;
 
-  console.log(planets);
-
   const header = Object.keys(planets[0]).filter((item) => item !== 'residents');
 
-  // console.log(header);
-
   const onChange = (event) => {
-    setFilterName(event.target.value);
+    setFilters({
+      ...filters,
+      filterByName: { name: event.target.value },
+    });
   };
 
   return (
@@ -30,7 +29,7 @@ export default function Table() {
         </thead>
         <tbody>
           { planets
-            .filter((planet) => planet.name.includes(filterName))
+            .filter((planet) => planet.name.includes(name))
             .map((item) => (
               <tr key={ item.name }>
                 <td>{item.name}</td>
