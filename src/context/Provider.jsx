@@ -57,6 +57,7 @@ const Provider = ({ children }) => {
     filter,
     setFilter,
     data,
+    setData,
   };
   return (
     <planetContext.Provider value={ contextValue }>
@@ -73,8 +74,10 @@ Provider.propTypes = {
 
 export default Provider;
 
-// Requisito 01: Me basiei da estrutura que o Wolf usou na revisao do bloco
+// Requisito 01: Me baseei na estrutura que o Wolf usou na revisao do bloco.
 
-// Requisito 02: Consegui fazer este requisito seguindo o passo a passo da aula de revisao do Wolf, praticamente ele resolveu esete requisito para nós, valeu Wolf.
+// Requisito 02: Consegui fazer este requisito seguindo o passo a passo da aula de revisao do Wolf, praticamente ele resolveu este requisito para nós, valeu Wolf.
 
-// Requisito 03: Obtive ajuda dos colegas Vinicius Dionysio e Felipe Dias, eles me deram duas dicas de grande valor, a primeira de encapsular os dois filtros dentro de apenas uma função, pois quando um filtro estava funcionando o outro quebrava, a segunda dica é com a logica de criar o uState dentro do componente <FilterValues />, facilitou o gerenciamento dos dados.
+// Requisito 03: Obtive ajuda dos colegas Vinicius Dionysio e Felipe Dias, eles me deram duas dicas de grande valor, a primeira de encapsular os dois filtros dentro de apenas uma função, pois quando um filtro estava funcionando o outro quebrava, a segunda dica é com a logica de criar o useState dentro do componente <FilterValues />, facilitou o gerenciamento dos dados.
+
+// Requisito 04 : Estava encontrando dificuldades em passar as options para o select de colunas de forma dinamica (vindo do Context), foi quando o Jean Pacheco (integtrante do meu grupo do projeto "App de Receitas"), me deu uma dica de construir um estado somente para o select colunas, foi quando consegui concluir o requisito.
