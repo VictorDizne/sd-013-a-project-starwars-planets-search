@@ -1,9 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
+import NumericFilters from '../components/NumericFilters';
 import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
-  const [planetsInfo, setPlanetsInfo] = useState([]);
-  const { data, loading, handleFilterName, filter } = useContext(PlanetsContext);
+  const {
+    data,
+    loading,
+    handleFilterName,
+    filter,
+    setFilteredPlanets,
+    planetsInfo,
+    setPlanetsInfo } = useContext(PlanetsContext);
 
   useEffect(() => {
     const deleteInfo = () => {
@@ -13,10 +20,11 @@ function Table() {
           return ({ ...planet });
         });
         setPlanetsInfo(deleteResidents);
+        setFilteredPlanets(deleteResidents);
       }
     };
     deleteInfo();
-  }, [data]);
+  }, [data, setFilteredPlanets, setPlanetsInfo]);
 
   const renderHeader = () => {
     const titleInfo = Object.keys(planetsInfo[0]).map((infoHeader) => (
@@ -26,7 +34,7 @@ function Table() {
     return titleInfo;
   };
 
-  const renderInfoPlanet = () => {
+  const renderInfoPlanetByName = () => {
     const { filters: { filterByName: { name: filterName } } } = filter;
     const filteredPlanets = planetsInfo
       .filter(({ name }) => name.toLowerCase().includes(filterName));
@@ -55,6 +63,7 @@ function Table() {
               onChange={ (event) => handleFilterName(event.target.value) }
             />
           </label>
+          <NumericFilters planetsInfo={ planetsInfo } />
           <table>
             <thead>
               <tr>
@@ -62,7 +71,7 @@ function Table() {
               </tr>
             </thead>
             <tbody>
-              {renderInfoPlanet()}
+              {renderInfoPlanetByName()}
             </tbody>
           </table>
         </div>

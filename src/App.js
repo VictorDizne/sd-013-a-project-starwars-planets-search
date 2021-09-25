@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from './components/Table';
+import Table from './pages/Table';
 import Provider from './context/Provider';
 
 function App() {

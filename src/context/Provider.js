@@ -5,12 +5,22 @@ import PlanetsContext from './PlanetsContext';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [planetsInfo, setPlanetsInfo] = useState([]);
+
   const [filter, setFilter] = useState({
     filters: {
       filterByName: {
         name: '',
-        age: 10,
       },
+    },
+  });
+
+  const [filterNumeric, setFilterNumeric] = useState({
+    filterByNumericValues: {
+      column: 'population',
+      comparison: 'bigger',
+      value: 0,
     },
   });
 
@@ -33,11 +43,25 @@ function Provider({ children }) {
     });
   };
 
+  const handleFilter = ({ target: { name, value } }) => {
+    const { filterByNumericValues } = filterNumeric;
+    setFilterNumeric({
+      ...filterNumeric,
+      filterByNumericValues: { ...filterByNumericValues, [name]: value },
+    });
+  };
+
   const contextValue = {
     data,
     loading,
     handleFilterName,
     filter,
+    handleFilter,
+    filterNumeric,
+    setFilteredPlanets,
+    filteredPlanets,
+    setPlanetsInfo,
+    planetsInfo,
   };
 
   return (
