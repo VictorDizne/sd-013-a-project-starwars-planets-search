@@ -3,29 +3,51 @@
 // https://pt-br.reactjs.org/docs/hooks-reference.html#usecontext
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 import React, { useContext } from 'react';
-import Context from '../context/Context';
+import StarWarsContext from '../context/Context';
 
 function Table() {
-  const { dataFilter, dataPlanets } = useContext(Context);
+  const { arrayData, filter, data, counter } = useContext(StarWarsContext);
 
-  let filterPlanets = dataPlanets.reduce((__, acc) => acc, []);
-  filterPlanets = Object.keys(filterPlanets).filter((key) => key !== 'residents');
+  function newFilter() {
+    let newData = [];
+    let values = [];
 
-  const header = filterPlanets.map((element, index) => (
-    <th key={ index }>{ element }</th>
-  ));
+    if (filter.filters.filterByNumericValues.length > 0) {
+      values = Object.values(filter.filters.filterByNumericValues[counter - 1]);
+    }
+
+    if (values[1] === 'maior que') {
+      newData = data.filter((element) => element[values[0]] > Number(values[2]))
+        .filter((element) => element.name.toLowerCase()
+          .includes(filter.filters.filterByName.name.toLowerCase()));
+    } else if (values[1] === 'menor que') {
+      newData = data.filter((element) => element[values[0]] < Number(values[2]))
+        .filter((element) => element.name.toLowerCase()
+          .includes(filter.filters.filterByName.name.toLowerCase()));
+    } else if (values[1] === 'igual a') {
+      newData = data.filter((element) => element[values[0]] === values[2])
+        .filter((element) => element.name.toLowerCase()
+          .includes(filter.filters.filterByName.name.toLowerCase()));
+    } else {
+      newData = data.filter((element) => element.name.toLowerCase()
+        .includes(filter.filters.filterByName.name.toLowerCase()));
+    }
+    return newData;
+  }
 
   return (
     <table>
       <thead>
         <tr>
-          { header }
+          {arrayData.map((element, index) => (
+            <th key={ index }>{element}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
-        { dataFilter.map((element) => (
+        {newFilter().map((element) => (
           <tr key={ element.name }>
-            <td>{element.name}</td>
+            <td data-testid="planet-name">{element.name}</td>
             <td>{element.rotation_period}</td>
             <td>{element.orbital_period}</td>
             <td>{element.diameter}</td>
@@ -39,7 +61,7 @@ function Table() {
             <td>{element.edited}</td>
             <td>{element.url}</td>
           </tr>
-        )) }
+        ))}
       </tbody>
     </table>
   );

@@ -1,14 +1,16 @@
-import React, { useEffect, useState, children } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Context from './Context';
 // REFERENCE https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+import PropTypes from 'prop-types';
+import StarWarsContext from './StarWarsContext';
 
-function Provider() {
-  const [dataPlanets, setdataPlanets] = useState([]);
-  const [name, setName] = useState('');
-  const [column, setColumn] = useState('');
-  const [comparison, setComparison] = useState('');
-  const [value, setValue] = useState('');
+import fetchApi from '../services/api';
+
+function StarwarsProvider({ children }) {
+  const [data, setData] = useState([]);
+  const [counter, setCouter] = useState(0);
+  const [columns, setColumns] = useState([]);
+  const [newColumns, setNewColumns] = useState([]);
   const [filter, setFilter] = useState({
     filters: {
       filterByName: {
@@ -56,32 +58,35 @@ function Provider() {
 
   useEffect(() => {
     setPlanets();
+  }, []);
+
+  useEffect(() => {
     setColumns(['population',
       'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   }, []);
 
-  const exportData = {
-    filter,
-    dataPlanets,
-    dataFilter,
-    setFilter,
-    setdataPlanets,
-    setName,
-    setColumn,
-    setComparison,
-    setValue,
-  };
-
-  return(
-    <Context.Provider value={ exportData }>
-      { children }
-    </Context.Provider>
-  )
+  return (
+    <StarWarsContext.Provider
+      value={ {
+        arrayData,
+        filter,
+        setFilter,
+        data,
+        setCouter,
+        counter,
+        columns,
+        setColumns,
+        newColumns,
+        setNewColumns,
+      } }
+    >
+      {children}
+    </StarWarsContext.Provider>
+  );
 }
 
+StarwarsProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
-export default Provider;
-
-Provider.propsTypes = {
-  children: PropTypes.arrayOf(PropTypes.object).isRequired,
-}
+export default StarwarsProvider;
