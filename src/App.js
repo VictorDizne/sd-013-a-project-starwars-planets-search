@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 import Filters from './components/Filters';
 import StarWarsPlanetsTable from './components/StarWarsPlanetsTable';
 import StarWarsPlanetsProvider from './context/StarWarsPlanetsProvider';
