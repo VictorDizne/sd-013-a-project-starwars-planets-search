@@ -8,6 +8,13 @@ function FilterProvider({ children }) {
       filterByName: {
         name: '',
       },
+      filterByNumericValues: [
+        {
+          column: '',
+          comparison: '',
+          value: '',
+        },
+      ],
     },
   });
 
@@ -23,9 +30,26 @@ function FilterProvider({ children }) {
     }));
   }
 
+  function setFilterBySelectors(column, comparison, value) {
+    setPlanetFilter((currentState) => ({
+      ...currentState,
+      filters: {
+        ...currentState.filters,
+        filterByNumericValues: [
+          {
+            column,
+            comparison,
+            value,
+          },
+        ],
+      },
+    }));
+  }
+
   const contextValue = {
     planetFilter,
     setFilterByName,
+    setFilterBySelectors,
   };
 
   return (

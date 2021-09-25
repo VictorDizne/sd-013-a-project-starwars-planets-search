@@ -4,6 +4,7 @@ import { useTable, useFilter } from '../hooks/hooks';
 export default function Table() {
   const { data, loading, error } = useTable();
   const { planetFilter } = useFilter();
+  console.log(planetFilter);
 
   if (loading || data.length === 0) {
     return <p>Carregando filmes...</p>;
@@ -15,16 +16,27 @@ export default function Table() {
 
   const filteredData = data.filter((planet) => {
     const { name } = planetFilter.filters.filterByName;
+    const { column, comparison, value } = planetFilter.filters.filterByNumericValues;
     if (name === '') {
       return true;
     }
     const loweredCaseSearchText = name.toLowerCase();
     const includesTitle = planet.name.toLowerCase().includes(loweredCaseSearchText);
-    // const includesSubtitle = movie.subtitle.toLowerCase()
-    //   .includes(loweredCaseSearchText);
-    // const includesStoryline = movie.storyline.toLowerCase()
-    //   .includes(loweredCaseSearchText);
-    // return includesTitle || includesSubtitle || includesStoryline;
+
+    const columnValue = Number(planet[column]);
+    console.log(columnValue);
+    const criteriaValue = Number(value);
+    console.log(criteriaValue);
+    const matches = {
+      'maior que': () => columnValue > criteriaValue,
+      'menor que': () => columnValue < criteriaValue,
+      'igual a': () => columnValue === criteriaValue,
+    };
+
+    if (columnValue > criteriaValue || columnValue < criteriaValue || columnValue === criteriaValue) {
+      return planet;
+    }
+
     return includesTitle;
   });
 

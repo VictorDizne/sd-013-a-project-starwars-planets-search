@@ -6,6 +6,13 @@ const FilterContext = createContext({
       filterByName: {
         name: '',
       },
+      filterByNumericValues: [
+        {
+          column: '',
+          comparison: '',
+          value: '',
+        },
+      ],
     },
   },
 });
