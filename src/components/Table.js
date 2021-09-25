@@ -6,11 +6,7 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 
 function Table() {
-  const { filter, dataPlanets } = useContext(Context);
-
-  const dataFilter = dataPlanets.filter((element) => element
-    .name
-    .includes(filter.filters.filterByName.name));
+  const { dataFilter, dataPlanets } = useContext(Context);
 
   let filterPlanets = dataPlanets.reduce((__, acc) => acc, []);
   filterPlanets = Object.keys(filterPlanets).filter((key) => key !== 'residents');
