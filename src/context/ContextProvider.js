@@ -18,10 +18,32 @@ const ContextProvider = ({ children }) => {
     return Object.keys(data[0]);
   };
 
+  const [columns] = useState(['population', 'orbital_period', 'diameter',
+    'rotation_period', 'surface_water']);
+  const [comparisons] = useState(['maior que', 'menor que', 'igual a']);
+
+  const filterNumericValues = () => numericFilters
+    .reduce((acc, { column, comparison, numberValue }) => {
+      const afterFilter = acc.filter((dataItem) => {
+        const columnNumber = Number(dataItem[column]);
+        if (comparison === 'maior que') return columnNumber > numberValue;
+        if (comparison === 'menor que') return columnNumber < numberValue;
+        return columnNumber === numberValue;
+      });
+      return afterFilter;
+    }, data);
+
+  const sortArray = (a, b) => {
+    if (sort === 'ASC') return a[columnOption].length - b[columnOption].length;
+    return b[columnOption].length - a[columnOption].length;
+  };
+
   const contextValue = {
     data,
     filteredData,
     setFilteredData,
+    filterNumericValues,
+    sortArray,
     filters: {
       filterByName: {
         name,
@@ -29,7 +51,7 @@ const ContextProvider = ({ children }) => {
       },
       filterByNumericValues: numericFilters,
       order: {
-        columnOption,
+        column: columnOption,
         sort,
         sortSetters: {
           setSort,
@@ -42,6 +64,7 @@ const ContextProvider = ({ children }) => {
       setNumericFilters,
     },
     getTitles,
+    arrays: { columns, comparisons },
   };
 
   return (

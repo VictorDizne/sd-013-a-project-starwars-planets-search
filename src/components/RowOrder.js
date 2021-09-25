@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import context from '../context/context';
 
 const RowOrder = () => {
-  const { filters: { order: { columnOption, sort, sortSetters: { setColumnOption, setSort } } },
-    getTitles, data, setFilteredData } = useContext(context);
+  const { filters: {
+    order: { columnOption, sortSetters: { setColumnOption, setSort } },
+  },
+  getTitles, data, setFilteredData } = useContext(context);
 
   const titles = getTitles();
 
