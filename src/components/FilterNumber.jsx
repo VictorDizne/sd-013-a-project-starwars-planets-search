@@ -1,8 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import tableContext from '../context';
 
 const FilterNumber = () => {
-  const [column, setColumn] = useState('');
+  const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('');
 
@@ -15,26 +15,24 @@ const FilterNumber = () => {
   const { setFilters, filters,
     filters: { filterByNumericValues }, data, setDataTable } = useContext(tableContext);
     // esse useEffect vai rodar a função dentro dele, apenas quando o estado Column for atualizado;
-  useEffect(() => {
-    const removeFilter = () => {
-      if (column === 'population') {
-        setPopulatio(false);
-      }
-      if (column === 'orbital_period') {
-        setOrbital(false);
-      }
-      if (column === 'diameter') {
-        setDiameter(false);
-      }
-      if (column === 'rotation_period') {
-        setRotation(false);
-      }
-      if (column === 'surface_water') {
-        setSurface(false);
-      }
-    };
-    removeFilter();
-  }, [column]);
+
+  const removeFilter = (estado) => {
+    if (estado === 'population') {
+      setPopulatio(false);
+    }
+    if (estado === 'orbital_period') {
+      setOrbital(false);
+    }
+    if (estado === 'diameter') {
+      setDiameter(false);
+    }
+    if (estado === 'rotation_period') {
+      setRotation(false);
+    }
+    if (estado === 'surface_water') {
+      setSurface(false);
+    }
+  };
 
   const columnSelect = (e) => {
     setColumn(e.target.value);
@@ -65,6 +63,7 @@ const FilterNumber = () => {
     }
 
     setDataTable(planetFilter);
+    removeFilter(column);
   };
 
   return (

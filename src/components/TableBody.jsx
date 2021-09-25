@@ -5,7 +5,7 @@ const TableBody = () => {
   const { dataTable } = useContext(tableContext);
   // refatorei com a ajuda do Lima Lima
   return (
-    <div>
+    <tbody>
       { dataTable.map((listPlanets, indi) => (
         <tr key={ indi }>
           {Object.values(listPlanets).map((result, ind) => (
@@ -15,7 +15,7 @@ const TableBody = () => {
         </tr>
       )) }
 
-    </div>
+    </tbody>
   );
 };
 
