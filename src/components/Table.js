@@ -14,7 +14,7 @@ function Table() {
     }
     return null;
   });
-  const body = planets.map((results, index) => {
+  const body = dataPlanets.map((results, index) => {
     if (results !== 'residents') {
       const result = Object.values(results);
       return (
@@ -39,5 +39,4 @@ function Table() {
     </table>
   );
 }
-
 export default Table;
