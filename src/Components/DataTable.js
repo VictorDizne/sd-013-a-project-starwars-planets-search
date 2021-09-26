@@ -3,7 +3,7 @@ import MyContext from '../Context/MyContext';
 import PlanetBody from './PlanetBody';
 
 function DataTable() {
-  const { data, heads, filters } = useContext(MyContext);
+  const { data, heads, filters, filterByNumericValues } = useContext(MyContext);
   // console.log(data);
 
   return (
@@ -17,9 +17,25 @@ function DataTable() {
           </tr>
         </thead>
         <tbody>
-          {data.filter((plnt) => plnt.name.toLowerCase().includes(filters))
+          {data.filter((plnt) => { // filtar a seleção do usuário
+            const validação = filterByNumericValues.every((filter) => {
+              const { column, comparison, value } = filter;
+              if (comparison === 'maior que') {
+                return Number(plnt[column]) > Number(value);
+              }
+              if (comparison === 'menor que') {
+                return Number(plnt[column]) < Number(value);
+              }
+              if (comparison === 'igual a') {
+                return Number(plnt[column]) === Number(value);
+              }
+              return false;
+            });
+            return validação;
+          })
+            .filter((plnt) => plnt.name.toLowerCase().includes(filters))
             .map((item, i) => (
-              <PlanetBody key={ i } planet={ item } /> // esse map deu erro por um tempãp, depois funcionou do nanda. ainda dá erro na url
+              <PlanetBody key={ i } planet={ item } />
             ))}
         </tbody>
         {/* {data.map((item) => (

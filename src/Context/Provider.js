@@ -3,14 +3,18 @@ import PropTypes from 'prop-types';
 import MyContext from './MyContext';
 
 const Provider = ({ children }) => {
-  const [state, setState] = useState([]);
-  console.log(state);
-  const [data, setData] = useState([]);
-  const [heads, setHeads] = useState([]);
-  const [filters, setFilters] = useState('');
+  // const [state, setState] = useState([]);
+  // console.log(state);
+  const [data, setData] = useState([]); // API
+  const [heads, setHeads] = useState([]); // column
+  const [filters, setFilters] = useState(''); // filtro por name
+  const [filterByNumericValues, setfilterByNumericValues] = useState([]);
 
   const handleChange = ({ target: { value } }) => {
     setFilters(value);
+  };
+  const handleClick = (value) => { // valores vindos do formulário
+    setfilterByNumericValues([...filterByNumericValues, value]);
   };
 
   const contextValue = {
@@ -19,14 +23,9 @@ const Provider = ({ children }) => {
     filters,
     setFilters,
     handleChange,
+    filterByNumericValues,
+    handleClick,
   };
-
-  // const filterInput = () => {
-  //   const filterList = state.filter((item) => item.filters.includes(filters));
-  //   setData(filterList);
-  // };
-
-  // useEffect(filterInput, [filters]);
 
   useEffect(() => {
     function fechtApi() {
@@ -41,7 +40,7 @@ const Provider = ({ children }) => {
               return planetOffResidents;
             });
             setData(planets);
-            setState(planets); // criei este estado para fazer o filter no input
+            // setState(planets); // criei este estado para fazer o filter no input
             console.log(planets);
             const keys = Object.keys(planets[0]);
             // console.log(keys);
