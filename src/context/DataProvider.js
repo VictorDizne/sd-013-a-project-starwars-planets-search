@@ -3,7 +3,16 @@ import React, { useState, useEffect } from 'react';
 import DataContext from './DataContext';
 
 function DataProvider({ children }) {
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues: [
+      {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    ],
+  });
   const [data, setData] = useState([]);
   const fetchData = () => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
