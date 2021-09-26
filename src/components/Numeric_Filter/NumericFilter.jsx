@@ -36,6 +36,7 @@ const NumericFilter = () => {
       },
     });
   }
+
   function removeFilter(columnToBeRemoved) {
     setFilter({
       ...filter,
@@ -59,6 +60,7 @@ const NumericFilter = () => {
       addFilter(newNumericFilter);
     }
   }
+
   function removeFilterOnClick({ target: { value } }) {
     removeFilter(value);
   }
@@ -66,12 +68,15 @@ const NumericFilter = () => {
   function setColumnOnChange({ target: { value } }) {
     setColumnOption(value);
   }
+
   function setComparisonOnChange({ target: { value } }) {
     setComparisonOption(value);
   }
+
   function setInputOnChange({ target: { value } }) {
     setInputValue(Number(value) || null);
   }
+
   function renderActiveNumericFilters() {
     return filterByNumericValues.map(({ column, comparison, value }, index) => (
       <div

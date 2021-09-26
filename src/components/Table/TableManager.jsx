@@ -26,7 +26,7 @@ const TableManager = () => {
           case 'menor que':
             return (Number(planet[column]) < value);
           default:
-            throw new Error('Comparisson Array Error NumericFilter L30');
+            throw new Error('Unknow Comparisson Value in ../NumericFilter.jsx L21');
           }
         })));
     if (componentDidMount) {
