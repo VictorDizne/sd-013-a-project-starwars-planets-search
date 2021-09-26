@@ -18,12 +18,23 @@ const filterByNumericValue = (data, objContext) => {
   }
 };
 
+const orderFilter = (a, b, sort, column) => {
+  switch (sort) {
+  case 'DESC':
+    return b[column] - a[column];
+  default:
+    return a[column] > b[column];
+  }
+};
+
 export default function Table() {
   const { swapi } = useContext(ContextSwapi);
 
   if (!swapi) return null;
 
   const { name } = swapi.filters.filterByName;
+  const { column, sort } = swapi.filters.order;
+
   return (
     <table className="table-container">
       <thead>
@@ -47,9 +58,10 @@ export default function Table() {
         {swapi.data
           .filter((data) => data.name.toLowerCase().includes(name))
           .filter((data) => filterByNumericValue(data, swapi))
+          .sort((a, b) => orderFilter(a, b, sort, column))
           .map((item) => (
             <tr key={ item.name }>
-              <td>{item.name}</td>
+              <td data-testid="planet-name">{item.name}</td>
               <td>{item.rotation_period}</td>
               <td>{item.orbital_period}</td>
               <td>{item.diameter}</td>

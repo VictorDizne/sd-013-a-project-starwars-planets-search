@@ -10,11 +10,22 @@ const initialState = {
         name: '',
       },
       filterByNumericValues: [],
+      order: { column: 'name', sort: 'ASC' },
     },
 };
 
 function Provider({ children }) {
   const [swapi, setSwapi] = useState();
+
+  const orderDataList = (column = 'name', sort = 'ASC') => {
+    setSwapi({
+      ...swapi,
+      filters: {
+        ...swapi.filters,
+        order: { column, sort },
+      },
+    });
+  };
 
   const setfilterByNumericValues = (objectAdd) => {
     setSwapi({ ...swapi,
@@ -53,6 +64,7 @@ function Provider({ children }) {
     const fetchSwipe = async () => {
       const request = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
       const data = await request.json();
+
       setSwapi({ ...initialState, data: data.results });
     };
     fetchSwipe();
@@ -65,6 +77,7 @@ function Provider({ children }) {
         setnameOfThePlanet,
         setfilterByNumericValues,
         delFilterByNumericValues,
+        orderDataList,
       } }
     >
       {children}

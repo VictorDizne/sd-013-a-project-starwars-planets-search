@@ -39,13 +39,11 @@
   color: white;
   display: flex;
   height: 70px;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .table-container {
   table-layout: fixed;
-
-  /* width:100%; */
 }
 
 .filter-container {
@@ -56,6 +54,10 @@
   flex-direction: column;
   justify-content: space-around;
   margin-top: 2px;
+}
+.header-order {
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes App-logo-spin {
