@@ -7,6 +7,12 @@ function Filters() {
   const [operator, setOperator] = useState('maior que');
   const [number, setNumber] = useState('0');
   const { setFilters } = useContext(StarWarsContext);
+  const [columns, setcolumns] = useState(['population',
+    'rotation_period',
+    'orbital_period',
+    'diameter',
+    'surface_water']);
+
   const handleChange = (input) => {
     const { target: { value } } = input;
     setsearch(value);
@@ -20,6 +26,12 @@ function Filters() {
   };
 
   const handleClick = () => {
+    columns.forEach((option, index) => {
+      if (option === type) {
+        columns.splice(index, 1);
+        setcolumns(columns);
+      }
+    });
     setFilters((prev) => ({
       ...prev,
       filterByNumericValues: {
@@ -47,11 +59,7 @@ function Filters() {
             data-testid="column-filter"
             onChange={ ({ target: { value } }) => setType(value) }
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            {columns.map((c) => <option key={ c } value={ c }>{c}</option>)}
           </select>
         </label>
         <label htmlFor="type-compare">
