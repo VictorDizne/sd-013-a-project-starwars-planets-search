@@ -10,7 +10,9 @@ function Table() {
     filter,
     setFilteredPlanets,
     planetsInfo,
-    setPlanetsInfo } = useContext(PlanetsContext);
+    filterNumeric,
+    setPlanetsInfo,
+  } = useContext(PlanetsContext);
 
   useEffect(() => {
     const deleteInfo = () => {
@@ -47,6 +49,24 @@ function Table() {
     });
   };
 
+  const renderSelectedFilters = () => {
+    const { filterByNumericValues } = filterNumeric;
+    const teste = Object.values(filterByNumericValues).map((item, index) => (
+      <div key={ index } data-testid="filter">
+        <span>
+          {`${item}`}
+        </span>
+        <button
+          // onClick={ () => removeFilter(filterByNumericValues.column) }
+          type="button"
+        >
+          X
+        </button>
+      </div>
+    ));
+    return teste;
+  };
+
   return (
     <div>
       { loading && <span>Loading...</span>}
@@ -74,6 +94,9 @@ function Table() {
               {renderInfoPlanetByName()}
             </tbody>
           </table>
+          <div>
+            {renderSelectedFilters()}
+          </div>
         </div>
       )}
     </div>

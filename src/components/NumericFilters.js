@@ -6,7 +6,8 @@ function NumericFilters() {
     handleFilter,
     filterNumeric,
     filteredPlanets,
-    setPlanetsInfo } = useContext(PlanetsContext);
+    setPlanetsInfo,
+  } = useContext(PlanetsContext);
 
   const { filterByNumericValues } = filterNumeric;
 
