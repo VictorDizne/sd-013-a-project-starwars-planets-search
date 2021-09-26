@@ -1,12 +1,10 @@
 import React from 'react';
-// import Filters from './componentes/Filters';
 import Provider from './context/Provider';
-import Table from './table/Table';
+import Table from './table/Tablet';
 
 function App() {
   return (
     <Provider>
-      {/* <Filters /> */}
       <Table />
     </Provider>
   );

@@ -4,10 +4,20 @@ import contextApp from './contextApp';
 import searchPlanets from '../services/ApiPlanets';
 
 function Provider({ children }) {
-  const [data, setData] = useState([]);
+  const stateFilters = { filterByName: { name: '' } };
+  const [data, setData] = useState([]); // estados criados para salvar retorno API
+  const [filters, setFilters] = useState(stateFilters);
+
+  const FilterName = ({ target: { value } }) => {
+    setFilters({ ...stateFilters,
+      filters: { ...stateFilters.filters, filterByName: { name: value } } });
+  };
+
   const contextValue = {
     data,
     setData,
+    filters,
+    setFilters,
   };
 
   useEffect(() => {
