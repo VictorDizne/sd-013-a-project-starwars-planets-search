@@ -2,22 +2,21 @@ import React, { useContext, useState } from 'react';
 import Context from '../Context/Context';
 
 const Filtros = () => {
-  const { ProcuraName, local: { x, comparison } } = useContext(Context);
-  const InputName = ({ target }) => {
-    const { value } = target;
-    ProcuraName(value);
+  const { setFiltros, stateLocal: { drop } } = useContext(Context);
+  const comparison = ['MAIOR QUE', 'MENOR QUE', 'IGUAL A'];
+  const [valueDrop, setDrop] = useState();
+  const InputName = ({ value }) => {
+    setFiltros((prev) => ({ ...prev,
+      filterByName: {
+        name: value,
+      },
+    }));
+  };
+  const funDrop = ({ name, value }) => {
+    setDrop((prev) => ({ ...prev, [name]: value }));
   };
   const search = () => {
-    // DropSearch;
-  };
-  const [DropSearch, setDrop] = useState({
-    column: '',
-    comparison: '',
-    value: '',
-  });
-  const funDrop = ({ target }) => {
-    const { name, value } = target;
-    setDrop((prev) => ({ ...prev, [name]: value }));
+    setFiltros((prev) => ({ ...prev, filterByNumericValues: prev.filterByNumericValues.concat(valueDrop) }));
   };
   return (
     <div>
@@ -28,13 +27,18 @@ const Filtros = () => {
           type="text"
           id="name"
           name="name"
-          onChange={ InputName }
+          onChange={ (e) => InputName(e.target) }
         />
       </label>
       <label htmlFor="drop">
-        <select id="drop" data-testid="column-filter" onClick={ funDrop } name="column">
+        <select
+          id="drop"
+          data-testid="column-filter"
+          onClick={ (e) => funDrop(e.target) }
+          name="column"
+        >
           {
-            x && x.map((texto) => (
+            drop && drop.map((texto) => (
               <option key={ texto }>{texto}</option>
             ))
           }
@@ -44,18 +48,24 @@ const Filtros = () => {
         <select
           id="comparison"
           data-testid="comparison-filter"
-          onClick={ funDrop }
+          onClick={ (e) => funDrop(e.target) }
           name="comparison"
         >
           {
-            comparison && comparison.map((texto) => (
+            comparison.map((texto) => (
               <option key={ texto }>{texto}</option>
             ))
           }
         </select>
       </label>
       <label htmlFor="value">
-        <input type="text" id="value" name="value" onChange={ funDrop } />
+        <input
+          type="number"
+          id="value"
+          name="value"
+          onChange={ (e) => funDrop(e.target) }
+          data-testid="value-filter"
+        />
       </label>
       <button data-testid="button-filter" type="button" onClick={ search }>Buscar</button>
     </div>

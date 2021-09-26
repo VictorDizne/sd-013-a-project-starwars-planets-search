@@ -1,96 +1,72 @@
-import React, { useState, useEffect /* useRef */ } from 'react';
-import './App.css';
+import React, { useCallback, useEffect, useState } from 'react';
 import Filtros from './Components/filtros';
 import Table from './Components/Table';
 import Context from './Context/Context';
 import getStarwars from './serviceApi';
 
 function App() {
-  const [requi, setRequi] = useState(false);
-  const [local, setLocal] = useState(false);
-  const [dropState] = useState({
-    Drop: [
+  const [filtros, setFiltros] = useState({
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [
+    ],
+  });
+  const [stateLocal, setLocal] = useState({
+    filter: [],
+    drop: [
       'population',
       'orbital_period',
       'diameter',
       'rotation_period',
       'surface_water',
     ],
-    comparison: [
-      'maior que',
-      'menor que',
-      'igual a',
-    ],
   });
+  const [dados, setData] = useState();
+
   useEffect(() => {
-    getStarwars().then((data) => {
-      const { results } = data;
-      setRequi((prev) => ({ ...prev, dados: results }));
+    getStarwars().then((response) => {
+      const { results } = response;
+      setData({ data: results });
     });
   }, []);
-  const [stateFilter, setFilter] = useState({
-    filters: {
-      filterByName: {
-        name: '',
-      },
-      filterByNumericValues: [
+  const TesteColum = useCallback((filtrado, filterByNumericValues) => {
+    if (filterByNumericValues > 0) {
+      filterByNumericValues.foreach((value) => {
+        filtrado.foreach((fill) => {
+          switch (value.column) {
+          case 'MAIOR QUE':
+            console.log(fill);
+            break;
 
-      ],
-    },
-  });
-  const ProcuraName = (valor) => {
-    setFilter((prev) => ({ ...prev,
-      filters: {
-        ...prev.filters,
-        filterByName: {
-          ...prev.filters.filterByName,
-          name: valor,
-        },
-        filterByNumericValues: [
-          ...prev.filters.filterByNumericValues,
-        ],
-      } }));
-  };
-  useEffect(() => {
-    const { dados } = requi;
-    if (dados) {
-      const { filters: { filterByName: { name } } } = stateFilter;
-      const filName = dados.filter((dado) => (
-        dado.name.includes(name)
-      ));
-      console.log('setLocal');
-      setLocal((prev) => ({ ...prev, filName }));
-    }
-  }, [requi, stateFilter]);
-
-  useEffect(() => {
-    const { filters: { filterByNumericValues } } = stateFilter;
-    const { Drop, comparison } = dropState;
-    const acumulador = [];
-    filterByNumericValues.forEach((value) => {
-      Drop.forEach((Dropinho) => {
-        if (Dropinho === value.column) {
-          acumulador.push(Dropinho);
-        }
+          default:
+            break;
+          }
+        });
       });
-    }); /* source: https://pt.stackoverflow.com/questions/235101/comparar-2-arrays-e-salvar-a-diferen%C3%A7a-entre-eles-no-banco-de-dados */
-    const x = Drop.filter((item) => !acumulador
-      .includes(item));
-    setLocal((prev) => ({ ...prev, x, comparison }));
-  }, [dropState, stateFilter]);
+    } else {
+      return filtrado;
+    }
+  }, []);
 
-  const teste = {
-    ProcuraName,
-    local,
+  useEffect(() => {
+    if (dados) {
+      const { filterByName, filterByNumericValues } = filtros;
+      const Filtrado = dados.data.filter((planeta) => planeta.name
+        .includes(filterByName.name));
+      const teste = TesteColum(Filtrado, filterByNumericValues);
+      setLocal((prev) => ({ ...prev, filter: Filtrado }));
+    }
+  }, [TesteColum, dados, filtros]);
+  const VALORES = {
+    stateLocal,
+    setFiltros,
   };
-
   return (
-    <Context.Provider value={ teste }>
-      <span>Hello, App!</span>
+    <Context.Provider value={ VALORES }>
       <Filtros />
       <Table />
     </Context.Provider>
   );
 }
-
 export default App;

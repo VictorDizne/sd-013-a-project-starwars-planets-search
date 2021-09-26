@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Context from '../Context/Context';
 
 const Table = () => {
-  const { local: { filName } } = useContext(Context);
+  const { stateLocal: { filter } } = useContext(Context);
   return (
     <table>
       <thead>
@@ -24,7 +24,7 @@ const Table = () => {
       </thead>
 
       {
-        filName && filName.map((planeta) => (
+        (filter.length > 0) && filter.map((planeta) => (
           <tbody key={ planeta.name }>
 
             <tr>
