@@ -3,45 +3,67 @@ import BodyDropdownTable from '../components/BodyDropdownTable';
 import BodyPlanetsTable from '../components/BodyPlanetsTable';
 import HeaderPlanetsTable from '../components/HeaderPlanetsTable';
 import SearchInput from '../components/SearchInput';
+import SelectInputs from '../components/SelectInputs';
 import SearchNameContext from '../contextAPI/SearchNameContext';
 
 function PlanetsTable() {
-  const [planetName, setPlanetName] = useState('');
   const [filtersDrop, setFiltersDrop] = useState({});
   const [filterSelected, setFilterSelected] = useState(false);
+  const [filterValue, setFilterValue] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+      filterByNumericValues: [],
+    },
+  });
 
   const planetByName = (value) => {
-    setPlanetName(value);
+    setFilterValue({
+      filters: {
+        ...filterValue.filters,
+        filterByName: {
+          name: value,
+        },
+      },
+    });
   };
 
   const filterByDropdown = (filters, key) => {
     setFiltersDrop(filters);
     setFilterSelected(key);
-  };
-
-  const filterValue = {
-    filters: {
-      filterByName: {
-        name: planetName,
+    setFilterValue({
+      filters: {
+        ...filterValue.filters,
+        filterByNumericValues: [
+          ...filterValue.filters.filterByNumericValues,
+          {
+            column: filters.selectColumn,
+            comparison: filters.selectComparison,
+            value: filters.inputNumber,
+          },
+        ],
       },
-    },
+    });
   };
 
   return (
     <section>
       <SearchInput
         handleCallBack={ planetByName }
+      />
+      <SelectInputs
         receiveInformation={ filterByDropdown }
       />
       <table>
         <HeaderPlanetsTable />
-        {filterSelected ? (
-          <BodyDropdownTable filters={ filtersDrop } />
-        ) : (
-          <SearchNameContext.Provider value={ filterValue }>
-            <BodyPlanetsTable searchByName={ planetName } />
-          </SearchNameContext.Provider>
-        )}
+        <SearchNameContext.Provider value={ filterValue }>
+          {filterSelected ? (
+            <BodyDropdownTable filters={ filtersDrop } filtersSelected={ filterValue } />
+          ) : (
+            <BodyPlanetsTable />
+          )}
+        </SearchNameContext.Provider>
 
       </table>
     </section>

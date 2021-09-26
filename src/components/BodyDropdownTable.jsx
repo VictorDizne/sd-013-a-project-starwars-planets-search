@@ -1,4 +1,6 @@
+import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
+
 import PlanetsContext from '../contextAPI/SWContext';
 
 function BodyDropdownTable({ filters }) {
@@ -6,14 +8,16 @@ function BodyDropdownTable({ filters }) {
   const { selectColumn, selectComparison, inputNumber } = filters;
 
   const signComparison = () => {
-    console.log(Number(planets[3][selectColumn]) < Number(inputNumber));
     switch (selectComparison) {
     case 'maior que':
-      return planets.filter((planet) => Number(planet[selectColumn]) > Number(inputNumber));
+      return planets.filter((planet) => (
+        Number(planet[selectColumn]) > Number(inputNumber)));
     case 'menor que':
-      return planets.filter((planet) => Number(planet[selectColumn]) < Number(inputNumber));
+      return planets.filter((planet) => (
+        Number(planet[selectColumn]) < Number(inputNumber)));
     case 'igual a':
-      return planets.filter((planet) => Number(planet[selectColumn]) === Number(inputNumber));
+      return planets.filter((planet) => (
+        Number(planet[selectColumn]) === Number(inputNumber)));
     default:
       return null;
     }
@@ -32,5 +36,13 @@ function BodyDropdownTable({ filters }) {
     </tbody>
   );
 }
+
+BodyDropdownTable.propTypes = {
+  filters: PropTypes.shape({
+    inputNumber: PropTypes.string,
+    selectColumn: PropTypes.string,
+    selectComparison: PropTypes.string,
+  }).isRequired,
+};
 
 export default BodyDropdownTable;
