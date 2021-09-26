@@ -9,13 +9,13 @@ const SWProvider = ({ children }) => {
     filterByName: {
       name: '',
     },
-    filterByNumebers: [],
+    filterByNumericValues: [],
   });
 
   // const handleFilters = (newFilter) => {
   //   setFilters(filters.concat(newFilter));
   // };
-
+  // console.log(data);
   return (
     <main>
       <StarWarsContext.Provider value={ { filters, setFilters, data } }>

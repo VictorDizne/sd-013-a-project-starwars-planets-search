@@ -3,18 +3,37 @@ import StarWarsContext from '../context/Context';
 
 function TableBody() {
   const data = useContext(StarWarsContext);
-  const { filters } = data;
+  const { filters: { filterByName, filterByNumericValues } } = data;
   const [list, setlist] = useState([]);
   const [results] = useState(data.data);
 
   useEffect(() => {
-    const { name } = filters.filterByName;
+    const { name } = filterByName;
     const search = name.toLowerCase();
     if (name) {
       const lUp = results.filter((iten) => iten.name.toLowerCase().includes(search));
       setlist(lUp);
     } else { setlist(results); }
-  }, [filters, results]);
+  }, [filterByName, results]);
+
+  useEffect(() => {
+    const { number, operator, type } = filterByNumericValues;
+    if (number) {
+      const lUp = results.filter((iten) => {
+        switch (operator) {
+        case 'maior que':
+          return (Number(iten[type]) > Number(number));
+        case 'menor que':
+          return (Number(iten[type]) < Number(number));
+        case 'igual a':
+          return (Number(iten[type]) === Number(number));
+        default:
+          return null;
+        }
+      });
+      setlist(lUp);
+    } else { setlist(results); }
+  }, [filterByNumericValues, results]);
 
   return (
     <tbody>
