@@ -12,3 +12,5 @@ function App() {
 }
 
 export default App;
+
+// projeto realizado em conjuntos com os estudantes Gessé Carlos e Isabella Antunes

@@ -1,15 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useEffect } from 'react';
 import Context from '../context/Context';
 
-function TableBody(props) {
-  const { planetsList } = props;
-  const { filters } = useContext(Context);
-  const [myList, setMyList] = useState([]);
+function TableBody() {
+  const { data, setPlanetsList, planetsList, planetsKeys, filters } = useContext(Context);
 
   function filteredList(planets, { filterByName, filterByNumericValues }) {
     let filteredName = planets.filter((planet) => (
-      planet.name.includes(filterByName.name)
+      planet.name.toLowerCase().includes(filterByName.name.toLowerCase())
     ));
 
     if (filterByNumericValues) {
@@ -30,38 +27,25 @@ function TableBody(props) {
   }
 
   useEffect(() => {
-    setMyList(filteredList(planetsList, filters));
-  }, [filters, planetsList]);
+    setPlanetsList(filteredList(data, filters));
+  }, [filters, data]);
 
   return (
     <tbody>
-      {myList.map((i) => (
-        <tr key={ i.name }>
-          <td>{i.name}</td>
-          <td>{i.rotation_period}</td>
-          <td>{i.orbital_period}</td>
-          <td>{i.diameter}</td>
-          <td>{i.climate}</td>
-          <td>{i.gravity}</td>
-          <td>{i.terrain}</td>
-          <td>{i.surface_water}</td>
-          <td>{i.population}</td>
-          <td>{i.films}</td>
-          <td>{i.created}</td>
-          <td>{i.edited}</td>
-          <td>{i.url}</td>
+      {planetsList.map((p) => (
+        <tr key={ p.name } name={ p.name }>
+          {planetsKeys.map((key) => (
+            <td
+              key={ p[key] }
+              data-testid={ p.name === p[key] && 'planet-name' }
+            >
+              {p[key]}
+            </td>
+          ))}
         </tr>
       ))}
     </tbody>
   );
 }
-
-TableBody.propTypes = {
-  planetsList: PropTypes.arrayOf(PropTypes.object),
-};
-
-TableBody.defaultProps = {
-  planetsList: [],
-};
 
 export default TableBody;

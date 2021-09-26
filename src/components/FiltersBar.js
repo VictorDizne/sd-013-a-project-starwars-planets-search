@@ -1,19 +1,33 @@
-import React, { useContext } from 'react';
-import { Button, Input, Select } from '.';
+import React, { useContext, useState, useEffect } from 'react';
+import { Input, Select, Button } from '.';
 import Context from '../context/Context';
 
 function FiltersBar() {
-  const { setFilters } = useContext(Context);
-  const columnsOptions = [
+  const { filters: { filterByNumericValues }, setFilters } = useContext(Context);
+  const comparisonOpt = ['maior que', 'menor que', 'igual a'];
+  const columnsList = [
     'population',
     'orbital_period',
     'diameter',
     'rotation_period',
     'surface_water'];
-  const comparisonOptions = ['maior que', 'menor que', 'igual a'];
+  const [columnsOpt, setColumnsOpt] = useState(columnsList);
+
+  useEffect(() => {
+    if (filterByNumericValues.length > 0) {
+      let newListOpt;
+      filterByNumericValues.forEach(({ column }) => {
+        newListOpt = columnsList.filter((item) => item !== column);
+      });
+      setColumnsOpt(newListOpt);
+    }
+  }, [filterByNumericValues]);
 
   function nameChange({ target: { value } }) {
-    setFilters({ filterByName: { name: value } });
+    setFilters((state) => ({
+      ...state,
+      filterByName: { name: value },
+    }));
   }
 
   function searchClick() {
@@ -28,6 +42,19 @@ function FiltersBar() {
     }));
   }
 
+  // function renderFiltersBtn() {
+  //   if (filterByNumericValues > 0) {
+  //     return (filterByNumericValues.map(filter => (
+  //       <div>
+  //         <Button
+  //           name={`${filter.column} ${filter.comparison} ${filter.value} X`}
+  //           test=""
+  //         />
+  //       </div>))
+  //     );
+  //   }
+  // }
+
   return (
     <div>
       <Input
@@ -39,13 +66,13 @@ function FiltersBar() {
       <div>
         <Select
           name="column"
-          options={ columnsOptions }
           test="column-filter"
+          options={ columnsOpt }
         />
         <Select
           name="comparison"
-          options={ comparisonOptions }
           test="comparison-filter"
+          options={ comparisonOpt }
         />
         <Input
           type="number"
@@ -58,6 +85,9 @@ function FiltersBar() {
           test="button-filter"
         />
       </div>
+      {/* <div>
+        {renderFiltersBtn()}
+      </div> */}
     </div>
   );
 }
