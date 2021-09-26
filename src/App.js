@@ -4,8 +4,16 @@ import Table from './components/Table';
 import Filter from './components/Filter';
 import StarWarsContext from './contexts/StarWarsContext';
 
+// Agradecimentos ao meu amigo Rogério P. da Silva Pela aula
+// de Context API e por me ajudar a fazer minha loucura funcionar.
+
 const contextState = {
-  filters: { filterByName: { name: '' } },
+  filters: {
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [],
+  },
 };
 
 export default function App() {
