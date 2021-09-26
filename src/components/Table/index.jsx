@@ -7,7 +7,8 @@ import { compareColumns, filterColumns } from './helpers';
 const Table = () => {
   const { planets,
     titles,
-    filters: { filterByName: { name: query },
+    filters: {
+      filterByName: { name: query },
       filterByNumericValues, order: { column: sortColumn, sort: typeSort } },
   } = useContext(PlanetsContext);
   if (planets.length === 0) return <div>Carregando</div>;

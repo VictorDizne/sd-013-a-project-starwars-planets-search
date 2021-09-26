@@ -10,7 +10,8 @@ const Form = () => {
     titles,
     filters: { filterByNumericValues },
   } = useContext(PlanetsContext);
-  const [selectedColumns, setSelectedColumns] = useState([]);
+  const [selectedColumns, setSelectedColumns] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [number, setNumber] = useState(0);
@@ -64,17 +65,16 @@ const Form = () => {
 
   const renderAppliedFilters = () => (
     <section>
-      {filterByNumericValues.map((filter, i) => (
-        <div key={ i } data-testid="filter">
-          {filter.column}
-          {filter.comparison}
-          {filter.value}
+      {filterByNumericValues.map((filter) => (
+        <div key={ filter.column } data-testid="filter">
+          <p>{`Coluna: ${filter.column}`}</p>
+          <p>{`Comparação: ${filter.comparison}`}</p>
+          <p>{`Valor: ${filter.value}`}</p>
           <button
             type="button"
             onClick={ () => {
-              handleRemoveFilter(filter.id);
-              setSelectedColumns([...selectedColumns]
-                .filter((c) => c !== filter.column));
+              handleRemoveFilter(filter);
+              setSelectedColumns([...selectedColumns, filter.column]);
             } }
           >
             X
@@ -86,9 +86,6 @@ const Form = () => {
 
   const renderFilterByNumbers = () => {
     const comparisons = ['maior que', 'menor que', 'igual a'];
-    const columns = ['population',
-      'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-    const filteredColumns = columns.filter((c) => !selectedColumns.includes(c));
     return (
       <section>
         <select
@@ -97,7 +94,7 @@ const Form = () => {
           value={ column }
           onChange={ ({ target: { value } }) => setColumn(value) }
         >
-          {filteredColumns.map((text) => (
+          {selectedColumns.map((text) => (
             <option
               key={ text }
               value={ text }
@@ -126,9 +123,9 @@ const Form = () => {
 
         <button
           onClick={ () => {
-            handleAddFilter({ id: Date(), column, comparison, value: number });
-            setSelectedColumns([...selectedColumns, column]);
-            setColumn(selectedColumns[0]);
+            handleAddFilter({ column, comparison, value: number });
+            setSelectedColumns([...selectedColumns]
+              .filter((c) => c !== column));
           } }
           type="button"
           data-testid="button-filter"
@@ -153,12 +150,12 @@ const Form = () => {
   );
 
   return (
-    <form>
+    <section>
       {renderFilterName()}
       {renderFilterByNumbers()}
       {renderSortFilters()}
       {renderAppliedFilters()}
-    </form>
+    </section>
   );
 };
 

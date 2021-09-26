@@ -34,7 +34,7 @@ const PlanetsProvider = ({ children }) => {
       return {
         ...state,
         filterByNumericValues: [...state.filterByNumericValues]
-          .filter((f) => f.id !== payload),
+          .filter((f) => f.column !== payload.column),
       };
     case 'sortFilter':
       return {
