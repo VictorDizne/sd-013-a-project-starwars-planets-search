@@ -63,7 +63,7 @@ function Table() {
               onChange={ (event) => handleFilterName(event.target.value) }
             />
           </label>
-          <NumericFilters planetsInfo={ planetsInfo } />
+          <NumericFilters />
           <table>
             <thead>
               <tr>

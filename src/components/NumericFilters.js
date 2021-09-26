@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function NumericFilters() {
@@ -8,28 +8,21 @@ function NumericFilters() {
     filteredPlanets,
     setPlanetsInfo } = useContext(PlanetsContext);
 
-  // const filterPlanetsByNumericValue = () => {
-  //   const { filterByNumericValues: { column, comparison, value } } = filterNumeric;
-  //   if (comparison === 'bigger') {
-  //     const filPlanets = filteredPlanets
-  //       .filter((planet) => parseInt(planet[column], 10) > parseInt(value, 10));
-  //     setPlanetsInfo(filPlanets);
-  //     return filPlanets;
-  //   }
-  //   if (comparison === 'menor que') {
-  //     const filPlanets = filteredPlanets
-  //       .filter((planet) => parseInt(planet[column], 10) < parseInt(value, 10));
-  //     setPlanetsInfo(filPlanets);
-  //     return filPlanets;
-  //   }
-  //   if (comparison === 'igual a') {
-  //     const filPlanets = filteredPlanets
-  //       .filter((planet) => parseInt(planet[column], 10) === parseInt(value, 10));
-  //     setPlanetsInfo(filPlanets);
-  //     return filPlanets;
-  //   }
-  //   return filteredPlanets;
-  // };
+  const { filterByNumericValues } = filterNumeric;
+
+  const [columnFilter, setColumnFilter] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+
+  const deleteFilters = () => {
+    const { column } = filterByNumericValues;
+    columnFilter.splice(columnFilter.indexOf(column), 1);
+    setColumnFilter(columnFilter);
+  };
 
   const filterPlanetsByNumericValue = () => {
     const { filterByNumericValues: { column, comparison, value } } = filterNumeric;
@@ -52,6 +45,7 @@ function NumericFilters() {
       break;
     default:
     }
+    deleteFilters();
   };
 
   return (
@@ -61,11 +55,9 @@ function NumericFilters() {
         name="column"
         onChange={ handleFilter }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {columnFilter.map((column, index) => (
+          <option key={ index } value={ column }>{column}</option>
+        ))}
       </select>
       <select
         data-testid="comparison-filter"
