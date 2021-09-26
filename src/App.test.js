@@ -44,6 +44,7 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
       render(<App />);
     });
     const planets = testData.results;
+    console.log(planets);
     for(let planetIndex in planets) {
       const name = await screen.findByText(planets[planetIndex].name);
       const rotationPeriod = await screen.findAllByText(planets[planetIndex].rotation_period);

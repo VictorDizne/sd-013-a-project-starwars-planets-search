@@ -6,6 +6,7 @@ import Tr from './Tr';
 function Table() {
   const { data } = useContext(DataContext);
   const titles = data.length > 0 ? Object.keys(data[0]) : [];
+  // console.log(titles);
   const value = data.length > 0 ? data : [];
   return (
     <table>
