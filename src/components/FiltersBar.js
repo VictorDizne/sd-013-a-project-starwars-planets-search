@@ -42,18 +42,29 @@ function FiltersBar() {
     }));
   }
 
-  // function renderFiltersBtn() {
-  //   if (filterByNumericValues > 0) {
-  //     return (filterByNumericValues.map(filter => (
-  //       <div>
-  //         <Button
-  //           name={`${filter.column} ${filter.comparison} ${filter.value} X`}
-  //           test=""
-  //         />
-  //       </div>))
-  //     );
-  //   }
-  // }
+  function deleteFilter({ target }) {
+    const column = target.className;
+    const filters = filterByNumericValues.filter((filter) => filter.column !== column);
+    setFilters((state) => ({
+      ...state,
+      filterByNumericValues: filters,
+    }));
+  }
+
+  function renderFiltersBtn() {
+    if (filterByNumericValues.length > 0) {
+      return (filterByNumericValues.map((filter) => (
+        <div key={ filter.column } data-testid="filter">
+          <span>{`${filter.column} ${filter.comparison} ${filter.value}`}</span>
+          <Button
+            className={ filter.column }
+            name="X"
+            onClick={ deleteFilter }
+          />
+        </div>))
+      );
+    }
+  }
 
   return (
     <div>
@@ -85,9 +96,9 @@ function FiltersBar() {
           test="button-filter"
         />
       </div>
-      {/* <div>
+      <div>
         {renderFiltersBtn()}
-      </div> */}
+      </div>
     </div>
   );
 }
