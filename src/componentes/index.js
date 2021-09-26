@@ -1,8 +1,11 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import context from '../context/Context';
+import Input
+  from './Input';
 
 function Tabela() {
   const { item, setItem } = useContext(context);
+  const [filterName, setFilterName] = useState('');
 
   useEffect(() => {
     const getItem = async () => {
@@ -16,8 +19,13 @@ function Tabela() {
     getItem();
   }, [setItem]);
 
+  const onChange = (event) => {
+    setFilterName(event.target.value);
+  };
+
   return (
     <div>
+      <Input onChange={ onChange } />
       <table>
         <tbody>
           <tr>
@@ -37,23 +45,24 @@ function Tabela() {
           </tr>
         </tbody>
         <tbody>
-          { item.map((planet) => (
-            <tr key={ planet.name }>
-              <td>{ planet.name }</td>
-              <td>{ planet.rotation_period }</td>
-              <td>{ planet.orbital_period }</td>
-              <td>{ planet.diameter }</td>
-              <td>{ planet.climate }</td>
-              <td>{ planet.gravity }</td>
-              <td>{ planet.terrain }</td>
-              <td>{ planet.surface_water }</td>
-              <td>{ planet.population }</td>
-              <td>{ planet.films }</td>
-              <td>{ planet.created }</td>
-              <td>{ planet.edited }</td>
-              <td>{ planet.url }</td>
-            </tr>
-          ))}
+          { item.filter((i) => filterName === '' || i.name.includes(filterName))
+            .map((planet) => (
+              <tr key={ planet.name }>
+                <td>{ planet.name }</td>
+                <td>{ planet.rotation_period }</td>
+                <td>{ planet.orbital_period }</td>
+                <td>{ planet.diameter }</td>
+                <td>{ planet.climate }</td>
+                <td>{ planet.gravity }</td>
+                <td>{ planet.terrain }</td>
+                <td>{ planet.surface_water }</td>
+                <td>{ planet.population }</td>
+                <td>{ planet.films }</td>
+                <td>{ planet.created }</td>
+                <td>{ planet.edited }</td>
+                <td>{ planet.url }</td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
