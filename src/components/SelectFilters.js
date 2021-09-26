@@ -1,8 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DataContext from '../context/DataContext';
 
 function SelectFilters() {
-  const { filterNumeric, setFilterNumeric } = useContext(DataContext);
+  const { filterNumeric,
+    setFilterNumeric,
+    columns,
+    setColumns } = useContext(DataContext);
   const [filterSelect, SetfilterSelect] = useState({});
 
   const handleFilter = ({ target }) => {
@@ -14,6 +17,12 @@ function SelectFilters() {
     setFilterNumeric([...filterNumeric, filterSelect]);
   };
 
+  useEffect(() => {
+    filterNumeric.forEach((item) => {
+      setColumns(() => columns.filter((column) => column !== item.column));
+    });
+  }, [filterNumeric]);
+
   return (
     <div>
       <label htmlFor="filter-column">
@@ -24,11 +33,7 @@ function SelectFilters() {
           data-testid="column-filter"
           onChange={ handleFilter }
         >
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          { columns.map((filter, index) => <option key={ index }>{ filter }</option>)}
         </select>
       </label>
       <label htmlFor="filter-comparison">

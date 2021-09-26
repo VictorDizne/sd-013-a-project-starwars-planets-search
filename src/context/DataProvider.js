@@ -8,6 +8,9 @@ function DataProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const [filterByName, SetFilterByName] = useState('');
   const [filterNumeric, setFilterNumeric] = useState([]);
+  const [columns, setColumns] = useState(
+    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+  );
 
   const ref = useRef(false);
   const backup = useRef([]);
@@ -66,6 +69,8 @@ function DataProvider({ children }) {
     SetFilterByName,
     filterNumeric,
     setFilterNumeric,
+    columns,
+    setColumns,
   };
 
   return (
