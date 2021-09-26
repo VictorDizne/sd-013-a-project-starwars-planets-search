@@ -6,7 +6,8 @@ import Tr from './Tr';
 function Table() {
   const { data, filters, setFilters } = useContext(DataContext);
   const titles = data.length > 0 ? Object.keys(data[0]) : [];
-  console.log(filters.filterByName.name);
+  const { filterByName: { name } } = filters;
+  // console.log(filters.filterByName.name);
   const value = data.length > 0 ? data : [];
 
   function handleChange({ target }) {
@@ -29,7 +30,9 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {value.map((obj, index) => <Tr key={ index } value={ obj } />)}
+          {value
+            .filter((obj) => obj.name.includes(name))
+            .map((obj, index) => <Tr key={ index } value={ obj } />)}
         </tbody>
       </table>
     </>
