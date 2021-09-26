@@ -24,14 +24,31 @@ function Table() {
     e.preventDefault();
     const { target: { children } } = e;
     // console.log(children[1].value);
-    setFilters({
-      ...filters,
-      filterByNumericValues: [{
-        column: children[1].value,
-        comparison: children[2].value,
-        value: children[3].value,
-      }],
-    });
+    if (filterByNumericValues[0].column === '') {
+      setFilters({
+        ...filters,
+        filterByNumericValues: [{
+          column: children[1].value,
+          comparison: children[2].value,
+          value: children[3].value,
+        }],
+      });
+    } else {
+      setFilters({
+        ...filters,
+        filterByNumericValues: [
+          ...filters.filterByNumericValues,
+          {
+            column: children[1].value,
+            comparison: children[2].value,
+            value: children[3].value,
+          },
+        ],
+      });
+    }
+    const index = Object.values(children[1].children)
+      .findIndex((option) => option.value === children[1].value);
+    children[1].children[index].remove();
   }
 
   return (
