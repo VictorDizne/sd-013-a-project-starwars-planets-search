@@ -10,7 +10,7 @@ function Table() {
     column,
     comparison,
     value,
-  } = filterByNumericValues;
+  } = filterByNumericValues[filterByNumericValues.length - 1];
   const titles = data.length > 0 ? Object.keys(data[0]) : [];
   const { filterByName: { name } } = filters;
   // console.log(filters.filterByName.name);
