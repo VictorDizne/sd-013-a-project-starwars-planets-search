@@ -4,7 +4,6 @@ const response = {
   previous: null,
   results: [
     {
-      name: 'Tatooine',
       rotation_period: '23',
       orbital_period: '304',
       diameter: '10465',
