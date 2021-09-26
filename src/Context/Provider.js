@@ -3,15 +3,32 @@ import PropTypes from 'prop-types';
 import MyContext from './MyContext';
 
 const Provider = ({ children }) => {
+  const [state, setState] = useState([]);
+  console.log(state);
   const [data, setData] = useState([]);
-  const [head, setHead] = useState([]);
+  const [heads, setHeads] = useState([]);
+  const [filters, setFilters] = useState('');
 
-  //  const contextValue = {
-  //    data,
-  //  };
+  const handleChange = ({ target: { value } }) => {
+    setFilters(value);
+  };
+
+  const contextValue = {
+    data,
+    heads,
+    filters,
+    setFilters,
+    handleChange,
+  };
+
+  // const filterInput = () => {
+  //   const filterList = state.filter((item) => item.filters.includes(filters));
+  //   setData(filterList);
+  // };
+
+  // useEffect(filterInput, [filters]);
 
   useEffect(() => {
-    // useEfect nesse exemplo, com colchete -segundo parametro- = componentDidiMoiunt()
     function fechtApi() {
       fetch('https://swapi-trybe.herokuapp.com/api/planets/')
         .then((response) => {
@@ -24,8 +41,11 @@ const Provider = ({ children }) => {
               return planetOffResidents;
             });
             setData(planets);
+            setState(planets); // criei este estado para fazer o filter no input
+            console.log(planets);
             const keys = Object.keys(planets[0]);
-            setHead(keys);
+            // console.log(keys);
+            setHeads(keys);
           });
         });
     }
@@ -33,8 +53,8 @@ const Provider = ({ children }) => {
   }, []);
 
   return (
-    <MyContext.Provider value={ { data, head } }>
-      { children }
+    <MyContext.Provider value={ contextValue }>
+      {children}
     </MyContext.Provider>
   );
 };

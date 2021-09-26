@@ -54,6 +54,6 @@ PlanetBody.propTypes = {
     url: string,
   }).isRequired,
 };
-// codigo (De Guilherme Rodrigues B, vindo de Leonardo Santos A)
+// codigo (De Guilherme Rodrigues 13B, vindo de Leonardo Santos 13A)
 
 export default PlanetBody;
