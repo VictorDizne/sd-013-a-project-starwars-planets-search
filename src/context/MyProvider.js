@@ -4,6 +4,13 @@ import MyContext from './MyContext';
 
 export default function MyProvider({ children }) {
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [{ column: '', comparison: '', value: '' }],
+  });
+
   const fetchStar = () => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
       .then((response) => response.json())
@@ -15,7 +22,7 @@ export default function MyProvider({ children }) {
 
   useEffect(fetchStar, []);
   return (
-    <MyContext.Provider value={ { data, setData } }>
+    <MyContext.Provider value={ { data, setData, filters, setFilters } }>
       { children }
     </MyContext.Provider>
   );
