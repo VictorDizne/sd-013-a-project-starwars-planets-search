@@ -9,11 +9,6 @@ function FilterProvider({ children }) {
         name: '',
       },
       filterByNumericValues: [
-        {
-          column: '',
-          comparison: '',
-          value: '',
-        },
       ],
     },
   });
@@ -36,6 +31,7 @@ function FilterProvider({ children }) {
       filters: {
         ...currentState.filters,
         filterByNumericValues: [
+          ...currentState.filters.filterByNumericValues,
           {
             column,
             comparison,
@@ -46,10 +42,24 @@ function FilterProvider({ children }) {
     }));
   }
 
+  function removeFilter(id) {
+    const newFilter = planetFilter.filters.filterByNumericValues
+      .filter((filter) => filter.column !== id);
+
+    setPlanetFilter((currentState) => ({
+      ...currentState,
+      filters: {
+        ...currentState.filters,
+        filterByNumericValues: newFilter,
+      },
+    }));
+  }
+
   const contextValue = {
     planetFilter,
     setFilterByName,
     setFilterBySelectors,
+    removeFilter,
   };
 
   return (
@@ -60,7 +70,7 @@ function FilterProvider({ children }) {
 }
 
 FilterProvider.propTypes = {
-  children: PropTypes.shape().isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default FilterProvider;

@@ -44,7 +44,7 @@ function TableProvider({ children }) {
 }
 
 TableProvider.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.object).isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default TableProvider;
