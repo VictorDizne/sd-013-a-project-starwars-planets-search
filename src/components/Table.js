@@ -14,17 +14,17 @@ export default function Table() {
         </thead>
         <tbody>
           {planets
-            .filter((planet) => {
+            .filter((planeta) => {
               const validation = filterByNumericValues.every((filter) => {
                 const { column, comparison, value } = filter;
                 if (comparison === 'maior que') {
-                  return Number(planet[column]) > Number(value);
+                  return Number(planeta[column]) > Number(value);
                 }
                 if (comparison === 'menor que') {
-                  return Number(planet[column]) < Number(value);
+                  return Number(planeta[column]) < Number(value);
                 }
                 if (comparison === 'igual a') {
-                  return Number(planet[column]) === Number(value);
+                  return Number(planeta[column]) === Number(value);
                 }
                 return false;
               });

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import MyContext from '../Contexto/MyContext';
 
 function InputSearch() {
-  const { handleChange, handleClick } = useContext(MyContext);
+  const { handleChange, handleClick, columnItems } = useContext(MyContext);
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [valor, setValor] = useState('');
@@ -19,11 +19,13 @@ function InputSearch() {
             data-testid="column-filter"
             onChange={ ({ target: { value } }) => setColumn(value) }
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            {columnItems.map((coluna) => (
+              <option
+                key={ coluna }
+                value={ coluna }
+              >
+                {coluna}
+              </option>))}
           </select>
         </label>
         <label htmlFor="comparisonFilter">
