@@ -1,9 +1,16 @@
 import React from 'react';
 import './App.css';
+import Table from './components/Table';
+import StarWarsContextProvider from './context/StarWarsContext';
+import ThemeContextProvider from './context/ThemeContext';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <StarWarsContextProvider>
+      <ThemeContextProvider>
+        <Table />
+      </ThemeContextProvider>
+    </StarWarsContextProvider>
   );
 }
 

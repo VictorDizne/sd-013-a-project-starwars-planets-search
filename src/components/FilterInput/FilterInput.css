@@ -1,0 +1,32 @@
+select {
+  width: 100%;
+}
+
+.filters-box {
+  align-items: flex-end;
+  display: flex;
+  margin: 20px 0;
+}
+
+label {
+  margin-right: 8px;
+  width: 40%;
+}
+
+.filter-button {
+  width: 50%;
+}
+
+input {
+  padding: 0;
+}
+
+button {
+  background-color: #ddd;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 700;
+  height: 28px;
+  width: 100px;
+}

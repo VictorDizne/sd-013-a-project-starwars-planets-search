@@ -159,7 +159,7 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
   });
 });
 
-describe('3 - Crie um filtro para valores numéricos', () => {
+describe.only('3 - Crie um filtro para valores numéricos', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
@@ -170,8 +170,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
 
     const column = await screen.findByTestId(COLUMN_FILTER_SELECTOR);
     expect(column).toHaveProperty('nodeName', 'SELECT');
-    const columns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-    const foundColumnFilter = Array.from(column.children).map(child => {
+    const columns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];    const foundColumnFilter = Array.from(column.children).map(child => {
       expect(child).toHaveProperty('nodeName', 'OPTION');
       return child.innerHTML;
     });
