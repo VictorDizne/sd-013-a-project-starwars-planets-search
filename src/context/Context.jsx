@@ -14,8 +14,9 @@ function PlanetProvider({ children }) {
   const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
   console.log(url);
   const url2 = 'https://swapi.dev/api/planets';
+  console.log(url2);
   useEffect(() => {
-    fetch(url2)
+    fetch(url)
       .then((response) => response.json())
       .then((data) => setPlanets(data.results));
   }, []);
