@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import PlanetContext from './PlanetContext';
 import { fetchAPI, orderByColumn } from '../util';
 
+const INITIAL_ORDER = {
+  column: 'name',
+  sort: 'ASC',
+};
+
 function PlanetProvider({ children }) {
   // console.log('redering Provider');
 
@@ -10,10 +15,7 @@ function PlanetProvider({ children }) {
     filters: {
       filterByName: { name: '' },
       filterByNumericValues: [],
-      order: {
-        column: 'name',
-        sort: 'DSC',
-      },
+      order: INITIAL_ORDER,
     },
   });
   const [planets, setPlanets] = useState([]);
@@ -24,13 +26,10 @@ function PlanetProvider({ children }) {
     const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
     fetchAPI(url)
       .then((dataPlanets) => {
-        console.log(filter.filters.order);
-        console.log(dataPlanets);
-        const planetsWithOrderByName = orderByColumn(dataPlanets.results, filter.filters.order);
+        const planetsWithOrderByName = orderByColumn(dataPlanets.results, INITIAL_ORDER);
         setPlanets(planetsWithOrderByName);
-        console.log(planetsWithOrderByName);
       });
-  }, [filter.filters.order]);
+  }, []);
 
   return (
     <PlanetContext.Provider value={ planetProviderValue }>
@@ -39,4 +38,7 @@ function PlanetProvider({ children }) {
   );
 }
 
+PlanetProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 export default PlanetProvider;

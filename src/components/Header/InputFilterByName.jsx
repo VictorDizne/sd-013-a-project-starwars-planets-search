@@ -8,12 +8,14 @@ const InputFilterByName = () => {
   } = useContext(PlanetContext);
 
   function handleOnChange({ target: { value } }) {
-    const { filters: { filterByNumericValues } } = filter;
+    const { filters: { filterByNumericValues, order } } = filter;
     setFilter({
       ...filter,
       ...{ filters: {
         filterByName: { name: value },
-        filterByNumericValues },
+        filterByNumericValues,
+        order,
+      },
       },
     });
   }

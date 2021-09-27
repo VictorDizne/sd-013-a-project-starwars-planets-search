@@ -33,10 +33,16 @@ export const getComparisonSymbol = (comparison) => {
 
 export const orderByColumn = (array, { column, sort }) => {
   if (sort === 'ASC') {
-    return array.sort((p1, p2) => p1[column].localeCompare(p2[column]));
+    return array.sort(
+      (p1, p2) => p1[column].localeCompare(p2[column], 'en', { numeric: true }),
+    );
   }
-  // sort === 'DSC'
-  return array.sort((p1, p2) => p2[column].localeCompare(p1[column]));
+  // sort === 'DESC'
+  return array.sort(
+    (p1, p2) => p2[column].localeCompare(p1[column], 'en', { numeric: true }),
+  );
 };
+
+export const notEqual = (obj1, obj2) => JSON.stringify(obj1) !== JSON.stringify(obj2);
 // export const sum = (a, b) => a + b;
 // module.exports = { sum, htmlID, fetchAPI, fetchJoke };

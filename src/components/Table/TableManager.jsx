@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PlanetContext from '../../context/PlanetContext';
+import { notEqual, orderByColumn } from '../../util';
 import usePrevious from '../../util/customHooks';
 import Table from './Table';
 
@@ -13,7 +14,7 @@ const TableManager = () => {
   useEffect(() => { setComponetDidMount(true); }, [componentDidMount]);
 
   useEffect(() => { // ao atualizar o filtro Númerico ou a SearchBar atualiza a tabela
-    const { filters: { filterByName, filterByNumericValues } } = filter;
+    const { filters: { filterByName, filterByNumericValues, order } } = filter;
     const filterPlanets = () => (
       planets.filter((planet) => planet.name.includes(filterByName.name) // Verifica se o planeta contém o texto da searchBar
         && filterByNumericValues.every(({ column, comparison, value }) => { // Verifca se o planeta atende todos os filtros numéricos
@@ -30,12 +31,14 @@ const TableManager = () => {
           }
         })));
     if (componentDidMount) {
-      const filterName = filterByName.name !== (prevFilters.filters.filterByName.name); // alterou o filterByName ?
-      const filterNumericValues = filterByNumericValues.length !== (
-        prevFilters.filters.filterByNumericValues.length); // adicionou ou removeu algum filtro numérico ?
-      const filterDidUpdated = (filterName || filterNumericValues); // Então atualizar a tabela.Simula o ComponentDidUpdate para filtros
+      const filterDidUpdated = notEqual(prevFilters, filter);
+      // const filterName = filterByName.name !== (prevFilters.filters.filterByName.name); // alterou o filterByName ?
+      // const filterNumericValues = filterByNumericValues.length !== (
+      //   prevFilters.filters.filterByNumericValues.length); // adicionou ou removeu algum filtro numérico ?
+      // const filterOrder = notEqual(prevFilters.filters.order, order); // alterou a ordem da coluna ?
+      // const filterDidUpdated = (filterName || filterNumericValues || filterOrder); // Então atualizar a tabela.Simula o ComponentDidUpdate para filtros
 
-      if (filterDidUpdated) setFilteredPlanets(filterPlanets()); // qualquer alteração no filtro a tabela é atualizada
+      if (filterDidUpdated) setFilteredPlanets(orderByColumn(filterPlanets(), order)); // qualquer alteração no filtro a tabela é atualizada
     }
   }, [componentDidMount, filter, filteredPlanets, planets, prevFilters]);
 

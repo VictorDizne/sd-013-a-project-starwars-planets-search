@@ -29,8 +29,8 @@ const Table = ({ data }) => {
         url,
       } = planet; // lint não aceita camel_case, é preciso acessar a property pelo objeto
       const planetRow = (
-        <tr key={ htmlID({ name: `linha${index}` }) } data-testid="planet-name">
-          <td key={ htmlID({ name }) }>{ name }</td>
+        <tr key={ htmlID({ name: `linha${index}` }) }>
+          <td key={ htmlID({ name }) } data-testid="planet-name">{ name }</td>
           <td key={ htmlID({ name: 'rotation' }) }>{ planet.rotation_period }</td>
           <td key={ htmlID({ name: 'orbital' }) }>{ planet.orbital_period }</td>
           <td key={ htmlID({ name: diameter }) }>{ diameter }</td>

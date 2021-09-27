@@ -17,7 +17,7 @@ const NumericFilter = () => {
   const [comparisonOption, setComparisonOption] = useState(COMPARISON_OPTIONS[0]);
   const [inputValue, setInputValue] = useState(0);
   const { filter, setFilter } = useContext(PlanetContext);
-  const { filters: { filterByName, filterByNumericValues } } = filter;
+  const { filters: { filterByName, filterByNumericValues, order } } = filter;
 
   // verifica se um filtro já foi selecionado, cada column só pode ter 1 filtro
   function filterIsAvaible(columnName) {
@@ -32,6 +32,7 @@ const NumericFilter = () => {
         {
           filterByName,
           filterByNumericValues: [...filterByNumericValues, numericFilter],
+          order,
         },
       },
     });
@@ -45,6 +46,7 @@ const NumericFilter = () => {
           filterByName,
           filterByNumericValues: filterByNumericValues
             .filter(({ column }) => column !== columnToBeRemoved),
+          order,
         },
       },
     });

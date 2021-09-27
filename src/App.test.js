@@ -292,7 +292,6 @@ describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos
 
   const removeFilter = async () => {
     const filters = await screen.findAllByTestId(REMOVE_FILTER_SELECTOR);
-    console.log(filters[0].innerHTML);
     fireEvent.click(filters[0].querySelector('button'));
   };
 
@@ -339,7 +338,7 @@ describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos
   });
 });
 
-describe.skip('6 - Ordene as colunas de forma ascendente ou descendente', () => {
+describe('6 - Ordene as colunas de forma ascendente ou descendente', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 

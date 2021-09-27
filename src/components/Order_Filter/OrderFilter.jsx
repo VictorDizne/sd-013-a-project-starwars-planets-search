@@ -1,12 +1,35 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import PlanetContext from '../../context/PlanetContext';
+import { htmlID } from '../../util';
 
 const OrderFilter = () => {
-  const { planets } = useContext(PlanetContext);
+  // Context
+  const { planets, filter, setFilter } = useContext(PlanetContext);
+  const { filters: {
+    order: { column, sort },
+    filterByName,
+    filterByNumericValues,
+  } } = filter;
 
   const COLUMN_NAMES = Object.keys({ ...planets[0] })
-    .map((column) => column !== 'residents'); // Pelo requisito  a coluna residents não deve ser exibida
+    .filter((columns) => columns !== 'residents');
 
-  const [columnOption, setColumnOption] = useState[(COLUMN_NAMES[0])];
+  const [columnOption, setColumnOption] = useState(column);
+  const [orderOption, setOrderOption] = useState(sort);
+
+  function handleColumnOrder() {
+    const newOrder = { column: columnOption, sort: orderOption };
+    setFilter({
+      ...filter,
+      ...{ filters:
+        {
+          filterByName,
+          filterByNumericValues,
+          order: newOrder,
+        },
+      },
+    });
+  }
   return (
     <div>
       <select
@@ -18,6 +41,43 @@ const OrderFilter = () => {
         {COLUMN_NAMES.map((name) => (
           <option key={ htmlID({ name }) } value={ name }>{ name }</option>)) }
       </select>
+      <div className="form-check form-check-inline">
+        <label className="form-check-label" htmlFor="inlineRadio1">
+          Ascending
+          <input
+            className="form-check-input"
+            name="inlineRadioOptions"
+            type="radio"
+            id="inlineRadio1"
+            value="ASC"
+            data-testid="column-sort-input-asc"
+            onClick={ ({ target: { value } }) => setOrderOption(value) }
+            defaultChecked
+          />
+        </label>
+      </div>
+      <div className="form-check form-check-inline">
+        <label className="form-check-label" htmlFor="inlineRadio2">
+          <input
+            className="form-check-input"
+            name="inlineRadioOptions"
+            type="radio"
+            id="inlineRadio2"
+            value="DESC"
+            data-testid="column-sort-input-desc"
+            onClick={ ({ target: { value } }) => setOrderOption(value) }
+          />
+          Descending
+        </label>
+      </div>
+      <button
+        data-testid="column-sort-button"
+        type="button"
+        className="btn btn-dark"
+        onClick={ handleColumnOrder }
+      >
+        Add Filter
+      </button>
     </div>);
 };
 
