@@ -323,7 +323,7 @@ A informação acerca da ordenação das colunas deve ser armazenada nos campos 
     },
     filterByNumericValues : [],
     order: {
-      column: 'name',
+      column: 'Name',
       sort: 'ASC',
     }
   }
