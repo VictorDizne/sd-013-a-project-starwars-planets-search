@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import context from '../context/Context';
-import Input
-  from './Input';
+import Input from './Input';
 
 function Tabela() {
   const { item, setItem } = useContext(context);
