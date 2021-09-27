@@ -5,19 +5,25 @@ import MyContext from './Context';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
-  const [info, setInfo] = useState([]);
+  const [name, setName] = useState({
+    filters:
+    {
+      filterByName: {
+        name: '',
+      },
+    },
+  });
 
   const apiRequest = async () => {
     const req = await fetchApi();
-    setData(...req);
-    setInfo(req);
+    setData(req);
   };
 
   useEffect(() => {
     apiRequest();
   }, []);
 
-  const context = { data, info, setInfo };
+  const context = { data, ...name, setName };
 
   return (
     <MyContext.Provider value={ context }>
