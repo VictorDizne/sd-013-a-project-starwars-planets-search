@@ -16,7 +16,9 @@ const Filtros = () => {
     setDrop((prev) => ({ ...prev, [name]: value }));
   };
   const search = () => {
-    setFiltros((prev) => ({ ...prev, filterByNumericValues: prev.filterByNumericValues.concat(valueDrop) }));
+    setFiltros((prev) => ({ ...prev,
+      filterByNumericValues:
+      prev.filterByNumericValues.concat(valueDrop) }));
   };
   return (
     <div>

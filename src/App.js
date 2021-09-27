@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import Column from './Components/Column';
 import Filtros from './Components/filtros';
 import Table from './Components/Table';
 import Context from './Context/Context';
@@ -31,22 +32,33 @@ function App() {
     });
   }, []);
   const TesteColum = useCallback((filtrado, filterByNumericValues) => {
-    if (filterByNumericValues > 0) {
-      filterByNumericValues.foreach((value) => {
-        filtrado.foreach((fill) => {
-          switch (value.column) {
+    if (filterByNumericValues.length > 0) {
+      const Vazio = [];
+      filterByNumericValues.forEach((Numeric) => {
+        filtrado.forEach((fill) => {
+          switch (Numeric.comparison) {
           case 'MAIOR QUE':
-            console.log(fill);
+            // if (+fill[Numeric.column] > +Numeric.value  ) {
+            //   Vazio.push(fill);
+            // }
             break;
-
+          case 'IGUAL A':
+            if (+Numeric.value === +fill[Numeric.column]) {
+              Vazio.push(fill);
+            }
+            break;
+          case 'MENOR QUE':
+            if (+fill[Numeric.column] < +Numeric.value) {
+              Vazio.push(fill);
+            }
+            break;
           default:
-            break;
           }
         });
       });
-    } else {
-      return filtrado;
+      return Vazio.filter((item, index) => Vazio.indexOf(item) === index);
     }
+    return filtrado;
   }, []);
 
   useEffect(() => {
@@ -58,13 +70,26 @@ function App() {
       setLocal((prev) => ({ ...prev, filter: Filtrado }));
     }
   }, [TesteColum, dados, filtros]);
+
+  useEffect(() => {
+    const Dropinho = ['population', 'orbital_period', 'diameter',
+      'rotation_period', 'surface_water'];
+    const newDrop = Dropinho.filter((element) => (
+      !filtros.filterByNumericValues.some((Numeric) => (
+        Numeric.column === element
+      ))
+    ));
+    setLocal((prev) => ({ ...prev, drop: newDrop }));
+  }, [filtros]);
   const VALORES = {
     stateLocal,
     setFiltros,
+    filtros,
   };
   return (
     <Context.Provider value={ VALORES }>
       <Filtros />
+      <Column />
       <Table />
     </Context.Provider>
   );
