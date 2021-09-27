@@ -1,24 +1,59 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
-import FetchAPI from '../services/FetchAPI';
-import FilterByName from './FilterByName';
+import SelectFilters from './SelectFilters';
+
+import Loading from '../images/swloading.gif';
 
 function Table() {
-  const { data } = FetchAPI();
-  const { loading } = useContext(MyContext);
-  const [filteredNames, setFilteredNames] = useState('');
+  const { data, filters, setFilters } = useContext(MyContext);
 
-  if (loading) {
-    return <p>loading</p>;
+  function handleChange(event) {
+    setFilters({
+      ...filters,
+      filterByName: { name: event.target.value },
+    });
   }
 
-  const handleChange = (event) => {
-    setFilteredNames(event.target.value);
+  const objectLiteral = {
+    'maior que': (a, b) => Number(a) > Number(b),
+    'menor que': (a, b) => Number(a) < Number(b),
+    'igual a': (a, b) => Number(a) === Number(b),
   };
+
+  function searchPlanet() {
+    if (data.length) {
+      const result = data.filter((planet) => {
+        const filterByName = planet.name.toLowerCase()
+          .includes(filters.filterByName.name.toLowerCase());
+        const resultNumeric = filters.filterByNumericValues
+          .every(({ column, value, comparison }) => {
+            const filterNumeric = objectLiteral[comparison](planet[column], value);
+            return filterNumeric;
+          });
+        return filterByName && resultNumeric;
+      });
+      return result;
+    }
+  }
+
+  if (data.length === 0) {
+    return (
+      <img
+        src={ Loading }
+        alt="carregando"
+      />
+    );
+  }
 
   return (
     <div>
-      <FilterByName onChange={ handleChange } />
+      <input
+        type="text"
+        onChange={ handleChange }
+        data-testid="name-filter"
+        id="name"
+      />
+      <SelectFilters />
       <table>
         <thead>
           <tr>
@@ -38,24 +73,23 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          { data.filter((f) => filteredNames === '' || f.name.includes(filteredNames))
-            .map((p) => (
-              <tr key={ p.name }>
-                <td>{ p.name }</td>
-                <td>{ p.rotation_period }</td>
-                <td>{ p.orbital_period }</td>
-                <td>{ p.diameter }</td>
-                <td>{ p.climate }</td>
-                <td>{ p.gravity }</td>
-                <td>{ p.terrain }</td>
-                <td>{ p.surface_water }</td>
-                <td>{ p.population }</td>
-                <td>{ p.films }</td>
-                <td>{ p.created }</td>
-                <td>{ p.edited }</td>
-                <td>{ p.url }</td>
-              </tr>
-            ))}
+          {searchPlanet().map((p) => (
+            <tr key={ p.name }>
+              <td>{ p.name }</td>
+              <td>{ p.rotation_period }</td>
+              <td>{ p.orbital_period }</td>
+              <td>{ p.diameter }</td>
+              <td>{ p.climate }</td>
+              <td>{ p.gravity }</td>
+              <td>{ p.terrain }</td>
+              <td>{ p.surface_water }</td>
+              <td>{ p.population }</td>
+              <td>{ p.films }</td>
+              <td>{ p.created }</td>
+              <td>{ p.edited }</td>
+              <td>{ p.url }</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
