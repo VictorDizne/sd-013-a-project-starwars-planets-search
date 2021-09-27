@@ -2,10 +2,12 @@ import React, { useContext } from 'react';
 import { Context } from '../context/Context';
 import Loading from './Loading';
 import Input from './Input';
+import Select from './Select';
 
 export default function Table() {
-  const { planets, filters, setFilters } = useContext(Context);
+  const { planets, filters, setFilters, filterByNumericValues } = useContext(Context);
   const { filterByName: { name } } = filters;
+  console.log(planets, 'planets');
 
   if (!planets.length) return <Loading />;
 
@@ -21,6 +23,7 @@ export default function Table() {
   return (
     <div>
       <Input onChange={ onChange } />
+      <Select />
       <table>
         <thead>
           <tr>
@@ -28,7 +31,22 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          { planets
+          { planets.filter((planet) => {
+            const render = filterByNumericValues.every((filter) => {
+              const { column, comparison, value } = filter;
+              if (comparison === 'maior que') {
+                return Number(planet[column]) > Number(value);
+              }
+              if (comparison === 'menor que') {
+                return Number(planet[column]) < Number(value);
+              }
+              if (comparison === 'igual a') {
+                return Number(planet[column]) === Number(value);
+              }
+              return false;
+            });
+            return render;
+          })
             .filter((planet) => planet.name.includes(name))
             .map((item) => (
               <tr key={ item.name }>
