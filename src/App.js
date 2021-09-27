@@ -1,12 +1,12 @@
 import React from 'react';
 import Provider from './Contexto/Provider';
 import Table from './components/Table';
-import Input from './components/Input';
+import InputSearch from './components/InputSearch';
 
 function App() {
   return (
     <Provider>
-      <Input />
+      <InputSearch />
       <Table />
     </Provider>
   );

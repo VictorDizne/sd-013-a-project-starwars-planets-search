@@ -6,16 +6,25 @@ import useFetchPlanets from '../Hooks/useFetchPlanets';
 function Provider({ children }) {
   const { planets, setPlanets, heads } = useFetchPlanets();
   const [nameFilter, setNameFilter] = useState('');
+  const [filterByNumericValues, setfilterByNumericValues] = useState([]);
 
   const handleChange = ({ target: { value } }) => {
     setNameFilter(value);
   };
+
+  const handleClick = (value) => {
+    setfilterByNumericValues([...filterByNumericValues, value]);
+  };
+
   const contextValue = {
     planets,
     setPlanets,
     heads,
     nameFilter,
     handleChange,
+    filterByNumericValues,
+    setfilterByNumericValues,
+    handleClick,
   };
   return (
     <MyContext.Provider value={ contextValue } displayName="Context Display Name">
@@ -25,7 +34,7 @@ function Provider({ children }) {
 }
 
 Provider.propTypes = {
-  children: PropTypes.objectOf.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Provider;
