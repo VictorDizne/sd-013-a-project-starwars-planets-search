@@ -17,9 +17,7 @@ const columns = [
 ];
 
 const compose = (...fns) => (x) => fns.reduceRight((v, f) => f(v), x);
-const trace = (val) => {
-  console.log(val); return val;
-};
+
 function Provider({ children }) {
   const [planetsAtributes, setPlanetsAtributes] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -65,7 +63,7 @@ function Provider({ children }) {
     if (numericFilters) {
       const filters = numericFilters.map(makeFilter);
       const combinedFilters = compose(...filters);
-      const _ = filters.length && setSearchResult(combinedFilters(planetsAtributes));
+      console.log(filters.length && setSearchResult(combinedFilters(planetsAtributes)));
     }
   }, [numericFilters, planetsAtributes]);
 
