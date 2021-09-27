@@ -16,6 +16,14 @@ function Provider({ children }) {
 
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
 
+  const [columnItems, setColumnItems] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+
   // lógica para resgatarmos o valor digitado no ../Input.js, e guardar esse valor na chave nameFilter criada anteriormente:
   const handleChange = ({ target: { value } }) => {
     setNameFilter(value);
@@ -23,6 +31,7 @@ function Provider({ children }) {
 
   const handleClick = (value) => {
     setFilterByNumericValues([...filterByNumericValues, value]);
+    setColumnItems([...columnItems].filter((item) => item !== value.column));
   };
 
   // aqui criamos um objeto que vai conter todas as informações que serão compartilhadas pelo Provider para os componentes filhos ({children}).
@@ -41,6 +50,8 @@ function Provider({ children }) {
     valor,
     setFilterByNumericValues,
     filterByNumericValues,
+    setColumnItems,
+    columnItems,
   };
 
   /* Abaixo, temos o retorno do Provider, onde ele engloba uma chave reservada do Context chamada children. No ./App.js importamos este arquivo inteiro e o passamos no return englobando todos os componentes(children) que terão acesso a chave value declarada. A chave displayName serve para utilizarmos a extensão no Chrome: */

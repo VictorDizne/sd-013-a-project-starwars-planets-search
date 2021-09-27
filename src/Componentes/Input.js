@@ -12,6 +12,8 @@ export default function Input() {
     setColumnFilter,
     setComparisonFilter,
     setValorFilter,
+    /*     setColumnItems, */
+    columnItems,
   } = useContext(MyContext);
 
   return (
@@ -31,11 +33,7 @@ export default function Input() {
             value={ column }
             data-testid="column-filter"
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotarion_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            { columnItems.map((coluna) => <option key={ coluna } value={ coluna }>{coluna}</option>)}
           </select>
         </label>
         <label htmlFor="comparison-filter">
