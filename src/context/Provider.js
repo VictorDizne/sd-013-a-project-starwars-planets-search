@@ -4,7 +4,7 @@ import useFetchAPI from '../hooks/useFetchAPI';
 import Context from './Context';
 
 function Provider({ children }) {
-  const [data] = useFetchAPI();
+  const { data, planetsKeys, planetsList, setPlanetsList } = useFetchAPI();
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -12,14 +12,17 @@ function Provider({ children }) {
     filterByNumericValues: [],
   });
 
-  const value = {
+  const contextValue = {
     data,
+    planetsKeys,
+    planetsList,
+    setPlanetsList,
     filters,
     setFilters,
   };
 
   return (
-    <Context.Provider value={ value }>
+    <Context.Provider value={ contextValue }>
       {children}
     </Context.Provider>
   );

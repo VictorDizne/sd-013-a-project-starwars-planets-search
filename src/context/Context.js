@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const FetchContext = createContext();
+const myContext = createContext();
 
-export default FetchContext;
+export default myContext;

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 function Select({ name, options, test }) {
   return (
     <select id={ name } data-testid={ test }>
-      {options.map((option, index) => (
+      {options ? options.map((option, index) => (
         <option key={ index } value={ option }>{option}</option>
-      ))}
+      )) : null}
     </select>
   );
 }

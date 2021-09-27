@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 function Input({ type, onChange, name, test }) {
   return (
     <label htmlFor={ name }>

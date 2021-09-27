@@ -1,20 +1,30 @@
 import { useEffect, useState } from 'react';
 
-function useFetchAPI() {
-  const [data, setData] = useState();
-  const [loading, setLoading] = useState(false);
+export default function useFetchAPI() {
+  const [data, setData] = useState([]);
+  const [planetsKeys, setPlanetsKeys] = useState([]);
+  const [planetsList, setPlanetsList] = useState([]);
 
   useEffect(() => {
-    setLoading(true);
-    fetch('https://swapi-trybe.herokuapp.com/api/planets/')
-      .then((response) => response.json())
-      .then((json) => {
-        setData(json.results);
-        setLoading(false);
+    const fetchAPI = async () => {
+      const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
+      const { results } = await (await fetch(url)).json();
+
+      const removeResidents = results.map((result) => {
+        const object = result;
+        delete result.residents;
+        return object;
       });
+
+      const getKeys = Object.keys(removeResidents[0]);
+      setData(removeResidents);
+      setPlanetsKeys(getKeys);
+      setPlanetsList(removeResidents);
+    };
+
+    fetchAPI();
   }, []);
 
-  return [data];
+  return { data, planetsKeys, planetsList, setPlanetsList };
 }
-
-export default useFetchAPI;
+// feito com a ajuda de Gesse Carlos.
