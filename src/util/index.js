@@ -18,11 +18,6 @@ export const fetchAPI = async (URL) => {
     return { error, errorMSG: 'request faled!' };
   }
 };
-
-export const fetchJoke = () => fetch(URL, { headers: { Accept: 'application/json' } })
-  .then((response) => response.json())
-  .then((data) => data.joke);
-
 export const getComparisonSymbol = (comparison) => {
   switch (comparison) { // "reducer" de comparações
   case 'maior que':
@@ -34,6 +29,14 @@ export const getComparisonSymbol = (comparison) => {
   default:
     throw new Error('Comparisson not in ComparisonsValues');
   }
+};
+
+export const orderByColumn = (array, { column, sort }) => {
+  if (sort === 'ASC') {
+    return array.sort((p1, p2) => p1[column].localeCompare(p2[column]));
+  }
+  // sort === 'DSC'
+  return array.sort((p1, p2) => p2[column].localeCompare(p1[column]));
 };
 // export const sum = (a, b) => a + b;
 // module.exports = { sum, htmlID, fetchAPI, fetchJoke };
