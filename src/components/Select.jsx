@@ -2,10 +2,32 @@ import React, { useState, useContext } from 'react';
 import { Context } from '../context/Context';
 
 export default function Select() {
-  const { handleClick } = useContext(Context);
-  const [column, setColumn] = useState('population');
+  const { column,
+    setColumn, filterByNumericValues, setfilterByNumericValues } = useContext(Context);
   const [comparison, setComparison] = useState('maior que');
   const [valor, setValor] = useState('');
+  console.log(column, 'colunas');
+
+  const filterColumns = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water'];
+
+  const [filterColumn, setFilterColumn] = useState(filterColumns);
+
+  // Função feita com consulta ao PR #61, de Débora Teodorico
+  const removeSelectedItems = () => {
+    const newColumns = filterColumn
+      .filter((item) => (item !== column));
+    setFilterColumn(newColumns);
+  };
+
+  const handleClick = (value) => {
+    setfilterByNumericValues([...filterByNumericValues, value]);
+    removeSelectedItems();
+  };
 
   function filters() {
     return (
@@ -15,11 +37,7 @@ export default function Select() {
           onChange={ ({ target: { value } }) => setColumn(value) }
           data-testid="column-filter"
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          { filterColumn.map((columnx) => <option key={ columnx }>{ columnx }</option>) }
         </select>
         <select
           name="comparison"
