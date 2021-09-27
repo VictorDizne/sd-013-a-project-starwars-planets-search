@@ -9,12 +9,17 @@ const Provider = ({ children }) => {
   const [heads, setHeads] = useState([]); // column
   const [filters, setFilters] = useState(''); // filtro por name
   const [filterByNumericValues, setfilterByNumericValues] = useState([]);
-
+  const [columnItens, setColumnItens] = useState([
+    'population',
+    'orbital_period',
+    'diameter', 'rotation_period', 'surface_water',
+  ]);
   const handleChange = ({ target: { value } }) => {
     setFilters(value);
   };
   const handleClick = (value) => { // valores vindos do formulário
     setfilterByNumericValues([...filterByNumericValues, value]);
+    setColumnItens([...columnItens].filter((column) => column !== value.column));
   };
 
   const contextValue = {
@@ -25,6 +30,7 @@ const Provider = ({ children }) => {
     handleChange,
     filterByNumericValues,
     handleClick,
+    columnItens,
   };
 
   useEffect(() => {
