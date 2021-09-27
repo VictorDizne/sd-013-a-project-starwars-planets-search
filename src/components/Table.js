@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
+import FilterRemove from './Remove';
 import Tr from './TableTr';
 
 function Table() {
@@ -78,6 +79,12 @@ function Table() {
         />
         <button type="submit" data-testid="button-filter"> Filtrar </button>
       </form>
+      <section>
+        <ol>
+          { filterByNumericValues
+            .map((filter, index) => <FilterRemove key={ index } filter={ filter } />)}
+        </ol>
+      </section>
       <table>
         <thead>
           <tr>{ header.map((title) => <th key={ title }>{ title }</th>)}</tr>
