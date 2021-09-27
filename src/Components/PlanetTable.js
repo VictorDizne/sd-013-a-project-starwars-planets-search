@@ -1,16 +1,15 @@
 import React, { useContext } from 'react';
-// import FetchWars from '../hooks/FetchWars';
 import MyContext from '../context/MyContext';
 
 function PlanetTable() {
   const { statewars, filterwars } = useContext(MyContext);
-
-  const math = {
+  // 6 - aqui recebemos as informações do provider.
+  const comparado = {
     'maior que': (a, b) => (a > b),
     'menor que': (a, b) => (a < b),
     'igual a': (a, b) => (a === b),
   };
-
+  // 7 - as funçoes T são usadas para renderizar as informações do statewars.
   const THead = () => {
     if (statewars.length) {
       const keys = Object.keys(statewars[0]);
@@ -29,7 +28,7 @@ function PlanetTable() {
     }
   };
 
-  const TBody = (mapfilterresult) => {
+  const TBody = (mapfilterresult = statewars) => {
     if (mapfilterresult.length) {
       return (
         <tbody>
@@ -60,26 +59,41 @@ function PlanetTable() {
     }
   };
 
-  const filteredColumn = (statewar = statewars) => {
+  /**
+ * Consultei o repositório do victor emmaneul para resolver essa parte.
+ * Link do repositório: https://github.com/tryber/sd-012-project-starwars-planets-search/commits/Victor-Emmaneul-starwars-planet-search
+ */
+  // 8 - essa função chama o corpo da tabela de acordo com os comparadores selecionados no filterwarswars.
+  const columnFilter = (statewar = statewars) => {
     const { filterByNumericValues } = filterwars;
-    const { column, comparison, value } = filterByNumericValues[0];
-    if (column) {
-      const statewarfilter2 = statewar.filter((i) => {
-        const ret = math[comparison](parseInt(i[column], 10), parseInt(value, 10));
-        return ret;
-      });
-      return TBody(statewarfilter2);
+
+    let itemFilter = statewar;
+
+    if (filterByNumericValues.length) {
+      filterByNumericValues
+        .filter(({ column, comparison, value }) => {
+          itemFilter = itemFilter.filter((sec) => {
+            const re = comparado[comparison](parseInt(sec[
+              column], 10), parseInt(value, 10));
+            return re;
+          });
+
+          return itemFilter;
+        });
+
+      return TBody(itemFilter);
     }
+
     return TBody(statewar);
   };
-
+  // 9 - essa função filtra por nome caso name exista em filerby name.
   const mapFilter = () => {
     const { filterByName: { name } } = filterwars;
     if (name) {
       const statewarsfilter = statewars.filter((i) => i.name.includes(name));
-      return filteredColumn(statewarsfilter);
+      return columnFilter(statewarsfilter);
     }
-    return filteredColumn();
+    return columnFilter();
   };
 
   return (

@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import MyContext from '../context/MyContext';
-
+// 10 - aqui declaramos os filtros
 const selects = [
   'population',
   'orbital_period',
@@ -22,25 +22,43 @@ const INITIAL_FILTER = {
 };
 
 function PlanetFilter() {
+  // 11 - aqui adicionamos as contantes em estados.
   const { filterwars, setfilterWars } = useContext(MyContext);
-
+  const [initialFilters, setInitialFilters] = useState(INITIAL_FILTER);
+  const [select, setSelect] = useState(selects);
+  const [comparisons] = useState(comparators);
+  // 12 - essa função adiciona o valor do input no estado filterwars
   const filterInput = ({ target: { value } }) => {
     setfilterWars({ ...filterwars,
       filterByName: { ...filterwars.filterByName, name: value } });
     console.log(filterwars);
   };
-
+  // 12 - essa função adiciona o valor do id do select no estado initialFilters
   const handleChange = ({ target: { id, value } }) => {
-    INITIAL_FILTER[id] = value;
+    setInitialFilters({ ...initialFilters, [id]: value });
     console.log(filterwars);
   };
-
+  // 12 - essa função adiciona os diversos valores atualizados até aqui em seus respequivos estados.
   const handleSubmit = () => {
-    setfilterWars({ ...filterwars,
-      filterByNumericValues: [INITIAL_FILTER],
-    });
-  };
+    const { column, comparison, value } = initialFilters;
 
+    const obj = { column, comparison, value };
+
+    const result = select
+      .filter((i) => i !== obj.column);
+    setSelect(result);
+
+    setfilterWars({ ...filterwars,
+      filterByNumericValues: [...filterwars.filterByNumericValues, obj],
+    });
+
+    setInitialFilters({ ...initialFilters,
+      column: select.length ? select[0] : '',
+      value: '0',
+    });
+    document.getElementById('value').value = '';
+  };
+  // 13 final - renderização dos filtros.
   return (
     <div>
       <label htmlFor="name">
@@ -61,7 +79,7 @@ function PlanetFilter() {
           onChange={ handleChange }
           id="column"
         >
-          {selects.map((i) => <option key={ i }>{i}</option>)}
+          {select.map((i) => <option key={ i }>{i}</option>)}
         </select>
       </label>
       <label htmlFor="comparison">
@@ -72,7 +90,7 @@ function PlanetFilter() {
           data-testid="comparison-filter"
           onChange={ handleChange }
         >
-          {comparators.map((i) => <option key={ i }>{i}</option>)}
+          {comparisons.map((i) => <option key={ i }>{i}</option>)}
         </select>
       </label>
       <label htmlFor="value">

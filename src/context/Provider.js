@@ -6,19 +6,13 @@ const INITIAL_FILTER = {
   filterByName: {
     name: '',
   },
-  filterByNumericValues: [
-    {
-      column: '',
-      comparison: 'maior que',
-      value: '0',
-    },
-  ],
+  filterByNumericValues: [],
 };
-
+// 3 -  criação do provider.
 function Provider({ children }) {
   const [statewars, setStatewars] = useState([]);
   const [filterwars, setfilterWars] = useState(INITIAL_FILTER);
-
+  // 4 - os estados basicos que vão conter a resposta do filtro e da API.
   useEffect(() => {
     const response = async () => {
       const api = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -34,7 +28,7 @@ function Provider({ children }) {
 
     response();
   }, []);
-
+  // 5 - por aqui passamos os states e setstates.
   const planetContexValue = { statewars, filterwars, setfilterWars };
   return (
     <MyContext.Provider value={ planetContexValue }>

@@ -1,3 +1,5 @@
+// esse hook foi passado para o provider para ser melhor usado.
+
 // import { useState, useEffect } from 'react';
 
 // function FetchWars() {
