@@ -12,7 +12,6 @@ export default function Input() {
     setColumnFilter,
     setComparisonFilter,
     setValorFilter,
-    /*     setColumnItems, */
     columnItems,
   } = useContext(MyContext);
 
@@ -33,7 +32,9 @@ export default function Input() {
             value={ column }
             data-testid="column-filter"
           >
-            { columnItems.map((coluna) => <option key={ coluna } value={ coluna }>{coluna}</option>)}
+            { columnItems.map(
+              (coluna) => <option key={ coluna } value={ coluna }>{coluna}</option>,
+            )}
           </select>
         </label>
         <label htmlFor="comparison-filter">
