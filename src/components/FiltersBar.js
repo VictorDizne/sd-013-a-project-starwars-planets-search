@@ -77,13 +77,13 @@ function FiltersBar() {
       <div>
         <Select
           name="column"
-          options={ columnsOpt }
           test="column-filter"
+          options={ columnsOpt }
         />
         <Select
           name="comparison"
-          options={ comparisonOpt }
           test="comparison-filter"
+          options={ comparisonOpt }
         />
         <Input
           type="number"
