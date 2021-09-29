@@ -56,7 +56,6 @@ function App() {
       const Filtrado = dados.data.filter((planeta) => planeta.name
         .includes(filterByName.name));
       const teste = TesteColum(Filtrado, filterByNumericValues);
-      console.log(teste);
       setLocal((prev) => ({ ...prev, filter: teste }));
     }
   }, [TesteColum, dados, filtros]);
