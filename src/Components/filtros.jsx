@@ -3,8 +3,13 @@ import Context from '../Context/Context';
 
 const Filtros = () => {
   const { setFiltros, stateLocal: { drop } } = useContext(Context);
-  const comparison = ['MAIOR QUE', 'MENOR QUE', 'IGUAL A'];
-  const [valueDrop, setDrop] = useState();
+  const comparison = ['maior que', 'igual a', 'menor que'];
+  const [valueDrop, setDrop] = useState({
+    comparison: 'maior que',
+    value: '',
+    column: 'population',
+
+  });
   const InputName = ({ value }) => {
     setFiltros((prev) => ({ ...prev,
       filterByName: {
@@ -36,7 +41,7 @@ const Filtros = () => {
         <select
           id="drop"
           data-testid="column-filter"
-          onClick={ (e) => funDrop(e.target) }
+          onChange={ (e) => funDrop(e.target) }
           name="column"
         >
           {
@@ -49,13 +54,13 @@ const Filtros = () => {
       <label htmlFor="comparison">
         <select
           id="comparison"
-          data-testid="comparison-filter"
-          onClick={ (e) => funDrop(e.target) }
+          onChange={ (e) => funDrop(e.target) }
           name="comparison"
+          data-testid="comparison-filter"
         >
           {
             comparison.map((texto) => (
-              <option key={ texto }>{texto}</option>
+              <option key={ texto } value={ texto }>{texto}</option>
             ))
           }
         </select>
@@ -63,7 +68,6 @@ const Filtros = () => {
       <label htmlFor="value">
         <input
           type="number"
-          id="value"
           name="value"
           onChange={ (e) => funDrop(e.target) }
           data-testid="value-filter"

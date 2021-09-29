@@ -5,7 +5,6 @@ const Column = () => {
   const { filtros: { filterByNumericValues }, setFiltros } = useContext(Context);
   const removeFilter = ({ name }) => {
     const remove = filterByNumericValues.filter((value) => value.column !== name);
-    console.log(name);
     setFiltros((prev) => (({ ...prev,
       filterByNumericValues: remove,
     })));

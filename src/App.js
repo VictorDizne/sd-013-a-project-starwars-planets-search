@@ -6,6 +6,7 @@ import Context from './Context/Context';
 import getStarwars from './serviceApi';
 
 function App() {
+  const [dados, setData] = useState();
   const [filtros, setFiltros] = useState({
     filterByName: {
       name: '',
@@ -23,7 +24,6 @@ function App() {
       'surface_water',
     ],
   });
-  const [dados, setData] = useState();
 
   useEffect(() => {
     getStarwars().then((response) => {
@@ -32,31 +32,20 @@ function App() {
     });
   }, []);
   const TesteColum = useCallback((filtrado, filterByNumericValues) => {
-    if (filterByNumericValues.length > 0) {
-      const Vazio = [];
-      filterByNumericValues.forEach((Numeric) => {
-        filtrado.forEach((fill) => {
-          switch (Numeric.comparison) {
-          case 'MAIOR QUE':
-            // if (+fill[Numeric.column] > +Numeric.value  ) {
-            //   Vazio.push(fill);
-            // }
-            break;
-          case 'IGUAL A':
-            if (+Numeric.value === +fill[Numeric.column]) {
-              Vazio.push(fill);
-            }
-            break;
-          case 'MENOR QUE':
-            if (+fill[Numeric.column] < +Numeric.value) {
-              Vazio.push(fill);
-            }
-            break;
-          default:
+    if (filterByNumericValues.length > 0) { // feito com ajuda do Gabriel Biasoli
+      const recebeFilter = filterByNumericValues.reduce((acc, Numeric) => {
+        const valueFilter = acc.filter((fill) => {
+          if (Numeric.comparison === 'maior que') {
+            return +fill[Numeric.column] > +Numeric.value;
           }
+          if (Numeric.comparison === 'igual a') {
+            return +Numeric.value === +fill[Numeric.column];
+          }
+          return +fill[Numeric.column] < +Numeric.value;
         });
-      });
-      return Vazio.filter((item, index) => Vazio.indexOf(item) === index);
+        return valueFilter;
+      }, filtrado);
+      return recebeFilter;
     }
     return filtrado;
   }, []);
@@ -67,7 +56,8 @@ function App() {
       const Filtrado = dados.data.filter((planeta) => planeta.name
         .includes(filterByName.name));
       const teste = TesteColum(Filtrado, filterByNumericValues);
-      setLocal((prev) => ({ ...prev, filter: Filtrado }));
+      console.log(teste);
+      setLocal((prev) => ({ ...prev, filter: teste }));
     }
   }, [TesteColum, dados, filtros]);
 
