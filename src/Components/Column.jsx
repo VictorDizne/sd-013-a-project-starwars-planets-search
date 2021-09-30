@@ -11,19 +11,19 @@ const Column = () => {
   };
   return (
     <div>
+
       {(filterByNumericValues.length > 0) && filterByNumericValues
         .map((element, index) => (
-          <div key={ index }>
+          <div key={ index } data-testid="filter">
             <p>{element.column}</p>
             <p>{element.comparison}</p>
             <p>{element.value}</p>
             <button
-              data-testid="filter"
               type="button"
               name={ element.column }
               onClick={ (e) => removeFilter(e.target) }
             >
-              Apagar
+              x
             </button>
           </div>
         ))}
