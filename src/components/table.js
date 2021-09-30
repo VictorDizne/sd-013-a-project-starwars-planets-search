@@ -3,7 +3,7 @@ import apiContext from '../contexts/apiContext';
 
 function TableItems() {
   const { data, loaded, dataFiltered } = useContext(apiContext);
-  console.log(data);
+
   const renderTds = () => {
     if (loaded) {
       return dataFiltered.map((el) => (

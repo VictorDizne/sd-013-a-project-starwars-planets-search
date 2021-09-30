@@ -9,6 +9,13 @@ const ApiProvider = ({ children }) => {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    ],
   });
   const [dataFiltered, setDataFiltered] = useState(data);
 
@@ -25,6 +32,7 @@ const ApiProvider = ({ children }) => {
       await setLoaded(true);
     };
     fetchApi();
+
     // data: retorna um array com os dados da api
     // loaded: retorna um true enquanto carrega, e depois um false quando está carregado.
   }, []);
@@ -33,6 +41,26 @@ const ApiProvider = ({ children }) => {
     const filteredName = data.filter((i) => i.name.includes(filters.filterByName.name));
     setDataFiltered(filteredName);
   }, [data, filters.filterByName.name]);
+
+  useEffect(() => {
+    const { column, comparison, value } = filters
+      .filterByNumericValues[filters.filterByNumericValues.length - 1];
+
+    const filtered = data.filter((i) => {
+      switch (comparison) {
+      case 'maior que':
+        return Number(i[column]) > value;
+      case 'menor que':
+        return Number(i[column]) < value;
+      case 'igual a':
+        return i[column] === value;
+      default:
+        return i;
+      }
+    });
+    console.log(filtered);
+    setDataFiltered(filtered);
+  }, [data, filters.filterByNumericValues]);
 
   return (
     <apiContext.Provider value={ { dataFiltered, data, loaded, setFilters, filters } }>
