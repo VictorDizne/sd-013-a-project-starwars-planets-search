@@ -13,6 +13,10 @@ function App() {
     },
     filterByNumericValues: [
     ],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
   const [stateLocal, setLocal] = useState({
     filter: [],
@@ -28,6 +32,7 @@ function App() {
   useEffect(() => {
     getStarwars().then((response) => {
       const { results } = response;
+      results.forEach((r) => delete r.residents);
       setData({ data: results });
     });
   }, []);
@@ -49,16 +54,42 @@ function App() {
     }
     return filtrado;
   }, []);
+  const maior = (teste, column) => {
+    const numeber = -1;
+    teste.sort((a, b) => {
+      if (a[column] > b[column]) return 1;
+      if (a[column] < b[column]) return numeber;
+      return 0;
+    });
+  };
+  const orderFilter = useCallback((teste, order) => {
+    const numeber = -1;
+    const { column, sort } = order;
+    if (sort === 'ASC') {
+      if (['name', 'terrain', 'climate'].includes(column)) {
+        maior(teste, column);
+      } else teste.sort((a, b) => (a[column] - b[column]));
+    } else if (['name', 'terrain', 'climate'].includes(column)) {
+      teste.sort((a, b) => {
+        if (a[column] < b[column]) return 1;
+        if (a[column] > b[column]) return numeber;
+        return 0;
+      });
+    } else {
+      teste.sort((a, b) => (+b[column] - +a[column]));
+    }
+  }, []);
 
   useEffect(() => {
     if (dados) {
-      const { filterByName, filterByNumericValues } = filtros;
+      const { filterByName, filterByNumericValues, order } = filtros;
       const Filtrado = dados.data.filter((planeta) => planeta.name
         .includes(filterByName.name));
       const teste = TesteColum(Filtrado, filterByNumericValues);
+      orderFilter(teste, order);
       setLocal((prev) => ({ ...prev, filter: teste }));
     }
-  }, [TesteColum, dados, filtros]);
+  }, [TesteColum, dados, filtros, orderFilter]);
 
   useEffect(() => {
     const Dropinho = ['population', 'orbital_period', 'diameter',

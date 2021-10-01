@@ -4,12 +4,19 @@ import Context from '../Context/Context';
 const Filtros = () => {
   const { setFiltros, stateLocal: { drop } } = useContext(Context);
   const comparison = ['maior que', 'igual a', 'menor que'];
+  const SELECECAO = ['name',
+    'rotation_period',
+    'orbital_period', 'diameter',
+    'climate', 'gravity',
+    'terrain', 'surface_water', 'population'];
   const [valueDrop, setDrop] = useState({
     comparison: 'maior que',
     value: '',
     column: 'population',
 
   });
+  const [sortValue, setSortValue] = useState('');
+
   const InputName = ({ value }) => {
     setFiltros((prev) => ({ ...prev,
       filterByName: {
@@ -24,6 +31,13 @@ const Filtros = () => {
     setFiltros((prev) => ({ ...prev,
       filterByNumericValues:
       prev.filterByNumericValues.concat(valueDrop) }));
+  };
+
+  const sortFunc = ({ name, value }) => {
+    setSortValue((prev) => ({ ...prev, [name]: value }));
+  };
+  const order = () => {
+    setFiltros((prev) => ({ ...prev, order: sortValue }));
   };
   return (
     <div>
@@ -50,6 +64,7 @@ const Filtros = () => {
             ))
           }
         </select>
+        drop
       </label>
       <label htmlFor="comparison">
         <select
@@ -64,6 +79,7 @@ const Filtros = () => {
             ))
           }
         </select>
+        comparison
       </label>
       <label htmlFor="value">
         <input
@@ -74,6 +90,43 @@ const Filtros = () => {
         />
       </label>
       <button data-testid="button-filter" type="button" onClick={ search }>Buscar</button>
+      <label htmlFor="type">
+        <select
+          data-testid="column-sort"
+          onChange={ (e) => sortFunc(e.target) }
+          name="column"
+        >
+          {SELECECAO.map((e) => (
+            <option key={ e }>{e}</option>
+          ))}
+        </select>
+      </label>
+      <label htmlFor="sort">
+        <input
+          type="radio"
+          data-testid="column-sort-input-asc"
+          value="ASC"
+          onChange={ (e) => sortFunc(e.target) }
+          name="sort"
+        />
+      </label>
+      <label htmlFor="sort">
+        <input
+          type="radio"
+          data-testid="column-sort-input-desc"
+          value="DESC"
+          name="sort"
+          onChange={ (e) => sortFunc(e.target) }
+        />
+      </label>
+      <button
+        data-testid="column-sort-button"
+        type="button"
+        onClick={ order }
+      >
+        ordernar
+
+      </button>
     </div>
   );
 };
