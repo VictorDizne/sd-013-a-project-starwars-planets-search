@@ -42,16 +42,19 @@ const ApiProvider = ({ children }) => {
   useEffect(() => {
     setDataFiltered(data);
     if (filtering) {
+      setDataFiltered(data);
       setFiltering(false);
       return setAtt(true);
     }
   }, [data, filtering]);
 
   useEffect(() => {
+    const filterByName = dataFiltered
+      .filter(({ name }) => name.includes(filters.filterByName.name));
+    setDataFiltered(filterByName);
     if (att) {
-      const arr = filtering ? data : dataFiltered;
       filters.filterByNumericValues.map(({ column, comparison, value }) => {
-        const filtered = arr.filter((i) => {
+        const filtered = dataFiltered.filter((i) => {
           switch (comparison) {
           case 'maior que':
             return Number(i[column]) > value;
@@ -62,14 +65,14 @@ const ApiProvider = ({ children }) => {
           default:
             return i;
           }
-        }).filter(({ name }) => name.includes(filters.filterByName.name));
+        });
         console.log('atualizou');
         // console.log(dataFiltered);
         setDataFiltered(filtered);
         return setAtt(false);
       });
     }
-  }, [att, dataFiltered, filters]);
+  }, [att, filters]);
 
   const states = {
     dataFiltered,
