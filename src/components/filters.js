@@ -39,9 +39,11 @@ function Filters() {
     filtersInUse.splice(filtersInUse.indexOf(target.value), 1);
     setFiltersInUse(filtersInUse);
 
-    const filtered = filters.filterByNumericValues.filter(({ column }) => column !== target.value);
+    const filtered = filters
+      .filterByNumericValues.filter(({ column }) => column !== target.value);
     const filterByNumericValues = [...filtered];
     setFilters({ ...filters, filterByNumericValues });
+
     setAtt(true);
     setFiltering(true);
   };
