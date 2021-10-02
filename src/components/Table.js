@@ -3,7 +3,11 @@ import PlanetsContext from '../context/PlanetsContext';
 
 const Table = () => {
   const { data } = useContext(PlanetsContext);
-  console.log(data);
+  const { filters } = useContext(PlanetsContext);
+
+  if (filters.length === 0) return null;
+  const { filterByName: { name } } = filters;
+  console.log(name);
   // Ensina a como fazer uma tabela com filtros
   // https://edrodrigues.com.br/blog/criando-tabelas-com-filtros-%E2%80%8B%E2%80%8Busando-react/
   return (
@@ -27,7 +31,7 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        {data.map((planet) => (
+        {data.filter((planet) => planet.name.includes(name)).map((planet) => (
           <tr key={ planet.name }>
             <td>{planet.name}</td>
             <td>{planet.created}</td>

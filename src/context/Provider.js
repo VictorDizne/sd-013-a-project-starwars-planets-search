@@ -5,6 +5,7 @@ import planetsAPI from '../services/planetsAPI';
 
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
 
   const getDataFromApi = async () => {
     const dataAPI = await planetsAPI();
@@ -17,6 +18,8 @@ const Provider = ({ children }) => {
 
   const contextValue = {
     data,
+    filters,
+    setFilters,
   };
 
   return (
