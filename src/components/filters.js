@@ -2,15 +2,16 @@ import React, { useContext, useState } from 'react';
 import apiContext from '../contexts/apiContext';
 
 function Filters() {
-  const arrOptionFilter = [
-    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
-  ];
+  const { setFilters, filters } = useContext(apiContext);
+  const [filtersInUse, setFiltersInUse] = useState([]);
+  const [arrOptionFilter, setArrOptionFilter] = useState(
+    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+  );
   const [filterByNumbers, setFilterByNumbers] = useState({
     column: 'population',
     comparison: 'maior que',
     value: '',
   });
-  const { setFilters, filters } = useContext(apiContext);
 
   const handleChangeSearch = ({ target }) => {
     setFilters({ ...filters,
@@ -20,10 +21,16 @@ function Filters() {
 
   const handleChangeFilter = () => {
     setFilters({ ...filters,
-      filterByNumericValues: [{
-        ...filterByNumbers,
-      }],
+      filterByNumericValues: [
+        ...filters.filterByNumericValues, {
+          ...filterByNumbers,
+        }],
     });
+    setFiltersInUse([...filtersInUse, filterByNumbers.column]);
+    arrOptionFilter
+      .splice(arrOptionFilter.indexOf(filterByNumbers.column), 1);
+    setArrOptionFilter(arrOptionFilter);
+    console.log(arrOptionFilter, 'options');
   };
 
   return (

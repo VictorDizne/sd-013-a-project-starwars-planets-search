@@ -5,6 +5,7 @@ import apiContext from './apiContext';
 const ApiProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [dataFiltered, setDataFiltered] = useState(data);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -17,7 +18,6 @@ const ApiProvider = ({ children }) => {
       },
     ],
   });
-  const [dataFiltered, setDataFiltered] = useState(data);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -28,8 +28,8 @@ const ApiProvider = ({ children }) => {
       results.forEach((item) => {
         delete item.residents;
       });
-      await setData(results);
-      await setLoaded(true);
+      setData(results);
+      setLoaded(true);
     };
     fetchApi();
 
@@ -43,27 +43,36 @@ const ApiProvider = ({ children }) => {
   }, [data, filters.filterByName.name]);
 
   useEffect(() => {
-    const { column, comparison, value } = filters
-      .filterByNumericValues[filters.filterByNumericValues.length - 1];
+    filters.filterByNumericValues.map(() => {
+      const { column, comparison, value } = filters
+        .filterByNumericValues[filters.filterByNumericValues.length - 1];
 
-    const filtered = data.filter((i) => {
-      switch (comparison) {
-      case 'maior que':
-        return Number(i[column]) > value;
-      case 'menor que':
-        return Number(i[column]) < value;
-      case 'igual a':
-        return i[column] === value;
-      default:
-        return i;
-      }
+      const filtered = dataFiltered.filter((i) => {
+        switch (comparison) {
+        case 'maior que':
+          return Number(i[column]) > value;
+        case 'menor que':
+          return Number(i[column]) < value;
+        case 'igual a':
+          return i[column] === value;
+        default:
+          return i;
+        }
+      });
+      // console.log(dataFiltered);
+      return setDataFiltered(filtered);
     });
-    console.log(filtered);
-    setDataFiltered(filtered);
-  }, [data, filters.filterByNumericValues]);
+  }, [filters, filters.filterByNumericValues]);
+
+  const states = {
+    dataFiltered,
+    data,
+    loaded,
+    setFilters,
+    filters };
 
   return (
-    <apiContext.Provider value={ { dataFiltered, data, loaded, setFilters, filters } }>
+    <apiContext.Provider value={ states }>
       {children}
     </apiContext.Provider>
   );
