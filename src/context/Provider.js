@@ -4,7 +4,7 @@ import tableContext from '.';
 
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
-  const [dataTable, setDataTable] = useState([]);
+  const [dataTable, setDataTable] = useState(data);
   const [dataKey, setDataKey] = useState([]);
   const [filters, setFilters] = useState({ filterByName: { name: '' },
     filterByNumericValues: [

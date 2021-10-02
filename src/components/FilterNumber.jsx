@@ -13,8 +13,8 @@ const FilterNumber = () => {
   const [surface, setSurface] = useState(true);
 
   const { setFilters, filters,
-    filters: { filterByNumericValues }, data, setDataTable } = useContext(tableContext);
-    // esse useEffect vai rodar a função dentro dele, apenas quando o estado Column for atualizado;
+    filters: { filterByNumericValues }, dataTable,
+    setDataTable } = useContext(tableContext);
 
   const removeFilter = (estado) => {
     if (estado === 'population') {
@@ -53,17 +53,23 @@ const FilterNumber = () => {
     });
     let planetFilter;
     if (comparison === 'maior que') {
-      planetFilter = data.filter((planet) => Number(planet[column]) > Number(value));
+      planetFilter = dataTable
+        .filter((planet) => Number(planet[column]) > Number(value));
     }
     if (comparison === 'igual a') {
-      planetFilter = data.filter((planet) => Number(planet[column]) === Number(value));
+      planetFilter = dataTable
+        .filter((planet) => Number(planet[column]) === Number(value));
     }
     if (comparison === 'menor que') {
-      planetFilter = data.filter((planet) => Number(planet[column]) < Number(value));
+      planetFilter = dataTable
+        .filter((planet) => Number(planet[column]) < Number(value));
     }
 
     setDataTable(planetFilter);
     removeFilter(column);
+    if (population) {
+      setColumn('population');
+    }
   };
 
   return (
@@ -113,16 +119,25 @@ const FilterNumber = () => {
         Buscar
       </button>
       <div className="buttons-container">
-        { !population
-        && <button type="button" onClick={ () => setPopulatio(true) }>population</button>}
+        {
+          !population
+        && <button type="button" onClick={ () => setPopulatio(true) }>population</button>
+        }
         { !orbital
-          && <button type="button" onClick={ () => setOrbital(true) }>orbital</button> }
-        { !diameter
-          && <button type="button" onClick={ () => setDiameter(true) }>diameter</button> }
-        { !rotation
-          && <button type="button" onClick={ () => setRotation(true) }>rotation</button> }
-        { !surface
-          && <button type="button" onClick={ () => setSurface(true) }>surface</button> }
+        && <button type="button" onClick={ () => setOrbital(true) }>orbital x</button> }
+        {
+          !diameter
+        && <button type="button" onClick={ () => setDiameter(true) }>diameter x</button>
+        }
+        {
+          !rotation
+        && <button type="button" onClick={ () => setRotation(true) }>rotation x</button>
+        }
+
+        {
+          !surface
+        && <button type="button" onClick={ () => setSurface(true) }>surface x</button>
+        }
       </div>
     </div>
   );
