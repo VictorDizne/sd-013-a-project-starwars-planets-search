@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PlanetContext from '../contexts/PlanetContext';
 import usePlanetFilters from '../hooks/usePlanetFilters';
 
@@ -11,9 +11,12 @@ const columnsOptionsToFilter = [
 ];
 
 export default function TableFilter() {
-  const [numberInput, setNumberInput] = useState(0);
-  const [selectedColumn, setSelectedColumn] = useState();
-  const [selectedCompareMethod, setSelectedCompareMethod] = useState();
+  const [filterColumns, setFilterColumns] = useState(columnsOptionsToFilter);
+  const [filterExists, setFilterExists] = useState(true);
+  const [numberInput, setNumberInput] = useState('');
+  const [selectedColumn, setSelectedColumn] = useState('population');
+  const [selectedCompareMethod, setSelectedCompareMethod] = useState('maior que');
+  const [buttonDisabled, setButtonDisabled] = useState();
   const { planetData, setPlanetData } = useContext(PlanetContext);
   const { setPlanetsByNumericValues } = usePlanetFilters();
 
@@ -23,6 +26,14 @@ export default function TableFilter() {
       column: selectedColumn,
       comparison: selectedCompareMethod,
     });
+    const exists = filterColumns.filter(((column) => column !== selectedColumn));
+    if (exists.length !== 0) {
+      setFilterExists(true);
+      setFilterColumns(exists);
+      setSelectedColumn(exists[0]);
+    } else {
+      setFilterExists(false);
+    }
   };
 
   const changeColumm = ({ target: { value } }) => {
@@ -33,25 +44,25 @@ export default function TableFilter() {
     setSelectedCompareMethod(value);
   };
 
+  useEffect(() => {
+    if (numberInput) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [numberInput, selectedColumn, selectedCompareMethod]);
+
   if (!planetData) return null;
 
-  return (
+  const numericFilter = () => (
     <form>
-      <input
-        data-testid="name-filter"
-        className="planetFilter"
-        type="text"
-        placeholder="Planeta"
-        onChange={
-          (e) => setPlanetData({
-            ...planetData,
-            filters: { ...planetData.filters, filterByName: { name: e.target.value } },
-          })
-        }
-      />
-      <select className="filterBy" data-testid="column-filter" onChange={ changeColumm }>
+      <select
+        className="filterBy"
+        data-testid="column-filter"
+        onChange={ changeColumm }
+      >
         {
-          columnsOptionsToFilter
+          filterColumns
             .map((columnName, idx) => (
               <option
                 key={ `${columnName}${idx}` }
@@ -81,9 +92,28 @@ export default function TableFilter() {
         type="button"
         data-testid="button-filter"
         onClick={ applyFilter }
+        disabled={ buttonDisabled }
       >
         Aplicar
       </button>
     </form>
+  );
+
+  return (
+    <>
+      <input
+        data-testid="name-filter"
+        className="planetFilter"
+        type="text"
+        placeholder="Planeta"
+        onChange={
+          (e) => setPlanetData({
+            ...planetData,
+            filters: { ...planetData.filters, filterByName: { name: e.target.value } },
+          })
+        }
+      />
+      { filterExists && numericFilter() }
+    </>
   );
 }

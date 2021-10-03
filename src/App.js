@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
 import PlanetTable from './components/PlanetTable';
-import TableFilter from './components/TableFilter';
+import TableFilters from './components/TableFilters';
 import PlanetContextProvider from './contexts/PlanetContextProvider';
 
 function App() {
   return (
     <PlanetContextProvider>
-      <TableFilter />
+      <TableFilters />
       <PlanetTable />
     </PlanetContextProvider>
   );
