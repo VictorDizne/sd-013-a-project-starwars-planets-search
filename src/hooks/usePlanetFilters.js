@@ -32,7 +32,19 @@ function usePlanetFilters() {
     });
   };
 
-  return { filterByNumericValue, setPlanetsByNumericValues };
+  const delFilterByNumericValues = (column) => {
+    setPlanetData({ ...planetData,
+      filters: { ...planetData.filters,
+        filterByNumericValues: [
+          ...planetData.filters.filterByNumericValues.filter(
+            (filter) => filter.column !== column,
+          ),
+        ],
+      },
+    });
+  };
+
+  return { filterByNumericValue, setPlanetsByNumericValues, delFilterByNumericValues };
 }
 
 export default usePlanetFilters;

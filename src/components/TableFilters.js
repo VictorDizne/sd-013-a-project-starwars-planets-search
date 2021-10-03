@@ -18,7 +18,7 @@ export default function TableFilter() {
   const [selectedCompareMethod, setSelectedCompareMethod] = useState('maior que');
   const [buttonDisabled, setButtonDisabled] = useState();
   const { planetData, setPlanetData } = useContext(PlanetContext);
-  const { setPlanetsByNumericValues } = usePlanetFilters();
+  const { setPlanetsByNumericValues, delFilterByNumericValues } = usePlanetFilters();
 
   const applyFilter = () => {
     setPlanetsByNumericValues({
@@ -75,7 +75,7 @@ export default function TableFilter() {
       </select>
       <select
         className="toCompare"
-        data-tesid="comparision-filter"
+        data-testid="comparison-filter"
         onChange={ changeCompareMethod }
       >
         <option value="maior que">maior que</option>
@@ -99,6 +99,32 @@ export default function TableFilter() {
     </form>
   );
 
+  const deleteFilter = ({ target: { value } }) => {
+    setFilterColumns([...filterColumns, value]);
+    delFilterByNumericValues(value);
+  };
+
+  const usedFilters = (filters) => (
+    <ul>
+      {filters.filterByNumericValues.map((filter, idx) => (
+        <li key={ `${filter}${idx}` } data-testid="filter">
+          <span
+            data-testid="filter"
+          >
+            { `${filter.column} | ${filter.comparison} | ${filter.value}` }
+            <button
+              value={ filter.column }
+              type="button"
+              onClick={ deleteFilter }
+            >
+              X
+            </button>
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+
   return (
     <>
       <input
@@ -114,6 +140,7 @@ export default function TableFilter() {
         }
       />
       { filterExists && numericFilter() }
+      { usedFilters(planetData.filters) }
     </>
   );
 }
