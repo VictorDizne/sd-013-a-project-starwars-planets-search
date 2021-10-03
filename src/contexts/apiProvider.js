@@ -44,14 +44,17 @@ const ApiProvider = ({ children }) => {
     if (filtering) {
       setDataFiltered(data);
       setFiltering(false);
-      return setAtt(true);
     }
   }, [data, filtering]);
 
   useEffect(() => {
-    const filterByName = dataFiltered
+    setDataFiltered(data);
+    const filterName = data
       .filter(({ name }) => name.includes(filters.filterByName.name));
-    setDataFiltered(filterByName);
+    setDataFiltered(filterName);
+  }, [filters.filterByName]);
+
+  useEffect(() => {
     if (att) {
       filters.filterByNumericValues.map(({ column, comparison, value }) => {
         const filtered = dataFiltered.filter((i) => {
@@ -72,7 +75,7 @@ const ApiProvider = ({ children }) => {
         return setAtt(false);
       });
     }
-  }, [att, filters]);
+  }, [att, dataFiltered, filters]);
 
   const states = {
     dataFiltered,
