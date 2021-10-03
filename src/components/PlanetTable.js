@@ -5,9 +5,12 @@ import usePlanetFilters from '../hooks/usePlanetFilters';
 export default function SWAPITable() {
   const { planetData } = useContext(PlanetContext);
   const { filterByNumericValue } = usePlanetFilters();
-  if (!planetData) return null;
   console.log(planetData);
+
+  if (!planetData) return null;
+
   const { name } = planetData.filters.filterByName;
+
   return (
     <table>
       <thead>
