@@ -10,23 +10,24 @@ const INIT_STATE = {
     filterByNumericValues: [],
     order: { column: '', sort: 'ASC' },
   },
-  text: '',
 };
 
 export default function PlanetContextProvider({ children }) {
-  const [SWAPI, setSWAPI] = useState();
+  const [planetData, setPlanetData] = useState();
 
   useEffect(() => {
-    fetchPlanets(setSWAPI, INIT_STATE);
+    fetchPlanets(setPlanetData, INIT_STATE);
   }, []);
 
   return (
-    <PlanetContext.Provider value={ { SWAPI, setSWAPI } }>
+    <PlanetContext.Provider value={ { planetData, setPlanetData } }>
       { children }
     </PlanetContext.Provider>
   );
 }
 
 PlanetContextProvider.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+  ]).isRequired,
 };
