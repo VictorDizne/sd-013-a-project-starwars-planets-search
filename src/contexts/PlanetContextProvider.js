@@ -1,27 +1,27 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import PlanetContext from './PlanetContext';
+import fetchAPI from '../services/apiServices';
 
-const INITIAL_STATE = {
+const INIT_STATE = {
   planets: [],
+  filters: {
+    filterByName: { name: '' },
+    filterByNumericValues: [],
+    order: { column: '', sort: 'ASC' },
+  },
+  text: '',
 };
 
 export default function PlanetContextProvider({ children }) {
   const [data, setData] = useState();
 
   useEffect(() => {
-    const ENDPOINT = 'https://swapi.dev/api/planets';
-    const fetchAPI = async () => {
-      const { results } = await (await fetch(ENDPOINT)).json();
-      // Josué Lobo é um Gênio, um salário de 16 mil reais é pouco para ele!
-      results.forEach((result) => delete result.residents);
-      setData({ ...INITIAL_STATE, planets: results });
-    };
-    fetchAPI();
+    fetchAPI(setData, INIT_STATE);
   }, []);
 
   return (
-    <PlanetContext.Provider value={ data }>
+    <PlanetContext.Provider value={ { data, setData } }>
       { children }
     </PlanetContext.Provider>
   );

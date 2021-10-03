@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import PlanetContext from '../contexts/PlanetContext';
 
 export default function Table() {
-  const data = useContext(PlanetContext);
+  const { data } = useContext(PlanetContext);
   if (!data) return null;
-  console.log(data.planets);
   return (
     <>
       <h1>TABELOTA DE PLANETAS DO GUERRA NAS STARS</h1>
