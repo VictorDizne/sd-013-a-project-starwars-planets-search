@@ -1,14 +1,14 @@
 import React from 'react';
 import './App.css';
-import Table from './components/Table';
+import SWAPITable from './components/SWAPITable';
 import PlanetContextProvider from './contexts/PlanetContextProvider';
-import Input from './components/Input';
+import TableFilter from './components/TableFilter';
 
 function App() {
   return (
     <PlanetContextProvider>
-      <Input />
-      <Table />
+      <TableFilter />
+      <SWAPITable />
     </PlanetContextProvider>
   );
 }

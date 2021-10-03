@@ -14,14 +14,14 @@ const INIT_STATE = {
 };
 
 export default function PlanetContextProvider({ children }) {
-  const [data, setData] = useState();
+  const [SWAPI, setSWAPI] = useState();
 
   useEffect(() => {
-    fetchPlanets(setData, INIT_STATE);
+    fetchPlanets(setSWAPI, INIT_STATE);
   }, []);
 
   return (
-    <PlanetContext.Provider value={ { data, setData } }>
+    <PlanetContext.Provider value={ { SWAPI, setSWAPI } }>
       { children }
     </PlanetContext.Provider>
   );

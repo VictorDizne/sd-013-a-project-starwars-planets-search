@@ -1,20 +1,20 @@
 import React, { useContext } from 'react';
 import PlanetContext from '../contexts/PlanetContext';
 
-export default function Table() {
-  const { data } = useContext(PlanetContext);
-  if (!data) return null;
+export default function SWAPITable() {
+  const { SWAPI } = useContext(PlanetContext);
+  if (!SWAPI) return null;
   return (
     <table>
       <thead>
         <tr>
           {
-            Object.keys(data.planets[0]).map((row) => <th key={ row }>{ row }</th>)
+            Object.keys(SWAPI.planets[0]).map((row) => <th key={ row }>{ row }</th>)
           }
         </tr>
       </thead>
       <tbody>
-        { data.planets.map((item) => (
+        { SWAPI.planets.map((item) => (
           <tr key={ item.name }>
             <td data-testid="planet-name">{ item.name }</td>
             <td>{ item.rotation_period }</td>
