@@ -4,12 +4,15 @@ import usePlanetFilters from '../hooks/usePlanetFilters';
 
 export default function SWAPITable() {
   const { planetData } = useContext(PlanetContext);
-  const { filterByNumericValue } = usePlanetFilters();
-  console.log(planetData);
+  const { filterByNumericValue, sortPlanets } = usePlanetFilters();
 
   if (!planetData) return null;
 
   const { name } = planetData.filters.filterByName;
+
+  const planetsFullInfo = () => sortPlanets(planetData.planets
+    .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()))
+    .filter((planet) => filterByNumericValue(planet, planetData)));
 
   return (
     <table>
@@ -22,9 +25,7 @@ export default function SWAPITable() {
       </thead>
       <tbody>
         {/* Rogerio P. Silva me ajudou com essa lógica */}
-        { planetData.planets
-          .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()))
-          .filter((planet) => filterByNumericValue(planet, planetData))
+        { planetsFullInfo()
           .map((planet) => (
             <tr key={ planet.name }>
               <td data-testid="planet-name">{ planet.name }</td>

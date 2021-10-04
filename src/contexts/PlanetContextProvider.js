@@ -8,7 +8,7 @@ const INIT_STATE = {
   filters: {
     filterByName: { name: '' },
     filterByNumericValues: [],
-    order: { column: '', sort: 'ASC' },
+    order: { column: 'name', sort: 'ASC' },
   },
 };
 

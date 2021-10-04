@@ -10,15 +10,32 @@ const columnsOptionsToFilter = [
   'surface_water',
 ];
 
+const columnsToSort = [
+  'name',
+  'rotation_period',
+  'orbital_period',
+  'diameter',
+  'climate',
+  'terrain',
+  'surface_water',
+  'population',
+];
+
 export default function TableFilter() {
   const [filterColumns, setFilterColumns] = useState(columnsOptionsToFilter);
   const [filterExists, setFilterExists] = useState(true);
   const [numberInput, setNumberInput] = useState('');
   const [selectedColumn, setSelectedColumn] = useState('population');
   const [selectedCompareMethod, setSelectedCompareMethod] = useState('maior que');
+  const [sortOption, setSortOption] = useState('ASC');
+  const [columnToSort, setColumnToSort] = useState('name');
   const [buttonDisabled, setButtonDisabled] = useState();
   const { planetData, setPlanetData } = useContext(PlanetContext);
-  const { setPlanetsByNumericValues, delFilterByNumericValues } = usePlanetFilters();
+  const {
+    setPlanetsByNumericValues,
+    delFilterByNumericValues,
+    applySort,
+  } = usePlanetFilters();
 
   const applyFilter = () => {
     setPlanetsByNumericValues({
@@ -125,6 +142,46 @@ export default function TableFilter() {
     </ul>
   );
 
+  const sortByColumns = () => (
+    <div>
+      <select
+        data-testid="column-sort"
+        name="column"
+        onChange={ ({ target: { value } }) => setColumnToSort(value) }
+      >
+        { columnsToSort.map((columnName, idx) => (
+          <option key={ idx } value={ columnName }>{ columnName }</option>)) }
+      </select>
+      <label htmlFor="sortByASC" className="sort-radio">
+        <input
+          data-testid="column-sort-input-asc"
+          type="radio"
+          id="sortByASC"
+          checked={ sortOption === 'ASC' }
+          onChange={ () => setSortOption('ASC') }
+        />
+        ASC
+      </label>
+      <label htmlFor="sortByDESC" className="sort-radio">
+        <input
+          data-testid="column-sort-input-desc"
+          type="radio"
+          id="sortByDESC"
+          checked={ sortOption === 'DESC' }
+          onChange={ () => setSortOption('DESC') }
+        />
+        DESC
+      </label>
+      <button
+        data-testid="column-sort-button"
+        type="button"
+        onClick={ () => applySort(columnToSort, sortOption) }
+      >
+        Aplicar
+      </button>
+    </div>
+  );
+
   return (
     <>
       <input
@@ -141,6 +198,7 @@ export default function TableFilter() {
       />
       { filterExists && numericFilter() }
       { usedFilters(planetData.filters) }
+      { sortByColumns() }
     </>
   );
 }

@@ -1,3 +1,4 @@
+// esta é a API dos Star Wars Planets Original, favor referenciar no Readme
 const ENDPOINT = 'https://swapi.dev/api/planets';
 
 export default async function fetchPlanets(setData, INIT_STATE) {

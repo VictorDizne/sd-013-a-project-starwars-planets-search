@@ -44,7 +44,37 @@ function usePlanetFilters() {
     });
   };
 
-  return { filterByNumericValue, setPlanetsByNumericValues, delFilterByNumericValues };
+  const applySort = (columnToSort, selectedSortMethod) => {
+    setPlanetData({ ...planetData,
+      filters: { ...planetData.filters,
+        order: { column: columnToSort, sort: selectedSortMethod },
+      },
+    });
+  };
+
+  const sortPlanets = (planetsToFilter) => {
+    const columnToSort = planetData.filters.order.column;
+    switch (planetData.filters.order.sort) {
+    case 'ASC':
+      return planetsToFilter
+        .sort(({ [columnToSort]: a }, { [columnToSort]: b }) => a.localeCompare(b))
+        .sort((a, b) => (a[columnToSort] - b[columnToSort]));
+    case 'DESC':
+      return planetsToFilter
+        .sort(({ [columnToSort]: a }, { [columnToSort]: b }) => b.localeCompare(a))
+        .sort((a, b) => b[columnToSort] - a[columnToSort]);
+    default:
+      return planetsToFilter;
+    }
+  };
+
+  return {
+    filterByNumericValue,
+    setPlanetsByNumericValues,
+    delFilterByNumericValues,
+    sortPlanets,
+    applySort,
+  };
 }
 
 export default usePlanetFilters;
