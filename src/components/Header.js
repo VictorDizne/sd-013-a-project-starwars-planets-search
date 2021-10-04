@@ -1,6 +1,17 @@
 import React, { useContext } from 'react';
 import ContextSwapi from '../context/ContextSwapi';
 
+const columnsToSort = [
+  'name',
+  'rotation_period',
+  'orbital_period',
+  'diameter',
+  'climate',
+  'terrain',
+  'surface_water',
+  'population',
+];
+
 export default function Header() {
   const { orderDataList } = useContext(ContextSwapi);
 
@@ -13,11 +24,7 @@ export default function Header() {
     <div className="header-content">
       <div className="header-order">
         <select name="order" id="column-sort-order" data-testid="column-sort">
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {columnsToSort.map((o) => <option key={ o } value={ o }>{o}</option>)}
         </select>
         <div>
           <label htmlFor="column-sort-input-asc">
