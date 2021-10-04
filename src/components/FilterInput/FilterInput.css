@@ -17,6 +17,10 @@ label {
   width: 50%;
 }
 
+.delete-button {
+  margin-bottom: 20px;
+}
+
 input {
   padding: 0;
 }

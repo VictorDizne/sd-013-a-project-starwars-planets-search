@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { StarWarsContext } from '../../context/StarWarsContext';
 
 import './FilterInput.css';
@@ -9,22 +9,43 @@ const filterName = (e, setFilters) => {
     { ...state, filterByName: { name: e.target.value } }));
 };
 
-const handleFilters = (setFilters) => {
+const deleteFilter = (column, filters, setFilters, setColumnFilter) => {
+  const newFilters = filters.filterByNumericValues
+    .filter((item) => item.column !== column);
+
+  setFilters((state) => ({ ...state, filterByNumericValues: newFilters }));
+  setColumnFilter((state) => [...state, column]);
+};
+
+const deleteColumn = (column, setColumnFilter) => {
+  setColumnFilter((state) => state.filter((item) => item !== column));
+};
+
+const handleFilters = (setFilters, setColumnFilter) => {
   // dica do gabriel gaspar de pegar os valores usando "Vanilla DOM"
   const { value } = document.getElementById('value');
   const column = document.getElementById('column').value;
   const comparison = document.getElementById('comparison').value;
-
   const newValues = { column, comparison, value };
 
   setFilters((state) => ({
     ...state,
     filterByNumericValues: [...state.filterByNumericValues, newValues],
   }));
+
+  deleteColumn(column, setColumnFilter);
 };
 
 const FilterInput = () => {
   const { filters, setFilters } = useContext(StarWarsContext);
+  const [columnFilter, setColumnFilter] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+
   return (
     <div>
       <h2>Choose Filters</h2>
@@ -39,7 +60,6 @@ const FilterInput = () => {
           onChange={ (e) => filterName(e, setFilters) }
         />
       </label>
-      <br />
       <h3>Others Filters</h3>
       <div className="filters-box">
         <label htmlFor="column">
@@ -49,11 +69,11 @@ const FilterInput = () => {
             name="column"
             data-testid="column-filter"
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            {columnFilter.map((item) => (
+              <option key={ item } value={ item }>
+                { item }
+              </option>
+            ))}
           </select>
         </label>
 
@@ -84,10 +104,34 @@ const FilterInput = () => {
           data-testid="button-filter"
           type="button"
           className="filter-button"
-          onClick={ () => handleFilters(setFilters) }
+          onClick={ () => handleFilters(setFilters, setColumnFilter) }
         >
           Search by filters
         </button>
+      </div>
+
+      <div>
+        { filters.filterByNumericValues.map((item) => (
+          <div data-testid="filter" key={ item.column }>
+            <p>
+              { item.column }
+              {' '}
+              { item.comparison }
+              {' '}
+              { item.value }
+            </p>
+
+            <button
+              type="button"
+              className="delete-button"
+              onClick={
+                () => deleteFilter(item.column, filters, setFilters, setColumnFilter)
+              }
+            >
+              X
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );

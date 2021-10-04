@@ -43,7 +43,7 @@ const filterPlanets = ({ filterByNumericValues, filterByName }, oldData) => {
     planet.name.includes(filterByName.name)
   ));
 
-  if (!filterByNumericValues) {
+  if (filterByNumericValues.length === 0) {
     return filtered;
   }
 

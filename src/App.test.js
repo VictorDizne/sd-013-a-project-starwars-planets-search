@@ -159,7 +159,7 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
   });
 });
 
-describe.only('3 - Crie um filtro para valores numéricos', () => {
+describe('3 - Crie um filtro para valores numéricos', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
@@ -291,6 +291,7 @@ describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos
 
   const removeFilter = async () => {
     const filters = await screen.findAllByTestId(REMOVE_FILTER_SELECTOR);
+    console.log(filters[0].querySelector('button'))
     fireEvent.click(filters[0].querySelector('button'));
   };
 
@@ -337,7 +338,7 @@ describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos
   });
 });
 
-describe('6 - Ordene as colunas de forma ascendente ou descendente', () => {
+describe.only('6 - Ordene as colunas de forma ascendente ou descendente', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
