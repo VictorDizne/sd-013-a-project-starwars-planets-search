@@ -18,15 +18,6 @@ const filterByNumericValue = (data, objContext) => {
   }
 };
 
-const orderFilter = (a, b, sort, column) => {
-  switch (sort) {
-  case 'DESC':
-    return b[column] - a[column];
-  default:
-    return a[column] > b[column];
-  }
-};
-
 export default function Table() {
   const { swapi } = useContext(ContextSwapi);
 
@@ -34,6 +25,25 @@ export default function Table() {
 
   const { name } = swapi.filters.filterByName;
   const { column, sort } = swapi.filters.order;
+
+  const tableToSort = () => swapi.data
+    .filter((data) => data.name.toLowerCase().includes(name))
+    .filter((data) => filterByNumericValue(data, swapi));
+
+  const sortPlanets = (planetsToFilter) => {
+    switch (sort) {
+    case 'ASC':
+      return planetsToFilter
+        .sort(({ [column]: a }, { [column]: b }) => a.localeCompare(b))
+        .sort((a, b) => (a[column] - b[column]));
+    case 'DESC':
+      return planetsToFilter
+        .sort(({ [column]: a }, { [column]: b }) => b.localeCompare(a))
+        .sort((a, b) => b[column] - a[column]);
+    default:
+      return planetsToFilter;
+    }
+  };
 
   return (
     <table className="table-container">
@@ -55,10 +65,7 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {swapi.data
-          .filter((data) => data.name.toLowerCase().includes(name))
-          .filter((data) => filterByNumericValue(data, swapi))
-          .sort((a, b) => orderFilter(a, b, sort, column))
+        {sortPlanets(tableToSort())
           .map((item) => (
             <tr key={ item.name }>
               <td data-testid="planet-name">{item.name}</td>
