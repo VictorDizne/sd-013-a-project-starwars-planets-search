@@ -5,26 +5,28 @@ import PropTypes from 'prop-types';
 const TableData = (
   { data:
   { name,
-    rotation_period,
-    orbital_period,
+    rotation_period: rotationPeriod,
+    orbital_period: orbitalPeriod,
     diameter,
     climate,
-    gravity, terrain,
-    surface_water,
+    gravity,
+    terrain,
+    surface_water: surfaceWater,
     population,
     films,
     created,
-    edited, url } },
+    edited,
+    url } },
 ) => (
   <tr>
     <td>{name}</td>
-    <td>{rotation_period}</td>
-    <td>{orbital_period}</td>
+    <td>{rotationPeriod}</td>
+    <td>{orbitalPeriod}</td>
     <td>{diameter}</td>
     <td>{climate}</td>
     <td>{gravity}</td>
     <td>{terrain}</td>
-    <td>{surface_water}</td>
+    <td>{surfaceWater}</td>
     <td>{population}</td>
     <td>{films}</td>
     <td>{created}</td>
