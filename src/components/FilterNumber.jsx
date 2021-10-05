@@ -6,19 +6,19 @@ const FilterNumber = () => {
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('');
 
-  const [population, setPopulatio] = useState(true);
+  const [population, setPopulation] = useState(true);
   const [orbital, setOrbital] = useState(true);
   const [diameter, setDiameter] = useState(true);
   const [rotation, setRotation] = useState(true);
   const [surface, setSurface] = useState(true);
 
   const { setFilters, filters,
-    filters: { filterByNumericValues }, dataTable,
+    filters: { filterByNumericValues }, data, dataTable,
     setDataTable } = useContext(tableContext);
 
   const removeFilter = (estado) => {
     if (estado === 'population') {
-      setPopulatio(false);
+      setPopulation(false);
     }
     if (estado === 'orbital_period') {
       setOrbital(false);
@@ -72,6 +72,35 @@ const FilterNumber = () => {
     }
   };
 
+  // funcao pra desfazer filtro selecionado;
+
+  const notFilter = (filterColumn) => {
+    if (filterColumn === 'population') {
+      setPopulation(true);
+    }
+    if (filterColumn === 'orbital_period') {
+      setOrbital(true);
+    }
+    if (filterColumn === 'diameter') {
+      setDiameter(true);
+    }
+    if (filterColumn === 'rotation_period') {
+      setRotation(true);
+    }
+    if (filterColumn === 'surface_water') {
+      setSurface(true);
+    }
+
+    const newFilterByNumericValues = filterByNumericValues
+      .filter((item) => item.column !== filterColumn);
+    console.log(newFilterByNumericValues);
+    setFilters({ ...filters,
+      filterByNumericValues: newFilterByNumericValues,
+    });
+
+    // por enquanto só atualiza a chave filterByNumericValues
+  };
+
   return (
     <div>
       <label className="LabelMuda" htmlFor="column-filter">
@@ -121,22 +150,22 @@ const FilterNumber = () => {
       <div className="buttons-container">
         {
           !population
-        && <button type="button" onClick={ () => setPopulatio(true) }>population</button>
+        && <button type="button" onClick={ () => notFilter('population') }>population x</button>
         }
         { !orbital
-        && <button type="button" onClick={ () => setOrbital(true) }>orbital x</button> }
+        && <button type="button" onClick={ () => notFilter('orbital_period') }>orbital x</button> }
         {
           !diameter
-        && <button type="button" onClick={ () => setDiameter(true) }>diameter x</button>
+        && <button type="button" onClick={ () => notFilter('diameter') }>diameter x</button>
         }
         {
           !rotation
-        && <button type="button" onClick={ () => setRotation(true) }>rotation x</button>
+        && <button type="button" onClick={ () => notFilter('diameter') }>rotation x</button>
         }
 
         {
           !surface
-        && <button type="button" onClick={ () => setSurface(true) }>surface x</button>
+        && <button type="button" onClick={ () => notFilter('rotation_period') }>surface x</button>
         }
       </div>
     </div>
