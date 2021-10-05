@@ -1,9 +1,17 @@
 import React from 'react';
-import './App.css';
+import { PlanetsProvider } from './context/PlanetsContext';
+import Table from './pages/Table';
 
 function App() {
   return (
-    <span>Hello, Jedi Universe!</span>
+    <PlanetsProvider>
+      <nav>
+        <span>Hello, Jedi Universe!</span>
+      </nav>
+      <main>
+        <Table />
+      </main>
+    </PlanetsProvider>
   );
 }
 
