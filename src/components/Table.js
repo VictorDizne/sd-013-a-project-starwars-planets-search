@@ -30,6 +30,7 @@ export default function Table() {
     .filter((data) => data.name.toLowerCase().includes(name))
     .filter((data) => filterByNumericValue(data, swapi));
 
+  // Matheus Duarte de Freitas Deus do Codigo me ajudou nessa parte.
   const sortPlanets = (planetsToFilter) => {
     switch (sort) {
     case 'ASC':
