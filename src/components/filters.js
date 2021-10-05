@@ -50,9 +50,10 @@ function FilteredByName() {
     if (filterByNumericValues.length === 0) {
       return data.map((planet, i) => {
         delete planet.residents;
+        const matchPlanet = planet.name.match(name);
         const formatedPlanetValues = Object.values(planet);
-
-        return matchPlanetsTable(formatedPlanetValues, i);
+        return (matchPlanet) ? matchPlanetsTable(formatedPlanetValues, i) : null;
+        // return matchPlanetsTable(formatedPlanetValues, i);
       });
     }
 
