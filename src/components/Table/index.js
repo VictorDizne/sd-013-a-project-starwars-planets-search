@@ -17,7 +17,7 @@ const GenerateTable = (data) => {
 
   return data.map((planet) => (
     <tr key={ planet.name }>
-      <td style={ themedStyle }>{planet.name}</td>
+      <td data-testid="planet-name" style={ themedStyle }>{planet.name}</td>
       <td style={ themedStyle }>{planet.rotation_period}</td>
       <td style={ themedStyle }>{planet.orbital_period}</td>
       <td style={ themedStyle }>{planet.diameter}</td>
@@ -64,6 +64,41 @@ const filterPlanets = ({ filterByNumericValues, filterByName }, oldData) => {
   return filtered;
 };
 
+const SortPlanets = (data, filters) => {
+  const { order } = filters;
+  const { column, sort } = order;
+
+  const sortByColumn = () => {
+    if (column === 'population') {
+      const sortByPopulation = sort === 'ASC'
+        ? data.sort((a, b) => a.population - b.population)
+        : data.sort((a, b) => b.population - a.population);
+
+      return sortByPopulation;
+    }
+
+    if (column === 'name') {
+      const sortByName = sort === 'ASC'
+        ? data.sort((a, b) => a.name.localeCompare(b.name))
+        : data.sort((a, b) => b.name.localeCompare(a.name));
+
+      return sortByName;
+    }
+
+    if (column === 'orbital_period') {
+      const sortByOrbitalPeriod = sort === 'ASC'
+        ? data.sort((a, b) => a.orbital_period - b.orbital_period)
+        : data.sort((a, b) => b.orbital_period - a.orbital_period);
+
+      return sortByOrbitalPeriod;
+    }
+
+    return GenerateTable(data);
+  };
+
+  return GenerateTable(sortByColumn());
+};
+
 const Table = () => {
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const { data, filters } = useContext(StarWarsContext);
@@ -103,7 +138,7 @@ const Table = () => {
             <th style={ themedStyle }>Edited</th>
             <th style={ themedStyle }>URL</th>
           </tr>
-          {GenerateTable(filteredData)}
+          {SortPlanets(filteredData, filters)}
         </tbody>
       </table>
     </main>

@@ -36,8 +36,44 @@ const handleFilters = (setFilters, setColumnFilter) => {
   deleteColumn(column, setColumnFilter);
 };
 
+const handleColumnSort = (option, setFilters) => {
+  setFilters((state) => ({
+    ...state,
+    order: {
+      ...state.column,
+      column: option,
+      sort: state.order.sort,
+    },
+  }));
+};
+
+const handleSortOptions = (option, setFilters) => {
+  setFilters((state) => ({
+    ...state,
+    order: {
+      ...state.order,
+      sort: option,
+    },
+  }));
+};
+
+const applySort = (filters, data) => {
+  const { order } = filters;
+  const { column, sort } = order;
+
+  const sorted = data.sort((a, b) => {
+    if (sort === 'ASC') {
+      return a[column] - b[column];
+    }
+
+    return b[column] - a[column];
+  });
+
+  return sorted;
+};
+
 const FilterInput = () => {
-  const { filters, setFilters } = useContext(StarWarsContext);
+  const { filters, setFilters, data } = useContext(StarWarsContext);
   const [columnFilter, setColumnFilter] = useState([
     'population',
     'orbital_period',
@@ -132,6 +168,50 @@ const FilterInput = () => {
             </button>
           </div>
         ))}
+
+        <div className="order">
+          Order by
+          <select
+            id="order"
+            name="order"
+            data-testid="column-sort"
+            onChange={ (e) => handleColumnSort(e.target.value, setFilters) }
+          >
+            <option value="name">name</option>
+            <option value="population">population</option>
+            <option value="orbital_period">orbital_period</option>
+          </select>
+        </div>
+
+        <label htmlFor="ASC">
+          ASC
+          <input
+            onChange={ (e) => handleSortOptions(e.target.value, setFilters) }
+            data-testid="column-sort-input-asc"
+            type="radio"
+            name="order"
+            value="ASC"
+          />
+        </label>
+        <label htmlFor="DESC">
+          DESC
+          <input
+            onChange={ (e) => handleSortOptions(e.target.value, setFilters) }
+            data-testid="column-sort-input-desc"
+            type="radio"
+            name="order"
+            value="DESC"
+          />
+        </label>
+        <button
+          onClick={ () => applySort(filters, data) }
+          data-testid="column-sort-button"
+          type="button"
+          name="sort"
+          value="sort"
+        >
+          Sort
+        </button>
       </div>
     </div>
   );

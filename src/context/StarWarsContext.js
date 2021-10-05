@@ -12,6 +12,10 @@ const StarWarsContextProvider = ({ children }) => {
     },
 
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   };
 
   const [loading, setLoading] = useState(true);
