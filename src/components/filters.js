@@ -46,6 +46,16 @@ function FilteredByName() {
 
   function factoryFilteredByName() {
     const { column, comparison, value } = destructuring();
+
+    if (filterByNumericValues.length === 0) {
+      return data.map((planet, i) => {
+        delete planet.residents;
+        const formatedPlanetValues = Object.values(planet);
+
+        return matchPlanetsTable(formatedPlanetValues, i);
+      });
+    }
+
     return data.map((planet, i) => {
       delete planet.residents;
 

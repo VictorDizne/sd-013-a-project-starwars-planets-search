@@ -16,7 +16,7 @@ function ContextProvider({ children }) {
   const [newState, setNewState] = useState({
     column: 'population',
     comparison: 'maior que',
-    value: 100000,
+    value: '0',
   });
   const [filters, setFilters] = useState(INITIAL_STATE);
 
