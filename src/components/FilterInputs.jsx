@@ -14,6 +14,37 @@ function FilterInputs() {
     newState } = useContext(dataContext);
   const { filterByNumericValues } = filters;
 
+  const TOString = (element) => JSON.stringify([
+    element.column,
+    element.value,
+    element.comparison,
+  ]);
+
+  const saveFilter = () => {
+    if (filterByNumericValues.length === 0) {
+      return setFilters({ ...filters,
+        filterByNumericValues: [
+          newState,
+        ],
+      });
+    }
+
+    const countObjects = filterByNumericValues
+      .reduce((acc, act) => {
+        if (TOString(newState) === TOString(act)) acc += 1;
+        return acc;
+      }, 0);
+
+    if (countObjects === 0) {
+      setFilters({ ...filters,
+        filterByNumericValues: [
+          ...filterByNumericValues,
+          newState,
+        ],
+      });
+    }
+  };
+
   function handleChager({ target }) {
     const { value, name, id } = target;
     switch (id) {
@@ -21,7 +52,6 @@ function FilterInputs() {
       setNewState(
         { ...newState, column: value },
       );
-      // console.log(newState);
       break;
     case 'comparison':
       setNewState(
@@ -42,14 +72,10 @@ function FilterInputs() {
       break;
     case 'acionar filtros':
       setActFilter(true);
-      setFilters({ ...filters,
-        filterByNumericValues: [
-          ...filterByNumericValues,
-          newState,
-        ],
+      setNewState({
+        ...newState,
       });
-      console.log(filters);
-
+      saveFilter();
       break;
     default: break;
     }

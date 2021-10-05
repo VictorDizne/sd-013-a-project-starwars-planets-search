@@ -6,13 +6,7 @@ const INITIAL_STATE = {
   filterByName: {
     name: '',
   },
-  filterByNumericValues: [
-    {
-      column: 'population',
-      comparison: 'maior que',
-      value: 100000,
-    },
-  ],
+  filterByNumericValues: [],
 };
 
 function ContextProvider({ children }) {

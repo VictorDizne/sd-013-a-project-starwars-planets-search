@@ -2,12 +2,22 @@ import React, { useContext } from 'react';
 import dataContext from '../context/createContext';
 
 function FilteredByName() {
-  const { data, filters, actFilter } = useContext(dataContext);
+  const { data, filters, actFilter, newState } = useContext(dataContext);
   const { filterByName: { name }, filterByNumericValues } = filters;
-  const {
-    column,
-    comparison,
-    value } = filterByNumericValues[filterByNumericValues.length - 1];
+  const destructuring = () => {
+    if (filterByNumericValues.length !== 0) {
+      const {
+        column,
+        comparison,
+        value } = filterByNumericValues[filterByNumericValues.length - 1];
+      return { column, comparison, value };
+    }
+    const {
+      column,
+      comparison,
+      value } = newState;
+    return { column, comparison, value };
+  };
 
   const converMathSignalAndCalc = (tableParam, inputParam, comparisonf) => {
     let calc;
@@ -28,7 +38,6 @@ function FilteredByName() {
 
   const matchPlanetsTable = (arrayCaseFilter, i) => (
     <tr key={ i }>
-      {/* {console.log(arrayCaseFilter)} */}
       {arrayCaseFilter.map((planetInf, ind) => (
         <td key={ `${planetInf[0]} ${ind}` }>
           {planetInf}
@@ -36,6 +45,7 @@ function FilteredByName() {
     </tr>);
 
   function factoryFilteredByName() {
+    const { column, comparison, value } = destructuring();
     return data.map((planet, i) => {
       delete planet.residents;
 
@@ -46,7 +56,6 @@ function FilteredByName() {
         const planetColumn = parseInt(planet[column], 10);
         const param1 = parseInt(planetColumn, 10);
         const param2 = parseInt(value, 10);
-        console.log(typeof planetColumn);
         const isTrue = converMathSignalAndCalc(param1, param2, comparison);
         if (isTrue) return matchPlanetsTable(formatedPlanetValues, i);
       } else if (matchPlanet) {
