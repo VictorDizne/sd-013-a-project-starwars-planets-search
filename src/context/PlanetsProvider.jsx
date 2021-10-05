@@ -15,6 +15,7 @@ import PlanetsContext from './PlanetsContext';
 const PlanetsProvider = ({ children }) => {
   /* =============== Definindo o estado 'data' dentro do contexto ================ */
   const [data, setData] = useState([]);
+  const [filter, setFilter] = useState({ filterByName: '' });
 
   /* =============== Buscando os dados dos planetas através ================ */
   const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -27,12 +28,22 @@ const PlanetsProvider = ({ children }) => {
   }, []);
 
   /* =============== aqui irão funções de filtro  ================ */
+  const handleFilter = (filterSearch) => {
+    setFilter({ filterByName: `${filterSearch}` });
+  };
 
   /* =============== Retornando o provider ================
     A variavel children é necessária para q qualquer componente filho de Planets Provider seja renderizado;
   */
+
+  const contextValue = {
+    data,
+    filter,
+    handleFilter,
+  };
+
   return (
-    <PlanetsContext.Provider value={ data }>
+    <PlanetsContext.Provider value={ contextValue }>
       {children}
     </PlanetsContext.Provider>
   );
