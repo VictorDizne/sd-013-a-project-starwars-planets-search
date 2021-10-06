@@ -46,6 +46,12 @@ function PlanetsProvider({ children }) {
       .filter((option) => option !== actualNumericFilter.column));
   };
 
+  const handleClickRemoveFilter = (columnTarget) => {
+    setColumnOptions([...columnOptions, columnTarget]);
+    setFilterByNumericValues(filterByNumericValues
+      .filter(({ column }) => column !== columnTarget));
+  };
+
   useEffect(() => {
     setActualNumericFilter({
       ...actualNumericFilter,
@@ -85,12 +91,13 @@ function PlanetsProvider({ children }) {
       filterByName: {
         name: planetNameInput,
       },
-      // filterByNumericValues,
+      filterByNumericValues,
     },
     functions: {
       handleChangePlanetInput,
       handleChangeActualNumericFilter,
       handleClickNumericFilter,
+      handleClickRemoveFilter,
     },
   };
 
