@@ -1,17 +1,24 @@
 import React from 'react';
-import InputFilters from './Components/InputFilters';
-import PlanetsProvider from './context/PlanetsProvider';
-import Planets from './pages/Planets';
+import Provider from './context/Provider';
+import './App.css';
+
+import Table from './components/Table';
+import SearchByName from './components/SearchByName';
+import SearchByNumericValue from './components/SearchByNumericValue';
+import FilterButton from './components/FilterButton';
+import OrderPlanet from './components/OrderPlanet';
 
 function App() {
   return (
-    <PlanetsProvider>
-      <span>
-        Planetary Search
-        <InputFilters />
-        <Planets />
-      </span>
-    </PlanetsProvider>
+    <Provider key="provider">
+      <div style={ { display: 'flex', flexDirection: 'column' } }>
+        <SearchByName />
+        <SearchByNumericValue />
+        <OrderPlanet />
+      </div>
+      <FilterButton />
+      <Table key="table" />
+    </Provider>
   );
 }
 
