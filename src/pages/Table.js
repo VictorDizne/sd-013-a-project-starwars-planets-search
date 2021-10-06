@@ -1,15 +1,24 @@
 import React, { useContext } from 'react';
-import { PlanetsContext } from '../context/PlanetsContext';
+import { PlanetsAndFiltersContext } from '../context/PlanetsAndFiltersContext';
 import TableData from '../components/TableData';
 
-// const filteredPlanets = () => {
-//   if (!searchTerm) return filter((planet) => planet[name].includes(searchTerm));
+const filteredPlanets = (search, planets) => {
+  if (search) {
+    return planets
+      .filter((planet) => planet.name.toLowerCase().includes(search.toLowerCase()));
+  }
 
-//   return planets;
-// };
+  return planets;
+};
 
 const Table = () => {
-  const { planets, loading } = useContext(PlanetsContext);
+  const {
+    planets,
+    loading,
+    filters:
+      { filterByName:
+        { name: search },
+      } } = useContext(PlanetsAndFiltersContext);
 
   return (
     <table>
@@ -32,7 +41,8 @@ const Table = () => {
       </thead>
       <tbody>
         {!loading
-          ? planets.map((planet) => <TableData key={ planet.name } data={ planet } />)
+          ? filteredPlanets(search, planets)
+            .map((planet) => <TableData key={ planet.name } data={ planet } />)
           : <tr><td>The force is loading...</td></tr>}
       </tbody>
     </table>

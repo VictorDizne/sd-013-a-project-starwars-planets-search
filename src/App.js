@@ -1,7 +1,7 @@
 import React from 'react';
-import { PlanetsProvider } from './context/PlanetsContext';
+import { PlanetsProvider } from './context/PlanetsAndFiltersContext';
 import Table from './pages/Table';
-import FilterInput from './components/FilterInput';
+import NameFilter from './components/NameFilter';
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
         <h1>Trybewars</h1>
       </nav>
       <main>
-        <FilterInput />
+        <NameFilter />
         <Table />
       </main>
     </PlanetsProvider>

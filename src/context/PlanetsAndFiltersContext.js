@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-export const PlanetsContext = createContext();
+export const PlanetsAndFiltersContext = createContext();
 
 export const PlanetsProvider = ({ children }) => {
   const [planets, getPlanets] = useState([]);
@@ -24,6 +24,7 @@ export const PlanetsProvider = ({ children }) => {
         },
       ],
     },
+    setStates: { getPlanets, isLoading, makeSearch },
     loading,
   };
 
@@ -40,9 +41,9 @@ export const PlanetsProvider = ({ children }) => {
   }, []);
 
   return (
-    <PlanetsContext.Provider value={ context }>
+    <PlanetsAndFiltersContext.Provider value={ context }>
       {children}
-    </PlanetsContext.Provider>
+    </PlanetsAndFiltersContext.Provider>
   );
 };
 
