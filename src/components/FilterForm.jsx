@@ -61,6 +61,13 @@ function FilterForm() {
           name="value"
         />
       </label>
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ handleClickNumericFilter }
+      >
+        Filtrar
+      </button>
       <label htmlFor="order">
         <select
           name="order"
@@ -103,13 +110,6 @@ function FilterForm() {
         data-testid="column-sort-button"
       >
         Ativar
-      </button>
-      <button
-        type="button"
-        data-testid="button-filter"
-        onClick={ handleClickNumericFilter }
-      >
-        Filtrar
       </button>
     </form>
   );
