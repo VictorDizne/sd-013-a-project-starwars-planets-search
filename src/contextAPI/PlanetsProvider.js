@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import planetsContext from '.';
 import fetchStarWarsPlanets from '../services/api';
+import sortPlanets from '../helpers/helperFunctions';
 
 function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
@@ -16,6 +17,10 @@ function PlanetsProvider({ children }) {
     column: 'population',
     comparison: 'maior que',
     value: '',
+  });
+  const [orderColumn, setOrderColumn] = useState({
+    order: 'name',
+    sort: 'ASC',
   });
 
   const getPlanets = async () => {
@@ -35,6 +40,13 @@ function PlanetsProvider({ children }) {
   const handleChangeActualNumericFilter = ({ target: { value, name } }) => {
     setActualNumericFilter({
       ...actualNumericFilter,
+      [name]: value,
+    });
+  };
+
+  const handleChangeOrder = ({ target: { value, name } }) => {
+    setOrderColumn({
+      ...orderColumn,
       [name]: value,
     });
   };
@@ -79,8 +91,9 @@ function PlanetsProvider({ children }) {
       return filterByName && filterByNumericValue;
     });
 
-    setFilteredData(filteredPlanets);
-  }, [planetNameInput, planets, filterByNumericValues]);
+    // setFilteredData(filteredPlanets);
+    setFilteredData(sortPlanets(filteredPlanets, orderColumn.order, orderColumn.sort));
+  }, [planetNameInput, planets, filterByNumericValues, orderColumn]);
 
   const contextValue = {
     data: planets,
@@ -92,12 +105,14 @@ function PlanetsProvider({ children }) {
         name: planetNameInput,
       },
       filterByNumericValues,
+      order: orderColumn,
     },
     functions: {
       handleChangePlanetInput,
       handleChangeActualNumericFilter,
       handleClickNumericFilter,
       handleClickRemoveFilter,
+      handleChangeOrder,
     },
   };
 

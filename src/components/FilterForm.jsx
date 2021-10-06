@@ -9,6 +9,7 @@ function FilterForm() {
       handleChangePlanetInput,
       handleChangeActualNumericFilter,
       handleClickNumericFilter,
+      handleChangeOrder,
     },
   } = useContext(planetsContext);
   const {
@@ -66,6 +67,49 @@ function FilterForm() {
         onClick={ handleClickNumericFilter }
       >
         Filtrar
+      </button>
+      <label htmlFor="order">
+        <select
+          name="order"
+          id="order"
+          onChange={ handleChangeOrder }
+          data-testid="column-sort"
+        >
+          <option value="name">name</option>
+          {columnOptions.map((option) => (
+            <option key={ option } value={ option }>{option }</option>
+          ))}
+        </select>
+      </label>
+      <label htmlFor="asc">
+        <input
+          type="radio"
+          value="ASC"
+          id="asc"
+          name="sort"
+          onChange={ handleChangeOrder }
+          data-testid="column-sort-input-asc"
+          defaultChecked
+        />
+        Ascendent
+      </label>
+      <label htmlFor="desc">
+        <input
+          type="radio"
+          value="DESC"
+          id="desc"
+          name="sort"
+          data-testid="column-sort-input-desc"
+          onChange={ handleChangeOrder }
+        />
+        Descendent
+      </label>
+      <button
+        type="button"
+        style={ { display: 'none' } }
+        data-testid="column-sort-button"
+      >
+        Ativar
       </button>
     </form>
   );
