@@ -185,7 +185,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
 
     const column = await screen.findByTestId(COMPARISON_FILTER_SELECTOR);
     expect(column).toHaveProperty('nodeName', 'SELECT');
-    const columns = ['maior que', 'igual a', 'menor que'];
+    const columns = ['bigger than', 'equal to', 'less than'];
     const foundComparisonFilter = Array.from(column.children).map(child => {
       expect(child).toHaveProperty('nodeName', 'OPTION');
       return child.innerHTML;
@@ -209,39 +209,39 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(await screen.findByTestId(BUTTON_FILTER_SELECTOR)).toHaveProperty('nodeName', 'BUTTON');
   });
 
-  it('Filtre utilizando a comparação "menor que"', async () => {
+  it('Filtre utilizando a comparação "less than"', async () => {
     await act(async () => {
       render(<App />);
     });
 
     fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'surface_water' }});
-    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'menor que' }});
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'less than' }});
     fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '40' }});
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
 
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(7);
   });
 
-  it('Filtre utilizando a comparação "maior que"', async () => {
+  it('Filtre utilizando a comparação "bigger than"', async () => {
     await act(async () => {
       render(<App />);
     });
 
     fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'diameter' }});
-    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'maior que' }});
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'bigger than' }});
     fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '8900' }});
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
 
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
   });
 
-  it('Filtre utilizando a comparação "igual a"', async () => {
+  it('Filtre utilizando a comparação "equal to"', async () => {
     await act(async () => {
       render(<App />);
     });
 
     fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'population' }});
-    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'igual a' }});
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'equal to' }});
     fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '200000' }});
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
 
@@ -270,7 +270,7 @@ describe('4 - Não utilize filtros repetidos', () => {
     expect(foundColumnFilter).toEqual(expect.arrayContaining(['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']));
 
     fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'population' }});
-    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'maior que' }});
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'bigger than' }});
     fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '8000' }});
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
@@ -302,7 +302,7 @@ describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
 
     fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'diameter' }});
-    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'maior que' }});
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'bigger than' }});
     fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '8900' }});
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
@@ -319,13 +319,13 @@ describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
 
     fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'diameter' }});
-    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'maior que' }});
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'bigger than' }});
     fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '8900' }});
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
 
     fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'population' }});
-    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'menor que' }});
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'less than' }});
     fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '1000000' }});
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(3);

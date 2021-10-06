@@ -31,7 +31,7 @@ Aqui você vai encontrar os detalhes de como estruturar o desenvolvimento do seu
     - [3 - Crie um filtro para valores numéricos](#3---crie-um-filtro-para-valores-numéricos)
     - [4 - Não utilize filtros repetidos](#4---não-utilize-filtros-repetidos)
     - [5 - Apague o filtro de valores numéricos e desfaça as filtragens dos dados da tabela ao clicar no ícone de X de um dos filtros](#5---apague-o-filtro-de-valores-numéricos-e-desfaça-as-filtragens-dos-dados-da-tabela-ao-clicar-no-ícone-de-x-de-um-dos-filtros)
-    
+
     `Requisitos bônus:`
     - [6 - Ordene as colunas de forma ascendente ou descendente](#6---ordene-as-colunas-de-forma-ascendente-ou-descendente)
 - [Depois de terminar o desenvolvimento (opcional)](#depois-de-terminar-o-desenvolvimento-opcional)
@@ -71,7 +71,7 @@ Este repositório já contém um _template_ de uma aplicação React criado e co
   - Projeto individual.
 
   - Serão `3` dias de projeto.
-  
+
   - Data de entrega para avaliação final do projeto: `27/09/2021 - 14:00h`.
 
 ---
@@ -224,13 +224,13 @@ O que será verificado:
 Ele funcionará com três seletores:
 
   - O primeiro deve abrir um dropdown que permita a quem usa selecionar uma das seguintes colunas: `population`, `orbital_period`, `diameter`, `rotation_period` e `surface_water`. Deve ser uma tag `select` com a propriedade `data-testid='column-filter'`;
-  - O segundo deve determinar se a faixa de valor será `maior que`, `menor que` ou `igual a` o numero que virá a seguir. Uma tag `select` com a propriedade `data-testid='comparison-filter'`;
+  - O segundo deve determinar se a faixa de valor será `bigger than`, `less than` ou `equal to` o numero que virá a seguir. Uma tag `select` com a propriedade `data-testid='comparison-filter'`;
   - O terceiro deve ser uma caixa de texto que só aceita números. Essa caixa deve ser uma tag `input` com a propriedade `data-testid='value-filter'`;
   - Deve haver um botão para acionar o filtro, com a propriedade `data-testid='button-filter'`.
 
 A combinação desses três seletores deve filtrar os dados da tabela de acordo com a coluna correspondente e com os valores escolhidos. Por exemplo:
-  - A seleção `population | maior que | 100000` - Seleciona somente planetas com mais de 100000 habitantes.
-  - A seleção `diameter | menor que | 8000` - Seleciona somente planetas com diâmetro menor que 8000.
+  - A seleção `population | bigger than | 100000` - Seleciona somente planetas com mais de 100000 habitantes.
+  - A seleção `diameter | less than | 8000` - Seleciona somente planetas com diâmetro less than 8000.
 
 Você deve usar **Context API e Hooks** para fazer o gerenciamento do estado da aplicação. No contexto, esses valores devem ser salvos nos campos `filters { filterByName: { name }, filterByNumericValues: [{ column, comparison, value }] }`. Por exemplo:
 
@@ -244,7 +244,7 @@ Você deve usar **Context API e Hooks** para fazer o gerenciamento do estado da 
       filterByNumericValues: [
         {
           column: 'population',
-          comparison: 'maior que',
+          comparison: 'bigger than',
           value: '100000',
         }
       ]
@@ -259,16 +259,16 @@ O que será verificado:
 - Renderiza o filtro de comparação
 - Renderiza o campo para o valor do filtro
 - Renderiza o botão para executar a filtragem
-- Filtra utilizando a comparação "menor que"
-- Filtra utilizando a comparação "maior que"
-- Filtra utilizando a comparação "igual a"
+- Filtra utilizando a comparação "less than"
+- Filtra utilizando a comparação "bigger than"
+- Filtra utilizando a comparação "equal to"
 ```
 
 ### 4 - Não utilize filtros repetidos
 
 Caso um filtro seja totalmente preenchido, um novo filtro de valores numéricos deve ser carregado. Este novo filtro não deve incluir quaisquer colunas que já tenham sido selecionadas em filtros de valores numéricos anteriores. Caso todas as colunas já tenham sido inclusas em filtros anteriores, não deve ser carregado um novo filtro. Você deve usar **Context API e Hooks** para fazer o gerenciamento do estado da aplicação.
 
-Por exemplo: O primeiro filtro tem as seguintes seleções: `population | maior que | 100000`. Um segundo filtro deve aparecer após essas seleções serem todas feitas e, no primeiro dropdown deste segundo filtro, a opção `population` deve estar ausente. Se no segundo filtro fosse selecionado `diameter | menor que | 8000`, o estado ficaria assim:
+Por exemplo: O primeiro filtro tem as seguintes seleções: `population | bigger than | 100000`. Um segundo filtro deve aparecer após essas seleções serem todas feitas e, no primeiro dropdown deste segundo filtro, a opção `population` deve estar ausente. Se no segundo filtro fosse selecionado `diameter | less than | 8000`, o estado ficaria assim:
 
 ```javascript
 {
@@ -279,12 +279,12 @@ Por exemplo: O primeiro filtro tem as seguintes seleções: `population | maior 
     filterByNumericValues: [
       {
         column: 'population',
-        comparison: 'maior que',
+        comparison: 'bigger than',
         value: '100000',
       },
       {
         column: 'diameter',
-        comparison: 'menor que',
+        comparison: 'less than',
         value: '8000',
       }
     ]
