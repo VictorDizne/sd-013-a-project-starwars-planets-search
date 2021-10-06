@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { PlanetsAndFiltersContext } from '../context/PlanetsAndFiltersContext';
 import TableData from '../components/TableData';
 
-const filteredPlanets = (search, planets) => {
+const filteredPlanets = (planets, search) => {
   if (search) {
     return planets
       .filter((planet) => planet.name.toLowerCase().includes(search.toLowerCase()));
@@ -41,7 +41,7 @@ const Table = () => {
       </thead>
       <tbody>
         {!loading
-          ? filteredPlanets(search, planets)
+          ? filteredPlanets(planets, search)
             .map((planet) => <TableData key={ planet.name } data={ planet } />)
           : <tr><td>The force is loading...</td></tr>}
       </tbody>
