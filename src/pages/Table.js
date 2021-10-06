@@ -2,23 +2,40 @@ import React, { useContext } from 'react';
 import { PlanetsAndFiltersContext } from '../context/PlanetsAndFiltersContext';
 import TableData from '../components/TableData';
 
-const filteredPlanets = (planets, search) => {
-  if (search) {
-    return planets
-      .filter((planet) => planet.name.toLowerCase().includes(search.toLowerCase()));
-  }
-
-  return planets;
-};
-
 const Table = () => {
   const {
     planets,
     loading,
     filters:
-      { filterByName:
-        { name: search },
-      } } = useContext(PlanetsAndFiltersContext);
+    {
+      filterByName:
+      { name: search },
+      filterByNumericValues:
+      [{ column, comparison, value: valueFilter }],
+    } } = useContext(PlanetsAndFiltersContext);
+
+  const filteredPlanets = () => {
+    if (search) {
+      return planets
+        .filter((planet) => planet.name.toLowerCase().includes(search.toLowerCase()));
+    }
+
+    if (valueFilter && comparison === 'maior que') {
+      return planets
+        .filter((planet) => Number(planet[column]) > Number(valueFilter));
+    }
+
+    if (valueFilter && comparison === 'menor que') {
+      return planets
+        .filter((planet) => Number(planet[column]) < Number(valueFilter));
+    }
+
+    if (valueFilter && comparison === 'igual a') {
+      return planets
+        .filter((planet) => Number(planet[column]) === Number(valueFilter));
+    }
+    return planets;
+  };
 
   return (
     <table>
@@ -41,7 +58,7 @@ const Table = () => {
       </thead>
       <tbody>
         {!loading
-          ? filteredPlanets(planets, search)
+          ? filteredPlanets()
             .map((planet) => <TableData key={ planet.name } data={ planet } />)
           : <tr><td>The force is loading...</td></tr>}
       </tbody>
