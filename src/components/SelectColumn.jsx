@@ -15,6 +15,8 @@ function SelectColumn({ onChange, id }) {
   const { filters } = useContext(dataContext);
   const { filterByNumericValues } = filters;
   const lastIndex = filterByNumericValues.length - 1;
+  const DO_ID = id === 'column-sort' ? 'column-sort' : 'column-filter';
+
   const verifyLength = () => {
     if (filterByNumericValues.length > 0) {
       const renderOptions = options
@@ -29,7 +31,7 @@ function SelectColumn({ onChange, id }) {
   };
 
   return (
-    <select data-testid="column-filter" id={ id } onChange={ onChange }>
+    <select data-testid={ DO_ID } id={ id } onChange={ onChange }>
       {verifyLength()}
     </select>
   );

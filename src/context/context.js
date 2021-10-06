@@ -3,10 +3,9 @@ import React, { useState } from 'react';
 import dataContext from './createContext';
 
 const INITIAL_STATE = {
-  filterByName: {
-    name: '',
-  },
+  filterByName: { name: '' },
   filterByNumericValues: [],
+  order: { column: 'name', sort: 'ASC' },
 };
 
 function ContextProvider({ children }) {

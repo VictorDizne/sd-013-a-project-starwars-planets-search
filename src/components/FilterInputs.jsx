@@ -12,7 +12,7 @@ function FilterInputs() {
     setActFilter,
     setNewState,
     newState } = useContext(dataContext);
-  const { filterByNumericValues } = filters;
+  const { filterByNumericValues, order } = filters;
 
   const TOString = (element) => JSON.stringify([
     element.column,
@@ -63,6 +63,14 @@ function FilterInputs() {
         { ...newState, value },
       );
       break;
+    case 'column-sort':
+      console.log(value);
+
+      setFilters(
+        { ...filters, order: { ...order, column: value } },
+      );
+      break;
+
     default:
       break;
     }
@@ -76,6 +84,11 @@ function FilterInputs() {
         ...newState,
       });
       saveFilter();
+      break;
+    case 'SORT':
+      setFilters(
+        { ...filters, order: { ...order, sort: value } },
+      );
       break;
     default: break;
     }
@@ -92,6 +105,30 @@ function FilterInputs() {
       <Label onChange={ handleChager } name="valueF" id="value-filter" type="number" />
       {/* botão para adicionar filtro */}
       <BtnAddFilters id="button-filter" text="acionar filtros" onClick={ handleChager } />
+      <SelectColumn id="column-sort" onChange={ handleChager } />
+
+      <label htmlFor="SORT">
+        ASC
+        <input
+          type="radio"
+          data-testid="column-sort-input-asc"
+          name="SORT"
+          value="ASC"
+          onChange={ handleChager }
+        />
+        DESC
+        <input
+          type="radio"
+          data-testid="column-sort-input-desc"
+          name="SORT"
+          onChange={ handleChager }
+          value="DESC"
+        />
+      </label>
+      <button type="button" data-testid="column-sort-button">
+        button
+      </button>
+      <br />
     </div>
   );
 }

@@ -3,8 +3,14 @@ import dataContext from '../context/createContext';
 
 function FilteredByName() {
   const { data, filters, actFilter, newState } = useContext(dataContext);
-  const { filterByName: { name }, filterByNumericValues } = filters;
-  const destructuring = () => {
+  const {
+    filterByName: { name },
+    filterByNumericValues,
+    order: { sort },
+    order,
+  } = filters;
+  const SORT_NUMBER = -1;
+  function destructuring() {
     if (filterByNumericValues.length !== 0) {
       const {
         column,
@@ -17,7 +23,7 @@ function FilteredByName() {
       comparison,
       value } = newState;
     return { column, comparison, value };
-  };
+  }
 
   const converMathSignalAndCalc = (tableParam, inputParam, comparisonf) => {
     let calc;
@@ -38,16 +44,35 @@ function FilteredByName() {
 
   const matchPlanetsTable = (arrayCaseFilter, i) => (
     <tr key={ i }>
-      {arrayCaseFilter.map((planetInf, ind) => (
-        <td key={ `${planetInf[0]} ${ind}` }>
-          {planetInf}
-        </td>))}
-    </tr>);
+      {arrayCaseFilter.map((planetInf, ind) => {
+        const testID = ind === 0 ? 'planet-name' : 'planet-infs';
+        return (
+          <td key={ `${planetInf[0]} ${ind}` } data-testid={ testID }>
+            {planetInf}
+          </td>);
+      })}
+    </tr>
+  );
 
+  function ordenarPlanetas(a, b) {
+    const orderNum = order.column;
+    const parseNuma = orderNum === 'name' ? a.name : parseInt(a[orderNum], 10);
+    const parseNumb = orderNum === 'name' ? b.name : parseInt(b[orderNum], 10);
+    if (sort === 'ASC') {
+      return parseNuma < parseNumb ? SORT_NUMBER : 0;
+    }
+    if (sort === 'DESC') {
+      return parseNuma < parseNumb ? 0 : SORT_NUMBER;
+    }
+  }
   function factoryFilteredByName() {
+    data.sort(ordenarPlanetas);
+
     const { column, comparison, value } = destructuring();
 
     if (filterByNumericValues.length === 0) {
+      data.sort(ordenarPlanetas);
+
       return data.map((planet, i) => {
         delete planet.residents;
         const matchPlanet = planet.name.match(name);
@@ -56,6 +81,7 @@ function FilteredByName() {
         // return matchPlanetsTable(formatedPlanetValues, i);
       });
     }
+    data.sort(ordenarPlanetas);
 
     return data.map((planet, i) => {
       delete planet.residents;
