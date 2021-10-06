@@ -11,7 +11,7 @@ function FilterView() {
     <ul>
       {filterByNumericValues
         .map(({ column, comparison, value }) => (
-          <li key={ column }>
+          <li key={ column } data-testid="filter">
             {`${column} - ${comparison} - ${value}`}
             <button
               type="button"
