@@ -2,6 +2,12 @@ import React, { useContext } from 'react';
 import { PlanetsContext } from '../context/PlanetsContext';
 import TableData from '../components/TableData';
 
+// const filteredPlanets = () => {
+//   if (!searchTerm) return filter((planet) => planet[name].includes(searchTerm));
+
+//   return planets;
+// };
+
 const Table = () => {
   const { planets, loading } = useContext(PlanetsContext);
 
@@ -25,9 +31,9 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        { !loading
+        {!loading
           ? planets.map((planet) => <TableData key={ planet.name } data={ planet } />)
-          : <tr><td>The force is loading...</td></tr> }
+          : <tr><td>The force is loading...</td></tr>}
       </tbody>
     </table>
   );

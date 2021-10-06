@@ -6,6 +6,26 @@ export const PlanetsContext = createContext();
 export const PlanetsProvider = ({ children }) => {
   const [planets, getPlanets] = useState([]);
   const [loading, isLoading] = useState(true);
+  const [searchTerm, makeSearch] = useState('');
+
+  // Context refatorado com a ajuda do colega Murilo Rainho
+  const context = {
+    planets,
+    filters:
+    {
+      filterByName: {
+        name: searchTerm,
+      },
+      filterByNumericValues: [
+        {
+          column: '',
+          comparison: 'maior que',
+          value: '100000',
+        },
+      ],
+    },
+    loading,
+  };
 
   useEffect(() => {
     const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -20,7 +40,7 @@ export const PlanetsProvider = ({ children }) => {
   }, []);
 
   return (
-    <PlanetsContext.Provider value={ { planets, loading } }>
+    <PlanetsContext.Provider value={ context }>
       {children}
     </PlanetsContext.Provider>
   );
