@@ -37,6 +37,14 @@ const Table = () => {
     return planets;
   };
 
+  const filteredPlanetsByName = () => {
+    if (search) {
+      return planets
+        .filter((planet) => planet.name.toLowerCase().includes(search.toLowerCase()));
+    }
+    return planets;
+  };
+
   return (
     <table>
       <thead>
@@ -58,7 +66,7 @@ const Table = () => {
       </thead>
       <tbody>
         {!loading
-          ? filteredPlanets()
+          ? filteredPlanetsByName()
             .map((planet) => <TableData key={ planet.name } data={ planet } />)
           : <tr><td>The force is loading...</td></tr>}
       </tbody>
