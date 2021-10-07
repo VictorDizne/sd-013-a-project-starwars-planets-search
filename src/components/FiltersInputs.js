@@ -8,7 +8,7 @@ import { PlanetsAndFiltersContext } from '../context/PlanetsAndFiltersContext';
 
 const FiltersInputs = () => {
   const {
-    setStates: { setColumn, setComparison, setValue },
+    setStates: { setColumn, setComparison, setValue, getFiltersUsed },
     filtersValue: { columnValue, comparisonValue, numericValue },
   } = useContext(PlanetsAndFiltersContext);
 
@@ -18,6 +18,7 @@ const FiltersInputs = () => {
     setColumn(columnValue);
     setComparison(comparisonValue);
     setValue(numericValue);
+    getFiltersUsed((prevState) => [...prevState, columnValue]);
   };
 
   return (

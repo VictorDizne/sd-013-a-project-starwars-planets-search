@@ -13,6 +13,7 @@ export const PlanetsProvider = ({ children }) => {
   const [columnValue, getColumnValue] = useState('population');
   const [comparisonValue, getComparisonValue] = useState('maior que');
   const [numericValue, getNumericValue] = useState('');
+  const [filtersUsed, getFiltersUsed] = useState([]);
 
   // Context refatorado com a ajuda do colega Murilo Rainho
   const context = {
@@ -39,13 +40,15 @@ export const PlanetsProvider = ({ children }) => {
       setValue,
       getColumnValue,
       getComparisonValue,
-      getNumericValue },
+      getNumericValue,
+      getFiltersUsed },
     loading,
     filtersValue: {
       columnValue,
       comparisonValue,
       numericValue,
     },
+    filtersUsed,
   };
 
   useEffect(() => {
