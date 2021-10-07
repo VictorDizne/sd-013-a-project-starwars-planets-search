@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 export const PlanetsAndFiltersContext = createContext();
 
+// Context refatorado com a ajuda do colega Murilo Rainho e do monitor João Lima (Turma 11)
 export const PlanetsProvider = ({ children }) => {
   const [planets, getPlanets] = useState([]);
   const [loading, isLoading] = useState(true);
-  const [searchTerm, makeSearch] = useState('');
+  const [searchTerm, makeSearch] = useState();
   const [columnFilter, setColumn] = useState('population');
   const [comparisonFilter, setComparison] = useState('maior que');
   const [valueFilter, setValue] = useState('');
@@ -14,8 +15,8 @@ export const PlanetsProvider = ({ children }) => {
   const [comparisonValue, getComparisonValue] = useState('maior que');
   const [numericValue, getNumericValue] = useState('');
   const [filtersUsed, getFiltersUsed] = useState([]);
+  const [planetsWithFilters, setFilteredPlanets] = useState(planets);
 
-  // Context refatorado com a ajuda do colega Murilo Rainho
   const context = {
     planets,
     filters:
@@ -41,7 +42,8 @@ export const PlanetsProvider = ({ children }) => {
       getColumnValue,
       getComparisonValue,
       getNumericValue,
-      getFiltersUsed },
+      getFiltersUsed,
+      setFilteredPlanets },
     loading,
     filtersValue: {
       columnValue,
@@ -49,6 +51,7 @@ export const PlanetsProvider = ({ children }) => {
       numericValue,
     },
     filtersUsed,
+    planetsWithFilters,
   };
 
   useEffect(() => {
@@ -58,6 +61,7 @@ export const PlanetsProvider = ({ children }) => {
       .then((resolve) => resolve.json())
       .then((json) => {
         getPlanets(json.results);
+        setFilteredPlanets(json.results);
         isLoading(false);
       })
       .catch((error) => console.log(error));

@@ -5,6 +5,7 @@ import TableData from '../components/TableData';
 const Table = () => {
   const {
     planets,
+    planetsWithFilters,
     loading,
     filters:
     {
@@ -14,36 +15,28 @@ const Table = () => {
       [{ column, comparison, value: valueFilter }],
     } } = useContext(PlanetsAndFiltersContext);
 
-  const filteredPlanets = () => {
-    if (search) {
-      return planets
-        .filter((planet) => planet.name.toLowerCase().includes(search.toLowerCase()));
-    }
+  // const filteredPlanets = () => {
+  //   if (search) {
+  //     return planets
+  //       .filter((planet) => planet.name.toLowerCase().includes(search.toLowerCase()));
+  //   }
 
-    if (valueFilter && comparison === 'maior que') {
-      return planets
-        .filter((planet) => Number(planet[column]) > Number(valueFilter));
-    }
+  //   if (valueFilter && comparison === 'maior que') {
+  //     return planets
+  //       .filter((planet) => Number(planet[column]) > Number(valueFilter));
+  //   }
 
-    if (valueFilter && comparison === 'menor que') {
-      return planets
-        .filter((planet) => Number(planet[column]) < Number(valueFilter));
-    }
+  //   if (valueFilter && comparison === 'menor que') {
+  //     return planets
+  //       .filter((planet) => Number(planet[column]) < Number(valueFilter));
+  //   }
 
-    if (valueFilter && comparison === 'igual a') {
-      return planets
-        .filter((planet) => Number(planet[column]) === Number(valueFilter));
-    }
-    return planets;
-  };
-
-  const filteredPlanetsByName = () => {
-    if (search) {
-      return planets
-        .filter((planet) => planet.name.toLowerCase().includes(search.toLowerCase()));
-    }
-    return planets;
-  };
+  //   if (valueFilter && comparison === 'igual a') {
+  //     return planets
+  //       .filter((planet) => Number(planet[column]) === Number(valueFilter));
+  //   }
+  //   return planets;
+  // };
 
   return (
     <table>
@@ -66,7 +59,7 @@ const Table = () => {
       </thead>
       <tbody>
         {!loading
-          ? filteredPlanetsByName()
+          ? planetsWithFilters
             .map((planet) => <TableData key={ planet.name } data={ planet } />)
           : <tr><td>The force is loading...</td></tr>}
       </tbody>
