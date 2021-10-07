@@ -7,7 +7,7 @@ import PlanetsProvider from './context/PlanetsProvider';
 function App() {
   return (
     <PlanetsProvider>
-    <h1>Star Wars Planet Search</h1>
+      <h1>Star Wars Planet Search</h1>
       <SearchBar />
       <Table />
     </PlanetsProvider>
