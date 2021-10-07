@@ -11,11 +11,58 @@ export const PlanetsProvider = ({ children }) => {
   const [columnFilter, setColumn] = useState('population');
   const [comparisonFilter, setComparison] = useState('maior que');
   const [valueFilter, setValue] = useState('');
-  const [columnValue, getColumnValue] = useState('population');
-  const [comparisonValue, getComparisonValue] = useState('maior que');
-  const [numericValue, getNumericValue] = useState('');
   const [filtersUsed, getFiltersUsed] = useState([]);
   const [planetsWithFilters, setFilteredPlanets] = useState(planets);
+
+  const handleNumericFilters = () => {
+    switch (comparisonFilter) {
+    case 'maior que':
+      // planets
+      //   .filter((planet) => Number(planet[columnFilter]) > Number(valueFilter));
+      setFilteredPlanets([...planets
+        .filter((planet) => Number(planet[columnFilter]) > Number(valueFilter))]);
+      break;
+
+    case 'menor que':
+      setFilteredPlanets([...planets
+        .filter((planet) => Number(planet[columnFilter]) < Number(valueFilter))]);
+      break;
+
+    case 'igual a':
+      setFilteredPlanets([...planets
+        .filter((planet) => Number(planet[columnFilter]) === Number(valueFilter))]);
+      break;
+
+    default:
+      setFilteredPlanets(planets);
+      break;
+    }
+
+    // const { filters: { filterByNumericValues } } = context;
+
+    // if (comparisonFilter === 'maior que') {
+    //   const mostThan = planets
+    //     .filter((planet) => Number(planet[columnFilter]) > Number(valueFilter));
+    //   console.log(test);
+    // }
+
+    // if (filterByNumericValues > 0) {
+    //   return console.log('funfa');
+    // }
+  };
+
+  useEffect(() => {
+    const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
+
+    fetch(URL)
+      .then((resolve) => resolve.json())
+      .then((json) => {
+        getPlanets(json.results);
+        setFilteredPlanets(json.results);
+        isLoading(false);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   const context = {
     planets,
@@ -39,33 +86,14 @@ export const PlanetsProvider = ({ children }) => {
       setColumn,
       setComparison,
       setValue,
-      getColumnValue,
-      getComparisonValue,
-      getNumericValue,
       getFiltersUsed,
-      setFilteredPlanets },
-    loading,
-    filtersValue: {
-      columnValue,
-      comparisonValue,
-      numericValue,
+      setFilteredPlanets,
+      handleNumericFilters,
     },
+    loading,
     filtersUsed,
     planetsWithFilters,
   };
-
-  useEffect(() => {
-    const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
-
-    fetch(URL)
-      .then((resolve) => resolve.json())
-      .then((json) => {
-        getPlanets(json.results);
-        setFilteredPlanets(json.results);
-        isLoading(false);
-      })
-      .catch((error) => console.log(error));
-  }, []);
 
   return (
     <PlanetsAndFiltersContext.Provider value={ context }>

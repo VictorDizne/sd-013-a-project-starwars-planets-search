@@ -1,20 +1,15 @@
-import React, { useContext } from 'react';
-import NameFilter from './NameFilter';
-import ColumnFilter from './ColumnFilter';
-import ComparisonFilter from './ComparisonFilter';
-import ValueFilter from './ValueFilter';
-import FilterButton from './FilterButton';
+import React, { useContext, useState } from 'react';
 import { PlanetsAndFiltersContext } from '../context/PlanetsAndFiltersContext';
 
 const FiltersInputs = () => {
   const {
-    setStates: { setColumn, setComparison, setValue, getFiltersUsed, makeSearch, setFilteredPlanets },
-    filtersValue: { columnValue, comparisonValue, numericValue },
+    setStates: { setColumn, setComparison, setValue, getFiltersUsed, makeSearch, setFilteredPlanets, handleNumericFilters },
     planets,
   } = useContext(PlanetsAndFiltersContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    handleNumericFilters();
   };
 
   const filterPlanetsByName = ({ target: { value } }) => {
@@ -26,13 +21,13 @@ const FiltersInputs = () => {
     setFilteredPlanets([...filteredPlanets]);
   };
 
-  const optionsValues = [
+  const [columnValues, filterColumnValues] = useState([
     { value: 'population', id: 1 },
     { value: 'orbital_period', id: 2 },
     { value: 'diameter', id: 3 },
     { value: 'rotation_period', id: 4 },
     { value: 'surface_water', id: 5 },
-  ];
+  ]);
 
   return (
     <div>
@@ -55,7 +50,7 @@ const FiltersInputs = () => {
             data-testid="column-filter"
             onChange={ ({ target: { value } }) => setColumn(value) }
           >
-            {optionsValues
+            {columnValues
               // .filter(({ value }) => !value.includes(filtersUsed.find((filter => filter === value))))
               .map(({ value, id }) => (
                 <option key={ id } value={ value }>{ value }</option>))}
