@@ -1,14 +1,16 @@
 import React from 'react';
-// Importa o componente Table
 import Table from './components/Table';
+import SearchBar from './components/SearchBar';
 import './App.css';
+import PlanetsProvider from './context/PlanetsProvider';
 
 function App() {
   return (
-    <>
-    <h1>Inicio</h1>
+    <PlanetsProvider>
+    <h1>Star Wars Planet Search</h1>
+      <SearchBar />
       <Table />
-    </>
+    </PlanetsProvider>
   );
 }
 
