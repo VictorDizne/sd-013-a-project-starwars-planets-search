@@ -8,12 +8,31 @@ function Table() {
       { (contextValue) => {
         const { data } = contextValue;
         const { filter } = contextValue;
+        const numericFilters = filter.filterByNumericValues;
+
+        const handleNumericFilter = (type, a, b) => {
+          if (type === 'maior_que') return a > b;
+          if (type === 'menor_que') return a < b;
+          if (type === 'igual_a') return a === b;
+        };
 
         const filteredData = data
-          .filter((planet) => planet.name.includes(filter.filterByName));
+          .filter((planet) => planet.name.includes(filter.filterByName))
+          .filter((planet) => {
+            if (numericFilters.length > 0) {
+              const result = numericFilters.map((numericFilter) => handleNumericFilter(
+                numericFilter.comparison,
+                parseInt(planet[numericFilter.column], 10),
+                parseInt(numericFilter.value, 10),
+              ));
+              return result[0];
+            }
+            return true;
+          });
 
+        // console.table(numericFilters);
         return (
-          <table border="1" style={ { fontSize: `${size} em` } }>
+          <table border="1" style={ { fontSize: `${size}em` } }>
             <thead>
               <tr>
                 <td>Name</td>
