@@ -1,19 +1,12 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import PlanetsContext from '../Context/PlanetsContext';
 
 function Table() {
   const { isLoading,
-    planets,
+    filteredPlanets,
     planetsKeys,
-    fetchApi,
-    filters: { filterByName: { name } } } = useContext(PlanetsContext);
-
-  useEffect(() => {
-    fetchApi();
-  }, []);
-
-  // console.log(planets);
-  // console.log(planetsKeys);
+    name,
+  } = useContext(PlanetsContext);
 
   return (
     <div>
@@ -29,7 +22,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {planets
+          {filteredPlanets
             .filter((planet) => (name ? planet.name.includes(name) : true))
             .map((planet) => ( // primeiro map renderiza as linhas da tabela
               <tr key={ planet.name }>
