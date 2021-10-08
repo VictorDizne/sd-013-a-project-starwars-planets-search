@@ -81,9 +81,9 @@
 
 .bodyTable td {
   background-color: #11264d;
-  padding:  5px 30px 5px 30px;
-  vertical-align: center;
+  padding: 5px 30px;
   text-align: center;
+  vertical-align: center;
 }
 
 table {
@@ -97,11 +97,7 @@ table {
 }
 
 .linhaBody:hover {
-  border-bottom: #afebff solid 1px;
-  color: #6e8636;
   background-color: #6e8636;
-}
-
-.linhaBody:hover {
+  border-bottom: #afebff solid 1px;
   color: antiquewhite;
 }
