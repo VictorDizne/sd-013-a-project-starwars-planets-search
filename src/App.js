@@ -1,11 +1,16 @@
 import React from 'react';
+import Filtros from './components/filtros';
 import Table from './components/tableApi';
+import Provider from './context/Context';
 
 function App() {
   return (
-    <div>
-      <Table />
-    </div>
+    <Provider>
+      <div>
+        <Filtros />
+        <Table />
+      </div>
+    </Provider>
   );
 }
 

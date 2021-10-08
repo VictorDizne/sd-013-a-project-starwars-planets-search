@@ -1,18 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
+import appcontext from '../context/appcontext';
 import Loading from './loading';
 
 const Table = () => {
-  const [api, setApi] = useState([]);
-  useEffect(() => {
-    const fetchApi = async () => {
-      const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
-      const { results } = await fetch(endpoint).then((res) => res.json());
-      // console.log(results);
-      setApi(results);
-    };
-    fetchApi();
-  }, []);
-  // const keys = Object.keys(api[0]);
+  const { api, clearFilters } = useContext(appcontext);
   if (api.length === 0) {
     return <Loading />;
   }
@@ -23,7 +14,7 @@ const Table = () => {
       .filter((item) => item !== 'residents'
       && item !== 'created' && item !== 'edited' && item !== 'url' && item !== 'films');
     arr = [...arrKeys, ...arr];
-    console.log(arr);
+    // console.log(arr);
     return arr.map((key) => (
       <th key={ key }>
         {key}
@@ -36,6 +27,9 @@ const Table = () => {
 
   return (
     <header>
+      <button type="button" onClick={ () => clearFilters() }>
+        Limpar filtros
+      </button>
       <table>
         <thead>
           <tr>{titlesTable()}</tr>
