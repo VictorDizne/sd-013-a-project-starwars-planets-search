@@ -2,22 +2,14 @@ import React, { useContext, useState } from 'react';
 import { PlanetsAndFiltersContext } from '../context/PlanetsAndFiltersContext';
 
 const FiltersInputs = () => {
-  const [columnTest, setColumnTest] = useState('population');
-
   const {
-    setStates: { setColumn, setComparison, setValue, setSearchterm, setFilteredPlanets, handleNumericFilters, setNumericFilters },
-    planets,
-    columnFilter,
+    setStates: { setSearchterm, setNumericFilters },
+    columnValues,
   } = useContext(PlanetsAndFiltersContext);
 
   const filterPlanetsByName = ({ target: { value } }) => {
     setSearchterm(value);
   };
-
-  const columnValues = [
-    'population', 'orbital_period', 'diameter', 'rotation_period',
-    'surface_water',
-  ];
 
   const handleSubmit = (event) => {
     event.preventDefault();

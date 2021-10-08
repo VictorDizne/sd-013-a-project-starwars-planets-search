@@ -9,7 +9,13 @@ export const PlanetsProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchterm] = useState('');
   const [filterByNumericValues, setNumericFilters] = useState([]);
-  // const [columnValues, setColumnValues] = [];
+  const [columnValues, setColumnValues] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   useEffect(() => {
     const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -30,17 +36,15 @@ export const PlanetsProvider = ({ children }) => {
   };
 
   const handleNumericFilters = (planet) => {
-    if(filterByNumericValues.length === 0) {
-      return true;
-    }
+    if (filterByNumericValues.length === 0) return true;
 
     const lastFilter = filterByNumericValues.length - 1;
+
     const { comparison, column, value } = filterByNumericValues[lastFilter];
 
     const filterByComparison = comparisons[comparison] || (() => true);
 
     return filterByComparison(planet, column, value);
-
   };
 
   console.log('length', filterByNumericValues.length);
@@ -60,6 +64,7 @@ export const PlanetsProvider = ({ children }) => {
   const context = {
     planets,
     loading,
+    columnValues,
     filters:
     {
       filterByName: {
@@ -73,6 +78,7 @@ export const PlanetsProvider = ({ children }) => {
       setSearchterm,
       handleNumericFilters,
       setNumericFilters,
+      setColumnValues,
     },
     planetsWithFilters: planets.filter(filterByPlanetName).filter(handleNumericFilters),
   };
