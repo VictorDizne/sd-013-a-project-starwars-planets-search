@@ -1,11 +1,14 @@
 .countainerHeader {
-  background-color: #13576e;
   color: #afbeda;
   display: flex;
-  height: 100px;
+  height: 80px;
   padding-left: 20px;
-  padding-top: 10px;
+  padding-top: 30px;
 }
+
+/* .countainerTable {
+  background-color: #13576e;
+} */
 
 .countainerHeader label {
   margin-right: 10px;
@@ -35,7 +38,6 @@
   margin-left: 8px;
   padding: 5px;
   width: 100px;
-
 }
 
 /* https://developer.mozilla.org/pt-BR/docs/Web/CSS/:nth-child */
@@ -56,4 +58,50 @@
 .btn-search:hover {
   background-color: #11264d;
   color: rgb(207, 207, 60);
+}
+
+.linha-titulo {
+  background-color: #627703;
+  color: #c7e1e2;
+}
+
+.linha-titulo th {
+  padding: 10px;
+  text-align: center;
+  vertical-align: center;
+}
+
+.bodyTable tr:nth-child( 2n + 1 ) {
+  color: #47afb3;
+}
+
+.bodyTable tr:nth-child( 2n ) {
+  color: #24688f;
+}
+
+.bodyTable td {
+  background-color: #11264d;
+  padding:  5px 30px 5px 30px;
+  vertical-align: center;
+  text-align: center;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.linhaBody {
+  background-color: #0b864d;
+  border-bottom: #46a8c9 solid 1px;
+  height: 100px;
+}
+
+.linhaBody:hover {
+  border-bottom: #afebff solid 1px;
+  color: #6e8636;
+  background-color: #6e8636;
+}
+
+.linhaBody:hover {
+  color: antiquewhite;
 }

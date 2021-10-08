@@ -93,12 +93,28 @@ const FilterNumber = () => {
 
     const newFilterByNumericValues = filterByNumericValues
       .filter((item) => item.column !== filterColumn);
-    console.log(newFilterByNumericValues);
     setFilters({ ...filters,
       filterByNumericValues: newFilterByNumericValues,
     });
-
     // por enquanto só atualiza a chave filterByNumericValues
+    console.log('inicio da filtragem 1');
+    let newFiltered = data;
+    newFilterByNumericValues.forEach((filter) => {
+      console.log('inicio da filtragem 2');
+      if (filter.comparison === 'maior que') {
+        newFiltered = newFiltered
+          .filter((planet) => Number(planet[filter.column]) > Number(filter.value));
+      }
+      if (filter.comparison === 'igual a') {
+        newFiltered = newFiltered
+          .filter((planet) => Number(planet[filter.column]) === Number(filter.value));
+      }
+      if (filter.comparison === 'menor que') {
+        newFiltered = newFiltered
+          .filter((planet) => Number(planet[filter.column]) < Number(filter.value));
+      }
+    });
+    setDataTable(newFiltered);
   };
 
   return (
@@ -150,22 +166,22 @@ const FilterNumber = () => {
       <div className="buttons-container">
         {
           !population
-        && <button type="button" onClick={ () => notFilter('population') }>population x</button>
+        && <button data-testid="filter" type="button" onClick={ () => notFilter('population') }>population x</button>
         }
         { !orbital
-        && <button type="button" onClick={ () => notFilter('orbital_period') }>orbital x</button> }
+        && <button data-testid="filter" type="button" onClick={ () => notFilter('orbital_period') }>orbital x</button> }
         {
           !diameter
-        && <button type="button" onClick={ () => notFilter('diameter') }>diameter x</button>
+        && <button data-testid="filter" type="button" onClick={ () => notFilter('diameter') }>diameter x</button>
         }
         {
           !rotation
-        && <button type="button" onClick={ () => notFilter('diameter') }>rotation x</button>
+        && <button data-testid="filter" type="button" onClick={ () => notFilter('rotation_period') }>rotation x</button>
         }
 
         {
           !surface
-        && <button type="button" onClick={ () => notFilter('rotation_period') }>surface x</button>
+        && <button data-testid="filter" type="button" onClick={ () => notFilter('surface_water') }>surface x</button>
         }
       </div>
     </div>
