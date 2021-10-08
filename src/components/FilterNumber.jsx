@@ -116,7 +116,9 @@ const FilterNumber = () => {
     });
     setDataTable(newFiltered);
   };
-
+  // esse botao aparece na tela apenas quando o estado q está na sua frente é false,
+  // logo, ao escolher um filtro, seu estado vai pra false, e o botao x aparece na tela.
+  // ao clicar nesse botao x, o estado volta pra true fazendo com q o botão suma
   const buttonRemoveFilter = (estado, filtro, fraseButton) => !estado
     && (
       <div data-testid="filter">
@@ -179,9 +181,9 @@ const FilterNumber = () => {
       <div className="buttons-container">
         {buttonRemoveFilter(population, 'population', 'population x')}
         {buttonRemoveFilter(orbital, 'orbital_period', 'orbital x')}
-        { buttonRemoveFilter(diameter, 'diameter', 'diameter x')}
-        { buttonRemoveFilter(rotation, 'rotation_period', 'rotation x')}
-        { buttonRemoveFilter(surface, 'surface_water', 'surface x')}
+        {buttonRemoveFilter(diameter, 'diameter', 'diameter x')}
+        {buttonRemoveFilter(rotation, 'rotation_period', 'rotation x')}
+        {buttonRemoveFilter(surface, 'surface_water', 'surface x')}
 
       </div>
     </div>
