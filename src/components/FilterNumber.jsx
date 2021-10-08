@@ -117,6 +117,19 @@ const FilterNumber = () => {
     setDataTable(newFiltered);
   };
 
+  const buttonRemoveFilter = (estado, filtro, fraseButton) => !estado
+    && (
+      <div data-testid="filter">
+        <button
+          type="button"
+          onClick={ () => notFilter(filtro) }
+        >
+          {fraseButton}
+        </button>
+      </div>
+
+    );
+
   return (
     <div>
       <label className="LabelMuda" htmlFor="column-filter">
@@ -164,71 +177,12 @@ const FilterNumber = () => {
         Buscar
       </button>
       <div className="buttons-container">
-        {
-          !population
-          && (
-            <div data-testid="filter">
-              <button
-                type="button"
-                onClick={ () => notFilter('population') }
-              >
-                population x
-              </button>
-            </div>
-          )
-        }
-        {
-          !orbital
-          && (
-            <div data-testid="filter">
-              <button
-                type="button"
-                onClick={ () => notFilter('orbital_period') }
-              >
-                orbital x
-              </button>
-            </div>
-          )
-        }
-        {
-          !diameter
-          && (
-            <div data-testid="filter">
-              <button
-                type="button"
-                onClick={ () => notFilter('diameter') }
-              >
-                diameter x
-              </button>
-            </div>
-          )
-        }
-        {
-          !rotation
-          && (
-            <div data-testid="filter">
-              <button
-                type="button"
-                onClick={ () => notFilter('rotation_period') }
-              >
-                rotation x
-              </button>
-            </div>
-          )
-        }
-        {
-          !surface
-          && (
-            <div data-testid="filter">
-              <button
-                type="button"
-                onClick={ () => notFilter('surface_water') }
-              >
-                surface x
-              </button>
-            </div>
-          )
-        }
+        {buttonRemoveFilter(population, 'population', 'population x')}
+        {buttonRemoveFilter(orbital, 'orbital_period', 'orbital x')}
+        { buttonRemoveFilter(diameter, 'diameter', 'diameter x')}
+        { buttonRemoveFilter(rotation, 'rotation_period', 'rotation x')}
+        { buttonRemoveFilter(surface, 'surface_water', 'surface x')}
+
       </div>
     </div>
   );

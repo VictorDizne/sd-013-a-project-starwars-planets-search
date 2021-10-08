@@ -292,7 +292,6 @@ describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos
 
   const removeFilter = async () => {
     const filters = await screen.findAllByTestId(REMOVE_FILTER_SELECTOR);
-    console.log(filters);
     fireEvent.click(filters[0].querySelector('button'));
   };
 
