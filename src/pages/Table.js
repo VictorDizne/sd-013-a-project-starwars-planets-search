@@ -11,32 +11,8 @@ const Table = () => {
     {
       filterByName:
       { name: search },
-      filterByNumericValues:
-      [{ column, comparison, value: valueFilter }],
+      filterByNumericValues,
     } } = useContext(PlanetsAndFiltersContext);
-
-  // const filteredPlanets = () => {
-  //   if (search) {
-  //     return planets
-  //       .filter((planet) => planet.name.toLowerCase().includes(search.toLowerCase()));
-  //   }
-
-  //   if (valueFilter && comparison === 'maior que') {
-  //     return planets
-  //       .filter((planet) => Number(planet[column]) > Number(valueFilter));
-  //   }
-
-  //   if (valueFilter && comparison === 'menor que') {
-  //     return planets
-  //       .filter((planet) => Number(planet[column]) < Number(valueFilter));
-  //   }
-
-  //   if (valueFilter && comparison === 'igual a') {
-  //     return planets
-  //       .filter((planet) => Number(planet[column]) === Number(valueFilter));
-  //   }
-  //   return planets;
-  // };
 
   return (
     <table>

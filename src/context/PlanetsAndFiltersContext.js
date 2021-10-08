@@ -7,48 +7,21 @@ export const PlanetsAndFiltersContext = createContext();
 export const PlanetsProvider = ({ children }) => {
   const [planets, getPlanets] = useState([]);
   const [loading, isLoading] = useState(true);
-  const [searchTerm, makeSearch] = useState();
-  const [columnFilter, setColumn] = useState('population');
-  const [comparisonFilter, setComparison] = useState('maior que');
-  const [valueFilter, setValue] = useState('');
-  const [filtersUsed, getFiltersUsed] = useState([]);
-  const [planetsWithFilters, setFilteredPlanets] = useState(planets);
+  const [searchTerm, setSearchterm] = useState('');
+  const [filterByNumericValues, setNumericFilters] = useState({});
 
-  const handleNumericFilters = () => {
-    switch (comparisonFilter) {
-    case 'maior que':
-      // planets
-      //   .filter((planet) => Number(planet[columnFilter]) > Number(valueFilter));
-      setFilteredPlanets([...planets
-        .filter((planet) => Number(planet[columnFilter]) > Number(valueFilter))]);
-      break;
+  const comparisons = {
+    'maior que': (planet, column, value) => Number(planet[column]) > Number(value),
+    'menor que': (planet, column, value) => Number(planet[column]) < Number(value),
+    'igual a': (planet, column, value) => Number(planet[column]) === Number(value),
+  };
 
-    case 'menor que':
-      setFilteredPlanets([...planets
-        .filter((planet) => Number(planet[columnFilter]) < Number(valueFilter))]);
-      break;
+  const handleNumericFilters = (planet) => {
+    const { comparison, column, value } = filterByNumericValues;
 
-    case 'igual a':
-      setFilteredPlanets([...planets
-        .filter((planet) => Number(planet[columnFilter]) === Number(valueFilter))]);
-      break;
+    const predicate = comparisons[comparison] || (() => true);
 
-    default:
-      setFilteredPlanets(planets);
-      break;
-    }
-
-    // const { filters: { filterByNumericValues } } = context;
-
-    // if (comparisonFilter === 'maior que') {
-    //   const mostThan = planets
-    //     .filter((planet) => Number(planet[columnFilter]) > Number(valueFilter));
-    //   console.log(test);
-    // }
-
-    // if (filterByNumericValues > 0) {
-    //   return console.log('funfa');
-    // }
+    return predicate(planet, column, value);
   };
 
   useEffect(() => {
@@ -58,11 +31,14 @@ export const PlanetsProvider = ({ children }) => {
       .then((resolve) => resolve.json())
       .then((json) => {
         getPlanets(json.results);
-        setFilteredPlanets(json.results);
         isLoading(false);
       })
       .catch((error) => console.log(error));
   }, []);
+
+  const filterByPlanetName = (planet) => planet.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+  console.log(filterByNumericValues);
 
   const context = {
     planets,
@@ -71,28 +47,17 @@ export const PlanetsProvider = ({ children }) => {
       filterByName: {
         name: searchTerm,
       },
-      filterByNumericValues: [
-        {
-          column: columnFilter,
-          comparison: comparisonFilter,
-          value: valueFilter,
-        },
-      ],
+      filterByNumericValues,
     },
     setStates: {
       getPlanets,
       isLoading,
-      makeSearch,
-      setColumn,
-      setComparison,
-      setValue,
-      getFiltersUsed,
-      setFilteredPlanets,
+      setSearchterm,
       handleNumericFilters,
+      setNumericFilters,
     },
     loading,
-    filtersUsed,
-    planetsWithFilters,
+    planetsWithFilters: planets.filter(filterByPlanetName).filter(handleNumericFilters),
   };
 
   return (

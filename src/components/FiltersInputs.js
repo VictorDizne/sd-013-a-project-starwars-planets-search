@@ -3,22 +3,13 @@ import { PlanetsAndFiltersContext } from '../context/PlanetsAndFiltersContext';
 
 const FiltersInputs = () => {
   const {
-    setStates: { setColumn, setComparison, setValue, getFiltersUsed, makeSearch, setFilteredPlanets, handleNumericFilters },
+    setStates: { setColumn, setComparison, setValue, setSearchterm, setFilteredPlanets, handleNumericFilters, setNumericFilters },
     planets,
+    columnFilter,
   } = useContext(PlanetsAndFiltersContext);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    handleNumericFilters();
-  };
-
   const filterPlanetsByName = ({ target: { value } }) => {
-    makeSearch(value);
-
-    const filteredPlanets = planets
-      .filter((planet) => planet.name.toLowerCase().includes(value.toLowerCase()));
-
-    setFilteredPlanets([...filteredPlanets]);
+    setSearchterm(value);
   };
 
   const [columnValues, filterColumnValues] = useState([
@@ -29,8 +20,23 @@ const FiltersInputs = () => {
     { value: 'surface_water', id: 5 },
   ]);
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const inputsSelecteds = Array.prototype
+      .filter
+      .call(event.target.elements,
+        (element) => element.tagName.toLowerCase() !== 'button')
+      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
+
+    setNumericFilters(inputsSelecteds);
+
+    // setNumericFilters((prevState) => [...prevState, inputsSelecteds]);
+  };
+
   return (
     <div>
+
       <input
         type="text"
         name="search-name-filter"
@@ -40,30 +46,26 @@ const FiltersInputs = () => {
 
       <form onSubmit={ handleSubmit }>
 
-        {/* <ColumnFilter /> */}
-
-        <label htmlFor="column-filter">
+        <label htmlFor="column">
           Filter:
           <select
-            name="column-filter"
+            name="column"
             id="column-filter"
             data-testid="column-filter"
-            onChange={ ({ target: { value } }) => setColumn(value) }
           >
             {columnValues
               // .filter(({ value }) => !value.includes(filtersUsed.find((filter => filter === value))))
               .map(({ value, id }) => (
-                <option key={ id } value={ value }>{ value }</option>))}
+                <option key={ id } value={ value }>{value}</option>))}
           </select>
         </label>
 
-        <label htmlFor="comparison-filter">
+        <label htmlFor="comparison">
           Compare:
           <select
-            name="comparison-filter"
+            name="comparison"
             id="comparison-filter"
             data-testid="comparison-filter"
-            onChange={ ({ target: { value } }) => setComparison(value) }
           >
             <option value="maior que" selected>maior que</option>
             <option value="menor que">menor que</option>
@@ -71,14 +73,13 @@ const FiltersInputs = () => {
           </select>
         </label>
 
-        <label htmlFor="value-filter">
+        <label htmlFor="value">
           Value:
           <input
             type="number"
-            name="value-filter"
+            name="value"
             id="value-filter"
             data-testid="value-filter"
-            onChange={ ({ target: { value } }) => setValue(value) }
           />
         </label>
 
