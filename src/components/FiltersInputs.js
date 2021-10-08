@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 import { PlanetsAndFiltersContext } from '../context/PlanetsAndFiltersContext';
 
 const FiltersInputs = () => {
+  const [columnTest, setColumnTest] = useState('population');
+
   const {
     setStates: { setColumn, setComparison, setValue, setSearchterm, setFilteredPlanets, handleNumericFilters, setNumericFilters },
     planets,
@@ -12,26 +14,19 @@ const FiltersInputs = () => {
     setSearchterm(value);
   };
 
-  const [columnValues, filterColumnValues] = useState([
-    { value: 'population', id: 1 },
-    { value: 'orbital_period', id: 2 },
-    { value: 'diameter', id: 3 },
-    { value: 'rotation_period', id: 4 },
-    { value: 'surface_water', id: 5 },
-  ]);
+  const columnValues = [
+    'population', 'orbital_period', 'diameter', 'rotation_period',
+    'surface_water',
+  ];
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const inputsSelecteds = Array.prototype
-      .filter
-      .call(event.target.elements,
-        (element) => element.tagName.toLowerCase() !== 'button')
-      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {}); // prototype criado para pegar os valores da nossa nodeList e trabalha-los como um array, dando a possibilidade de trabalhar com o filter
+    const selectedInputs = [...event.target.elements]
+      .filter((element) => element.tagName.toLowerCase() !== 'button')
+      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
 
-    setNumericFilters(inputsSelecteds);
-
-    // setNumericFilters((prevState) => [...prevState, inputsSelecteds]);
+    setNumericFilters((prevState) => [...prevState, selectedInputs]);
   };
 
   return (
@@ -55,8 +50,8 @@ const FiltersInputs = () => {
           >
             {columnValues
               // .filter(({ value }) => !value.includes(filtersUsed.find((filter => filter === value))))
-              .map(({ value, id }) => (
-                <option key={ id } value={ value }>{value}</option>))}
+              .map((value) => (
+                <option key={ value } value={ value }>{value}</option>))}
           </select>
         </label>
 

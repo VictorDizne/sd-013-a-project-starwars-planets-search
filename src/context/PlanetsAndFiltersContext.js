@@ -3,12 +3,25 @@ import PropTypes from 'prop-types';
 
 export const PlanetsAndFiltersContext = createContext();
 
-// Context refatorado com a do Matheus Rodrigues 
+// Context refatorado com a do Matheus Rodrigues
 export const PlanetsProvider = ({ children }) => {
-  const [planets, getPlanets] = useState([]);
-  const [loading, isLoading] = useState(true);
+  const [planets, setPlanets] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchterm] = useState('');
-  const [filterByNumericValues, setNumericFilters] = useState({});
+  const [filterByNumericValues, setNumericFilters] = useState([]);
+  // const [columnValues, setColumnValues] = [];
+
+  useEffect(() => {
+    const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
+
+    fetch(URL)
+      .then((resolve) => resolve.json())
+      .then((json) => {
+        setPlanets(json.results);
+        setLoading(false);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   const comparisons = {
     'maior que': (planet, column, value) => Number(planet[column]) > Number(value),
@@ -17,31 +30,36 @@ export const PlanetsProvider = ({ children }) => {
   };
 
   const handleNumericFilters = (planet) => {
-    const { comparison, column, value } = filterByNumericValues;
+    if(filterByNumericValues.length === 0) {
+      return true;
+    }
 
-    const predicate = comparisons[comparison] || (() => true);
+    const lastFilter = filterByNumericValues.length - 1;
+    const { comparison, column, value } = filterByNumericValues[lastFilter];
 
-    return predicate(planet, column, value);
+    const filterByComparison = comparisons[comparison] || (() => true);
+
+    return filterByComparison(planet, column, value);
+
   };
 
-  useEffect(() => {
-    const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
+  console.log('length', filterByNumericValues.length);
 
-    fetch(URL)
-      .then((resolve) => resolve.json())
-      .then((json) => {
-        getPlanets(json.results);
-        isLoading(false);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+  // useEffect((planet) => {
+  //   const lastFilter = filterByNumericValues.length - 1;
+  //   const { comparison, column, value } = filterByNumericValues[lastFilter];
 
-  const filterByPlanetName = (planet) => planet.name.toLowerCase().includes(searchTerm.toLowerCase());
+  //   const filterByComparison = comparisons[comparison] || (() => true);
 
-  console.log(filterByNumericValues);
+  //   return filterByComparison(planet, column, value);
+  // }, [filterByNumericValues, comparisons])
+
+  const filterByPlanetName = (planet) => planet.name.toLowerCase()
+    .includes(searchTerm.toLowerCase());
 
   const context = {
     planets,
+    loading,
     filters:
     {
       filterByName: {
@@ -50,18 +68,17 @@ export const PlanetsProvider = ({ children }) => {
       filterByNumericValues,
     },
     setStates: {
-      getPlanets,
-      isLoading,
+      setPlanets,
+      setLoading,
       setSearchterm,
       handleNumericFilters,
       setNumericFilters,
     },
-    loading,
     planetsWithFilters: planets.filter(filterByPlanetName).filter(handleNumericFilters),
   };
 
   return (
-    <PlanetsAndFiltersContext.Provider value={ context }>
+    <PlanetsAndFiltersContext.Provider value={context}>
       {children}
     </PlanetsAndFiltersContext.Provider>
   );
