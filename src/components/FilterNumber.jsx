@@ -166,22 +166,68 @@ const FilterNumber = () => {
       <div className="buttons-container">
         {
           !population
-        && <button data-testid="filter" type="button" onClick={ () => notFilter('population') }>population x</button>
+          && (
+            <div data-testid="filter">
+              <button
+                type="button"
+                onClick={ () => notFilter('population') }
+              >
+                population x
+              </button>
+            </div>
+          )
         }
-        { !orbital
-        && <button data-testid="filter" type="button" onClick={ () => notFilter('orbital_period') }>orbital x</button> }
+        {
+          !orbital
+          && (
+            <div data-testid="filter">
+              <button
+                type="button"
+                onClick={ () => notFilter('orbital_period') }
+              >
+                orbital x
+              </button>
+            </div>
+          )
+        }
         {
           !diameter
-        && <button data-testid="filter" type="button" onClick={ () => notFilter('diameter') }>diameter x</button>
+          && (
+            <div data-testid="filter">
+              <button
+                type="button"
+                onClick={ () => notFilter('diameter') }
+              >
+                diameter x
+              </button>
+            </div>
+          )
         }
         {
           !rotation
-        && <button data-testid="filter" type="button" onClick={ () => notFilter('rotation_period') }>rotation x</button>
+          && (
+            <div data-testid="filter">
+              <button
+                type="button"
+                onClick={ () => notFilter('rotation_period') }
+              >
+                rotation x
+              </button>
+            </div>
+          )
         }
-
         {
           !surface
-        && <button data-testid="filter" type="button" onClick={ () => notFilter('surface_water') }>surface x</button>
+          && (
+            <div data-testid="filter">
+              <button
+                type="button"
+                onClick={ () => notFilter('surface_water') }
+              >
+                surface x
+              </button>
+            </div>
+          )
         }
       </div>
     </div>
