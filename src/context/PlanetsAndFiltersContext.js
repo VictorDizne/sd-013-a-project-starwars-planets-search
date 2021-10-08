@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export const PlanetsAndFiltersContext = createContext();
 
-// Context refatorado com a ajuda do colega Murilo Rainho e do monitor João Lima (Turma 11)
+// Context refatorado com a do Matheus Rodrigues 
 export const PlanetsProvider = ({ children }) => {
   const [planets, getPlanets] = useState([]);
   const [loading, isLoading] = useState(true);

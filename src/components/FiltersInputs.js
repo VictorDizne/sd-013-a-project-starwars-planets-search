@@ -27,7 +27,7 @@ const FiltersInputs = () => {
       .filter
       .call(event.target.elements,
         (element) => element.tagName.toLowerCase() !== 'button')
-      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
+      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {}); // prototype criado para pegar os valores da nossa nodeList e trabalha-los como um array, dando a possibilidade de trabalhar com o filter
 
     setNumericFilters(inputsSelecteds);
 
