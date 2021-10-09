@@ -2,7 +2,7 @@ import React from 'react';
 import Table from './components/Table';
 import './App.css';
 import TableFilterInput from './components/TableFilterInput';
-import PlanetsProvider from './context/PlanetsProvider';;
+import PlanetsProvider from './context/PlanetsProvider';
 
 function App() {
   return (
@@ -16,4 +16,4 @@ function App() {
 
 export default App;
 
-// comecando o projeto
+// Realizado com a ajuda do aluno Thalles Carneiro turma 12
