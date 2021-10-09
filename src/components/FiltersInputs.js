@@ -32,15 +32,6 @@ const FiltersInputs = () => {
     setColumnValues(columnValues.filter((value) => value !== selectedInputs.column));
   };
 
-  // const filterColumnValues = () => {
-
-  //   // const lastFilter = filterByNumericValues.length - 1;
-
-  //   const filtered = columnValues.filter((value) => value !== filterByNumericValues[0].column);
-
-  //   setColumnValues(filtered);
-  // };
-
   return (
     <div>
 
@@ -61,7 +52,6 @@ const FiltersInputs = () => {
             data-testid="column-filter"
           >
             {columnValues
-              // .filter(({ value }) => !value.includes(filtersUsed.find((filter => filter === value))))
               .map((value) => (
                 <option key={ value } value={ value }>{value}</option>))}
           </select>
