@@ -13,6 +13,7 @@ const FiltersInputs = () => {
     'rotation_period',
     'surface_water',
   ]);
+  const [filters, setFilters] = useState([]);
 
   const filterPlanetsByName = ({ target: { value } }) => {
     setSearchterm(value);
@@ -27,14 +28,22 @@ const FiltersInputs = () => {
 
     setNumericFilters((prevState) => [...prevState, selectedInputs]);
 
-    console.log(selectedInputs.column);
-
     setColumnValues(columnValues.filter((value) => value !== selectedInputs.column));
+
+    setFilters((prevState) => [...prevState, selectedInputs]);
   };
+
+  const removeFilter = (column) => {
+    const removedFilter = filters.filter((filter) => filter.column !== column);
+
+    setFilters(removedFilter);
+    setColumnValues((prevState) => [...prevState, column]);
+    setNumericFilters(removedFilter);
+  };
+  // Preciso remover o filtro do estado de setFilters, setColumnValues e setNumericFilters.
 
   return (
     <div>
-
       <input
         type="text"
         name="search-name-filter"
@@ -82,6 +91,26 @@ const FiltersInputs = () => {
 
         <button type="submit" data-testid="button-filter">Filter</button>
       </form>
+
+      <ul>
+        {
+          filters && filters.map(({ column, comparison, value }) => (
+            <li
+              key={ `${column}-filter` }
+              data-testid="filter"
+            >
+              {`Filtro: ${column} - ${comparison} - ${value} `}
+              <button
+                type="button"
+                key={ `${column}-button` }
+                onClick={ () => removeFilter(column) }
+              >
+                X
+              </button>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   );
 };

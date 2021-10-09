@@ -8,9 +8,9 @@ function App() {
     <PlanetsProvider>
       <header>
         <h1>Trybewars</h1>
+        <FiltersInputs />
       </header>
       <main>
-        <FiltersInputs />
         <Table />
       </main>
     </PlanetsProvider>

@@ -40,8 +40,6 @@ export const PlanetsProvider = ({ children }) => {
     return filterByComparison(planet, column, value);
   };
 
-  console.log('length', filterByNumericValues.length);
-
   const filterByPlanetName = (planet) => planet.name.toLowerCase()
     .includes(searchTerm.toLowerCase());
 
