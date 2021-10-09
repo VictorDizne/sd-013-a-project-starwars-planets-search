@@ -48,10 +48,10 @@ const FiltersInputs = () => {
         type="text"
         name="search-name-filter"
         data-testid="name-filter"
-        onChange={filterPlanetsByName}
+        onChange={ filterPlanetsByName }
       />
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={ handleSubmit }>
 
         <label htmlFor="column">
           Filter:
@@ -63,7 +63,7 @@ const FiltersInputs = () => {
             {columnValues
               // .filter(({ value }) => !value.includes(filtersUsed.find((filter => filter === value))))
               .map((value) => (
-                <option key={value} value={value}>{value}</option>))}
+                <option key={ value } value={ value }>{value}</option>))}
           </select>
         </label>
 

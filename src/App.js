@@ -6,9 +6,9 @@ import FiltersInputs from './components/FiltersInputs';
 function App() {
   return (
     <PlanetsProvider>
-      <nav>
+      <header>
         <h1>Trybewars</h1>
-      </nav>
+      </header>
       <main>
         <FiltersInputs />
         <Table />

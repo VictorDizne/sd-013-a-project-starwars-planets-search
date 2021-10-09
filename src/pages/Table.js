@@ -4,15 +4,8 @@ import TableData from '../components/TableData';
 
 const Table = () => {
   const {
-    planets,
     planetsWithFilters,
-    loading,
-    filters:
-    {
-      filterByName:
-      { name: search },
-      filterByNumericValues,
-    } } = useContext(PlanetsAndFiltersContext);
+    loading } = useContext(PlanetsAndFiltersContext);
 
   return (
     <table>
