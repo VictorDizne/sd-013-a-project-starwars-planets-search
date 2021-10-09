@@ -4,8 +4,15 @@ import { PlanetsAndFiltersContext } from '../context/PlanetsAndFiltersContext';
 const FiltersInputs = () => {
   const {
     setStates: { setSearchterm, setNumericFilters },
-    columnValues,
   } = useContext(PlanetsAndFiltersContext);
+
+  const [columnValues, setColumnValues] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   const filterPlanetsByName = ({ target: { value } }) => {
     setSearchterm(value);
@@ -19,7 +26,20 @@ const FiltersInputs = () => {
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
 
     setNumericFilters((prevState) => [...prevState, selectedInputs]);
+
+    console.log(selectedInputs.column);
+
+    setColumnValues(columnValues.filter((value) => value !== selectedInputs.column));
   };
+
+  // const filterColumnValues = () => {
+
+  //   // const lastFilter = filterByNumericValues.length - 1;
+
+  //   const filtered = columnValues.filter((value) => value !== filterByNumericValues[0].column);
+
+  //   setColumnValues(filtered);
+  // };
 
   return (
     <div>
@@ -28,10 +48,10 @@ const FiltersInputs = () => {
         type="text"
         name="search-name-filter"
         data-testid="name-filter"
-        onChange={ filterPlanetsByName }
+        onChange={filterPlanetsByName}
       />
 
-      <form onSubmit={ handleSubmit }>
+      <form onSubmit={handleSubmit}>
 
         <label htmlFor="column">
           Filter:
@@ -43,7 +63,7 @@ const FiltersInputs = () => {
             {columnValues
               // .filter(({ value }) => !value.includes(filtersUsed.find((filter => filter === value))))
               .map((value) => (
-                <option key={ value } value={ value }>{value}</option>))}
+                <option key={value} value={value}>{value}</option>))}
           </select>
         </label>
 

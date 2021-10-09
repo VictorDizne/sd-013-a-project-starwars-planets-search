@@ -9,13 +9,13 @@ export const PlanetsProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchterm] = useState('');
   const [filterByNumericValues, setNumericFilters] = useState([]);
-  const [columnValues, setColumnValues] = useState([
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ]);
+  // const [columnValues, setColumnValues] = useState([
+  //   'population',
+  //   'orbital_period',
+  //   'diameter',
+  //   'rotation_period',
+  //   'surface_water',
+  // ]);
 
   useEffect(() => {
     const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -42,10 +42,23 @@ export const PlanetsProvider = ({ children }) => {
 
     const { comparison, column, value } = filterByNumericValues[lastFilter];
 
-    const filterByComparison = comparisons[comparison] || (() => true);
+    const filterByComparison = comparisons[comparison];
+
+    // const filteredColumnValues = columnValues.filter(() => value !== column);
+    // console.log(filteredColumnValues);
 
     return filterByComparison(planet, column, value);
   };
+
+  // const handleColumnFilters = () => {
+  //   const { comparison, column, value } = filterByNumericValues[lastFilter];
+
+  //   const lastFilter = filterByNumericValues.length - 1;
+
+  //   const filteredColumnValues = columnValues.filter((value) => value !== column);
+  //   console.log(filteredColumnValues);
+  //   // setColumnValues(filteredColumnValues);
+  // };
 
   console.log('length', filterByNumericValues.length);
 
@@ -64,7 +77,7 @@ export const PlanetsProvider = ({ children }) => {
   const context = {
     planets,
     loading,
-    columnValues,
+    // columnValues,
     filters:
     {
       filterByName: {
@@ -78,7 +91,7 @@ export const PlanetsProvider = ({ children }) => {
       setSearchterm,
       handleNumericFilters,
       setNumericFilters,
-      setColumnValues,
+      // setColumnValues,
     },
     planetsWithFilters: planets.filter(filterByPlanetName).filter(handleNumericFilters),
   };
