@@ -1,12 +1,17 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
-// passa por cada um dos items necessarios de cada planeta atraves do map()
 
 function Table() {
-  const { data } = useContext(PlanetsContext);
+  const { data, name } = useContext(PlanetsContext);
 
-  const planetsData = () => data.map((planet) => (
+  if (!data.length) return <p> Loading ... </p>;
+
+  const planetsData = () => data.filter((planet) => (
+    planet.name.toLowerCase()
+    .includes(name.toLowerCase()
+  )))
+  .map((planet) => (
     <tr key={ planet.name }>
       <td>{planet.name}</td>
       <td>{planet.rotation_period}</td>
@@ -22,7 +27,7 @@ function Table() {
       <td>{planet.edited}</td>
       <td>{planet.url}</td>
     </tr>
-  ));
+  ))
 
   return (
     <div>

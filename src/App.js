@@ -1,14 +1,14 @@
 import React from 'react';
 import Table from './components/Table';
-import SearchBar from './components/SearchBar';
 import './App.css';
-import PlanetsProvider from './context/PlanetsProvider';
+import TableFilterInput from './components/TableFilterInput';
+import PlanetsProvider from './context/PlanetsProvider';;
 
 function App() {
   return (
     <PlanetsProvider>
       <h1>Star Wars Planet Search</h1>
-      <SearchBar />
+      <TableFilterInput />
       <Table />
     </PlanetsProvider>
   );

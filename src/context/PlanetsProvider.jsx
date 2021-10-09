@@ -7,6 +7,10 @@ import starWarsFetchPlanets from '../services/starWarsFetchAPI';
 function PlanetsProvider({ children }) {
 // jogar todas as funcoes e estado que vamos utilizar na aplicacao
   const [data, setData] = useState([]);
+  const [name, setName] = useState('');
+/*   const [filters, setFilters] = useState(''); */
+ 
+  
 
   useEffect(() => {
     /* console.log(starWarsFetchPlanets()); */
@@ -16,8 +20,28 @@ function PlanetsProvider({ children }) {
     fetchRequest();
   }, []);
 
+  function handleChange(event) {
+      setName(event.target.value);
+  }
+
+  function planetSearch() {
+      if(name === '') {
+          return data;
+      }
+      const result = data.filter((planet) => planet.name.toLowerCase()
+      .includes(name.toLowerCase()));
+      return result;
+  }
+
   const planetValue = {
     data,
+    setData,
+    name,
+    setName,
+/*     filters,
+    setFilters, */
+    handleChange,
+    planetSearch,
   };
 
   return (
@@ -31,5 +55,5 @@ function PlanetsProvider({ children }) {
 PlanetsProvider.propTypes = {
   children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired,
 };
-
+ 
 export default PlanetsProvider;
