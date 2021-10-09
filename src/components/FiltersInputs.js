@@ -2,8 +2,8 @@ import React, { useContext, useState } from 'react';
 import { PlanetsAndFiltersContext } from '../context/PlanetsAndFiltersContext';
 
 const FiltersInputs = () => {
-  const {
-    setStates: { setSearchterm, setNumericFilters },
+  const { setStates:
+    { setSearchterm, setNumericFilters },
   } = useContext(PlanetsAndFiltersContext);
 
   const [columnValues, setColumnValues] = useState([
@@ -14,6 +14,18 @@ const FiltersInputs = () => {
     'surface_water',
   ]);
   const [filters, setFilters] = useState([]);
+
+  const columns = [
+    'Name',
+    'Rotation Period',
+    'Orbital Period',
+    'Diameter',
+    'Climate',
+    'Gravity',
+    'Terrain',
+    'Surface Water',
+    'Population',
+  ];
 
   const filterPlanetsByName = ({ target: { value } }) => {
     setSearchterm(value);
@@ -27,9 +39,7 @@ const FiltersInputs = () => {
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
 
     setNumericFilters((prevState) => [...prevState, selectedInputs]);
-
     setColumnValues(columnValues.filter((value) => value !== selectedInputs.column));
-
     setFilters((prevState) => [...prevState, selectedInputs]);
   };
 
@@ -40,14 +50,48 @@ const FiltersInputs = () => {
     setColumnValues((prevState) => [...prevState, column]);
     setNumericFilters(removedFilter);
   };
-  // Preciso remover o filtro do estado de setFilters, setColumnValues e setNumericFilters.
 
   return (
     <div>
+      <form>
+        <label htmlFor="sort">
+          Order:
+          <select name="sort" id="sort" data-testid="column-sort">
+            {columns.map((column) => (
+              <option
+                key={ column }
+                value={ column }
+              >
+                {column}
+              </option>))}
+          </select>
+        </label>
+
+        <input
+          type="radio"
+          name="sort-options"
+          id="asc"
+          value="ASC"
+          data-testid="column-sort-input-asc"
+        />
+        Ascending
+        <input
+          type="radio"
+          name="sort-options"
+          id="desc"
+          value="DESC"
+          data-testid="column-sort-input-desc"
+        />
+        Descending
+
+        <button type="submit" data-testid="column-sort-button">Sort</button>
+      </form>
+
       <input
         type="text"
         name="search-name-filter"
         data-testid="name-filter"
+        placeholder="Search by a planet name"
         onChange={ filterPlanetsByName }
       />
 
@@ -85,6 +129,7 @@ const FiltersInputs = () => {
             type="number"
             name="value"
             id="value-filter"
+            placeholder="Value for compare"
             data-testid="value-filter"
           />
         </label>
