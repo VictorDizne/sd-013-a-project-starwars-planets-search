@@ -9,6 +9,7 @@ export const PlanetsProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchterm] = useState('');
   const [filterByNumericValues, setNumericFilters] = useState([]);
+  const [order, setOrder] = useState({ column: 'name', sort: 'ASC' });
 
   useEffect(() => {
     const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -43,6 +44,26 @@ export const PlanetsProvider = ({ children }) => {
   const filterByPlanetName = (planet) => planet.name.toLowerCase()
     .includes(searchTerm.toLowerCase());
 
+  // Com base em https://www.smashingmagazine.com/2020/03/sortable-tables-react/ e https://stackoverflow.com/a/51169
+  const handleSortOrder = (a, b) => {
+    const NEG_ONE = -1;
+
+    if (order.column === 'name' && order.sort === 'ASC') {
+      return a.name.localeCompare(b.name);
+    }
+    if (order.column === 'name' && order.sort === 'DESC') {
+      return b.name.localeCompare(a.name);
+    }
+
+    if (Number(a[order.column]) < Number(b[order.column])) {
+      return order.sort === 'ASC' ? NEG_ONE : 1;
+    }
+    if (Number(a[order.column]) > Number(b[order.column])) {
+      return order.sort === 'ASC' ? 1 : NEG_ONE;
+    }
+    return 0;
+  };
+
   const context = {
     planets,
     loading,
@@ -52,6 +73,7 @@ export const PlanetsProvider = ({ children }) => {
         name: searchTerm,
       },
       filterByNumericValues,
+      order,
     },
     setStates: {
       setPlanets,
@@ -59,8 +81,12 @@ export const PlanetsProvider = ({ children }) => {
       setSearchterm,
       handleNumericFilters,
       setNumericFilters,
+      setOrder,
     },
-    planetsWithFilters: planets.filter(filterByPlanetName).filter(handleNumericFilters),
+    planetsWithFilters: planets
+      .filter(filterByPlanetName)
+      .filter(handleNumericFilters)
+      .sort(handleSortOrder),
   };
 
   return (

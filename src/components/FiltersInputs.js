@@ -3,7 +3,7 @@ import { PlanetsAndFiltersContext } from '../context/PlanetsAndFiltersContext';
 
 const FiltersInputs = () => {
   const { setStates:
-    { setSearchterm, setNumericFilters },
+    { setSearchterm, setNumericFilters, setOrder },
   } = useContext(PlanetsAndFiltersContext);
 
   const [columnValues, setColumnValues] = useState([
@@ -14,17 +14,20 @@ const FiltersInputs = () => {
     'surface_water',
   ]);
   const [filters, setFilters] = useState([]);
+  const [orderColumn, setOrderColumn] = useState('Name');
+  const [sort, setSort] = useState('ASC');
 
   const columns = [
-    'Name',
-    'Rotation Period',
-    'Orbital Period',
-    'Diameter',
-    'Climate',
-    'Gravity',
-    'Terrain',
-    'Surface Water',
-    'Population',
+    'name',
+    'rotation_period',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+    'climate',
+    'gravity',
+    'terrain',
+    'population',
   ];
 
   const filterPlanetsByName = ({ target: { value } }) => {
@@ -51,12 +54,28 @@ const FiltersInputs = () => {
     setNumericFilters(removedFilter);
   };
 
+  const sortByOrder = (event) => {
+    event.preventDefault();
+
+    const sortOrder = {
+      column: orderColumn.toLowerCase(),
+      sort,
+    };
+
+    setOrder(sortOrder);
+  };
+
   return (
     <div>
-      <form>
+      <form onSubmit={ sortByOrder }>
         <label htmlFor="sort">
-          Order:
-          <select name="sort" id="sort" data-testid="column-sort">
+          Order by:
+          <select
+            name="column"
+            id="sort"
+            onChange={ ({ target: { value } }) => setOrderColumn(value) }
+            data-testid="column-sort"
+          >
             {columns.map((column) => (
               <option
                 key={ column }
@@ -67,22 +86,29 @@ const FiltersInputs = () => {
           </select>
         </label>
 
-        <input
-          type="radio"
-          name="sort-options"
-          id="asc"
-          value="ASC"
-          data-testid="column-sort-input-asc"
-        />
-        Ascending
-        <input
-          type="radio"
-          name="sort-options"
-          id="desc"
-          value="DESC"
-          data-testid="column-sort-input-desc"
-        />
-        Descending
+        <label htmlFor="asc">
+          Ascending:
+          <input
+            type="radio"
+            name="sort-options"
+            id="asc"
+            value="ASC"
+            onChange={ ({ target: { value } }) => setSort(value) }
+            data-testid="column-sort-input-asc"
+          />
+        </label>
+
+        <label htmlFor="desc">
+          Descending:
+          <input
+            type="radio"
+            name="sort-options"
+            id="desc"
+            value="DESC"
+            onChange={ ({ target: { value } }) => setSort(value) }
+            data-testid="column-sort-input-desc"
+          />
+        </label>
 
         <button type="submit" data-testid="column-sort-button">Sort</button>
       </form>
