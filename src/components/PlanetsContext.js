@@ -22,5 +22,5 @@ export const PlanetsProvider = ({ children }) => {
 };
 
 PlanetsProvider.propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired,
 };
