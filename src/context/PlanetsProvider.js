@@ -1,27 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import PlanetsContext from './PlanetsContext';
-import fetchApi from '../SWPlanetsApi';
+import PlanetsContext from '.';
+
+const initialFilters = {
+  filterByName: {
+    name: '',
+  },
+};
 
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
-  const [isFetching, setIsFetching] = useState(false);
+  const [filters, setFilters] = useState(initialFilters);
 
-  const fetchApiData = async () => {
-    const newData = await fetchApi();
-    setIsFetching(true);
-    setData(newData);
-  };
+  useEffect(() => {
+    const fetchApi = async () => {
+      const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
+      const { results } = await fetch(endpoint).then((res) => res.json());
+      setData(results);
+    };
+    fetchApi();
+  }, []);
+
+  const contextValue = { data, filters, setFilters };
 
   return (
-    <PlanetsContext.Provider value={ { data, isFetching, fetchApiData } }>
+    <PlanetsContext.Provider value={ contextValue }>
       { children }
     </PlanetsContext.Provider>
   );
 }
 
-PlanetsProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
 export default PlanetsProvider;
+
+PlanetsProvider.propTypes = {
+  children: PropTypes.oneOfType(
+    [PropTypes.func,
+      PropTypes.node],
+  ).isRequired,
+};
