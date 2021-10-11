@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { usePlanets } from './PlanetsContext';
 
 const Table = () => {
-  const data = usePlanets();
-  // if ((data === undefined) || (data === null) || (data === [])) {
-  //   console.log('t', data);
-  //   return (
-  //     <h1>Carregando...</h1>
-  //   );
-  // }
+  const { planetsArray, filter } = usePlanets();
+  const [filteredPlanets, setFilteredPlanets] = useState();
+  const { name } = filter.filters.filterByName;
+
+  useEffect(() => {
+    if (planetsArray) {
+      const aux = planetsArray.filter((planet) => planet.name.includes(name));
+      setFilteredPlanets(aux);
+    }
+  }, [planetsArray, name]);
   return (
     <table>
-      {/* {console.log(data)} */}
       <tbody>
         <tr>
           <th>Name</th>
@@ -29,7 +31,7 @@ const Table = () => {
           <th>URL</th>
         </tr>
 
-        {data.map((planet, index) => (
+        {filteredPlanets && filteredPlanets.map((planet, index) => (
           <tr key={ index }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>

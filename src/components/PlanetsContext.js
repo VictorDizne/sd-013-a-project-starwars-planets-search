@@ -6,19 +6,33 @@ const PlanetsContext = React.createContext();
 export const usePlanets = () => useContext(PlanetsContext);
 
 export const PlanetsProvider = ({ children }) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
+  const [planetsArray, setPlanetsArray] = useState([]);
+  const [filter, setFilter] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+    },
+  });
+
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
       .then((response) => response.json())
-      .then((receivedData) => setData(receivedData.results));
+      .then((receivedData) => setData(receivedData));
   }, []);
-  if ((data !== undefined) || (data !== null)) {
-    return (
-      <PlanetsContext.Provider value={ data }>
-        {children}
-      </PlanetsContext.Provider>
-    );
-  }
+
+  useEffect(() => {
+    if (data) {
+      setPlanetsArray(data.results);
+    }
+  }, [data]);
+
+  return (
+    <PlanetsContext.Provider value={ { planetsArray, filter, setFilter } }>
+      {children}
+    </PlanetsContext.Provider>
+  );
 };
 
 PlanetsProvider.propTypes = {
