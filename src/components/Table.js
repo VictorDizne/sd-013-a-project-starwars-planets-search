@@ -21,20 +21,40 @@ const Table = (data) => (
   ))
 );
 
-const filterPlanets = ({ filterByName }, oldData) => {
-  const filtered = oldData.filter((planet) => (
+const filterPlanets = ({ filterByOtherFilters, filterByName }, oldData) => {
+  let filtered = oldData.filter((planet) => (
     planet.name.includes(filterByName.name)
   ));
+
+  if (!filterByOtherFilters) {
+    return filtered;
+  }
+
+  filterByOtherFilters.forEach((filter) => {
+    filtered = filtered.filter((planet) => {
+      if (filter.comparison === 'maior que') {
+        return parseInt(planet[filter.column], 10) > parseInt(filter.value, 10);
+      }
+
+      if (filter.comparison === 'menor que') {
+        return parseInt(planet[filter.column], 10) < parseInt(filter.value, 10);
+      }
+
+      return parseInt(planet[filter.column], 10) === parseInt(filter.value, 10);
+    });
+  });
+
   return filtered;
 };
 
 const RenderTable = () => {
   const { data, filters } = useContext(PlanetsContext);
   const [filteredData, setFilteredData] = useState([]);
+  const { filterByOtherFilters } = filters;
 
   useEffect(() => {
     setFilteredData(filterPlanets(filters, data));
-  }, [data, filters]);
+  }, [data, filters, filterByOtherFilters]);
 
   return (
     <table>
