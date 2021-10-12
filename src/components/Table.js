@@ -47,6 +47,41 @@ const filterPlanets = ({ filterByOtherFilters, filterByName }, oldData) => {
   return filtered;
 };
 
+const sortPlanets = (data, filters) => {
+  const { order } = filters;
+  const { column, sort } = order;
+
+  const sortByColumn = () => {
+    if (column === 'population') {
+      const sortByPopulation = sort === 'ASC'
+        ? data.sort((a, b) => a.population - b.population)
+        : data.sort((a, b) => b.population - a.population);
+
+      return sortByPopulation;
+    }
+
+    if (column === 'name') {
+      const sortByName = sort === 'ASC'
+        ? data.sort((a, b) => a.name.localeCompare(b.name))
+        : data.sort((a, b) => b.name.localeCompare(a.name));
+
+      return sortByName;
+    }
+
+    if (column === 'orbital_period') {
+      const sortByOrbitalPeriod = sort === 'ASC'
+        ? data.sort((a, b) => a.orbital_period - b.orbital_period)
+        : data.sort((a, b) => b.orbital_period - a.orbital_period);
+
+      return sortByOrbitalPeriod;
+    }
+
+    return Table(data);
+  };
+
+  return Table(sortByColumn());
+};
+
 const RenderTable = () => {
   const { data, filters } = useContext(PlanetsContext);
   const [filteredData, setFilteredData] = useState([]);
@@ -74,7 +109,7 @@ const RenderTable = () => {
           <th>Edited</th>
           <th>Link</th>
         </tr>
-        {Table(filteredData)}
+        {sortPlanets(filteredData, filters)}
       </tbody>
     </table>
   );

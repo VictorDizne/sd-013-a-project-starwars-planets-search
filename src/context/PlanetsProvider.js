@@ -7,6 +7,10 @@ const initialFilters = {
     name: '',
   },
   filterByOtherFilters: [],
+  order: {
+    column: 'name',
+    sort: 'ASC',
+  },
 };
 
 function PlanetsProvider({ children }) {
