@@ -3,7 +3,7 @@ import MyContext from '../context/Context';
 
 const APIENDPOINT = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
-function fetchApi() {
+function FetchApi() {
   const { setData } = useContext(MyContext);
   useEffect(() => {
     const APIresults = async () => {
@@ -20,7 +20,8 @@ function fetchApi() {
         return error;
       }
     };
+    APIresults();
   }, [setData]);
 }
 
-export default fetchApi;
+export default FetchApi;
