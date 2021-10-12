@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context';
 
 const planetFilter = (e, setFilters) => {
@@ -7,7 +7,19 @@ const planetFilter = (e, setFilters) => {
   ));
 };
 
-const handleFilters = (setFilters) => {
+const deleteFilter = (column, filters, setFilters, setColumnFilter) => {
+  const newFilters = filters.filterByOtherFilters
+    .filter((item) => item.column !== column);
+
+  setFilters((state) => ({ ...state, filterByOtherFilters: newFilters }));
+  setColumnFilter((state) => [...state, column]);
+};
+
+const deleteColumn = (column, setColumnFilter) => {
+  setColumnFilter((state) => state.filter((item) => item !== column));
+};
+
+const handleFilters = (setFilters, setColumnFilter) => {
   const { value } = document.getElementById('value');
   const column = document.getElementById('column').value;
   const comparison = document.getElementById('comparison').value;
@@ -18,10 +30,18 @@ const handleFilters = (setFilters) => {
     ...state,
     filterByOtherFilters: [...state.filterByOtherFilters, otherValues],
   }));
+  deleteColumn(column, setColumnFilter);
 };
 
 const Filters = () => {
   const { filters, setFilters } = useContext(PlanetsContext);
+  const [columnFilter, setColumnFilter] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   return (
     <div>
@@ -38,52 +58,78 @@ const Filters = () => {
       </label>
 
       <h3>Other Filters:</h3>
+      <div>
+        <label htmlFor="column">
+          <select
+            id="column"
+            name="column"
+            data-testid="column-filter"
+          >
+            {columnFilter.map((item) => (
+              <option key={ item } value={ item }>
+                { item }
+              </option>
+            ))}
+          </select>
+        </label>
 
-      <label htmlFor="column">
-        <select
-          id="column"
-          name="column"
-          data-testid="column-filter"
+        <label htmlFor="comparison">
+          <select
+            id="comparison"
+            name="comparison"
+            data-testid="comparison-filter"
+          >
+            <option>maior que</option>
+            <option>menor que</option>
+            <option>igual a</option>
+          </select>
+        </label>
+
+        <label htmlFor="value">
+          Insert a value
+          <input
+            id="value"
+            type="text"
+            name="value"
+            data-testid="value-filter"
+          />
+        </label>
+
+        <button
+          data-testid="button-filter"
+          type="button"
+          onClick={ () => handleFilters(setFilters, setColumnFilter) }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
-        </select>
-      </label>
+          Search by Ohters Filters
+        </button>
+      </div>
 
-      <label htmlFor="comparison">
-        <select
-          id="comparison"
-          name="comparison"
-          data-testid="comparison-filter"
-        >
-          <option>maior que</option>
-          <option>menor que</option>
-          <option>igual a</option>
-        </select>
-      </label>
+      <div>
+        {filters.filterByOtherFilters.map((item) => (
+          <div data-testid="filter" key={ item.column }>
+            <p>
+              { item.column }
 
-      <label htmlFor="value">
-        Insert a value
-        <input
-          id="value"
-          type="text"
-          name="value"
-          data-testid="value-filter"
-        />
-      </label>
+              { item.comparison}
 
-      <button
-        data-testid="button-filter"
-        type="button"
-        onClick={ () => handleFilters(setFilters) }
-      >
-        Search by Ohters Filters
-      </button>
+              { item.value }
+            </p>
+
+            <button
+              type="button"
+              onClick={
+                () => deleteFilter(item.column, filters, setFilters, setColumnFilter)
+              }
+            >
+              X
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
 export default Filters;
+
+// A parte dos filtros contem com a ajuda do Gustavo de Moraes

@@ -26,7 +26,7 @@ const filterPlanets = ({ filterByOtherFilters, filterByName }, oldData) => {
     planet.name.includes(filterByName.name)
   ));
 
-  if (!filterByOtherFilters) {
+  if (!filterByOtherFilters.length === 0) {
     return filtered;
   }
 
