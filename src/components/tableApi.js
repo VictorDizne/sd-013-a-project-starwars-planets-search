@@ -1,16 +1,18 @@
 import React, { useContext } from 'react';
 import appcontext from '../context/appcontext';
 import Loading from './loading';
+import CompareColumn from './compareColumn';
+import FiltersActiveds from './filtersActived';
 
 const Table = () => {
-  const { api, clearFilters } = useContext(appcontext);
-  if (api.length === 0) {
+  const { planets1, allFilters } = useContext(appcontext);
+  if (planets1.length === 0) {
     return <Loading />;
   }
   const titlesTable = () => {
     let arr = ['filme Relacionado 1',
       'filme Relacionado 2', 'filme Relacionado 3', 'filme Relacionado 4'];
-    const arrKeys = Object.keys(api[0])
+    const arrKeys = Object.keys(planets1[0])
       .filter((item) => item !== 'residents'
       && item !== 'created' && item !== 'edited' && item !== 'url' && item !== 'films');
     arr = [...arrKeys, ...arr];
@@ -23,19 +25,20 @@ const Table = () => {
     ));
   };
 
-  // const tbodyTable = () => ();
+  // const tbodyTable = () => ();      <button type="button" onClick={ () => clearFilters() }>
+  //      Limpar filtros
+  //    </button>
 
   return (
     <header>
-      <button type="button" onClick={ () => clearFilters() }>
-        Limpar filtros
-      </button>
+      <CompareColumn />
+      { allFilters.length > 0 ? <FiltersActiveds /> : 'Sem filtros'}
       <table>
         <thead>
           <tr>{titlesTable()}</tr>
         </thead>
         <tbody>
-          {api.map((
+          {planets1.map((
             {
               name,
               rotation_period: rotationPeriod,
