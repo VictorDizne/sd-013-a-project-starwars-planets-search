@@ -16,4 +16,3 @@ function App() {
 
 export default App;
 
-// Realizado com a ajuda do aluno Thalles Carneiro turma 12

@@ -8,11 +8,11 @@ function PlanetsProvider({ children }) {
 // jogar todas as funcoes e estado que vamos utilizar na aplicacao
   const [data, setData] = useState([]);
   const [name, setName] = useState('');
-  /* const [filterByNumericValues, setFilterByNumericValues] = useState({
+  const [filterByNumericValues, setFilterByNumericValues] = useState({
     column: '',
     comparison: '',
     value: '',
-  }); */
+  });
 
   useEffect(() => {
     /* console.log(starWarsFetchPlanets()); */
@@ -25,7 +25,8 @@ function PlanetsProvider({ children }) {
   function handleChange(event) {
     setName(event.target.value);
   }
-  /*
+  
+  // Realizado com a ajuda do aluno Thalles Carneiro turma 12
   function handleClick(column, comparison, value) {
     setFilterByNumericValues(
       {
@@ -34,16 +35,16 @@ function PlanetsProvider({ children }) {
         value,
       },
     );
-  } */
+  }
 
-  /*   function planetSearch() {
+      function planetSearch() {
       if(name === '') {
           return data;
       }
       const result = data.filter((planet) => planet.name.toLowerCase()
       .includes(name.toLowerCase()));
       return result;
-  } */
+  }
 
   const planetValue = {
     data,
@@ -51,7 +52,7 @@ function PlanetsProvider({ children }) {
     name,
     setName,
     handleChange,
-    /*  handleClick, */
+     handleClick,
   };
 
   return (
