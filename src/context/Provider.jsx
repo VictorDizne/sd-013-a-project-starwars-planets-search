@@ -8,14 +8,40 @@ const stateAPI = {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   },
 };
 
 function Provider({ children }) {
   const [state, setState] = useState();
-
+  // Rogerio me ajudou a entender esses filtros
   const setFilterName = ({ target: { value } }) => {
     setState({ ...state, filters: { ...state.filters, filterByName: { name: value } } });
+  };
+
+  const setFilterNumeric = (param) => {
+    setState({ ...state,
+      filters: { ...state.filters,
+        filterByNumericValues: [
+          ...state.filters.filterByNumericValues, param] } });
+  };
+
+  const removeFilter = (param) => {
+    setState({ ...state,
+      filters: { ...state.filters,
+        filterByNumericValues: [...state.filters.filterByNumericValues.filter(
+          (item) => item.column !== param,
+        )] } });
+  };
+
+  const setOrdenation = (column = 'name', sort = 'ASC') => {
+    setState({ ...state,
+      filters: { ...state.filters,
+        order: { column, sort } } });
   };
 
   useEffect(() => {
@@ -30,14 +56,20 @@ function Provider({ children }) {
   }, []);
 
   return (
-    <ContextAPI.Provider value={ { state, setFilterName } }>
+    <ContextAPI.Provider
+      value={ { state,
+        setFilterName,
+        setFilterNumeric,
+        removeFilter,
+        setOrdenation } }
+    >
       { children }
     </ContextAPI.Provider>
   );
 }
 
 Provider.propTypes = {
-  children: PropTypes.element,
-}.isRequired;
+  children: PropTypes.element.isRequired,
+};
 
 export default Provider;
