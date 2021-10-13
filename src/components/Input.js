@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import Context from '../context/Context';
 
+// feito com ajuda de Gustavo Moraes, Luiz Casimiro
+
 const handleChange = (e, setFilters) => {
   e.persist();
   setFilters((state) => ({
@@ -8,7 +10,11 @@ const handleChange = (e, setFilters) => {
   }));
 };
 
-const handleFilters = (setFilters) => {
+const deleteColumnFilter = (column, setColumnFilter) => {
+  setColumnFilter((state) => state.filter((columnItem) => columnItem !== column));
+};
+
+const handleFilters = (setFilters, setColumnFilter) => {
   const { value } = document.getElementById('value');
   const column = document.getElementById('column').value;
   const comparison = document.getElementById('comparison').value;
@@ -19,6 +25,8 @@ const handleFilters = (setFilters) => {
       value, column, comparison,
     }],
   }));
+
+  deleteColumnFilter(column, setColumnFilter);
 };
 
 const Input = () => {
@@ -66,7 +74,7 @@ const Input = () => {
 
       <div>
         <label htmlFor="comparison">
-          Escolha
+          Tipo de comparação
           <select
             id="comparison"
             name="comparison"
@@ -92,7 +100,7 @@ const Input = () => {
       </div>
       <button
         data-testid="button-filter"
-        onClick={ () => handleFilters(setFilters) }
+        onClick={ () => handleFilters(setFilters, setColumnFilter) }
         type="button"
       >
         Filtrar
