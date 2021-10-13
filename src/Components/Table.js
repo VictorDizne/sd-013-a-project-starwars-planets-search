@@ -1,23 +1,21 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import Context from '../Context/Context';
+import SwapiContext from '../Context/SwapiContext';
+import TableBody from './TableBody';
+import TableHead from './TableHead';
 
-function Table(props) {
-  const { data } = useContext(Context);
-  console.log(data);
+function Table() {
+  const { /* data */ loading } = useContext(SwapiContext);
+  if (loading) {
+    return (
+      <p>Loading</p>
+    );
+  }
   return (
     <table>
-      <tr>
-        <th></th>
-        <th>b</th>
-        <th>c</th>
-      </tr>
+      <TableHead />
+      <TableBody />
     </table>
   );
 }
-
-Table.propTypes = {
-
-};
 
 export default Table;

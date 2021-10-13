@@ -1,24 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Context from './Context';
+import SwapiContext from './SwapiContext';
 
-// Configurações padrão de Context.
+// const INITIAL_STATE = {
+//   data: [],
+//   filters: {
+//     filterByName: {
+//       name: '',
+//     },
+//     filterByNumericValues: [],
+//     order: {
+//       column: 'name',
+//       sort: 'ASC',
+//     },
+//   },
+// };
+
 function Provider({ children }) {
-  const [state, setState] = useState({ data: [] });
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchApi = async () => {
       const request = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
       const response = await request.json();
-      const data = response.results;
-      const filteredData = data.filter((planet) => delete planet.residents);
-      setState({ data: filteredData });
+      const { results } = response;
+      const filteredData = results.filter((planet) => delete planet.residents);
+      setData(filteredData);
+      setLoading(false);
     };
     fetchApi();
   }, []);
+
+  const value = { data, loading };
   return (
-    <Context.Provider value={ state }>
+    <SwapiContext.Provider value={ value }>
       { children }
-    </Context.Provider>
+    </SwapiContext.Provider>
   );
 }
 
