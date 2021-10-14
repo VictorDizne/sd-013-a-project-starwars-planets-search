@@ -50,13 +50,15 @@ function PlanetsProvider({ children }) {
     case 'maior que':
       // console.log('maior');
       setFilteredPlanets(
-        filteredPlanets.filter((planet) => Number(planet[filter.column]) > Number(filter.value)),
+        filteredPlanets
+          .filter((planet) => Number(planet[filter.column]) > Number(filter.value)),
       );
       break;
     case 'menor que':
       // console.log('menor');
       setFilteredPlanets(
-        filteredPlanets.filter((planet) => Number(planet[filter.column]) < Number(filter.value)),
+        filteredPlanets
+          .filter((planet) => Number(planet[filter.column]) < Number(filter.value)),
       );
       break;
     case 'igual a':
