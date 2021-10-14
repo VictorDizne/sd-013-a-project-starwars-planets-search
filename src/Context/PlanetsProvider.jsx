@@ -50,29 +50,30 @@ function PlanetsProvider({ children }) {
     case 'maior que':
       // console.log('maior');
       setFilteredPlanets(
-        planets.filter((planet) => Number(planet[filter.column]) > Number(filter.value)),
+        filteredPlanets.filter((planet) => Number(planet[filter.column]) > Number(filter.value)),
       );
       break;
     case 'menor que':
       // console.log('menor');
       setFilteredPlanets(
-        planets.filter((planet) => Number(planet[filter.column]) < Number(filter.value)),
+        filteredPlanets.filter((planet) => Number(planet[filter.column]) < Number(filter.value)),
       );
       break;
     case 'igual a':
       // console.log('igual');
       setFilteredPlanets(
-        planets.filter((planet) => planet[filter.column] === filter.value),
+        filteredPlanets.filter((planet) => planet[filter.column] === filter.value),
       );
       break;
     default:
-      setFilteredPlanets(planets);
+      setFilteredPlanets(filteredPlanets);
       break;
     }
   };
 
   const filterPlanets = () => {
-    filterByNumericValues.forEach(comparisonCases); // = forEach((filter) => casos(filter))
+    setFilteredPlanets(planets);
+    filterByNumericValues.forEach(comparisonCases); // = forEach((filter) => comparisonCases(filter))
   };
 
   useEffect(() => {
