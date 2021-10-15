@@ -4,11 +4,8 @@ import appContext from '../context/appcontext';
 const CompareColumn = () => {
   const { filters: { filterByNumericValues: {
     column: coluna,
-    setColuna,
-    compareColumn,
-    setCompareColumn,
-    compareValue,
-    setCompareValue,
+    comparison: compareColumn,
+    value: compareValue,
   },
   },
   allFilters,
@@ -20,12 +17,15 @@ const CompareColumn = () => {
   setActualFilter,
   setSelectColumns,
   selectColumns,
+  setColuna,
+  setCompareColumn,
+  setCompareValue,
   } = useContext(appContext);
 
   const filtersColumn = ['maior que', 'igual a', 'menor que'];
 
   async function handleClick() {
-    setActualFilter(actualFilter + 1);
+    await setActualFilter(actualFilter + 1);
     await setAllfilters([...allFilters, filterByNumericValues]);
     const newColu = Object.values(selectColumns).filter((colu) => colu !== coluna);
     setSelectColumns(newColu);

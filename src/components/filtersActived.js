@@ -2,11 +2,15 @@ import React, { useContext } from 'react';
 import appContext from '../context/appcontext';
 
 const FiltersActiveds = () => {
-  const { allFilters, clearFilter, column } = useContext(appContext);
+  const {
+    allFilters,
+    clearFilter,
+    column,
+  } = useContext(appContext);
 
-  async function handleClick(filter) {
-    console.log(column);
-    await clearFilter(filter);
+  async function handleClick(filter, o) {
+    console.log(allFilters);
+    await clearFilter(filter, o);
   }
 
   return (
@@ -21,7 +25,7 @@ const FiltersActiveds = () => {
             <button
               type="button"
               data-testid="filter"
-              onClick={ () => handleClick(filter[column]) }
+              onClick={ () => handleClick(filter.column, filter[column]) }
             >
               X
             </button>

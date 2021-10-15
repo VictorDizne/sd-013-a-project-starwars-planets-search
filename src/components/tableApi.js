@@ -3,16 +3,17 @@ import appcontext from '../context/appcontext';
 import Loading from './loading';
 import CompareColumn from './compareColumn';
 import FiltersActiveds from './filtersActived';
+import OrderColumn from './order';
 
 const Table = () => {
-  const { planets1, allFilters } = useContext(appcontext);
-  if (planets1.length === 0) {
+  const { data, allFilters } = useContext(appcontext);
+  if (data.length === 0) {
     return <Loading />;
   }
   const titlesTable = () => {
     let arr = ['filme Relacionado 1',
       'filme Relacionado 2', 'filme Relacionado 3', 'filme Relacionado 4'];
-    const arrKeys = Object.keys(planets1[0])
+    const arrKeys = Object.keys(data[0])
       .filter((item) => item !== 'residents'
       && item !== 'created' && item !== 'edited' && item !== 'url' && item !== 'films');
     arr = [...arrKeys, ...arr];
@@ -33,12 +34,13 @@ const Table = () => {
     <header>
       <CompareColumn />
       { allFilters.length > 0 ? <FiltersActiveds /> : 'Sem filtros'}
+      <OrderColumn />
       <table>
         <thead>
           <tr>{titlesTable()}</tr>
         </thead>
         <tbody>
-          {planets1.map((
+          {data.map((
             {
               name,
               rotation_period: rotationPeriod,
@@ -51,7 +53,7 @@ const Table = () => {
               films }, index,
           ) => (
             <tr key={ index }>
-              <td>{name}</td>
+              <td data-testid="planet-name">{name}</td>
               <td>{rotationPeriod}</td>
               <td>{orbitalPeriod}</td>
               <td>{diameter}</td>
