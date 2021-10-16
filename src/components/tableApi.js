@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import appcontext from '../context/appcontext';
 import Loading from './loading';
-// import CompareColumn from './compareColumn';
-// import FiltersActiveds from './filtersActived';
 import OrderColumn from './order';
 
 const Table = () => {
@@ -25,10 +23,6 @@ const Table = () => {
       </th>
     ));
   };
-
-  // const tbodyTable = () => ();      <button type="button" onClick={ () => clearFilters() }>
-  //      Limpar filtros
-  //    </button>
 
   return (
     <header>

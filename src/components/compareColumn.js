@@ -8,14 +8,6 @@ const CompareColumn = () => {
     value: compareValue,
   },
   },
-  // allFilters,
-  // setAllfilters,
-  /* filters: {
-    filterByNumericValues,
-  },
-  actualFilter,
-  setActualFilter,
-  setSelectColumns, */
   selectColumns,
   setColuna,
   setTypeCompare,
@@ -24,19 +16,6 @@ const CompareColumn = () => {
   } = useContext(appContext);
 
   const filtersColumn = ['maior que', 'igual a', 'menor que'];
-
-  /* function handleClick() {
-    setActualFilter(actualFilter + 1);
-    /* await setAllfilters([...allFilters, filterByNumericValues]); */
-  /* const newColu = Object.values(selectColumns).filter((colu) => colu !== coluna);
-    setSelectColumns(newColu); */
-  //  setAllfilters([...allFilters, filterByNumericValues]);
-  // const newColu = Object.values(selectColumns).filter((colu) => colu !== coluna);
-  // await setSelectColumns(newColu);
-  //  console.log(allFilters);
-  //  console.log(coluna);
-  //  console.log(filterByNumericValues);
-  // }
 
   return (
     <div>

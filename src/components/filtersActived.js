@@ -5,15 +5,8 @@ const FiltersActiveds = () => {
   const {
     allFilters,
     clearFilter,
-    // column,
   } = useContext(appContext);
-
-  /* async function handleClick(filter) {
-    console.log(allFilters);
-    console.log(filter);
-    await clearFilter(filter);
-  } */
-  // filter.column, filter[column]
+  // consultei a logica para refatorar do aluno victor diniz T13 - A  link : https://github.com/tryber/sd-013-a-project-starwars-planets-search/blob/victor-diniz-project-starwars-planets-search/src/components/ActiveFilter.js
   if (allFilters.length > 0) {
     return (
       <div>
@@ -34,7 +27,3 @@ const FiltersActiveds = () => {
 };
 
 export default FiltersActiveds;
-
-/*
-clearFilter(filter.column)
-<h4  */

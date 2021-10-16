@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { oneOfType, arrayOf, element } from 'prop-types';
+import PropTypes from 'prop-types';
 import appContext from './appcontext';
 
 function Provider({ children }) {
@@ -10,36 +10,15 @@ function Provider({ children }) {
   const [typeCompare, setTypeCompare] = useState('maior que'); // tipo de comparaçao
   const [allFilters, setAllfilters] = useState([]); // lista de filtros ex : [{value, type, coluna}, {value, type, coluna}]
   const [actualFilter, setActualFilter] = useState(0); // quantidade de filtros atuais
-  /* const [selectColumns, setSelectColumns] = useState({
-    nada: '',
-    rotation_period: 'rotation_period',
-    orbital_period: 'orbital_period',
-    diameter: 'diameter',
-    surface_water: 'surface_water',
-    population: 'population',
-  }); */
-  const [selectColumns, setSelectColumns] = useState(['',
+  const [selectColumns, setSelectColumns] = useState([
     'rotation_period', 'orbital_period', 'diameter', 'surface_water', 'population']);
   const [coluna, setColuna] = useState(''); // coluna para comparar
-  // const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState('');
-  const [options, setOptions] = useState({
-    name: 'name',
-    rotation_period: 'rotation_period',
-    orbital_period: 'orbital_period',
-    diameter: 'diameter',
-    surface_water: 'surface_water',
-    population: 'population',
-  });
+  const [options, setOptions] = useState(['name',
+    'rotation_period', 'orbital_period', 'diameter', 'surface_water', 'population']);
   const [typeOrdenation, setOrdenation] = useState('name');
   const [button, setButton] = useState(0);
-  // colunas
-  /* const [filter, setFilter] = useState({
-    column: coluna,
-    comparison: compareColumn,
-    value: compareValue,
-  }); */
-  // linha 14 ao 20 foi uma ideia a partir do projeto do victor diniz : link: https://github.com/tryber/sd-013-a-project-starwars-planets-search/blob/victor-diniz-project-starwars-planets-search/src/components/reducer.js
+
   const filterByNumericValues = {
     column: coluna,
     comparison: typeCompare,
@@ -58,7 +37,6 @@ function Provider({ children }) {
     }
     fetchApi();
   }, []);
-  //  Desta linha ate a 80 eu consultei a logica do projeto de outro aluno: VictorDiniz Turma13-TA link: https://github.com/tryber/sd-013-a-project-starwars-planets-search/blob/victor-diniz-project-starwars-planets-search/src/components/reducer.js
 
   function setNewsPlanets(planets) {
     setPlanets1(planets);
@@ -95,10 +73,8 @@ function Provider({ children }) {
     console.log(coluna);
     setCompareValue(0);
     setSelectColumns([...selectColumns, filtro]);
-    // console.log(filtro);
-    //
-    //
   }
+  //  A logica eu consultei o projeto de outro aluno: VictorDiniz Turma13-TA link: https://github.com/tryber/sd-013-a-project-starwars-planets-search/blob/victor-diniz-project-starwars-planets-search/src/components/reducer.js
   function exec() {
     if (typeCompare === 'maior que') {
       const newApi = planets2
@@ -109,7 +85,6 @@ function Provider({ children }) {
     if (typeCompare === 'menor que') {
       const newApi = planets2
         .filter((planet) => parseInt(planet[coluna], 10) < parseInt(compareValue, 10));
-      // setNewsPlanets(newApi);
       const i = coluna !== '' ? setNewsPlanets(newApi) : setNewsPlanets(planets2);
       return i;
     }
@@ -117,18 +92,14 @@ function Provider({ children }) {
       const newPlanets = planets2
         .filter((planet) => (
           parseInt(planet[coluna], 10) === parseInt(compareValue, 10)));
-      // setNewsPlanets(newPlanets);
       const i = coluna !== '' ? setNewsPlanets(newPlanets) : setNewsPlanets(planets2);
       return i;
     }
   }
   useEffect(() => {
-    //  A logica eu consultei o projeto de outro aluno: VictorDiniz Turma13-TA link: https://github.com/tryber/sd-013-a-project-starwars-planets-search/blob/victor-diniz-project-starwars-planets-search/src/components/reducer.js
     if (actualFilter >= 0) {
       exec();
     }
-    // console.log(planets2);
-    // actualFilter
   }, [allFilters]);
 
   function handleClick() {
@@ -164,15 +135,12 @@ function Provider({ children }) {
     setActualFilter,
     selectColumns,
     setSelectColumns,
-    // check1,
-    // setCheck1,
     check2,
     setCheck2,
     options,
     setOptions,
     typeOrdenation,
     setOrdenation,
-    // newOrder,
     button,
     setButton,
     handleClick,
@@ -185,10 +153,7 @@ function Provider({ children }) {
 }
 
 Provider.propTypes = {
-  children: oneOfType([
-    arrayOf(element),
-    element,
-  ]).isRequired,
+  children: PropTypes.element.isRequired,
 };
 
 export default Provider;
