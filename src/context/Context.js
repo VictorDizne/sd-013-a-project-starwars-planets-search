@@ -12,7 +12,7 @@ function Provider({ children }) {
   const [actualFilter, setActualFilter] = useState(0); // quantidade de filtros atuais
   const [selectColumns, setSelectColumns] = useState([
     'rotation_period', 'orbital_period', 'diameter', 'surface_water', 'population']);
-  const [coluna, setColuna] = useState(''); // coluna para comparar
+  const [coluna, setColuna] = useState('rotation_period'); // coluna para comparar
   const [check2, setCheck2] = useState('');
   const [options, setOptions] = useState(['name',
     'rotation_period', 'orbital_period', 'diameter', 'surface_water', 'population']);
@@ -79,20 +79,20 @@ function Provider({ children }) {
     if (typeCompare === 'maior que') {
       const newApi = planets2
         .filter((planet) => parseInt(planet[coluna], 10) > parseInt(compareValue, 10));
-      const i = coluna !== '' ? setNewsPlanets(newApi) : setNewsPlanets(planets2);
+      const i = coluna ? setNewsPlanets(newApi) : setNewsPlanets(planets2);
       return i;
     }
     if (typeCompare === 'menor que') {
       const newApi = planets2
         .filter((planet) => parseInt(planet[coluna], 10) < parseInt(compareValue, 10));
-      const i = coluna !== '' ? setNewsPlanets(newApi) : setNewsPlanets(planets2);
+      const i = coluna ? setNewsPlanets(newApi) : setNewsPlanets(planets2);
       return i;
     }
     if (typeCompare === 'igual a') {
       const newPlanets = planets2
         .filter((planet) => (
           parseInt(planet[coluna], 10) === parseInt(compareValue, 10)));
-      const i = coluna !== '' ? setNewsPlanets(newPlanets) : setNewsPlanets(planets2);
+      const i = coluna ? setNewsPlanets(newPlanets) : setNewsPlanets(planets2);
       return i;
     }
   }
