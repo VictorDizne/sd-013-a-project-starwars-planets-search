@@ -99,40 +99,33 @@ function Provider({ children }) {
     //
     //
   }
-
+  function exec() {
+    if (typeCompare === 'maior que') {
+      const newApi = planets2
+        .filter((planet) => parseInt(planet[coluna], 10) > parseInt(compareValue, 10));
+      const i = coluna !== '' ? setNewsPlanets(newApi) : setNewsPlanets(planets2);
+      return i;
+    }
+    if (typeCompare === 'menor que') {
+      const newApi = planets2
+        .filter((planet) => parseInt(planet[coluna], 10) < parseInt(compareValue, 10));
+      // setNewsPlanets(newApi);
+      const i = coluna !== '' ? setNewsPlanets(newApi) : setNewsPlanets(planets2);
+      return i;
+    }
+    if (typeCompare === 'igual a') {
+      const newPlanets = planets2
+        .filter((planet) => (
+          parseInt(planet[coluna], 10) === parseInt(compareValue, 10)));
+      // setNewsPlanets(newPlanets);
+      const i = coluna !== '' ? setNewsPlanets(newPlanets) : setNewsPlanets(planets2);
+      return i;
+    }
+  }
   useEffect(() => {
     //  A logica eu consultei o projeto de outro aluno: VictorDiniz Turma13-TA link: https://github.com/tryber/sd-013-a-project-starwars-planets-search/blob/victor-diniz-project-starwars-planets-search/src/components/reducer.js
     if (actualFilter >= 0) {
-      if (typeCompare === 'maior que') {
-        const newApi = planets2
-          .filter((planet) => parseInt(planet[coluna], 10) > parseInt(compareValue, 10));
-        if (coluna !== '') {
-          setNewsPlanets(newApi);
-        } else {
-          setNewsPlanets(planets2);
-        }
-      }
-      if (typeCompare === 'menor que') {
-        const newApi = planets2
-          .filter((planet) => parseInt(planet[coluna], 10) < parseInt(compareValue, 10));
-        setNewsPlanets(newApi);
-        if (coluna !== '') {
-          setNewsPlanets(newApi);
-        } else {
-          setNewsPlanets(planets2);
-        }
-      }
-      if (typeCompare === 'igual a') {
-        const newPlanets = planets2
-          .filter((planet) => (
-            parseInt(planet[coluna], 10) === parseInt(compareValue, 10)));
-        setNewsPlanets(newPlanets);
-        if (coluna !== '') {
-          setNewsPlanets(newPlanets);
-        } else {
-          setNewsPlanets(planets2);
-        }
-      }
+      exec();
     }
     // console.log(planets2);
     // actualFilter
