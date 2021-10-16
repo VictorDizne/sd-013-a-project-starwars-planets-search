@@ -4,34 +4,39 @@ import appContext from '../context/appcontext';
 const CompareColumn = () => {
   const { filters: { filterByNumericValues: {
     column: coluna,
-    comparison: compareColumn,
+    comparison: typeCompare,
     value: compareValue,
   },
   },
-  allFilters,
-  setAllfilters,
-  filters: {
+  // allFilters,
+  // setAllfilters,
+  /* filters: {
     filterByNumericValues,
   },
   actualFilter,
   setActualFilter,
-  setSelectColumns,
+  setSelectColumns, */
   selectColumns,
   setColuna,
-  setCompareColumn,
+  setTypeCompare,
   setCompareValue,
+  handleClick,
   } = useContext(appContext);
 
   const filtersColumn = ['maior que', 'igual a', 'menor que'];
 
-  async function handleClick() {
-    await setActualFilter(actualFilter + 1);
-    await setAllfilters([...allFilters, filterByNumericValues]);
-    const newColu = Object.values(selectColumns).filter((colu) => colu !== coluna);
-    setSelectColumns(newColu);
-    // console.log(allFilters);
-    console.log(filterByNumericValues);
-  }
+  /* function handleClick() {
+    setActualFilter(actualFilter + 1);
+    /* await setAllfilters([...allFilters, filterByNumericValues]); */
+  /* const newColu = Object.values(selectColumns).filter((colu) => colu !== coluna);
+    setSelectColumns(newColu); */
+  //  setAllfilters([...allFilters, filterByNumericValues]);
+  // const newColu = Object.values(selectColumns).filter((colu) => colu !== coluna);
+  // await setSelectColumns(newColu);
+  //  console.log(allFilters);
+  //  console.log(coluna);
+  //  console.log(filterByNumericValues);
+  // }
 
   return (
     <div>
@@ -42,10 +47,10 @@ const CompareColumn = () => {
         <select
           id="selectColumn"
           data-testid="column-filter"
+          onChange={ ({ target: { value } }) => setColuna(value) }
           value={ coluna }
-          onChange={ (e) => setColuna(e.target.value) }
         >
-          {Object.values(selectColumns).map((colum) => (
+          {selectColumns.map((colum) => (
             <option key={ colum }>
               {colum}
             </option>))}
@@ -58,8 +63,8 @@ const CompareColumn = () => {
         <select
           id="filterColum"
           data-testid="comparison-filter"
-          value={ compareColumn }
-          onChange={ (e) => setCompareColumn(e.target.value) }
+          value={ typeCompare }
+          onChange={ ({ target: { value } }) => setTypeCompare(value) }
         >
           {filtersColumn.map((type) => (
             <option key={ type }>
@@ -79,7 +84,7 @@ const CompareColumn = () => {
           onChange={ (e) => setCompareValue(e.target.value) }
         />
       </label>
-      <button type="submit" data-testid="button-filter" onClick={ handleClick }>
+      <button type="submit" data-testid="button-filter" onClick={ () => handleClick() }>
         Filtrar
       </button>
     </div>

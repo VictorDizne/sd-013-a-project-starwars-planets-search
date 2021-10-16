@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import appcontext from '../context/appcontext';
 import Loading from './loading';
-import CompareColumn from './compareColumn';
-import FiltersActiveds from './filtersActived';
+// import CompareColumn from './compareColumn';
+// import FiltersActiveds from './filtersActived';
 import OrderColumn from './order';
 
 const Table = () => {
-  const { data, allFilters } = useContext(appcontext);
+  const { data } = useContext(appcontext);
   if (data.length === 0) {
     return <Loading />;
   }
@@ -32,8 +32,6 @@ const Table = () => {
 
   return (
     <header>
-      <CompareColumn />
-      { allFilters.length > 0 ? <FiltersActiveds /> : 'Sem filtros'}
       <OrderColumn />
       <table>
         <thead>

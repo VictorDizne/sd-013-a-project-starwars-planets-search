@@ -5,35 +5,36 @@ const FiltersActiveds = () => {
   const {
     allFilters,
     clearFilter,
-    column,
+    // column,
   } = useContext(appContext);
 
-  async function handleClick(filter, o) {
+  /* async function handleClick(filter) {
     console.log(allFilters);
-    await clearFilter(filter, o);
-  }
-
-  return (
-    <div>
-      <h3> Filtros ativos </h3>
-      {allFilters.map((filter) => (
-        <div key={ filter.column }>
-          <h4>
-            {`${filter.column},
-            ${filter.comparison},
-            ${filter.value}`}
+    console.log(filter);
+    await clearFilter(filter);
+  } */
+  // filter.column, filter[column]
+  if (allFilters.length > 0) {
+    return (
+      <div>
+        {allFilters.map((filter) => (
+          <h4 key={ filter.column } data-testid="filter">
             <button
+              key={ filter.column }
               type="button"
-              data-testid="filter"
-              onClick={ () => handleClick(filter.column, filter[column]) }
+              onClick={ () => clearFilter(filter.column) }
             >
               X
             </button>
           </h4>
-        </div>
-      ))}
-    </div>
-  );
+        ))}
+      </div>
+    );
+  } return null;
 };
 
 export default FiltersActiveds;
+
+/*
+clearFilter(filter.column)
+<h4  */
