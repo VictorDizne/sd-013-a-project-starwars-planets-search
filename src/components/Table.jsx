@@ -2,16 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { usePlanets } from './PlanetsContext';
 
 const Table = () => {
+  // recebendo do custom hook usePlanets quais estados vou usar
   const { planetsArray, filter } = usePlanets();
+  // estado filteredPlanets será usado para renderizar os planetas
+  // de acordo com os filtros
   const [filteredPlanets, setFilteredPlanets] = useState();
+  // desestruturando 'name' que foi digitado no campo search
   const { name } = filter.filters.filterByName;
-
+  // passando o array com os planetas para o estado filteredPlanetas
   useEffect(() => {
     if (planetsArray) {
-      const aux = planetsArray.filter((planet) => planet.name.includes(name));
-      setFilteredPlanets(aux);
+      // filtrando os planetas renderizados de acordo com o que for digitado
+      setFilteredPlanets(planetsArray.filter(
+        // usando includes e lowerCase pra filtrar
+        (planet) => planet.name.toLowerCase().includes(name.toLowerCase()),
+      ));
     }
-  }, [planetsArray, name]);
+  }, [name, planetsArray]);
+
   return (
     <table>
       <tbody>
