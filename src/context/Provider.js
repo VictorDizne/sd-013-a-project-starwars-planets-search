@@ -6,6 +6,7 @@ import MyContext from './MyContext';
 function Provider({ children }) {
   const [useData, setUseData] = useState([]);
   const [dataTable, setDataTable] = useState({});
+  const [valueInput, setValueInput] = useState('');
 
   useEffect(() => {
     async function getAPI() {
@@ -16,9 +17,15 @@ function Provider({ children }) {
     getAPI();
   }, []);
 
+  function handleChange({ target: { value } }) {
+    setValueInput(value);
+  }
+
   const contextValue = {
     useData,
     dataTable,
+    valueInput,
+    handleChange,
   };
 
   return (

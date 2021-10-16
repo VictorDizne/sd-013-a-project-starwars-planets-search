@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 
 function Table() {
-  const { useData, dataTable } = useContext(MyContext);
-  console.log(useData);
+  const { useData, dataTable, valueInput } = useContext(MyContext);
+  const filter = useData.filter((planet) => planet.name.toLowerCase().includes(valueInput.toLowerCase()));
 
   if (useData === undefined) return <p>Loading...</p>;
   return (
@@ -19,7 +19,7 @@ function Table() {
         </thead>
         <tbody>
           {
-            useData.map((row, index) => (
+            filter.map((row, index) => (
               <tr key={ index }>
                 <td>{ row.name }</td>
                 <td>{ row.rotation_period }</td>
