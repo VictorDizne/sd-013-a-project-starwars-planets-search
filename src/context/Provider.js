@@ -6,7 +6,6 @@ import fetchPlanets from '../Api';
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
   const [valueInput, setValueInput] = useState('');
-
   const handleChange = ({ target: { value } }) => {
     setValueInput(value);
   };

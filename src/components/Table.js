@@ -4,6 +4,10 @@ import MyContext from '../context/MyContext';
 function Table() {
   const contextValue = useContext(MyContext);
   const { data, valueInput } = contextValue;
+
+  const destinationObj = {};
+  const object = Object.assign(destinationObj, data[0]);
+
   if (!data) return <p>loading...</p>;
   const filter = data.filter((planet) => (
     planet.name.toLowerCase().includes(valueInput.toLowerCase())));
@@ -12,19 +16,9 @@ function Table() {
       <table>
         <thead>
           <tr>
-            <th>name</th>
-            <th>rotation_period</th>
-            <th>orbital_period</th>
-            <th>diameter</th>
-            <th>climate</th>
-            <th>gravity</th>
-            <th>terrain</th>
-            <th>surface_water</th>
-            <th>population</th>
-            <th>films</th>
-            <th>created</th>
-            <th>edited</th>
-            <th>url</th>
+            {
+              Object.keys(object).map((row, i) => <th key={ i }>{row}</th>)
+            }
           </tr>
         </thead>
         <tbody>
