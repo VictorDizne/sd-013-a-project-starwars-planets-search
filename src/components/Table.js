@@ -2,25 +2,33 @@ import React, { useContext } from 'react';
 import ContextPlanet from '../contexts/ContextPlanet';
 
 export default function Table() {
-  const data = useContext(ContextPlanet);
-  if (!data) return null;
-  console.log(data);
+  const contextData = useContext(ContextPlanet);
+  const { data, inputFilterValue } = contextData;// 2° Req
+
+  if (!data || (data.length === 0)) return <p>loading...</p>;// Refatorar para carregar uma tela de loading
+  const filterByInput = data.filter((planet) => (
+    planet.name.toLowerCase().includes(inputFilterValue.toLowerCase())));
+  // Convertendo data para um objeto com o Object.assing para poder obter as keys das propriedades
+  // Daí é só aplicar o Object.Keys no objData
+  const convertData = {};
+  const objData = Object.assign(convertData, data[0]);
+
   return (
     <main>
-      <h1>Acesso Confidencial - Planetas do StarWars</h1>
+      <h1>Acesso Confidencial - StarWars Planets</h1>
       <table>
         <thead>
           {/* Criando linha com nome de cada planeta */}
           <tr>
             {
-              Object.keys(data.planets[0])
-                .map((rowPlanet) => <th key={ rowPlanet }>{ rowPlanet }</th>)
+              Object.keys(objData)
+                .map((rowProps) => <th key={ rowProps }>{ rowProps }</th>)
             }
           </tr>
         </thead>
         <tbody>
-          { data.planets.map((item) => (
-            <tr key={ item.name }>
+          { filterByInput.map((item, index) => (
+            <tr key={ index }>
               <td data-testid="planet-name">{ item.name }</td>
               <td>{ item.rotation_period }</td>
               <td>{ item.orbital_period }</td>
