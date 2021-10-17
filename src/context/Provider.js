@@ -7,15 +7,21 @@ function Provider({ children }) {
   const { planets, planetsKeys, setPlanets } = usePlanets();
   const [queryValue, setQueryValue] = useState('');
   const [numFilters, setNumFilters] = useState({});
+  const [allFilters, setAllFilters] = useState([]);
+  const [sortValues, setInitialSort] = useState([]);
 
   const contextValue = {
+    allFilters,
+    numFilters,
     planets,
     planetsKeys,
     queryValue,
-    numFilters,
-    setQueryValue,
-    setPlanets,
+    sortValues,
+    setAllFilters,
     setNumFilters,
+    setPlanets,
+    setQueryValue,
+    setInitialSort,
   };
 
   return (
