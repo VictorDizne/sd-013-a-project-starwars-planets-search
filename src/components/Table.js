@@ -4,24 +4,19 @@ import myContext from '../context/Context';
 const Table = () => {
   const { data } = useContext(myContext);
   const columnHead = Object.keys([0]);
-  const header = columnHead.map((tagColumnHead, index) =>
-  { return (
+  const header = columnHead.map((tagColumnHead, index) => (
     <th key={ index }>
       { tagColumnHead }
     </th>
-  );
-  });
+  ));
 
   const body = data.map((results, index) => {
-    if (results !== 'residents') {
-      const result = Object.values(results);
-      return (
-        <tr key={ index }>
-          { result.map((planetEntry) => <td key={ planetEntry }>{ planetEntry }</td>)}
-        </tr>
-      );
-    }
-    return null;
+    const result = Object.values(results);
+    return (
+      <tr key={ index }>
+        { result.map((planetEntry) => <td key={ planetEntry }>{ planetEntry }</td>)}
+      </tr>
+    );
   });
 
   return (
