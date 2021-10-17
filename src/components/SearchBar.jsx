@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { usePlanets } from './PlanetsContext';
 
+const MENOS_UM = -1;
+
 const SearchBar = () => {
   // recebendo do custom hook usePlanets quais estados vou usar
-  const { data, setPlanetsArray, setFilter } = usePlanets();
+  const { setPlanetsArray, filteredPlanets, setFilter } = usePlanets();
   // const name é o que vai ser digitado
   const [name, setName] = useState('');
   // estado column é o 1 option
@@ -11,37 +13,95 @@ const SearchBar = () => {
   // estado comparison é o 2 option
   const [comparison, setComparison] = useState('maior que');
   // estado value é o valor numero que sera usado na comparação
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(0);
   const [columnAux, setColumnAux] = useState('');
+  const [orderBy, setOrderBy] = useState('name');
+  const [sort, setSort] = useState('ASC');
+
+  function initialState() {
+    setName('');
+    setColumn('population');
+    setComparison('maior que');
+    setValue(0);
+    setOrderBy('name');
+    setSort('ASC');
+  }
 
   // o que for digitado nesse componente vai passar pro estado dos filtros
   useEffect(() => {
-    setFilter({ filters: { filterByName: { name } } });
-  }, [name, setFilter]);
-  // const columns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+    setFilter(
+      { filters: { filterByName: { name },
+        filterByNumericValues: { column, comparison, value },
+        order: { column: orderBy, sort } } },
+    );
+  }, [column, comparison, name, orderBy, setFilter, sort, value]);
   // função submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (value.length > 0) {
+    if (value) {
       if (comparison === 'maior que') {
-        const newArr = data.results.filter(
+        const newArr = filteredPlanets.filter(
           (planet) => (Number(planet[column]) > value) && (planet[column] !== 'unknown'),
         );
         setPlanetsArray(newArr);
         setColumnAux(column);
       } else if (comparison === 'menor que') {
-        const newArr = data.results.filter(
+        const newArr = filteredPlanets.filter(
           (planet) => (Number(planet[column]) < value) && (planet[column] !== 'unknown'),
         );
         setPlanetsArray(newArr);
         setColumnAux(column);
       } else {
-        const newArr = data.results.filter(
+        const newArr = filteredPlanets.filter(
           (planet) => (planet[column] === value) && (planet[column] !== 'unknown'),
         );
         setColumnAux(column);
         setPlanetsArray(newArr);
       }
+    }
+  };
+
+  function nameFunc() {
+    if (sort === 'ASC') {
+      const results = filteredPlanets.sort((a, b) => {
+        if (a[orderBy].toLowerCase() < b[orderBy].toLowerCase()
+        ) return MENOS_UM;
+        if (a[orderBy].toLowerCase() > b[orderBy].toLowerCase()
+        ) return 1;
+        return 0;
+      });
+      setPlanetsArray(results);
+    }
+    if (sort === 'DESC') {
+      const results = filteredPlanets.sort((a, b) => {
+        if (b[orderBy].toLowerCase() < a[orderBy].toLowerCase()
+        ) return MENOS_UM;
+        if (b[orderBy].toLowerCase() > a[orderBy].toLowerCase()
+        ) return 1;
+        return 0;
+      });
+      setPlanetsArray(results);
+    }
+  }
+
+  function orbFunc() {
+    if (sort === 'ASC') {
+      const results = filteredPlanets.sort((a, b) => a[orderBy] - b[orderBy]);
+      setPlanetsArray(results);
+    }
+    if (sort === 'DESC') {
+      const results = filteredPlanets.sort((a, b) => b[orderBy] - a[orderBy]);
+      setPlanetsArray(results);
+    }
+  }
+
+  const handleClick = () => {
+    if (orderBy === 'name') {
+      nameFunc();
+    }
+
+    if (orderBy === 'orbital_period') {
+      orbFunc();
     }
   };
 
@@ -106,6 +166,57 @@ const SearchBar = () => {
           Filtrar
         </button>
 
+        <label htmlFor="column">
+          <select
+            name="column"
+            id="column"
+            data-testid="column-sort"
+            onChange={ ({ target }) => { setOrderBy(target.value); } }
+          >
+            <option value="name">name</option>
+            <option value="orbital_period">orbital_period</option>
+          </select>
+        </label>
+
+        <label htmlFor="asc">
+          <input
+            type="radio"
+            name="order"
+            id="asc"
+            value="ASC"
+            onClick={ () => setSort('ASC') }
+            defaultChecked
+            data-testid="column-sort-input-asc"
+          />
+          ASC
+        </label>
+
+        <label htmlFor="desc">
+          <input
+            type="radio"
+            name="order"
+            id="desc"
+            value="DESC"
+            onClick={ () => setSort('DESC') }
+            data-testid="column-sort-input-desc"
+          />
+          DESC
+        </label>
+
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ () => handleClick() }
+        >
+          Ordenar
+        </button>
+
+        <button
+          type="button"
+          onClick={ () => initialState() }
+        >
+          Resetar filtros
+        </button>
       </form>
     </>
   );

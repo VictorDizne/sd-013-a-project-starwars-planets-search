@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { usePlanets } from './PlanetsContext';
 
 const Table = () => {
   // recebendo do custom hook usePlanets quais estados vou usar
-  const { planetsArray, filter } = usePlanets();
+  const { planetsArray, filteredPlanets, setFilteredPlanets, filter } = usePlanets();
   // estado filteredPlanets será usado para renderizar os planetas
   // de acordo com os filtros
-  const [filteredPlanets, setFilteredPlanets] = useState();
   // desestruturando 'name' que foi digitado no campo search
   const { name } = filter.filters.filterByName;
   // passando o array com os planetas para o estado filteredPlanetas
@@ -18,7 +17,7 @@ const Table = () => {
         (planet) => planet.name.toLowerCase().includes(name.toLowerCase()),
       ));
     }
-  }, [name, planetsArray]);
+  }, [name, planetsArray, setFilteredPlanets]);
 
   return (
     <table>
@@ -41,7 +40,7 @@ const Table = () => {
 
         {filteredPlanets && filteredPlanets.map((planet, index) => (
           <tr key={ index }>
-            <td>{planet.name}</td>
+            <td data-testid="planet-name">{planet.name}</td>
             <td>{planet.rotation_period}</td>
             <td>{planet.orbital_period}</td>
             <td>{planet.diameter}</td>
