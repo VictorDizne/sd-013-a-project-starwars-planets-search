@@ -18,7 +18,7 @@ export default function Table() {
       <h1>Acesso Confidencial - StarWars Planets</h1>
       <table>
         <thead>
-          {/* Criando linha com nome de cada planeta */}
+          {/* Criando linha com as keys dinâmicamente do elemento na posição [0] */}
           <tr>
             {
               Object.keys(objData)

@@ -19,10 +19,27 @@ export default function ProviderContext({ children }) {
     } getPlanetsApi();
   }, []);
 
+  function numericFilter(input, firstFilter, secondFilter) {
+    const resultFilter = data.filter((planet) => {
+      if (secondFilter === 'maior que') {
+        return Number(planet[firstFilter]) > Number(input);
+      }
+      if (secondFilter === 'menor que') {
+        return Number(planet[firstFilter]) < Number(input);
+      }
+      if (secondFilter === 'igual a') {
+        return Number(planet[firstFilter]) === Number(input);
+      }
+      return false;
+    });
+    setData(resultFilter);
+  }
+
   const contextData = {
     data,
     handleChange,
     inputFilterValue,
+    numericFilter,
   };
 
   return (
