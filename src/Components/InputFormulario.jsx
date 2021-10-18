@@ -26,7 +26,7 @@ export default function FilterForm() {
 
   // FILTRA O ESTADO DE COLUNAS, EXCLUINDO OQUE JA FOI PESQUISADO
   const deleteFilter = () => {
-    setParams(params.filter((p) => p !== select.column));
+    setParams(params.filter((column) => column !== select.column));
   };
 
   // SUBMIT
