@@ -2,44 +2,26 @@ import React, { useContext } from 'react';
 import starWarsContext from '../context';
 
 function Table() {
-  const { data } = useContext(starWarsContext);
+  const { data, title } = useContext(starWarsContext);
 
   function tableBody() {
     return (
       <table>
         <thead>
           <tr>
-            <th>name</th>
-            <th>rotationPeriod</th>
-            <th>orbitalPeriod</th>
-            <th>diameter</th>
-            <th>climate</th>
-            <th>gravity</th>
-            <th>terrain</th>
-            <th>surfaceWwater</th>
-            <th>population</th>
-            <th>films</th>
-            <th>created</th>
-            <th>edited</th>
-            <th>url</th>
+            {title.map((item, index) => (
+              <th key={ index }>
+                {item}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {data.map((item, index) => (
             <tr key={ index }>
-              <td>{item.name}</td>
-              <td>{item.rotation_period}</td>
-              <td>{item.orbital_period}</td>
-              <td>{item.diameter}</td>
-              <td>{item.climate}</td>
-              <td>{item.gravity}</td>
-              <td>{item.terrain}</td>
-              <td>{item.surface_water}</td>
-              <td>{item.population}</td>
-              <td>{item.films}</td>
-              <td>{item.created}</td>
-              <td>{item.edited}</td>
-              <td>{item.url}</td>
+              {Object.values(item).map((values, i) => (
+                <td key={ i }>{values}</td>
+              ))}
             </tr>
           ))}
         </tbody>
@@ -55,3 +37,5 @@ function Table() {
 }
 
 export default Table;
+
+/* Refatorado com a ajuda da pessoa estudante Douglas Santos Turma 13 Tribo A */

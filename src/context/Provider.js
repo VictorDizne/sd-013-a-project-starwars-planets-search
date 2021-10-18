@@ -4,19 +4,23 @@ import starWarsContext from './index';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [title, setTitle] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
       const fetchApi = await fetch(URL);
-      const planetsData = await fetchApi.json();
-      setData(planetsData.results);
+      const { results } = await fetchApi.json();
+      results.map((item) => delete item.residents);
+      setData(results);
+      setTitle(Object.keys(results[0]));
     }
     fetchData();
   }, []);
 
   const contextStar = {
     data,
+    title,
   };
 
   return (
