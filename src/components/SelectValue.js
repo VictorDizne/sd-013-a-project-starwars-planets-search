@@ -1,12 +1,18 @@
 import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 
-function SelectValue() {
+function SelectValue(props) {
+  const { handleChangeProps } = props;
+
   return (
-    <select data-testid="comparison-filter">
-      <option value="">maior que</option>
-      <option value="">menor que</option>
-      <option value="">igual a</option>
+    <select
+      data-testid="comparison-filter"
+      name="comparison"
+      onChange={ handleChangeProps }
+    >
+      <option value="maior que">maior que</option>
+      <option value="menor que">menor que</option>
+      <option value="igual a ">igual a</option>
     </select>
   );
 }

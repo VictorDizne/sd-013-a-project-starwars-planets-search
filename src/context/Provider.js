@@ -7,6 +7,7 @@ function Provider({ children }) {
   const [useData, setUseData] = useState([]);
   const [dataTable, setDataTable] = useState({});
   const [valueInput, setValueInput] = useState('');
+  const [numericFilters, setNumericFilters] = useState({ filterByNumericValues: [] });
 
   useEffect(() => {
     async function getAPI() {
