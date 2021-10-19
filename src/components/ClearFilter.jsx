@@ -2,7 +2,7 @@ import React from 'react';
 import { usePlanets } from './PlanetsContext';
 
 const ClearFilter = () => {
-  const { data, column, setColumn, columnAux, setPlanetsArray } = usePlanets();
+  const { data, setColumn, columnAux, setPlanetsArray } = usePlanets();
   const handleClear = () => {
     setColumn('population');
     setPlanetsArray(data.results);
@@ -10,8 +10,12 @@ const ClearFilter = () => {
 
   return (
     <div data-testid="filter">
-      {column}
-      <button type="button" onClick={ () => handleClear() }>X</button>
+      {columnAux.map((colAux, index) => (
+        <div key={ index }>
+          <span>{colAux}</span>
+          <button type="button" onClick={ () => handleClear() }>X</button>
+        </div>
+      ))}
     </div>
   );
 };
