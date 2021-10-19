@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 
-function InputNumber(props) {
+function  (props) {
   const { valueInputNumber, handleChange } = useContext(MyContext);
   const { handleChangeProps } = props;
 
