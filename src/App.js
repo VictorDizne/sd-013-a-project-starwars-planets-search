@@ -26,7 +26,7 @@ function App() {
       <br />
       <SelectColumn handleChangeProps={ handleChange } />
       <SelectValue handleChangeProps={ handleChange } />
-      <InputNumber handleChangeProps={ handleChange } />
+      <InputNumber handleChangeProps={ handleChange } InputNumber={ valueInputNumber } />
       <Table />
     </Provider>
   );

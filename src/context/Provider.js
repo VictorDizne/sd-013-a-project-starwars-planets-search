@@ -22,11 +22,18 @@ function Provider({ children }) {
     setValueInput(value);
   }
 
+  function handleChangeFilters(filters) {
+    setNumericFilters({
+      filterByNumericValues: [...numericFilters.filterByNumericValues, filters] });
+  }
+
   const contextValue = {
     useData,
     dataTable,
     valueInput,
     handleChange,
+    numericFilters,
+    handleChangeFilters,
   };
 
   return (

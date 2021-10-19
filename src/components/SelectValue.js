@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 
@@ -16,5 +17,9 @@ function SelectValue(props) {
     </select>
   );
 }
+
+SelectValue.propTypes = {
+  handleChangeProps: PropTypes.func.isRequired,
+};
 
 export default SelectValue;

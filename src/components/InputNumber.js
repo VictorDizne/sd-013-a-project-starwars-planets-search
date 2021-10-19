@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 
-function  (props) {
-  const { valueInputNumber, handleChange } = useContext(MyContext);
-  const { handleChangeProps } = props;
+function InputNumber(props) {
+  const { handleChangeFilters } = useContext(MyContext);
+  const { handleChangeProps, InputNumber } = props;
 
   return (
     <div>
@@ -13,17 +14,21 @@ function  (props) {
           data-testid="value-filter"
           name="value"
           onChange={ handleChangeProps }
-          value={ valueInputNumber }
         />
       </label>
       <button
         type="button"
         data-testid="button-filter"
+        onClick={ () => handleChangeFilters(InputNumber) }
       >
         Filtrar
       </button>
     </div>
   );
 }
+
+InputNumber.propTypes = {
+  handleChangeProps: PropTypes.func.isRequired,
+};
 
 export default InputNumber;
