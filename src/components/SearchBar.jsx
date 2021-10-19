@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import ClearFilter from './ClearFilter';
 import { usePlanets } from './PlanetsContext';
 
 const MENOS_UM = -1;
 
 const SearchBar = () => {
   // recebendo do custom hook usePlanets quais estados vou usar
-  const { setPlanetsArray, filteredPlanets, setFilter } = usePlanets();
+  const { setPlanetsArray, filteredPlanets, column, setColumn,
+    columnAux, setColumnAux, setFilter } = usePlanets();
   // const name é o que vai ser digitado
   const [name, setName] = useState('');
   // estado column é o 1 option
-  const [column, setColumn] = useState('population');
   // estado comparison é o 2 option
   const [comparison, setComparison] = useState('maior que');
   // estado value é o valor numero que sera usado na comparação
   const [value, setValue] = useState(0);
-  const [columnAux, setColumnAux] = useState('');
   const [orderBy, setOrderBy] = useState('name');
   const [sort, setSort] = useState('ASC');
 
@@ -23,6 +23,7 @@ const SearchBar = () => {
     setColumn('population');
     setComparison('maior que');
     setValue(0);
+    setColumnAux([]);
     setOrderBy('name');
     setSort('ASC');
   }
@@ -44,18 +45,19 @@ const SearchBar = () => {
           (planet) => (Number(planet[column]) > value) && (planet[column] !== 'unknown'),
         );
         setPlanetsArray(newArr);
-        setColumnAux(column);
+        setColumnAux([...columnAux, column]);
       } else if (comparison === 'menor que') {
         const newArr = filteredPlanets.filter(
           (planet) => (Number(planet[column]) < value) && (planet[column] !== 'unknown'),
         );
         setPlanetsArray(newArr);
-        setColumnAux(column);
+        setColumnAux([...columnAux, column]);
       } else {
         const newArr = filteredPlanets.filter(
-          (planet) => (planet[column] === value) && (planet[column] !== 'unknown'),
+          (planet) => (Number(planet[column]) === value)
+          && (planet[column] !== 'unknown'),
         );
-        setColumnAux(column);
+        setColumnAux([...columnAux, column]);
         setPlanetsArray(newArr);
       }
     }
@@ -125,15 +127,15 @@ const SearchBar = () => {
           onChange={ ({ target }) => { setColumn(target.value); } }
           data-testid="column-filter"
         >
-          {columnAux !== 'population'
-          && <option name="column-filter" value="population">population</option>}
-          {columnAux !== 'orbital_period'
+          {!columnAux.includes('population')
+          && <option value="population">population</option>}
+          {!columnAux.includes('orbital_period')
           && <option value="orbital_period">orbital_period</option>}
-          {columnAux !== 'diameter'
+          {!columnAux.includes('diameter')
           && <option value="diameter">diameter</option>}
-          {columnAux !== 'rotation_period'
+          {!columnAux.includes('rotation_period')
           && <option value="rotation_period">rotation_period</option>}
-          {columnAux !== 'surface_water'
+          {!columnAux.includes('surface_water')
           && <option value="surface_water">surface_water</option>}
         </select>
 
@@ -155,12 +157,13 @@ const SearchBar = () => {
           id="value-filter"
           placeholder="valor numérico"
           value={ value }
-          onChange={ ({ target }) => { setValue(target.value); } }
+          onChange={ ({ target }) => { setValue(Number(target.value)); } }
           data-testid="value-filter"
         />
 
         <button
           type="submit"
+          id="button-filter"
           data-testid="button-filter"
         >
           Filtrar
@@ -210,13 +213,8 @@ const SearchBar = () => {
         >
           Ordenar
         </button>
-
-        <button
-          type="button"
-          onClick={ () => initialState() }
-        >
-          Resetar filtros
-        </button>
+        <ClearFilter />
+        <button type="button" onClick={ () => initialState() }>Resetar filtros</button>
       </form>
     </>
   );

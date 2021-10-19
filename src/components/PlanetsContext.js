@@ -10,6 +10,8 @@ export const PlanetsProvider = ({ children }) => {
   const [data, setData] = useState();
   const [planetsArray, setPlanetsArray] = useState([]);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [column, setColumn] = useState('population');
+  const [columnAux, setColumnAux] = useState([]);
   const [filter, setFilter] = useState({
     filters: {
       filterByName: {
@@ -49,10 +51,15 @@ export const PlanetsProvider = ({ children }) => {
   }, [data]);
   // constante value é um objeto que passa os estados usados nos outros componentes
   const value = {
+    data,
     planetsArray,
     setPlanetsArray,
     filteredPlanets,
     setFilteredPlanets,
+    column,
+    setColumn,
+    columnAux,
+    setColumnAux,
     filter,
     setFilter,
   };
