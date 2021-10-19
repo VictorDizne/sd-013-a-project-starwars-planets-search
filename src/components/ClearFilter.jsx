@@ -9,17 +9,10 @@ const ClearFilter = () => {
   };
 
   return (
-    columnAux.includes(column)
-      ? <div data-testid="filter">
-        {column}
-        <button
-          type="button"
-          onClick={ () => handleClear() }
-        >
-          X
-        </button>
-        </div>
-      : null
+    <div data-testid="filter">
+      {column}
+      <button type="button" onClick={ () => handleClear() }>X</button>
+    </div>
   );
 };
 
