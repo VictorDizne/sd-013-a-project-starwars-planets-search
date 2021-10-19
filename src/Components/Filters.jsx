@@ -7,6 +7,12 @@ function Filters() {
     setName,
     setFilterByNumericValues,
     filterByNumericValues,
+    colunmOrder,
+    setColunmOrder,
+    order,
+    setOrder,
+    setOrdering,
+    planetsKeys,
   } = useContext(PlanetsContext);
 
   const optionsColumn = [
@@ -69,9 +75,6 @@ function Filters() {
           {optionsComparison.map((optionComp, index) => (
             <option key={ index } value={ optionComp }>{optionComp}</option>
           ))}
-          {/* <option value="maior que">maior que</option>
-          <option value="menor que">menor que</option>
-          <option value="igual a">igual a</option> */}
         </select>
       </label>
       <input
@@ -95,6 +98,48 @@ function Filters() {
         } }
       >
         Pesquisar
+      </button>
+      <select
+        data-testid="column-sort"
+        onChange={ ({ target }) => setColunmOrder(target.value) }
+      >
+        {planetsKeys.map((colunm) => (
+          <option key={ colunm }>{colunm}</option>
+        ))}
+      </select>
+      <label htmlFor="asc">
+        ASCENDENTE
+        <input
+          type="radio"
+          id="asc"
+          name="asc-desc"
+          value="ASC"
+          data-testid="column-sort-input-asc"
+          onClick={ ({ target }) => setOrder(target.value) }
+        />
+      </label>
+      <label htmlFor="desc">
+        DESCENDENTE
+        <input
+          type="radio"
+          id="desc"
+          name="asc-desc"
+          value="DESC"
+          data-testid="column-sort-input-desc"
+          onClick={ ({ target }) => setOrder(target.value) }
+        />
+      </label>
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ () => {
+          setOrdering({
+            colunm: colunmOrder,
+            sort: order,
+          });
+        } }
+      >
+        Ordenar
       </button>
     </div>
   );

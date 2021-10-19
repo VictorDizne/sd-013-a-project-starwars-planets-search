@@ -20,6 +20,9 @@ function PlanetsProvider({ children }) {
   // estado que guarda o valor numérico digitado pelo usuário para filtro
   // const [value, setValue] = useState(0);
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
+  const [colunmOrder, setColunmOrder] = useState('name');
+  const [order, setOrder] = useState('ASC');
+  const [ordering, setOrdering] = useState();
 
   // console.log(filterByNumericValues);
 
@@ -100,7 +103,6 @@ function PlanetsProvider({ children }) {
   const context = {
     planets,
     planetsKeys,
-    // ...filters,
     name,
     fetchApi,
     isLoading,
@@ -109,6 +111,12 @@ function PlanetsProvider({ children }) {
     setFilterByNumericValues,
     filteredPlanets,
     filterPlanets,
+    colunmOrder,
+    setColunmOrder,
+    order,
+    setOrder,
+    ordering,
+    setOrdering,
   };
 
   return (
