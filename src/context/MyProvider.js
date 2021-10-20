@@ -18,7 +18,7 @@ function MyProvider({ children }) {
   const contextValue = {
     data,
   };
-  
+
   return (
     <MyContext.Provider value={ contextValue }>
       {children}
