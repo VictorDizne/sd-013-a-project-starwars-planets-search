@@ -4,11 +4,31 @@ import TableRender from './TableRender';
 import Loading from './Loading';
 
 const Table = () => {
-  const { data, filters: { filterByName: { name } } } = useContext(context);
+  const {
+    data,
+    filters: { filterByName: { name }, filterByNumericValues },
+  } = useContext(context);
+
   if (data.length <= 1) return <Loading />;
 
-  delete data[0].url;
-  const titles = Object.keys(data[0]);
+  const objTitle = () => {
+    delete data[0].url;
+    return Object.keys(data[0]);
+  };
+
+  const titles = objTitle();
+
+  // Lógica entendida com ajuda de Gabriel Biasoli
+  const filterNumeric = () => filterByNumericValues
+    .reduce((acc, { column, comparison, numberValue }) => {
+      const comparsionFilter = acc.filter((dataItem) => {
+        const columnNumber = Number(dataItem[column]);
+        if (comparison === 'maior que') return columnNumber > numberValue;
+        if (comparison === 'menor que') return columnNumber < numberValue;
+        return columnNumber === numberValue;
+      });
+      return comparsionFilter;
+    }, data);
 
   return (
     <table>
@@ -20,8 +40,10 @@ const Table = () => {
 
       <tbody>
         {/* https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/filter */}
-        {data.filter((item) => item.name.toLowerCase().includes(name.toLowerCase()))
-          .map((item) => <TableRender key={ item.name } data={ item } />)}
+        {filterNumeric()
+          .filter((dataItem) => dataItem.name.toLowerCase()
+            .includes(name.toLowerCase()))
+          .map((dataItem) => <TableRender key={ dataItem.name } data={ dataItem } />)}
       </tbody>
     </table>
   );

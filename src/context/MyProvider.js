@@ -9,19 +9,37 @@ const MyProvider = ({ children }) => {
   const { data } = useFetch(FETCH_URL);
 
   const [name, setName] = useState('');
+  const [numericFilters, setNumericFilters] = useState([]);
 
-  const value = {
+  const [columnOptions, setColumnOptions] = useState(['population', 'orbital_period',
+    'diameter', 'rotation_period', 'surface_water']);
+
+  const [comparisonOptions, setComparisonOptions] = useState(['maior que',
+    'menor que', 'igual a']);
+
+  const contextValue = {
     data,
     filters: {
       filterByName: {
         name,
         setName,
       },
+      filterByNumericValues: numericFilters,
+    },
+    setFilters: {
+      setName,
+      setNumericFilters,
+    },
+    options: {
+      columnOptions,
+      comparisonOptions,
+      setColumnOptions,
+      setComparisonOptions,
     },
   };
 
   return (
-    <context.Provider value={ value }>
+    <context.Provider value={ contextValue }>
       {children}
     </context.Provider>
   );
