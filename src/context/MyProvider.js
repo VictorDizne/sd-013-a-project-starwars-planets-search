@@ -5,6 +5,7 @@ import MyContext from './MyContext';
 
 function MyProvider({ children }) {
   const [data, setData] = useState([]);
+  const [filterByName, setFilter] = useState('');
 
   useEffect(() => {
     const fetchPlanet = () => {
@@ -17,6 +18,8 @@ function MyProvider({ children }) {
 
   const contextValue = {
     data,
+    setFilter,
+    filterByName,
   };
 
   return (
