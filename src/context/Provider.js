@@ -1,35 +1,44 @@
-import React, { useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import useFetchAPI from '../hooks/useFetchAPI';
-import Context from './Context';
 
-function Provider({ children }) {
-  const { data, planetsKeys, planetsList, setPlanetsList } = useFetchAPI();
-  const [filters, setFilters] = useState({
-    filterByName: {
-      name: '',
-    },
-    filterByNumericValues: [],
-  });
+export const PlanetsContext = createContext();
 
-  const contextValue = {
-    data,
-    planetsKeys,
-    planetsList,
-    setPlanetsList,
-    filters,
-    setFilters,
-  };
+const initialFilters = {
+  filterByName: {
+    name: '',
+  },
+  filterByNumericValues: [],
+  order: {
+    column: 'Name',
+    sort: 'ASC',
+  },
+};
+
+function PlanetsProvider({ children }) {
+  const [data, setData] = useState([]);
+  const [filters, setFilters] = useState(initialFilters);
+
+  useEffect(() => {
+    const fetchPlanets = async () => {
+      const res = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+      if (!res.ok) throw new Error('failed to fetch data');
+      const json = await res.json();
+      setData(json.results);
+    };
+    fetchPlanets();
+  }, []);
+
+  const contextValue = { data, filters, setFilters };
 
   return (
-    <Context.Provider value={ contextValue }>
+    <PlanetsContext.Provider value={ contextValue }>
       {children}
-    </Context.Provider>
+    </PlanetsContext.Provider>
   );
 }
 
-Provider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+export default PlanetsProvider;
 
-export default Provider;
+PlanetsProvider.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired,
+};

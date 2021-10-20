@@ -1,106 +1,128 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Input, Select, Button } from '.';
-import Context from '../context/Context';
+import { PlanetsContext } from '../context/Provider';
 
-function FiltersBar() {
-  const { filters: { filterByNumericValues }, setFilters } = useContext(Context);
-  const comparisonOpt = ['maior que', 'menor que', 'igual a'];
-  const columnsList = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water'];
-  const [columnsOpt, setColumnsOpt] = useState(columnsList);
+const nameFilter = (setFilters) => {
+  const name = document.getElementById('name-filter').value;
+  setFilters((state) => ({ ...state, filterByName: { name } }));
+};
+
+const numericFilter = (evt, setFilters) => {
+  const filterRow = evt.target.parentElement.childNodes;
+  const column = filterRow[0].value;
+  const comparison = filterRow[1].value;
+  const { value } = filterRow[2];
+
+  const newFilter = { column, comparison, value };
+
+  setFilters((state) => ({
+    ...state,
+    filterByNumericValues: [...state.filterByNumericValues, newFilter],
+  }));
+};
+
+const delFilter = ({ target }, { filterByNumericValues }, setFilters) => {
+  const column = target.parentElement.id;
+  const updatedNumFilters = filterByNumericValues.filter((f) => f.column !== column);
+
+  setFilters((state) => ({
+    ...state,
+    filterByNumericValues: updatedNumFilters,
+  }));
+};
+
+const sortPlanets = (setFilters) => {
+  const column = document.getElementById('column-sort').value;
+  const sort = document.querySelector('input[name="sort"]:checked').value;
+
+  setFilters((state) => ({ ...state, order: { column, sort } }));
+};
+
+const columns = ['population', 'rotation_period', 'orbital_period', 'diameter',
+  'surface_water'];
+
+function Filters() {
+  const { filters, setFilters } = useContext(PlanetsContext);
+  const [availableColumns, setAvailableColumns] = useState(columns);
 
   useEffect(() => {
-    if (filterByNumericValues.length > 0) {
-      let newListOpt;
-      filterByNumericValues.forEach(({ column }) => {
-        newListOpt = columnsList.filter((item) => item !== column);
-      });
-      setColumnsOpt(newListOpt);
-    }
-  }, [filterByNumericValues]);
-
-  function nameChange({ target: { value } }) {
-    setFilters((state) => ({
-      ...state,
-      filterByName: { name: value },
-    }));
-  }
-
-  function searchClick() {
-    const column = document.getElementById('column').value;
-    const comparison = document.getElementById('comparison').value;
-    const inputValue = document.getElementById('value').value;
-
-    const newObj = { column, comparison, value: inputValue };
-    setFilters((state) => ({
-      ...state,
-      filterByNumericValues: [...state.filterByNumericValues, newObj],
-    }));
-  }
-
-  function deleteFilter({ target }) {
-    const column = target.className;
-    const filters = filterByNumericValues.filter((filter) => filter.column !== column);
-    setFilters((state) => ({
-      ...state,
-      filterByNumericValues: filters,
-    }));
-  }
-
-  function renderFiltersBtn() {
-    if (filterByNumericValues.length > 0) {
-      return (filterByNumericValues.map((filter) => (
-        <div key={ filter.column } data-testid="filter">
-          <span>{`${filter.column} ${filter.comparison} ${filter.value}`}</span>
-          <Button
-            className={ filter.column }
-            name="X"
-            onClick={ deleteFilter }
-          />
-        </div>))
-      );
-    }
-  }
+    const appliedNumFilters = filters.filterByNumericValues.map((z) => z.column);
+    const remainingColumns = columns.filter((c) => !appliedNumFilters.includes(c));
+    setAvailableColumns(remainingColumns);
+  }, [filters]);
 
   return (
     <div>
-      <Input
-        type="text"
-        onChange={ nameChange }
-        test="name-filter"
-        name="Search"
-      />
       <div>
-        <Select
-          name="column"
-          test="column-filter"
-          options={ columnsOpt }
-        />
-        <Select
-          name="comparison"
-          test="comparison-filter"
-          options={ comparisonOpt }
-        />
-        <Input
-          type="number"
-          name="value"
-          test="value-filter"
-        />
-        <Button
-          name="Send"
-          onClick={ searchClick }
-          test="button-filter"
+        <input
+          type="text"
+          id="name-filter"
+          data-testid="name-filter"
+          placeholder="Name"
+          onChange={ () => nameFilter(setFilters) }
         />
       </div>
       <div>
-        {renderFiltersBtn()}
+        <select name="column-sort" id="column-sort" data-testid="column-sort">
+          {columns.map((c) => <option key={ c } value={ c }>{c}</option>)}
+        </select>
+        <label htmlFor="ASC">
+          <input
+            type="radio"
+            name="sort"
+            value="ASC"
+            id="ASC"
+            data-testid="column-sort-input-asc"
+          />
+          ASC
+        </label>
+        <label htmlFor="DESC">
+          <input
+            type="radio"
+            name="sort"
+            value="DESC"
+            id="DESC"
+            data-testid="column-sort-input-desc"
+          />
+          DESC
+        </label>
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ () => sortPlanets(setFilters) }
+        >
+          SORT
+        </button>
+      </div>
+      <div>
+        <select name="column" id="column" data-testid="column-filter">
+          {availableColumns.map((c) => <option key={ c } value={ c }>{c}</option>)}
+        </select>
+        <select name="comparison" id="comparison" data-testid="comparison-filter">
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
+        </select>
+        <input type="number" id="value" data-testid="value-filter" placeholder="Value" />
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ (evt) => numericFilter(evt, setFilters) }
+        >
+          Apply
+        </button>
+      </div>
+      <div>
+        {filters.filterByNumericValues.map((f) => (
+          <div key={ f.column } id={ f.column } data-testid="filter">
+            <span>{`${f.column} | ${f.comparison} | ${f.value}`}</span>
+            <button type="button" onClick={ (e) => delFilter(e, filters, setFilters) }>
+              X
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
-export default FiltersBar;
+export default Filters;
