@@ -1,9 +1,13 @@
 import React from 'react';
 import './App.css';
+import MyProvider from './context/MyProvider';
+import Table from './components/Table';
 
 function App() {
   return (
-    <span>Antes tarde do que nunca!!!</span>
+    <MyProvider>
+      <Table />
+    </MyProvider>
   );
 }
 
