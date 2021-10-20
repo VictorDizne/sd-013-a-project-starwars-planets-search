@@ -4,13 +4,11 @@ import TableRender from './TableRender';
 import Loading from './Loading';
 
 const Table = () => {
-  const { data } = useContext(context);
-  console.log(data);
+  const { data, filters: { filterByName: { name } } } = useContext(context);
   if (data.length <= 1) return <Loading />;
 
   delete data[0].url;
   const titles = Object.keys(data[0]);
-  console.log(titles);
 
   return (
     <table>
@@ -21,7 +19,9 @@ const Table = () => {
       </thead>
 
       <tbody>
-        {data.map((dataItem) => <TableRender key={ dataItem.name } data={ dataItem } />)}
+        {/* https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/filter */}
+        {data.filter((item) => item.name.toLowerCase().includes(name.toLowerCase()))
+          .map((item) => <TableRender key={ item.name } data={ item } />)}
       </tbody>
     </table>
   );
