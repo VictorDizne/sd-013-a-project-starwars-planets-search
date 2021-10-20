@@ -4,20 +4,32 @@ import contextApp from './contextApp';
 import searchPlanets from '../services/ApiPlanets';
 
 function Provider({ children }) {
-  const stateFilters = { filterByName: { name: '' } };
   const [data, setData] = useState([]); // estados criados para salvar retorno API
-  const [filters, setFilters] = useState(stateFilters);
 
-  const FilterName = ({ target: { value } }) => {
-    setFilters({ ...stateFilters,
-      filters: { ...stateFilters.filters, filterByName: { name: value } } });
+  const [dataError, setDataError] = useState(false);
+
+  const filterInitial = {
+    filterByName: { name: '' },
+    filterByNumericValues: [{ column: '', comparison: '', value: '' }],
+  };
+
+  const [filters, setFilters] = useState(filterInitial);
+
+  const filterHandle = ({ target: { value } }) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      filterByName: { name: value },
+    }));
   };
 
   const contextValue = {
+    dataError,
+    setDataError,
     data,
     setData,
     filters,
     setFilters,
+    filterHandle,
   };
 
   useEffect(() => {
