@@ -34,7 +34,7 @@ function FilterInputNumero() {
     <div>
       Filter
       <select
-        name="columFilter"
+        name="column"
         onChange={ handleChange }
         data-testid="column-filter"
       >
