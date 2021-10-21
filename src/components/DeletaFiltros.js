@@ -20,7 +20,7 @@ function DeletaFiltros() {
     <ul>
       {
 
-        filterByNumericValues.filter(({ column, comparison, value }, i) => (
+        filterByNumericValues.map(({ column, comparison, value }, i) => (
           <li key={ i } data-testid="filter" id={ i }>
             {`${column} | ${comparison} | ${value}`}
             <button
