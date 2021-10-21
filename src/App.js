@@ -1,11 +1,13 @@
 import React from 'react';
+import Table from './components/Table';
+import DataProvider from './context/MyContext';
 
 function App() {
   return (
-    <nav>
-      <span>Hello, Jedi Universe!!</span>
-    </nav>
-
+    <DataProvider>
+      <Table />
+      <span>Teste</span>
+    </DataProvider>
   );
 }
 
