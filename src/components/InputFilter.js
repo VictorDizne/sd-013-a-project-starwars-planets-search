@@ -8,10 +8,11 @@ function InputFilter() {
   return (
     <div>
       <input
-        type="text"
-        value={ inputFilterValue }
         data-testid="name-filter"
         onChange={ handleChange }
+        placeholder="Nome do planeta"
+        type="text"
+        value={ inputFilterValue }
       />
     </div>
   );

@@ -3,10 +3,14 @@ import ContextPlanet from '../contexts/ContextPlanet';
 
 export default function Table() {
   const contextData = useContext(ContextPlanet);
-  const { data, inputFilterValue } = contextData;// 2° Req
+  const {
+    data,
+    inputFilterValue,
+    filteredPlanets,
+  } = contextData;// 2° Req
 
   if (!data || (data.length === 0)) return <p>loading...</p>;// Refatorar para carregar uma tela de loading
-  const filterByInput = data.filter((planet) => (
+  const filterByInput = filteredPlanets.filter((planet) => (
     planet.name.toLowerCase().includes(inputFilterValue.toLowerCase())));
   // Convertendo data para um objeto com o Object.assing para poder obter as keys das propriedades
   // Daí é só aplicar o Object.Keys no objData
