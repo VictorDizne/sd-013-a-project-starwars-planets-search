@@ -1,43 +1,44 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import MyContext from '../context/MyContext';
 
 function FilterNumber() {
   const STATE_PLANETS = [];
   const { data, filter: { filterByNumericValues } } = useContext(MyContext);
 
-  const [filtraPlanetas] = useState(STATE_PLANETS);
+  const [filtraPlanetas, setFiltraPlanetas] = useState(STATE_PLANETS);
 
-  filterByNumericValues.map(({ column, comparison, value }) => {
-    switch (comparison) {
-    case 'maior que':
-      data.filter((planeta) => (
-        Number(planeta[column]) !== 'unknown'
+  useEffect(() => {
+    let planet = [...data];
+
+    filterByNumericValues.forEach(({ column, comparison, value }) => {
+      switch (comparison) {
+      case 'maior que':
+        planet = planet.filter((planeta) => (
+          Number(planeta[column]) !== 'unknown'
           && Number(planeta[column]) > Number(value)
-          && STATE_PLANETS.push(planeta)
-      ));
-      break;
+        ));
+        break;
 
-    case 'menor que':
-      data.filter((planeta) => (
-        Number(planeta[column]) !== 'unknown'
-          && Number(planeta[column]) < Number(value)
-          && STATE_PLANETS.push(planeta)
-      ));
-      break;
-
-    case 'igual a':
-      data.filter((planeta) => (
-        Number(planeta[column]) !== 'unknown'
+      case 'igual a':
+        planet = planet.filter((planeta) => (
+          Number(planeta[column]) !== 'unknown'
           && Number(planeta[column]) === Number(value)
-          && STATE_PLANETS.push(planeta)
-      ));
-      break;
+        ));
+        break;
 
-    default:
-      return data;
-    }
-    return data;
-  }, [filterByNumericValues, filtraPlanetas]);
+      case 'menor que':
+        planet = planet.filter((planeta) => (
+          Number(planeta[column]) !== 'unknown'
+          && Number(planeta[column]) < Number(value)
+        ));
+        break;
+
+      default:
+        return data;
+      }
+    });
+    setFiltraPlanetas(planet);
+  }, [filterByNumericValues, data]);
 
   return (
     <tbody>

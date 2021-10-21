@@ -23,6 +23,7 @@ function MyProvider({ children }) {
 
   const contextValue = {
     data,
+    setData,
     setFilter,
     filter,
   };

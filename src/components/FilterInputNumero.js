@@ -3,7 +3,7 @@ import MyContext from '../context/MyContext';
 
 function FilterInputNumero() {
   const { filter, setFilter } = useContext(MyContext);
-  const { filterByNumercValues } = filter;
+  const { filterByNumericValues } = filter;
 
   const columns = [
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
@@ -15,13 +15,19 @@ function FilterInputNumero() {
     column: 'population', comparison: 'maior que', value: '0' };
 
   function handleClick() {
-    setFilter({ ...filter, filterByNumercValues: [...filterByNumercValues, filtro],
+    setFilter({ ...filter, filterByNumericValues: [...filterByNumericValues, filtro],
     });
   }
 
   function handleChange({ target }) {
     const { name, value } = target;
-    filter[name] = value;
+    filtro[name] = value;
+  }
+
+  function rederizarColumn() {
+    const col = filterByNumericValues.map((item) => item.column);
+    const filterColumn = columns.filter((column) => !col.includes(column));
+    return filterColumn.map((item, index) => <option key={ index }>{item}</option>);
   }
 
   return (
@@ -32,7 +38,7 @@ function FilterInputNumero() {
         onChange={ handleChange }
         data-testid="column-filter"
       >
-        {columns.map((item, index) => <option key={ index }>{item}</option>)}
+        {rederizarColumn()}
       </select>
 
       Comparison
