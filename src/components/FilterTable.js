@@ -1,34 +1,45 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import context from '../context/context';
 
 const FilterTable = () => {
   const {
     filters: { filterByName: { name, setName }, filterByNumericValues },
     setFilters: { setNumericFilters },
-    options: { columnOptions, comparisonOptions, setColumnOptions, setComparisonOptions },
   } = useContext(context);
 
-  const updateOptions = (filter) => {
-    const newColumnOptions = columnOptions.filter((option) => option !== filter.column);
-    setColumnOptions(newColumnOptions);
+  const [columns] = useState(['population', 'orbital_period', 'diameter',
+    'rotation_period', 'surface_water']);
+  const [columnOptions, setColumnOptions] = useState(columns);
+  const [comparisons] = useState(['maior que', 'menor que', 'igual a']);
+  const [comparisonOptions, setComparisonOptions] = useState(comparisons);
 
-    const newComparisonOptions = comparisonOptions
-      .filter((option) => option !== filter.comparison);
-    setComparisonOptions(newComparisonOptions);
-  };
-
-  const [column, setColumn] = useState('population');
-  const [comparison, setComparison] = useState('maior que');
+  const [column, setColumn] = useState(columnOptions[0]);
+  const [comparison, setComparison] = useState(comparisonOptions[0]);
   const [numberValue, setNumberValue] = useState('');
+
+  useEffect(() => {
+    setColumn(columnOptions[0]);
+    setComparison(comparisonOptions[0]);
+    setNumberValue('');
+  }, [columnOptions, comparisonOptions, filterByNumericValues]);
+
+  useEffect(() => {
+    const newColumns = filterByNumericValues.reduce((acc, curr) => acc
+      .filter((col) => col !== curr.column), columns);
+    setColumnOptions(newColumns);
+    const newComparisons = filterByNumericValues.reduce((acc, curr) => acc
+      .filter((compar) => compar !== curr.comparison), comparisons);
+    setComparisonOptions(newComparisons);
+  }, [columns, comparisons, filterByNumericValues]);
 
   const newFilter = { column, comparison, numberValue };
 
   function addNewFilter() {
     setNumericFilters([...filterByNumericValues, newFilter]);
-    updateOptions(newFilter);
-    setColumn('');
-    setComparison('');
-    setNumberValue('');
+    // updateOptions(newFilter);
+    // setColumn('');
+    // setComparison('');
+    // setNumberValue('');
   }
 
   return (

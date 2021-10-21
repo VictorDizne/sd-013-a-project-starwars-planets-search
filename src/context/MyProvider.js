@@ -11,11 +11,11 @@ const MyProvider = ({ children }) => {
   const [name, setName] = useState('');
   const [numericFilters, setNumericFilters] = useState([]);
 
-  const [columnOptions, setColumnOptions] = useState(['population', 'orbital_period',
-    'diameter', 'rotation_period', 'surface_water']);
+  // const [columnOptions, setColumnOptions] = useState(['population', 'orbital_period',
+  //   'diameter', 'rotation_period', 'surface_water']);
 
-  const [comparisonOptions, setComparisonOptions] = useState(['maior que',
-    'menor que', 'igual a']);
+  // const [comparisonOptions, setComparisonOptions] = useState(['maior que',
+  //   'menor que', 'igual a']);
 
   const contextValue = {
     data,
@@ -25,17 +25,21 @@ const MyProvider = ({ children }) => {
         setName,
       },
       filterByNumericValues: numericFilters,
+      order: {
+        column: 'Name',
+        sort: 'ASC',
+      },
     },
     setFilters: {
       setName,
       setNumericFilters,
     },
-    options: {
-      columnOptions,
-      comparisonOptions,
-      setColumnOptions,
-      setComparisonOptions,
-    },
+    // options: {
+    //   columnOptions,
+    //   comparisonOptions,
+    //   setColumnOptions,
+    //   setComparisonOptions,
+    // },
   };
 
   return (

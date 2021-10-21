@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import context from '../context/context';
 import TableRender from './TableRender';
 import Loading from './Loading';
@@ -8,6 +8,8 @@ const Table = () => {
     data,
     filters: { filterByName: { name }, filterByNumericValues },
   } = useContext(context);
+
+  useEffect(() => {}, [filterByNumericValues]);
 
   if (data.length <= 1) return <Loading />;
 
