@@ -37,6 +37,8 @@ function Provider({ children }) {
     title,
     name,
     handleChange,
+    setData,
+    originalList,
   };
 
   return (
