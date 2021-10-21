@@ -5,6 +5,7 @@ import MyContext from './MyContext';
 
 const STATE = {
   filterByName: '',
+  filterByNumericValues: [],
 };
 
 function MyProvider({ children }) {
