@@ -4,7 +4,9 @@ import starWarsContext from './index';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [reserva, setReserva] = useState([]);
   const [title, setTitle] = useState([]);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -13,14 +15,28 @@ function Provider({ children }) {
       const { results } = await fetchApi.json();
       results.map((item) => delete item.residents);
       setData(results);
+      setReserva(results);
       setTitle(Object.keys(results[0]));
     }
     fetchData();
   }, []);
 
+  function handleChange({ target: { value } }) {
+    setName(value);
+  }
+
+  function filtro() {
+    const listaFiltrada = reserva.filter((item) => item.name.includes(name));
+    setData(listaFiltrada);
+  }
+
+  useEffect(filtro, [name]);
+
   const contextStar = {
     data,
     title,
+    name,
+    handleChange,
   };
 
   return (
