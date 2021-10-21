@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import context from '../context/context';
 
+// Falta adicionar referências
 const RemoveFilter = () => {
   const {
     filters: { filterByNumericValues },

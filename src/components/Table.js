@@ -1,36 +1,39 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import context from '../context/context';
 import TableRender from './TableRender';
 import Loading from './Loading';
 
+// Falta adicionar referências
 const Table = () => {
   const {
     data,
-    filters: { filterByName: { name }, filterByNumericValues },
+    getTitles,
+    filterNumericValues,
+    sortArray,
+    filters: {
+      filterByName: { name },
+      order: { sort, column: columnOption },
+    },
+    arrays: { columns },
   } = useContext(context);
 
-  useEffect(() => {}, [filterByNumericValues]);
+  const sortPlanets = () => {
+    const columnIsNumber = columns.some((col) => col === columnOption);
+    const sortedPlanets = filterNumericValues().sort((a, b) => {
+      if (typeof a[columnOption] === 'object') return sortArray(a, b);
+      if (columnIsNumber) {
+        const [numberA, numberB] = [Number(a[columnOption]), Number(b[columnOption])];
+        return sort === 'ASC' ? numberA - numberB : numberB - numberA;
+      }
+      if (sort === 'ASC') return a[columnOption].localeCompare(b[columnOption]);
+      return b[columnOption].localeCompare(a[columnOption]);
+    });
+    return sortedPlanets;
+  };
 
   if (data.length <= 1) return <Loading />;
 
-  const objTitle = () => {
-    delete data[0].url;
-    return Object.keys(data[0]);
-  };
-
-  const titles = objTitle();
-
-  // Lógica entendida com ajuda de Gabriel Biasoli
-  const filterNumeric = () => filterByNumericValues
-    .reduce((acc, { column, comparison, numberValue }) => {
-      const comparsionFilter = acc.filter((dataItem) => {
-        const columnNumber = Number(dataItem[column]);
-        if (comparison === 'maior que') return columnNumber > numberValue;
-        if (comparison === 'menor que') return columnNumber < numberValue;
-        return columnNumber === numberValue;
-      });
-      return comparsionFilter;
-    }, data);
+  const titles = getTitles();
 
   return (
     <table>
@@ -42,7 +45,7 @@ const Table = () => {
 
       <tbody>
         {/* https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/filter */}
-        {filterNumeric()
+        {sortPlanets()
           .filter((dataItem) => dataItem.name.toLowerCase()
             .includes(name.toLowerCase()))
           .map((dataItem) => <TableRender key={ dataItem.name } data={ dataItem } />)}

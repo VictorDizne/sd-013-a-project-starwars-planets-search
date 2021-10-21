@@ -3,22 +3,50 @@ import PropTypes from 'prop-types';
 import context from './context';
 import useFetch from '../hooks/useFetch';
 
-const FETCH_URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
-
 const MyProvider = ({ children }) => {
-  const { data } = useFetch(FETCH_URL);
-
   const [name, setName] = useState('');
   const [numericFilters, setNumericFilters] = useState([]);
 
-  // const [columnOptions, setColumnOptions] = useState(['population', 'orbital_period',
-  //   'diameter', 'rotation_period', 'surface_water']);
+  const [sort, setSort] = useState('ASC');
+  const [columnOption, setColumnOption] = useState('name');
+  const { data } = useFetch();
 
-  // const [comparisonOptions, setComparisonOptions] = useState(['maior que',
-  //   'menor que', 'igual a']);
+  const [filteredData, setFilteredData] = useState(data);
+
+  const getTitles = () => {
+    delete data[0].url;
+    return Object.keys(data[0]);
+  };
+
+  const [columns] = useState(['population', 'orbital_period',
+    'diameter', 'rotation_period', 'surface_water']);
+
+  const [comparisons] = useState(['maior que',
+    'menor que', 'igual a']);
+
+  // Lógica entendida com ajuda de Gabriel Biasoli
+  const filterNumericValues = () => numericFilters
+    .reduce((acc, { column, comparison, numberValue }) => {
+      const comparsionFilter = acc.filter((dataItem) => {
+        const columnNumber = Number(dataItem[column]);
+        if (comparison === 'maior que') return columnNumber > numberValue;
+        if (comparison === 'menor que') return columnNumber < numberValue;
+        return columnNumber === numberValue;
+      });
+      return comparsionFilter;
+    }, data);
+
+  const sortArray = (a, b) => {
+    if (sort === 'ASC') return a[columnOption].length - b[columnOption].length;
+    return b[columnOption].length - a[columnOption].length;
+  };
 
   const contextValue = {
     data,
+    filteredData,
+    setFilteredData,
+    filterNumericValues,
+    sortArray,
     filters: {
       filterByName: {
         name,
@@ -26,8 +54,12 @@ const MyProvider = ({ children }) => {
       },
       filterByNumericValues: numericFilters,
       order: {
-        column: 'Name',
-        sort: 'ASC',
+        column: columnOption,
+        sort,
+        sortSetters: {
+          setSort,
+          setColumnOption,
+        },
       },
     },
     setFilters: {
@@ -40,6 +72,8 @@ const MyProvider = ({ children }) => {
     //   setColumnOptions,
     //   setComparisonOptions,
     // },
+    getTitles,
+    arrays: { columns, comparisons },
   };
 
   return (
@@ -50,7 +84,7 @@ const MyProvider = ({ children }) => {
 };
 
 MyProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.arrayOf(PropTypes.node).isRequired,
 };
 
 export default MyProvider;
