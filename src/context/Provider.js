@@ -7,7 +7,9 @@ function Provider({ children }) {
   const [useData, setUseData] = useState([]);
   const [dataTable, setDataTable] = useState({});
   const [valueInput, setValueInput] = useState('');
-  const [numericFilters, setNumericFilters] = useState({ filterByNumericValues: [] });
+  // const [numericFilters, setNumericFilters] = useState({ filterByNumericValues: [] });
+  // setNumericFilters({
+  //   filterByNumericValues: [...numericFilters.filterByNumericValues, filters] });
 
   useEffect(() => {
     async function getAPI() {
@@ -23,16 +25,35 @@ function Provider({ children }) {
   }
 
   function handleChangeFilters(filters) {
-    setNumericFilters({
-      filterByNumericValues: [...numericFilters.filterByNumericValues, filters] });
+    const { column, comparison, value } = filters;
+    const dataFilters = useData.filter((planet) => {
+      if (comparison === 'maior que') {
+        return Number(planet[column]) > Number(value);
+      }
+      if (comparison === 'menor que') {
+        return Number(planet[column]) < Number(value);
+      }
+      if (comparison === 'igual a') {
+        return Number(planet[column]) === Number(value);
+      }
+      return false;
+    });
+    setUseData(dataFilters);
+    console.log(useData);
   }
+
+  // function values() {
+  //   // const { filterByNumericValues } = numericFilters;
+  //   // const { column, comparison, value } = filterByNumericValues;
+  //   console.log(numericFilters);
+  // }
 
   const contextValue = {
     useData,
     dataTable,
     valueInput,
     handleChange,
-    numericFilters,
+    // numericFilters,
     handleChangeFilters,
   };
 
