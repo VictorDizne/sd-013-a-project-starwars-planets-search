@@ -9,11 +9,7 @@ function AppProvider({ children }) {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [{
-      column: 'diameter',
-      comparison: 'maior que',
-      value: '0',
-    }],
+    filterByNumericValues: [],
   });
 
   return (

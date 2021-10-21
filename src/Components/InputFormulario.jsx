@@ -65,15 +65,29 @@ export default function FilterForm() {
     });
   };
 
-  // REMOVE OS FILTROS
-  const handleFilterRemove = () => {
-    console.log('teste');
+  const removeFilters = (index, item) => {
+    const filtros = filters.filterByNumericValues;
+    const novaLista = filtros.filter((i) => i.column !== item);
+    setFilter({ ...filters, filterByNumericValues: novaLista });
   };
+
+  const tableFilter = (func) => (
+    <ol>
+      {filters.filterByNumericValues.map((item, index) => (
+        <li id={ index } key={ index } data-testid="filter">
+          <span id="view-column-filter">{`${item.column} `}</span>
+          <span id="view-column-comparison">{`${item.comparison} `}</span>
+          <span id="view-column-value">{item.value}</span>
+          <button type="button" onClick={ () => func(index, item.column) }>X</button>
+        </li>
+      ))}
+    </ol>
+  );
 
   return (
     <form>
       <label htmlFor="name">
-        Name
+        Name:
         <input
           id="name"
           type="text"
@@ -105,13 +119,7 @@ export default function FilterForm() {
       >
         Filtrar
       </button>
-      <button
-        type="button"
-        data-testid="filter"
-        onClick={ handleFilterRemove }
-      >
-        X
-      </button>
+      {tableFilter(removeFilters)}
     </form>
   );
 }
