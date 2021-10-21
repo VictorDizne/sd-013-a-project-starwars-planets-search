@@ -2,7 +2,13 @@ import React, { useContext, useState } from 'react';
 import starWarsContext from '../context';
 
 function NumericFilter() {
-  const { setData, originalList, setFilters, filters } = useContext(starWarsContext);
+  const {
+    setData,
+    originalList,
+    setFilters,
+    filters,
+    filters: { filterByNumericValues },
+  } = useContext(starWarsContext);
 
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
@@ -20,13 +26,20 @@ function NumericFilter() {
     setValue(e.target.value);
   }
 
+  function removeFilter() {
+    const option = document.getElementById('my-option');
+    option.remove(option.selectedIndex);
+  }
+
   function numericFilter() {
     setFilters({ ...filters,
-      filterByNumericValues: [{
-        column,
-        comparison,
-        value,
-      }],
+      filterByNumericValues: [
+        ...filterByNumericValues,
+        {
+          column,
+          comparison,
+          value,
+        }],
     });
 
     let filteredPlanet;
@@ -46,11 +59,14 @@ function NumericFilter() {
     }
 
     setData(filteredPlanet);
+
+    removeFilter();
   }
 
   return (
     <div>
       <select
+        id="my-option"
         data-testid="column-filter"
         value={ column }
         onChange={ handleChangeColumn }
@@ -93,4 +109,5 @@ function NumericFilter() {
 export default NumericFilter;
 
 /* Refatoração e lógica de filtragem realizada com a ajuda da pessoa estudante
-Douglas Santos Turma 13 Tribo A */
+Douglas Santos Turma 13 Tribo A
+Link consultado: https://www.w3schools.com/jsref/met_select_remove.asp */
