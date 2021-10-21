@@ -36,12 +36,9 @@ function Provider({ children }) {
       if (comparison === 'igual a') {
         return Number(planet[column]) === Number(value);
       }
-      console.log(comparison);
       return true;
     });
-    console.log(dataFilters);
     setUseData(dataFilters);
-    // console.log(useData);
   }
 
   // function values() {

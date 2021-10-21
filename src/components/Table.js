@@ -3,7 +3,8 @@ import MyContext from '../context/MyContext';
 
 function Table() {
   const { useData, dataTable, valueInput } = useContext(MyContext);
-  const filter = useData.filter((planet) => planet.name.toLowerCase().includes(valueInput.toLowerCase()));
+  const filter = useData.filter((planet) => planet.name.toLowerCase()
+    .includes(valueInput.toLowerCase()));
 
   if (useData === undefined) return <p>Loading...</p>;
   return (

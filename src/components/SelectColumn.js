@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
-import MyContext from '../context/MyContext';
+import React from 'react';
+// import MyContext from '../context/MyContext';
 
 function SelectColumn(props) {
   const { handleChangeProps } = props;
-  const { valueInput, handleChange } = useContext(MyContext);
+  // const { valueInput, handleChange } = useContext(MyContext);
 
   return (
     <select

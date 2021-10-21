@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
-import MyContext from '../context/MyContext';
+import React from 'react';
+// import MyContext from '../context/MyContext';
 
 function SelectValue(props) {
   const { handleChangeProps } = props;

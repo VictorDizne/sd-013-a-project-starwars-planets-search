@@ -4,7 +4,7 @@ import MyContext from '../context/MyContext';
 
 function InputNumber(props) {
   const { handleChangeFilters } = useContext(MyContext);
-  const { handleChangeProps, InputNumber } = props;
+  const { handleChangeProps, InputNumberProp } = props;
 
   return (
     <div>
@@ -19,7 +19,7 @@ function InputNumber(props) {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => handleChangeFilters(InputNumber) }
+        onClick={ () => handleChangeFilters(InputNumberProp) }
       >
         Filtrar
       </button>
@@ -29,6 +29,7 @@ function InputNumber(props) {
 
 InputNumber.propTypes = {
   handleChangeProps: PropTypes.func.isRequired,
+  InputNumberProp: PropTypes.func.isRequired,
 };
 
 export default InputNumber;
