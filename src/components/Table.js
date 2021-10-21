@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 
 function Table() {
-  const { data, filterByName } = useContext(MyContext);
+  const { data, filter: { filterByName } } = useContext(MyContext);
 
   return (
     <table>

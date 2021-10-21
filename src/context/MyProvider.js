@@ -3,9 +3,13 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import MyContext from './MyContext';
 
+const STATE = {
+  filterByName: '',
+};
+
 function MyProvider({ children }) {
   const [data, setData] = useState([]);
-  const [filterByName, setFilter] = useState('');
+  const [filter, setFilter] = useState(STATE);
 
   useEffect(() => {
     const fetchPlanet = () => {
@@ -19,7 +23,7 @@ function MyProvider({ children }) {
   const contextValue = {
     data,
     setFilter,
-    filterByName,
+    filter,
   };
 
   return (

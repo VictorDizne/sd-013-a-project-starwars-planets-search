@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 
 function FilterName() {
-  const { setFilter } = useContext(MyContext);
+  const { filter, setFilter } = useContext(MyContext);
 
   const handleChange = ({ target: { value } }) => {
-    setFilter(value);
+    setFilter({ ...filter, filterByName: value });
   };
 
   return (
@@ -14,7 +14,7 @@ function FilterName() {
         id="input"
         data-testid="name-filter"
         type="text"
-        onChange={ (value) => handleChange(value) }
+        onChange={ handleChange }
       />
     </label>
   );
