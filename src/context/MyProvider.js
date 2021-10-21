@@ -66,12 +66,6 @@ const MyProvider = ({ children }) => {
       setName,
       setNumericFilters,
     },
-    // options: {
-    //   columnOptions,
-    //   comparisonOptions,
-    //   setColumnOptions,
-    //   setComparisonOptions,
-    // },
     getTitles,
     arrays: { columns, comparisons },
   };
