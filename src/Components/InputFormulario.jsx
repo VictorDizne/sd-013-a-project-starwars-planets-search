@@ -65,7 +65,9 @@ export default function FilterForm() {
     });
   };
 
+  // LOGICA DE EXCLUR UM FILTRO E VOLTAR PARA O SELECT
   const removeFilters = (index, item) => {
+    setParams([...params, item]);
     const filtros = filters.filterByNumericValues;
     const novaLista = filtros.filter((i) => i.column !== item);
     setFilter({ ...filters, filterByNumericValues: novaLista });
@@ -119,6 +121,26 @@ export default function FilterForm() {
       >
         Filtrar
       </button>
+      <select data-testid="column-sort">
+        <option value="name">Name</option>
+        <option value="rotation_period">Rotation Period</option>
+        <option value="orbital_period">Orbital Period</option>
+        <option value="diameter">Diameter</option>
+        <option value="climate">Climate</option>
+        <option value="gravity">Gravity</option>
+        <option value="terrain">Terrain</option>
+        <option value="surface_water">Surface Water</option>
+        <option value="population">Population</option>
+      </select>
+      <label htmlFor="asc">
+        ASC
+        <input id="asc" type="radio" name="sort" data-testid="column-sort-input-asc" />
+      </label>
+      <label htmlFor="desc">
+        DESC
+        <input id="desc" type="radio" name="sort" data-testid="column-sort-input-desc" />
+      </label>
+      <button type="button" data-testid="column-sort-button">ORDENAR</button>
       {tableFilter(removeFilters)}
     </form>
   );
