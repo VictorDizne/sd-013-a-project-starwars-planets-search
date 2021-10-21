@@ -6,7 +6,10 @@ function Provider({ children }) {
   const [data, setData] = useState([]);
   const [originalList, setoriginalLis] = useState([]);
   const [title, setTitle] = useState([]);
-  const [name, setName] = useState('');
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues: [],
+  });
 
   useEffect(() => {
     async function fetchData() {
@@ -22,22 +25,24 @@ function Provider({ children }) {
   }, []);
 
   function handleChange({ target: { value } }) {
-    setName(value);
+    setFilters({ ...filters, filterByName: { name: value } });
   }
 
   function nameFilter() {
-    const filteredName = originalList.filter((item) => item.name.includes(name));
+    const filteredName = originalList
+      .filter((item) => item.name.includes(filters.filterByName.name));
     setData(filteredName);
   }
 
-  useEffect(nameFilter, [name]);
+  useEffect(nameFilter, [filters.filterByName.name]);
 
   const contextStar = {
     data,
     title,
-    name,
+    filters,
     handleChange,
     setData,
+    setFilters,
     originalList,
   };
 

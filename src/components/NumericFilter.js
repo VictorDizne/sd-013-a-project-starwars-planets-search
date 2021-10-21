@@ -2,39 +2,47 @@ import React, { useContext, useState } from 'react';
 import starWarsContext from '../context';
 
 function NumericFilter() {
-  const { setData, originalList } = useContext(starWarsContext);
+  const { setData, originalList, setFilters, filters } = useContext(starWarsContext);
 
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
-  const [number, setValue] = useState(0);
+  const [value, setValue] = useState(0);
 
-  function handleChangeColumn({ target: { value } }) {
-    setColumn(value);
+  function handleChangeColumn(e) {
+    setColumn(e.target.value);
   }
 
-  function handleChangeComparison({ target: { value } }) {
-    setComparison(value);
+  function handleChangeComparison(e) {
+    setComparison(e.target.value);
   }
 
-  function handleChangeValue({ target: { value } }) {
-    setValue(value);
+  function handleChangeValue(e) {
+    setValue(e.target.value);
   }
 
   function numericFilter() {
+    setFilters({ ...filters,
+      filterByNumericValues: [{
+        column,
+        comparison,
+        value,
+      }],
+    });
+
     let filteredPlanet;
     if (comparison === 'maior que') {
       filteredPlanet = originalList
-        .filter((item) => Number(item[column]) > Number(number));
+        .filter((item) => Number(item[column]) > Number(value));
     }
 
     if (comparison === 'igual a') {
       filteredPlanet = originalList
-        .filter((item) => Number(item[column]) === Number(number));
+        .filter((item) => Number(item[column]) === Number(value));
     }
 
     if (comparison === 'menor que') {
       filteredPlanet = originalList
-        .filter((item) => Number(item[column]) < Number(number));
+        .filter((item) => Number(item[column]) < Number(value));
     }
 
     setData(filteredPlanet);
@@ -67,7 +75,7 @@ function NumericFilter() {
       <input
         data-testid="value-filter"
         type="number"
-        value={ number }
+        value={ value }
         onChange={ handleChangeValue }
       />
 
@@ -83,3 +91,6 @@ function NumericFilter() {
 }
 
 export default NumericFilter;
+
+/* Refatoração e lógica de filtragem realizada com a ajuda da pessoa estudante
+Douglas Santos Turma 13 Tribo A */

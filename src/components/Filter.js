@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import starWarsContext from '../context';
 
 function Filter() {
-  const { name, handleChange } = useContext(starWarsContext);
+  const { filters, handleChange } = useContext(starWarsContext);
+  const { filterByName: { name } } = filters;
 
   return (
     <div>
