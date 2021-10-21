@@ -21,6 +21,7 @@ export default function FilterForm() {
     setFilter({
       filterByNumericValues: filters.filterByNumericValues,
       filterByName: { name: value.toLowerCase() },
+      order: filters.order,
     });
   };
 
@@ -35,6 +36,7 @@ export default function FilterForm() {
     setFilter({
       filterByName: filters.filterByName,
       filterByNumericValues: [...filterByNumericValues, { ...select }],
+      order: filters.order,
     });
   };
 
@@ -86,6 +88,18 @@ export default function FilterForm() {
     </ol>
   );
 
+  const handleRadio = () => {
+    setFilter(
+      { ...filters,
+        order:
+        {
+          column: document.getElementById('order').value,
+          sort: document.getElementById('column-sort-desc').checked ? 'DESC' : 'ASC',
+        },
+      },
+    );
+  };
+
   return (
     <form>
       <label htmlFor="name">
@@ -121,7 +135,7 @@ export default function FilterForm() {
       >
         Filtrar
       </button>
-      <select data-testid="column-sort">
+      <select id="order" data-testid="column-sort">
         <option value="name">Name</option>
         <option value="rotation_period">Rotation Period</option>
         <option value="orbital_period">Orbital Period</option>
@@ -132,15 +146,31 @@ export default function FilterForm() {
         <option value="surface_water">Surface Water</option>
         <option value="population">Population</option>
       </select>
-      <label htmlFor="asc">
+      <label htmlFor="column-sort-asc">
         ASC
-        <input id="asc" type="radio" name="sort" data-testid="column-sort-input-asc" />
+        <input
+          id="column-sort-asc"
+          type="radio"
+          name="sort"
+          data-testid="column-sort-input-asc"
+        />
       </label>
-      <label htmlFor="desc">
+      <label htmlFor="column-sort-desc">
         DESC
-        <input id="desc" type="radio" name="sort" data-testid="column-sort-input-desc" />
+        <input
+          id="column-sort-desc"
+          type="radio"
+          name="sort"
+          data-testid="column-sort-input-desc"
+        />
       </label>
-      <button type="button" data-testid="column-sort-button">ORDENAR</button>
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ () => handleRadio() }
+      >
+        Aplicar
+      </button>
       {tableFilter(removeFilters)}
     </form>
   );
