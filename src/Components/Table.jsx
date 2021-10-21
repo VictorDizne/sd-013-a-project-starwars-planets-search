@@ -3,19 +3,6 @@ import Context from '../Context/Context';
 
 export default function Table() {
   const { data, filters } = useContext(Context);
-  const MENOSUM = -1;
-  const UM = 1;
-  const ZERO = 0;
-  function compare(a, b) {
-    if (a.name < b.name) {
-      return MENOSUM;
-    }
-    if (a.name > b.name) {
-      return UM;
-    }
-    return ZERO;
-  }
-  data.sort(compare);
   const { filterByNumericValues } = filters;
   const { filterByName: { name } } = filters;
   const [planets, setPlanets] = useState(data);
