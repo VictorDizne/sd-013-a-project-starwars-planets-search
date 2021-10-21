@@ -6,6 +6,7 @@ function FilterName() {
 
   const handleChange = ({ target: { value } }) => {
     setFilter({ ...filter, filterByName: value });
+    
   };
 
   return (
