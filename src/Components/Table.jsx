@@ -42,7 +42,7 @@ export default function Table() {
     if (name) {
       setPlanets(planets.filter((planet) => (planet.name).toLowerCase().includes(name)));
     }
-  }, [data, filterByNumericValues, filters, name, planets]);
+  }, [planets]);
   return (
     <div>
       <table>
