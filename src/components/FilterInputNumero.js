@@ -9,7 +9,7 @@ function FilterInputNumero() {
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
   ];
   const comparação = [
-    'maior que', 'menor que', 'igual a',
+    'maior que', 'menor qu', 'igual a',
   ];
   const filtro = {
     column: 'population', comparison: 'maior que', value: '0' };
