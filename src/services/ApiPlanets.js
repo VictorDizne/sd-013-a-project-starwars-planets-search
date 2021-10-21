@@ -7,5 +7,4 @@ function searchPlanets() {
       .then(({ results }) => results)
   );
 }
-
 export default searchPlanets;

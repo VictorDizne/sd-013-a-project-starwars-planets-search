@@ -70,7 +70,7 @@ function FilterNumber() {
       column: newColumn[0],
     }));
     setColumnList(newColumn);
-  }, [tableColumns, filterByNumericValues]);
+  }, [filterByNumericValues]);
 
   return (
     <div className="filter-number">

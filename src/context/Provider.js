@@ -36,6 +36,7 @@ function Provider({ children }) {
     const GetPlanets = async () => {
       const result = await searchPlanets();
       setData(result);
+      result.map((item) => delete item.residents);
     };
     GetPlanets();
   }, []); // funcao e um array vazio === didMount,renderiza uma vez
