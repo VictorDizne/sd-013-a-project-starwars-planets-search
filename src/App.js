@@ -1,12 +1,13 @@
 import React from 'react';
-import FilterPlanet from './components/FilterPlanet';
+import FilterPlanetAndNumber from './components/FilterPlanetAndNumber';
+// import FilterPlanet from './components/FilterPlanet';
 import Table from './components/Table';
 import DataProvider from './context/MyContext';
 
 function App() {
   return (
     <DataProvider>
-      <FilterPlanet />
+      <FilterPlanetAndNumber />
       <Table />
       <span>Teste</span>
     </DataProvider>
