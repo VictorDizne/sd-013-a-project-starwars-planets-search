@@ -21,7 +21,7 @@ function App() {
 
   // useEffect(() => {
   //   console.log('Rodei a cada atualização');
-  // });
+  // }); --
 
   // useEffect(() => {
   //   console.log('Rodei no primeiro render ');

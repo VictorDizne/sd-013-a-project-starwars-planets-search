@@ -3,16 +3,21 @@ import Context from '../context/Context';
 
 const Table = () => {
   const { data } = useContext(Context);
-  const columnHead = Object.keys([]);
-  console.log(columnHead);
+  // const header = { data };
+  const columnHead = Object.keys(data[0]);
+  console.log('columnHead ->', columnHead);
   const header = columnHead.map((tagColumnHead, index) => (
     <th key={ index }>
       { tagColumnHead }
     </th>
   ));
 
+  // const teste = {
+  //   data: data,
+  // };
+
   const body = data.map((results, index) => {
-    console.log(results);
+    // console.log(results);
     const result = Object.values(results);
     return (
       <tr key={ index }>
