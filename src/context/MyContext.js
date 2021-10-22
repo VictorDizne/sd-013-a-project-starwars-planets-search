@@ -6,7 +6,6 @@ export const FilterContext = React.createContext();
 
 export default function DataProvider({ children }) {
   const initialRender = useRef(true);
-  // const [data, setData] = useState();
   const backup = useRef([]);
 
   const [data, setData] = useState();
@@ -32,9 +31,6 @@ export default function DataProvider({ children }) {
   useEffect(() => {
     if (!initialRender.current) {
       const { name } = filters.filterByName;
-      // setData(() => [
-      //   ...backup.current.filter((planet) => planet.name.includes(name)),
-      // ]);
       const { filterByNumericValues } = filters;
       setData(() => {
         let newData = [...backup.current
