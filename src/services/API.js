@@ -1,5 +1,5 @@
-import { useContext, useEffect } from 'react';
-import MyContext from '../context/Context';
+// import { useContext, useEffect } from 'react';
+// import MyContext from '../context/Context';
 
 const APIENDPOINT = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
