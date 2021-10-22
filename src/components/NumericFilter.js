@@ -14,20 +14,40 @@ function NumericFilter() {
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState(0);
 
+  const [population, setPopulation] = useState(false);
+  const [orbital, setOrbital] = useState(false);
+  const [diameter, setDiameter] = useState(false);
+  const [rotation, setRotation] = useState(false);
+  const [surface, setSurface] = useState(false);
+
   function handleChangeColumn(e) {
     setColumn(e.target.value);
   }
-
   function handleChangeComparison(e) {
     setComparison(e.target.value);
   }
-
   function handleChangeValue(e) {
     setValue(e.target.value);
   }
 
-  function removeFilter() {
+  function removeOption() {
     const option = document.getElementById('my-option');
+
+    if (option.value === 'population') {
+      setPopulation(true);
+    }
+    if (option.value === 'orbital_period') {
+      setOrbital(true);
+    }
+    if (option.value === 'diameter') {
+      setDiameter(true);
+    }
+    if (option.value === 'rotation_period') {
+      setRotation(true);
+    }
+    if (option.value === 'surface_water') {
+      setSurface(true);
+    }
     option.remove(option.selectedIndex);
   }
 
@@ -60,7 +80,49 @@ function NumericFilter() {
 
     setData(filteredPlanet);
 
-    removeFilter();
+    removeOption();
+  }
+
+  function removeFilter(selectedColumn) {
+    const updateFilterByNumericValues = filterByNumericValues
+      .filter((item) => item.column !== selectedColumn);
+    setFilters({ ...filters,
+      filterByNumericValues: updateFilterByNumericValues,
+    });
+
+    let filterRemoved = originalList;
+    updateFilterByNumericValues.map((itemNum) => {
+      if (itemNum.comparison === 'maior que') {
+        filterRemoved = filterRemoved
+          .filter((item) => Number(item[itemNum.column]) > Number(itemNum.value));
+      }
+      if (itemNum.comparison === 'igual a') {
+        filterRemoved = filterRemoved
+          .filter((item) => Number(item[itemNum.column]) === Number(itemNum.value));
+      }
+      if (itemNum.comparison === 'menor que') {
+        filterRemoved = filterRemoved
+          .filter((item) => Number(item[itemNum.column]) < Number(itemNum.value));
+      }
+      return filterRemoved;
+    });
+    setData(filterRemoved);
+
+    if (selectedColumn === 'population') {
+      setPopulation(false);
+    }
+    if (selectedColumn === 'orbital_period') {
+      setOrbital(false);
+    }
+    if (selectedColumn === 'diameter') {
+      setDiameter(false);
+    }
+    if (selectedColumn === 'rotation_period') {
+      setRotation(false);
+    }
+    if (selectedColumn === 'surface_water') {
+      setSurface(false);
+    }
   }
 
   return (
@@ -102,6 +164,77 @@ function NumericFilter() {
       >
         Filtrar
       </button>
+
+      {
+        population
+        && (
+          <p data-testid="filter">
+            population
+            <button
+              type="button"
+              onClick={ () => removeFilter('population') }
+            >
+              X
+            </button>
+          </p>
+        )
+      }
+      {
+        orbital
+        && (
+          <p data-testid="filter">
+            orbital_period
+            <button
+              type="button"
+              onClick={ () => removeFilter('orbital_period') }
+            >
+              X
+            </button>
+          </p>
+        )
+      }
+      {
+        diameter
+        && (
+          <p data-testid="filter">
+            diameter
+            <button
+              type="button"
+              onClick={ () => removeFilter('diameter') }
+            >
+              X
+            </button>
+          </p>
+        )
+      }
+      {
+        rotation
+        && (
+          <p data-testid="filter">
+            rotation_period
+            <button
+              type="button"
+              onClick={ () => removeFilter('rotation_period') }
+            >
+              X
+            </button>
+          </p>
+        )
+      }
+      {
+        surface
+        && (
+          <p data-testid="filter">
+            surface_water
+            <button
+              type="button"
+              onClick={ () => removeFilter('surface_water') }
+            >
+              X
+            </button>
+          </p>
+        )
+      }
     </div>
   );
 }
