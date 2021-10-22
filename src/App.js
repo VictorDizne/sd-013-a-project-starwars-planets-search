@@ -7,14 +7,34 @@ import FetchApi from './services/API';
 function App() {
   const [data, setData] = useState([1]);
   const planets = { data };
+
   useEffect(() => {
     const getData = async () => {
-      const { results } = await fetch({ FetchApi })
-        .then((result) => result.json());
+      const { results } = await FetchApi();
+      results.forEach((planet) => {
+        delete planet.residents;
+      });
       setData(results);
     };
     getData();
   }, []);
+
+  // useEffect(() => {
+  //   console.log('Rodei a cada atualização');
+  // });
+
+  // useEffect(() => {
+  //   console.log('Rodei no primeiro render ');
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log('Rodei na atualização do state');
+  //   return () => {
+  //     console.log('Roda após desmontar');
+  //   };
+  // }, [data]);
+
+  console.log(FetchApi());
 
   return (
     <MyContext.Provider value={ planets }>

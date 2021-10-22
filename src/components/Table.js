@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
-import myContext from '../context/Context';
+import Context from '../context/Context';
 
 const Table = () => {
-  const { data } = useContext(myContext);
-  const columnHead = Object.keys([0]);
+  const { data } = useContext(Context);
+  const columnHead = Object.keys([]);
+  console.log(columnHead);
   const header = columnHead.map((tagColumnHead, index) => (
     <th key={ index }>
       { tagColumnHead }
@@ -11,6 +12,7 @@ const Table = () => {
   ));
 
   const body = data.map((results, index) => {
+    console.log(results);
     const result = Object.values(results);
     return (
       <tr key={ index }>
