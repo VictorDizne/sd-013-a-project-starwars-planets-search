@@ -1,13 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import fetch from '../Hooks/Fetch';
+// import PropTypes from 'prop-types';
+import useFetch from '../Hooks/Fetch';
 import Context from './Context';
 
 function Provider({ children }) {
-  const [planets] = fetch;
+  const [planets, loaded] = useFetch();
 
   const value = {
     planets,
+    loaded,
   };
 
   return (
@@ -16,9 +17,5 @@ function Provider({ children }) {
     </Context.Provider>
   );
 }
-
-Provider.propTypes = {
-  children: 
-}.isRequired;
 
 export default Provider;
