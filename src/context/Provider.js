@@ -7,6 +7,10 @@ function Provider({ children }) {
   const [useData, setUseData] = useState([]);
   const [dataTable, setDataTable] = useState({});
   const [valueInput, setValueInput] = useState('');
+  const [buttonFilter, setButtonFilter] = useState([]);
+  const [options, setOptions] = useState(
+    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+  );
   // const [numericFilters, setNumericFilters] = useState({ filterByNumericValues: [] });
   // setNumericFilters({
   //   filterByNumericValues: [...numericFilters.filterByNumericValues, filters] });
@@ -26,6 +30,7 @@ function Provider({ children }) {
 
   function handleChangeFilters(filters) {
     const { column, comparison, value } = filters;
+    setButtonFilter([...buttonFilter, filters]);
     const dataFilters = useData.filter((planet) => {
       if (comparison === 'maior que') {
         return Number(planet[column]) > Number(value);
@@ -39,6 +44,11 @@ function Provider({ children }) {
       return true;
     });
     setUseData(dataFilters);
+    const select = document.getElementById('column-filter-id');
+    const option = select.options[select.selectedIndex].value;
+    const filterOptions = options.filter((opt) => option !== opt);
+    setOptions(filterOptions);
+    console.log(option);
   }
 
   // function values() {
@@ -52,8 +62,9 @@ function Provider({ children }) {
     dataTable,
     valueInput,
     handleChange,
-    // numericFilters,
+    buttonFilter,
     handleChangeFilters,
+    options,
   };
 
   return (
