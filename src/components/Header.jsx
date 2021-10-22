@@ -61,6 +61,7 @@ function Header() {
   const initialSort = {
     column: 'name',
     sort: 'ASC',
+    isName: true,
   };
   const sortFilters = ['name', 'population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
@@ -69,7 +70,12 @@ function Header() {
 
   // Funções de filtragem ordenativa
   const handleSortChange = (({ target: { name, value } }) => {
-    setInitialSort({ ...sortValues, [name]: value });
+    const validator = name === sortValues.column;
+    setInitialSort({
+      ...sortValues,
+      [name]: value,
+      isName: validator,
+    });
   });
 
   const handleCheck = (({ target: { value } }) => (
@@ -77,8 +83,9 @@ function Header() {
   ));
 
   const handleSortSubmit = (event) => {
+    const { sort, column, isName } = sortValues;
     event.preventDefault();
-    handleSort();
+    handleSort(sort, column, isName);
   };
 
   return (
@@ -129,7 +136,7 @@ function Header() {
           <form onSubmit={ handleSortSubmit }>
             <Select
               name="column"
-              data-testid="column-sort"
+              testid="column-sort"
               labelText="Filtrar por: "
               options={ sortFilters }
               onChange={ handleSortChange }
@@ -152,7 +159,7 @@ function Header() {
               onChange={ handleSortChange }
               check={ checkedBox[1] }
               click={ handleCheck }
-              data-testid="column-sort-input-desc"
+              testid="column-sort-input-desc"
             />
             <button
               type="submit"
