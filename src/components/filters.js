@@ -2,7 +2,8 @@ import React, { useContext, useState } from 'react';
 import apiContext from '../contexts/apiContext';
 
 function Filters() {
-  const { setFilters, filters, setAtt, setFiltering } = useContext(apiContext);
+  const { setFilters,
+    filters, setAtt, setFiltering, data, loaded } = useContext(apiContext);
   const [filtersInUse, setFiltersInUse] = useState([]);
   const [arrOptionFilter, setArrOptionFilter] = useState(
     ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
@@ -11,6 +12,10 @@ function Filters() {
     column: 'population',
     comparison: 'maior que',
     value: '',
+  });
+  const [order, setOrder] = useState({
+    column: 'name',
+    sort: 'ASC',
   });
 
   const handleChangeSearch = ({ target }) => {
@@ -47,6 +52,21 @@ function Filters() {
     setAtt(true);
     setFiltering(true);
   };
+
+  const radioFilter = (value) => {
+    setOrder({
+      column: order.column,
+      sort: value,
+    });
+  };
+
+  const submitOrder = () => {
+    setFilters({
+      ...filters,
+      order,
+    })
+    setAtt(true);
+  }
 
   return (
     <div>
@@ -89,6 +109,50 @@ function Filters() {
           onClick={ handleChangeFilter }
         >
           filtrar
+        </button>
+        <div>
+          <select
+            data-testid="column-sort"
+            onChange={ ({ target }) => setOrder({
+              column: target.value,
+              sort: order.sort,
+            }) }
+          >
+            {loaded && Object.keys(data[0]).map((item) => (
+              <option value={ item } key={ item }>
+                { item }
+              </option>
+            ))}
+          </select>
+        </div>
+        <label htmlFor="ASC">
+          ASC
+          <input
+            type="radio"
+            id="ASC"
+            value="ASC"
+            name="sort-order"
+            data-testid="column-sort-input-asc"
+            onChange={ ({ target }) => radioFilter(target.value) }
+          />
+        </label>
+        <label htmlFor="DESC">
+          DESC
+          <input
+            type="radio"
+            id="DESC"
+            value="DESC"
+            data-testid="column-sort-input-desc"
+            name="sort-order"
+            onChange={ ({ target }) => radioFilter(target.value) }
+          />
+        </label>
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ () => submitOrder() }
+        >
+          ordenar
         </button>
       </div>
       <div>

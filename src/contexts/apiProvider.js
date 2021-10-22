@@ -19,6 +19,10 @@ const ApiProvider = ({ children }) => {
         value: '',
       },
     ],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
 
   useEffect(() => {
@@ -40,7 +44,8 @@ const ApiProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    setDataFiltered(data);
+    setDataFiltered(data
+      .sort((a, b) => a[filters.order.column].localeCompare(b[filters.order.column])));
     if (filtering) {
       setDataFiltered(data);
       setFiltering(false);
@@ -56,6 +61,15 @@ const ApiProvider = ({ children }) => {
 
   useEffect(() => {
     if (att) {
+      if (filters.order.sort === 'ASC') {
+        dataFiltered
+          .sort((a, b) => a[filters.order.column].localeCompare(b[filters.order.column]))
+          .sort((a, b) => (a[filters.order.column] - b[filters.order.column]));
+      } else {
+        dataFiltered
+          .sort((a, b) => b[filters.order.column].localeCompare(a[filters.order.column]))
+          .sort((a, b) => (b[filters.order.column] - a[filters.order.column]));
+      }
       filters.filterByNumericValues.map(({ column, comparison, value }) => {
         const filtered = dataFiltered.filter((i) => {
           switch (comparison) {
@@ -70,7 +84,6 @@ const ApiProvider = ({ children }) => {
           }
         });
         console.log('atualizou');
-        // console.log(dataFiltered);
         setDataFiltered(filtered);
         return setAtt(false);
       });
