@@ -64,9 +64,9 @@ function Filters() {
     setFilters({
       ...filters,
       order,
-    })
+    });
     setAtt(true);
-  }
+  };
 
   return (
     <div>
