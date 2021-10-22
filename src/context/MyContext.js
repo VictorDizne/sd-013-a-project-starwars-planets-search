@@ -4,12 +4,17 @@ import PropTypes from 'prop-types';
 export const DataContext = React.createContext();
 export const FilterContext = React.createContext();
 
+function isNumeric(str) {
+  return /^\d+$/.test(str);
+}
+
 export default function DataProvider({ children }) {
   const initialRender = useRef(true);
   const backup = useRef([]);
 
   const [data, setData] = useState();
   const [isReady, setIsReady] = useState(false);
+  const [columns, setColumns] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -24,9 +29,27 @@ export default function DataProvider({ children }) {
       .then((json) => {
         setData(json.results);
         backup.current = json.results;
+        setColumns(
+          Object.entries(backup.current[0])
+            .map(([key, value]) => {
+              if (isNumeric(value)) {
+                return key;
+              }
+              return '';
+            })
+            .filter((column) => column !== ''),
+        );
         setIsReady(true);
       });
   }, []);
+
+  function removeColumn(filterByNumericValues) {
+    filterByNumericValues.forEach((filter) => {
+      const { column } = filter;
+      console.log(column);
+      setColumns(() => columns.filter((key) => key !== column));
+    });
+  }
 
   useEffect(() => {
     if (!initialRender.current) {
@@ -57,7 +80,7 @@ export default function DataProvider({ children }) {
     }
   }, [filters]);
   return (
-    <FilterContext.Provider value={ { filters, setFilters } }>
+    <FilterContext.Provider value={ { filters, setFilters, columns, removeColumn } }>
       <DataContext.Provider value={ { data, isReady, backup } }>
         {children}
       </DataContext.Provider>

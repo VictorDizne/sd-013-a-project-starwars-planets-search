@@ -1,22 +1,24 @@
 import React, { useContext, useState } from 'react';
 import { DataContext, FilterContext } from '../context/MyContext';
 
-function isNumeric(str) {
-  return /^\d+$/.test(str);
-}
-
 export default function NumericSearch() {
   const [filterObject, setFilterObject] = useState({});
-  const { isReady, backup } = useContext(DataContext);
-  const { filters, setFilters } = useContext(FilterContext);
+  const { isReady } = useContext(DataContext);
+  const { filters, setFilters, columns, removeColumn } = useContext(FilterContext);
 
   function handleFilter() {
-    setFilters({
-      ...filters,
-      filterByNumericValues: [
+    setFilters(() => {
+      removeColumn([
         ...filters.filterByNumericValues,
         filterObject,
-      ],
+      ]);
+      return {
+        ...filters,
+        filterByNumericValues: [
+          ...filters.filterByNumericValues,
+          filterObject,
+        ],
+      };
     });
   }
 
@@ -31,13 +33,8 @@ export default function NumericSearch() {
     <div>
       <label htmlFor="column">
         <select name="column" data-testid="column-filter" onChange={ handleChange }>
-          {isReady && Object.entries(backup.current[0])
-            .map(([key, value]) => {
-              if (isNumeric(value)) {
-                return <option key={ key }>{key}</option>;
-              }
-              return null;
-            })}
+          {isReady && columns
+            .map((column, index) => <option key={ index }>{column}</option>)}
         </select>
       </label>
       <label htmlFor="comparison">
