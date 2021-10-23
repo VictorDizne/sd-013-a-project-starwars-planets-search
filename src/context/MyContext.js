@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export const DataContext = React.createContext();
 export const FilterContext = React.createContext();
 
-function isNumeric(str) {
+export function isNumeric(str) {
   return /^\d+$/.test(str);
 }
 
@@ -20,11 +20,15 @@ export default function DataProvider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
 
   useEffect(() => {
-    // fetch('https://swapi-trybe.herokuapp.com/api/planets/')
-    fetch('https://swapi.dev/api/planets/')
+    // fetch('https://swapi.dev/api/planets/')
+    fetch('https://swapi-trybe.herokuapp.com/api/planets/')
       .then((response) => response.json())
       .then((json) => {
         setData(json.results);

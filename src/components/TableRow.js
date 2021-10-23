@@ -5,7 +5,9 @@ export default function TableRow({ planet }) {
   return (
     <tr>
       { Object.entries(planet).map((info, index) => {
-        if (info[0] !== 'residents') return (<td key={ index }>{info[1]}</td>);
+        if (info[0] !== 'residents') {
+          return (<td data-testid={ `planet-${info[0]}` } key={ index }>{info[1]}</td>);
+        }
         return null;
       })}
     </tr>
