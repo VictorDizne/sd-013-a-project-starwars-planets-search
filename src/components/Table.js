@@ -7,15 +7,12 @@ export default function Table() {
     data,
     inputFilterValue,
     filteredPlanets,
-  } = contextData;// 2° Req
+    order,
+    columnOrder,
+    planetKeys,
+  } = contextData;
 
   if (!data || (data.length === 0)) return <p>loading...</p>;// Refatorar para carregar uma tela de loading
-  const filterByInput = filteredPlanets.filter((planet) => (
-    planet.name.toLowerCase().includes(inputFilterValue.toLowerCase())));
-  // Convertendo data para um objeto com o Object.assing para poder obter as keys das propriedades
-  // Daí é só aplicar o Object.Keys no objData
-  const convertData = {};
-  const objData = Object.assign(convertData, data[0]);
 
   return (
     <main>
@@ -25,29 +22,42 @@ export default function Table() {
           {/* Criando linha com as keys dinâmicamente do elemento na posição [0] */}
           <tr>
             {
-              Object.keys(objData)
-                .map((rowProps) => <th key={ rowProps }>{ rowProps }</th>)
+              planetKeys.map((rowProps) => <th key={ rowProps }>{ rowProps }</th>)
             }
           </tr>
         </thead>
         <tbody>
-          { filterByInput.map((item, index) => (
-            <tr key={ index }>
-              <td data-testid="planet-name">{ item.name }</td>
-              <td>{ item.rotation_period }</td>
-              <td>{ item.orbital_period }</td>
-              <td>{ item.diameter }</td>
-              <td>{ item.climate }</td>
-              <td>{ item.gravity }</td>
-              <td>{ item.terrain }</td>
-              <td>{ item.surface_water }</td>
-              <td>{ item.population }</td>
-              <td>{ item.films }</td>
-              <td>{ item.created }</td>
-              <td>{ item.edited }</td>
-              <td>{ item.url }</td>
-            </tr>
-          )) }
+          { filteredPlanets
+            .filter((planet) => (planet.name.includes(inputFilterValue.toLowerCase())))
+            .sort((a, b) => {
+              let elemA = a[columnOrder];
+              let elemB = b[columnOrder];
+
+              if (elemA === 'unknown') elemA = 0;
+              if (elemB === 'unknown') elemB = 0;
+
+              if (!Number.isNaN(Number(elemA))) {
+                elemA = Number(elemA);
+                elemB = Number(elemB);
+              }
+
+              if (elemA > elemB) {
+                return order === 'ASC' ? 1 : +'-1';
+              }
+              if (elemA < elemB) {
+                return order === 'ASC' ? +'-1' : 1;
+              }
+              return 0;
+            })
+            .map((item, index) => (
+              <tr key={ index }>
+                {planetKeys.map((key, indx) => (
+                  <td key={ indx } data-testid={ key === 'name' ? 'planet-name' : '' }>
+                    {item[key]}
+                  </td>
+                ))}
+              </tr>
+            ))}
         </tbody>
       </table>
     </main>

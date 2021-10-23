@@ -4,9 +4,15 @@ import ContextPlanet from '../contexts/ContextPlanet';
 
 export default function FilterNumeric() {
   const {
-    // numericFilter,
     filterByNumericValues,
-    setFilterByNumericValues } = useContext(ContextPlanet);
+    setFilterByNumericValues,
+    order,
+    setOrder,
+    columnOrder,
+    setColumnOrder,
+    setOrdering,
+    planetKeys,
+  } = useContext(ContextPlanet);
 
   const firstFilter = [
     'population',
@@ -22,24 +28,15 @@ export default function FilterNumeric() {
     'igual a',
   ];
   const [stateFilter, setStateFilter] = useState(firstFilter);
-  // Estado inicial para o filterByNumericValues
   const [col, setCol] = useState('population');
   const [compare, setCompare] = useState('maior que');
   const [numValue, setNumValue] = useState(0);
 
   function handleClick() {
     const filterColumn = document.getElementById('id-column-filter');
-    // setCol(filterColumn.value);
-    // const filtercomparison = document.getElementById('id-comparison-filter');
-    // setCompare(filtercomparison.value);
-    // const filterInput = document.getElementById('id-value-filter').value;
-    // setNumValue(filterInput);
     const filterOption = filterColumn.options[filterColumn.selectedIndex].value;
-    // const comparisonFilt = filtercomparison.options[filtercomparison.selectedIndex].value;
-    // numericFilter(filterInput, filterOption, comparisonFilt); testando com os valores col compare ...
     const noRepeatFilter = firstFilter.filter((option) => option !== filterOption);
     setStateFilter(noRepeatFilter);
-    console.log(noRepeatFilter);
     setFilterByNumericValues([
       ...filterByNumericValues,
       {
@@ -47,7 +44,6 @@ export default function FilterNumeric() {
         comparison: compare,
         value: numValue,
       }]);
-    // numericFilter(numValue, col, compare);
   }
 
   return (
@@ -55,6 +51,7 @@ export default function FilterNumeric() {
       <label htmlFor="column-filter">
         <select
           data-testid="column-filter"
+          value={ col }
           id="id-column-filter"
           onChange={ ({ target }) => setCol(target.value) }
         >
@@ -67,6 +64,7 @@ export default function FilterNumeric() {
       <label htmlFor="comparison-filter">
         <select
           data-testid="comparison-filter"
+          value={ compare }
           id="id-comparison-filter"
           onChange={ ({ target }) => setCompare(target.value) }
         >
@@ -79,6 +77,7 @@ export default function FilterNumeric() {
       <input
         type="number"
         data-testid="value-filter"
+        value={ numValue }
         id="id-value-filter"
         onChange={ ({ target }) => setNumValue(target.value) }
       />
@@ -88,6 +87,48 @@ export default function FilterNumeric() {
         onClick={ handleClick }
       >
         Adicionar Filtro
+      </button>
+      <select
+        data-testid="column-sort"
+        onChange={ ({ target }) => setColumnOrder(target.value) }
+      >
+        {planetKeys.map((colunm) => (
+          <option key={ colunm }>{colunm}</option>
+        ))}
+      </select>
+      <label htmlFor="asc">
+        ASCENDENTE
+        <input
+          type="radio"
+          id="asc"
+          name="asc-desc"
+          value="ASC"
+          data-testid="column-sort-input-asc"
+          onClick={ ({ target }) => setOrder(target.value) }
+        />
+      </label>
+      <label htmlFor="desc">
+        DESCENDENTE
+        <input
+          type="radio"
+          id="desc"
+          name="asc-desc"
+          value="DESC"
+          data-testid="column-sort-input-desc"
+          onClick={ ({ target }) => setOrder(target.value) }
+        />
+      </label>
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ () => {
+          setOrdering({
+            colunm: columnOrder,
+            sort: order,
+          });
+        } }
+      >
+        Ordenar
       </button>
     </form>
   );

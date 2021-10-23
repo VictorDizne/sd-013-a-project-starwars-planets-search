@@ -6,9 +6,15 @@ import fetchApiData from '../services/FetchApi';
 
 export default function ProviderContext({ children }) {
   const [data, setData] = useState([]);
+  const [planetKeys, setPlanetKeys] = useState([]);
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
   const [filteredPlanets, setFilteredPlanets] = useState(data);
   const [inputFilterValue, setInputFilterValue] = useState(''); // 2° Req
+  // Estados para o filtro de ordenação do Requisito 6
+  const [columnOrder, setColumnOrder] = useState('name');
+  const [order, setOrder] = useState('ASC');
+  const [ordering, setOrdering] = useState();
+
   const handleChange = ({ target: { value } }) => {
     setInputFilterValue(value);
   };// 2° Req
@@ -19,12 +25,12 @@ export default function ProviderContext({ children }) {
       const responseApi = await fetchApiData();
       setData(responseApi);
       setFilteredPlanets(responseApi);
+      const objData = Object.keys(responseApi[0]);
+      setPlanetKeys(objData);
     } getPlanetsApi();
   }, []);
 
   function numericFilter(input, firstFilter, secondFilter) {
-    console.log(input, firstFilter, secondFilter);
-
     const resultFilter = filteredPlanets.filter((planet) => {
       if (secondFilter === 'maior que') {
         return Number(planet[firstFilter]) > Number(input);
@@ -39,7 +45,6 @@ export default function ProviderContext({ children }) {
     });
     // setData(resultFilter);
     setFilteredPlanets(resultFilter);
-    console.log(resultFilter);
   }
 
   const filterPlanets = () => {
@@ -47,8 +52,6 @@ export default function ProviderContext({ children }) {
     filterByNumericValues.forEach((filter) => {
       numericFilter(filter.value, filter.column, filter.comparison);
     });
-    // console.log(comparison);
-    // console.log(value);
   };
 
   useEffect(() => {
@@ -63,6 +66,13 @@ export default function ProviderContext({ children }) {
     filterByNumericValues,
     setFilterByNumericValues,
     filteredPlanets,
+    columnOrder,
+    setColumnOrder,
+    order,
+    setOrder,
+    ordering,
+    setOrdering,
+    planetKeys,
   };
 
   return (
