@@ -4,7 +4,7 @@ import starWarsContext from '../context';
 function Order() {
   const { setFilters, filters, setData, originalList } = useContext(starWarsContext);
 
-  const [column, setColumn] = useState('name');
+  const [column, setColumn] = useState('population');
   const [radio, setRadio] = useState('ASC');
 
   function submit() {
