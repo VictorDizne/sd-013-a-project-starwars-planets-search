@@ -4,6 +4,18 @@ import Context from './Context';
 
 function Provider({ children }) {
   const [state, setState] = useState({ planets: [], isLoading: true });
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [
+      {
+        column: 'population',
+        comparison: 'maior que',
+        value: '0',
+      },
+    ],
+  });
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -17,6 +29,8 @@ function Provider({ children }) {
   const completeState = {
     state,
     setState,
+    filters,
+    setFilters,
   };
 
   return (
