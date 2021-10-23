@@ -4,7 +4,7 @@ import ContextPlanet from '../contexts/ContextPlanet';
 export default function Table() {
   const contextData = useContext(ContextPlanet);
   const {
-    data,
+    // data,
     inputFilterValue,
     filteredPlanets,
     order,
@@ -12,7 +12,7 @@ export default function Table() {
     planetKeys,
   } = contextData;
 
-  if (!data || (data.length === 0)) return <p>loading...</p>;// Refatorar para carregar uma tela de loading
+  // if (!data || (data.length === 0)) return <p>loading...</p>;// Refatorar para carregar uma tela de loading
 
   return (
     <main>
