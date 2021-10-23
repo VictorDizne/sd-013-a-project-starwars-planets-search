@@ -19,21 +19,14 @@ function Table() {
         <tbody>
           {data.map((it, ind) => (
             <tr key={ ind }>
-              <td data-testid="planet-name">{it.name}</td>
-              <td>{it.rotation_period}</td>
-              <td>{it.orbital_period}</td>
-              <td>{it.diameter}</td>
-              <td>{it.climate}</td>
-              <td>{it.gravity}</td>
-              <td>{it.terrain}</td>
-              <td>{it.surface_water}</td>
-              <td>{it.population}</td>
-              <td>{it.films}</td>
-              <td>{it.created}</td>
-              <td>{it.edited}</td>
-              {/*  {Object.values(item).map((values, i) => (
-                <td key={ i }>{values}</td>
-              ))} */}
+              {Object.values(it).map((values, i) => (
+                <td
+                  key={ i }
+                  data-testid={ title[i] === 'name' ? 'planet-name' : '' }
+                >
+                  {values}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>

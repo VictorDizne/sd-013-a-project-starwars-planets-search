@@ -4,7 +4,7 @@ import starWarsContext from './index';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
-  const [originalList, setoriginalLis] = useState([]);
+  const [originalList, setOriginalList] = useState([]);
   const [title, setTitle] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: { name: '' },
@@ -19,7 +19,7 @@ function Provider({ children }) {
       const { results } = await fetchApi.json();
       results.map((item) => delete item.residents);
       setData(results);
-      setoriginalLis(results);
+      setOriginalList(results);
       setTitle(Object.keys(results[0]));
     }
     fetchData();

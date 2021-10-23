@@ -4,7 +4,7 @@ import starWarsContext from '../context';
 function Order() {
   const { setFilters, filters, setData, originalList } = useContext(starWarsContext);
 
-  const [column, setColumn] = useState('population');
+  const [column, setColumn] = useState('name');
   const [radio, setRadio] = useState('ASC');
 
   function submit() {
@@ -15,16 +15,19 @@ function Order() {
           sort: radio,
         },
     });
+    if (radio === 'ASC') {
+      setData(originalList
+        .sort((c, d) => c[column] - (d[column])));
+    }
+    if (radio === 'DESC') {
+      setData(originalList
+        .sort((e, f) => f[column] - (e[column])));
+    }
   }
 
   useEffect(() => {
-    if (originalList.length !== 0) {
-      if (filters.order.column === 'name') {
-        setData(originalList.sort((a, b) => a.name.localeCompare(b.name)));
-      } else {
-        setData(originalList
-          .sort((a, b) => a[filters.order.column] - (b[filters.order.column])));
-      }
+    if (filters.order.column === 'name') {
+      setData(originalList.sort((a, b) => a.name.localeCompare(b.name)));
     }
   },
   [filters.order, originalList, setData]);
@@ -50,7 +53,7 @@ function Order() {
           value="ASC"
           defaultChecked
           name="orderRadio"
-          onClick={ () => { setRadio('ASC'); } }
+          onChange={ () => { setRadio('ASC'); } }
         />
         ASC
       </label>
@@ -62,7 +65,7 @@ function Order() {
           type="radio"
           value="DESC"
           name="orderRadio"
-          onClick={ () => { setRadio('DESC'); } }
+          onChange={ () => { setRadio('DESC'); } }
         />
         DESC
       </label>
@@ -78,3 +81,5 @@ function Order() {
 }
 
 export default Order;
+
+/* Referências: Pessoa estudante Erick Santos (meu Buddy) Turma 13. Tribo A */
