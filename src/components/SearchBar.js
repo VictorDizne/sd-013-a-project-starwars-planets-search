@@ -46,6 +46,12 @@ function SearchBar() {
             type="number"
           />
         </label>
+        <button
+          data-testid="button-filter"
+          type="submit"
+        >
+          Filtrar
+        </button>
       </form>
     </div>
   );
