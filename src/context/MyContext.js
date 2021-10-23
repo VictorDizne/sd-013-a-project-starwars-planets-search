@@ -43,14 +43,6 @@ export default function DataProvider({ children }) {
       });
   }, []);
 
-  function removeColumn(filterByNumericValues) {
-    filterByNumericValues.forEach((filter) => {
-      const { column } = filter;
-      console.log(column);
-      setColumns(() => columns.filter((key) => key !== column));
-    });
-  }
-
   useEffect(() => {
     if (!initialRender.current) {
       const { name } = filters.filterByName;
@@ -79,8 +71,27 @@ export default function DataProvider({ children }) {
       initialRender.current = false;
     }
   }, [filters]);
+
+  function removeColumn(filterByNumericValues) {
+    filterByNumericValues.forEach((filter) => {
+      const { column } = filter;
+      setColumns(() => columns.filter((key) => key !== column));
+    });
+  }
+
+  function removeFilter(column) {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues.filter((filter) => filter.column !== column),
+      ],
+    });
+  }
+
   return (
-    <FilterContext.Provider value={ { filters, setFilters, columns, removeColumn } }>
+    <FilterContext.Provider
+      value={ { filters, setFilters, columns, removeColumn, removeFilter } }
+    >
       <DataContext.Provider value={ { data, isReady, backup } }>
         {children}
       </DataContext.Provider>
