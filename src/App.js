@@ -1,11 +1,12 @@
 import React from 'react';
-import './App.css';
+import MainPage from './pages/MainPage';
+import Provider from './context/Provider';
 
-function App() {
+export function App() {
   return (
-    <span>Hello, App!</span>
+    <Provider>
+      <MainPage />
+    </Provider>
   );
 }
-
 export default App;
-// commit
