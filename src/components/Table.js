@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+
 import ApiContext from '../context/ApiContext';
 import TableDataRow from './TableDataRow';
 
@@ -28,4 +29,5 @@ function Table() {
     </table>
   );
 }
+
 export default Table;

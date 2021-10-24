@@ -4,17 +4,12 @@ import ApiContext from '../context/ApiContext';
 
 function FilterByName() {
   const {
-    data,
-    setFilteredData,
     filters,
     setFilters,
   } = useContext(ApiContext);
 
   const filter = ({ target: { value } }) => {
     setFilters({ ...filters, filterByName: { name: value } });
-    setFilteredData(data.filter(({ name }) => (
-      name.toLowerCase().includes(value)
-    )));
   };
 
   return (
@@ -22,6 +17,7 @@ function FilterByName() {
       <input
         data-testid="name-filter"
         placeholder="Pesquisar por nome"
+        value={ filters.filterByName.name }
         onChange={ (event) => filter(event) }
       />
     </div>
