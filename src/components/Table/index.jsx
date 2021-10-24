@@ -8,21 +8,18 @@ function Table() {
 
   return (
     <div className={ styles.tableContainer }>
-      <table className={ styles.table } />
-      <thead className={ styles.tableHead }>
-        <tr className={ styles.tableRow }>
-          {planetsKeys.map((key) => (
-            <th key={ key } name={ key }>{key}</th>
-          ))}
-        </tr>
-        <tbody>
-          {' '}
-          className=
-          {styles.tableBody}
+      <table className={ styles.table }>
+        <thead className={ styles.tableHead }>
+          <tr className={ styles.tableRow }>
+            {planetsKeys.map((key) => (
+              <th key={ key } name={ key }>{key}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className={ styles.tableBody }>
           <Planets planets={ planets } />
         </tbody>
-
-      </thead>
+      </table>
     </div>
   );
 }
