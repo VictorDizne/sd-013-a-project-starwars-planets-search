@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 import Th from './Th';
 import Tr from './Tr';
+import Filters from './Filters';
 
 function Table() {
   const { data, filters, setFilters } = useContext(PlanetContext);
@@ -54,11 +55,38 @@ function Table() {
     // console.log(children[1]);
   }
 
+  function handleClick(e) {
+    const { target: { id } } = e;
+    if (filterByNumericValues.length > 1) {
+      setFilters({
+        ...filters,
+        filterByNumericValues: filterByNumericValues
+          .filter((filter) => filter.column !== id),
+      });
+    } else {
+      setFilters({
+        ...filters,
+        filterByNumericValues:
+        [{
+          column: '',
+          comparison: '',
+          value: '',
+        }],
+      });
+    }
+    const columns = document.querySelector('#column');
+    const options = document.createElement('option');
+    options.value = id;
+    options.textContent = id;
+    columns.appendChild(options);
+    // console.log(id);
+  }
+
   return (
     <>
       <form onSubmit={ handleSubmit }>
         <input type="text" data-testid="name-filter" onChange={ handleChange } />
-        <select data-testid="column-filter">
+        <select data-testid="column-filter" id="column">
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
           <option value="diameter">diameter</option>
@@ -73,6 +101,14 @@ function Table() {
         <input type="number" data-testid="value-filter" />
         <button type="submit" data-testid="button-filter">Filtrar</button>
       </form>
+      <ol>
+        {filterByNumericValues
+          .map((filter, i) => (<Filters
+            key={ i }
+            filter={ filter }
+            handleClick={ handleClick }
+          />))}
+      </ol>
       <table>
         <thead>
           <tr>{titles.map((title, index) => <Th Key={ index } title={ title } />)}</tr>
