@@ -1,40 +1,31 @@
 import React, { useContext, useState, useEffect } from 'react';
 import contextApp from '../context/contextApp';
 
+const tableColumns = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
+const comparisons = [
+  'maior que',
+  'menor que',
+  'igual a',
+];
+
 function FilterNumber() {
   const {
     filters: { filterByNumericValues },
     setFilters,
+    handleChange,
+    numericFilter,
+    setNumericFilter,
+    filters,
   } = useContext(contextApp);
 
-  const tableColumns = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
-
-  const comparisons = [
-    'maior que',
-    'menor que',
-    'igual a',
-  ];
-
   const [columnList, setColumnList] = useState(tableColumns);
-
-  const [numericFilter, setNumericFilter] = useState({
-    column: 'population',
-    comparison: 'maior que',
-    value: '10000',
-  });
-
-  const handleChange = ({ target }) => {
-    setNumericFilter((prevState) => ({
-      ...prevState,
-      [target.name]: target.value,
-    }));
-  };
 
   const handleFilterByNumericValues = ({ column, comparison, value }) => {
     setFilters((prevFilters) => {
@@ -60,26 +51,29 @@ function FilterNumber() {
     });
   };
 
-  // useEffect(() => {
-  //   const newColumn = tableColumns.filter((column) => !filterByNumericValues
-  //     .some((filter) => filter.column === column))
-  //     .map((nextColumn) => nextColumn);
+  const optionsFilterRemove = () => {
+    const newColumn = tableColumns.filter((column) => !filterByNumericValues
+      .some((filter) => filter.column === column))
+      .map((nextColumn) => nextColumn);
+    console.log(newColumn);
+    setNumericFilter((prevState) => ({
+      ...prevState,
+      column: newColumn[0],
+    }));
+    setColumnList(newColumn);
+    console.log(numericFilter);
+  };
 
-  //   setNumericFilter((prevState) => ({
-  //     ...prevState,
-  //     column: newColumn[0],
-  //   }));
-  //   setColumnList(newColumn);
-  // }, [filterByNumericValues, tableColumns]);
+  useEffect(optionsFilterRemove, [filterByNumericValues]);
 
-  // const deleteFilters = (currentColumn) => {
-  //   const removeFilterByNumeric = filterByNumericValues
-  //     .filter(({ column }) => column !== currentColumn);
-  //   setFilters({
-  //     // ...filters,
-  //     filterByNumericValues: [removeFilterByNumeric],
-  //   });
-  // };
+  const deleteFilters = (currentColumn) => {
+    const removeFilterByNumeric = filterByNumericValues
+      .filter(({ column }) => column !== currentColumn);
+    setFilters({
+      ...filters,
+      filterByNumericValues: [removeFilterByNumeric],
+    });
+  };
 
   return (
     <div className="filter-number">
@@ -121,18 +115,6 @@ function FilterNumber() {
       >
         Filtrar
       </button>
-      {/* { filterByNumericValues.map(({ column, comparison, values }) => (
-        <span data-testid="filter" key={ column }>
-          { `Filtros: ${column} ${comparison} ${values}` }
-          <button
-            type="button"
-            onClick={ () => deleteFilters() }
-          >
-            X
-
-          </button>
-        </span>
-      )) } */}
     </div>
   );
 }

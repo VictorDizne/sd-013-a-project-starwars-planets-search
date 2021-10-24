@@ -3,14 +3,13 @@ import React, { useContext, useState, useEffect } from 'react';
 import contextApp from '../context/contextApp';
 
 function Table() {
-  const { data, filters } = useContext(contextApp);
-  const [test, setTest] = useState([]);
+  const { data, numericFilter, filters } = useContext(contextApp);
+  const [planetasFiltrados, setPlanetasFriltrados] = useState([]);
 
   const { dataError, filters: {
     filterByName, filterByNumericValues } } = useContext(contextApp);
 
-  const [planets, setPlanets] = useState([]);
-  // Funçao ok
+  // Filtro por "NOME DO TIPO TEXTO"
   const FilterName = (array) => {
     if (!filterByName.name) {
       return array;
@@ -19,21 +18,20 @@ function Table() {
       return array.filter(({ name }) => name.includes(filterByName.name));
     }
   };
+  //
 
-  const renderiza = () => {
-    setTest(FilterName(data));
-    console.log(FilterName(data));
-  };
-
-  const filterNumericValues = (planetsData, column, comparison, value) => {
-    let filteredPlanets;
-
+  // Filtra por valores.
+  const filterNumericValues = (planetsData) => {
+    let filteredPlanets = [];
+    const { comparison, column, value } = numericFilter;
+    if (numericFilter.length === 0) {
+      return planetsData;
+    }
     if (comparison === 'maior que') {
       filteredPlanets = planetsData.filter((planet) => (
         Number(planet[column]) > Number(value)
       ));
     }
-
     if (comparison === 'menor que') {
       filteredPlanets = planetsData.filter((planet) => (
         Number(planet[column]) < Number(value)
@@ -47,43 +45,30 @@ function Table() {
     return filteredPlanets;
   };
 
-  const FilterValue = (array) => filterNumericValues(array, column, comparison, value);
+  // Chama os filtros aninhadamente.
+  const renderiza = () => {
+    setPlanetasFriltrados(filterNumericValues(FilterName(data)));
+    console.log(filterByNumericValues);
+  };
+  // Faz update a cada dependente atualizado.
+  useEffect(renderiza, [data, filterByName, filters]);
+  //
 
-  // filterByNumericValues.forEach(({ column, comparison, value }) => (
-  //     value && setPlanets((prevPlanets) => {
-  //       if (prevPlanets.length < 1) {
-  //         if (!filterByName.name) {
-  //           return filterNumericValues(data, column, comparison, value);
-  //         }
-  // const filteredByName = data.filter(({ name }) => (
-  //   name.includes(filterByName.name)
-  // ));
-  // return filterNumericValues(prevPlanets, column, comparison, value);
-  //   })
-  // ));
-  // console.log('table2');
-  // console.log(data);
-  // console.log(filterByName);
-  // console.log(prevPlanets.length < 1 ? 'testa' : prevPlanets);
-  // }, [data, filterByName, filterByNumericValues]);
-  // console.log(planets);
-  // console.log(test);
-  useEffect(FilterValue(renderiza, column, comparison, value)), [data, filterByName, column, comparison, value)]);
   return (data.length > 0 && !dataError)
     && (
       <table>
         <thead>
           <tr>
             {Object.keys(data[0]).map((header, index) => (
-              <th key={index}>{header}</th>
+              <th key={ index }>{header}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {planets.map((planet, i) => (
-            <tr key={i}>
+          {planetasFiltrados.map((planet, i) => (
+            <tr key={ i }>
               {Object.keys(planet).map((column, j) => (
-                <td key={j}>{planet[column]}</td>
+                <td key={ j }>{planet[column]}</td>
               ))}
             </tr>
           ))}

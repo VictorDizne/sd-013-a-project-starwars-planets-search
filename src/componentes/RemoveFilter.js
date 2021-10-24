@@ -10,21 +10,27 @@ function RemoveFilter() {
   } = useContext(contextApp);
   const ArrayFilters = filterByNumericValues;
 
+  console.log(filterByNumericValues);
+  console.log(setFilterByNumericValues);
+  console.log(filterUsed);
+  console.log(setFilterUsed);
+
+  console.log(ArrayFilters);
   return (
     <ul>
-      { ArrayFilters.map((filt) => (
-        <li data-testid="filter" key={ filt.column }>
-          {filt.column}
+      { ArrayFilters.map(({ column, comparison, value }) => (
+        <li data-testid="filter" key={ column }>
+          {column}
           {' '}
-          {filt.comparison}
+          {comparison}
           {' '}
-          {filt.value}
+          {value}
           <button
             type="button"
             onClick={ () => {
-              setFilterUsed([filterUsed, filt.column]);
+              setFilterUsed([filterUsed, column]);
               setFilterByNumericValues(
-                filterByNumericValues.filter((num) => (num.column !== filt.column)),
+                filterByNumericValues.filter((num) => (num.column !== column)),
               );
             } }
           >

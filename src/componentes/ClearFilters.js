@@ -5,15 +5,6 @@ const ClearFilters = () => {
   const { filters, setFilters } = useContext(contextApp);
   const { filterByNumericValues } = filters;
 
-  // const deleteFilter = ({ target: { value } }) => {
-  //   const removeFilter = filterByNumericValues
-  //     .filter((filter) => filter.column !== value);
-  //   setFilters({
-  //     ...filters,
-  //     filterByNumericValues: removeFilter,
-  //   });
-  // };
-
   const deleteFilters = (currentColumn) => {
     const removeFilterByNumeric = filterByNumericValues
       .filter(({ column }) => column !== currentColumn);

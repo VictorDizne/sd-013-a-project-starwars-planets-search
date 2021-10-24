@@ -3,18 +3,44 @@ import PropTypes from 'prop-types';
 import contextApp from './contextApp';
 import searchPlanets from '../services/ApiPlanets';
 
+const filterInitial = {
+  filterByName: { name: '' },
+  filterByNumericValues: [{
+    column: 'population',
+    comparison: 'maior que',
+    value: '10000',
+  }],
+};
+
 function Provider({ children }) {
   const [data, setData] = useState([]); // estados criados para salvar retorno API
-  const [filterUsed, setFilterUsed] = useState([]);
-
   const [dataError, setDataError] = useState(false);
-
-  const filterInitial = {
-    filterByName: { name: '' },
-    filterByNumericValues: [{ column: '', comparison: '', value: '' }],
-  };
-
+  const [filterUsed, setFilterUsed] = useState([]);
   const [filters, setFilters] = useState(filterInitial);
+
+  // Seta valores do filtro de valor.
+  const [numericFilter, setNumericFilter] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '0',
+  });
+
+  useEffect(() => {
+    const GetPlanets = async () => {
+      const result = await searchPlanets();
+      setData(result);
+      result.map((item) => delete item.residents);
+    };
+    GetPlanets();
+  }, []); // funcao e um array vazio === didMount,renderiza uma vez
+
+  const handleChange = ({ target }) => {
+    setNumericFilter((prevState) => ({
+      ...prevState,
+      [target.name]: target.value,
+    }));
+  };
+  //
 
   const filterHandle = ({ target: { value } }) => {
     setFilters((prevState) => ({
@@ -33,16 +59,10 @@ function Provider({ children }) {
     filterHandle,
     filterUsed,
     setFilterUsed,
+    handleChange,
+    setNumericFilter,
+    numericFilter,
   };
-
-  useEffect(() => {
-    const GetPlanets = async () => {
-      const result = await searchPlanets();
-      setData(result);
-      result.map((item) => delete item.residents);
-    };
-    GetPlanets();
-  }, []); // funcao e um array vazio === didMount,renderiza uma vez
 
   return (
     <contextApp.Provider value={ contextValue }>
