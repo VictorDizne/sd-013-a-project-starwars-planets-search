@@ -30,10 +30,10 @@ const filterPlanets = ({ filterByName, filterByNumericValues }, prevData) => {
   ));
   if (filterByNumericValues.length === 0) return filteredPlanets;
 
-  const functionn = (...args) => {
-    console.log(args.length);
-  };
-  functionn(5, 2, 'a');
+  // const functionn = (...args) => {
+  //   console.log(args.length);
+  // };
+  // functionn(5, 2, 'a');
 
   filterByNumericValues.forEach((filter) => {
     filteredPlanets = filteredPlanets.filter((planet) => {
@@ -58,7 +58,7 @@ const Table = () => {
   // const { filterByNumericValues } = filters;
   // console.log(filteredData);
 
-  // luiz casimiro
+  // ajude de Luiz Casimiro
 
   useEffect(() => {
     setFilteredData(filterPlanets(filters, data));
