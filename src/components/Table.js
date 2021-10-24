@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
-
 import ApiContext from '../context/ApiContext';
 import TableDataRow from './TableDataRow';
 
-function TableComponent() {
-  const { data } = useContext(ApiContext);
+function Table() {
+  const { filteredData } = useContext(ApiContext);
 
   return (
     <table>
@@ -25,9 +24,8 @@ function TableComponent() {
           <th>Url</th>
         </tr>
       </thead>
-      <TableDataRow data={ data } />
+      <TableDataRow data={ filteredData } />
     </table>
   );
 }
-
-export default TableComponent;
+export default Table;
