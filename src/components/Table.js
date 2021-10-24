@@ -3,7 +3,8 @@ import Context from '../context/Context';
 import Input from './Input';
 import formatDate from '../services/formatDate';
 
-// gustavo moraes
+// Ajude de Gustavo Moraes
+
 const GenerateTable = (data) => data.map((planet) => (
   <tr key={ planet.name }>
     <td data-testid="planet-name">{planet.name}</td>
@@ -52,6 +53,41 @@ const filterPlanets = ({ filterByName, filterByNumericValues }, prevData) => {
   return filteredPlanets;
 };
 
+const SortPlanets = (data, filters) => {
+  const { order } = filters;
+  const { column, sort } = order;
+
+  const sortByColumn = () => {
+    if (column === 'population') {
+      const sortByPopulation = sort === 'ASC'
+        ? data.sort((a, b) => a.population - b.population)
+        : data.sort((a, b) => b.population - a.population);
+
+      return sortByPopulation;
+    }
+
+    if (column === 'name') {
+      const sortByName = sort === 'ASC'
+        ? data.sort((a, b) => a.name.localeCompare(b.name))
+        : data.sort((a, b) => b.name.localeCompare(a.name));
+
+      return sortByName;
+    }
+
+    if (column === 'orbital_period') {
+      const sortByOrbitalPeriod = sort === 'ASC'
+        ? data.sort((a, b) => a.orbital_period - b.orbital_period)
+        : data.sort((a, b) => b.orbital_period - a.orbital_period);
+
+      return sortByOrbitalPeriod;
+    }
+
+    return GenerateTable(data);
+  };
+
+  return GenerateTable(sortByColumn());
+};
+
 const Table = () => {
   const { data, filters } = useContext(Context);
   const [filteredData, setFilteredData] = useState([]);
@@ -88,7 +124,7 @@ const Table = () => {
             <th>Edited</th>
             <th>URL</th>
           </tr>
-          {GenerateTable(filteredData)}
+          {SortPlanets(filteredData, filters)}
         </tbody>
       </table>
 

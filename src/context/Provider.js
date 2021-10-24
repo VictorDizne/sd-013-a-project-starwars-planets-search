@@ -11,7 +11,13 @@ const Provider = ({ children }) => {
     },
 
     filterByNumericValues: [],
+
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   };
+
   const [filters, setFilters] = useState(initialFilters);
 
   useEffect(() => {

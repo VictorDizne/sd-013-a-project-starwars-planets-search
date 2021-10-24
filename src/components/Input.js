@@ -18,6 +18,18 @@ const applySort = (filters, data) => {
   return sorted;
 };
 
+const deleteColumnFilter = (column, setColumnFilter) => {
+  setColumnFilter((state) => state.filter((columnItem) => columnItem !== column));
+};
+
+const deleteFilter = (column, filters, setFilters, setColumnFilter) => {
+  const filtersAfterDelete = filters.filterByNumericValues
+    .filter((item) => item.column !== column);
+
+  setFilters((state) => ({ ...state, filterByNumericValues: filtersAfterDelete }));
+  setColumnFilter((state) => [...state, column]);
+};
+
 const handleChange = (e, setFilters) => {
   e.persist();
   setFilters((state) => ({
@@ -36,28 +48,6 @@ const handleColumnSort = (option, setFilters) => {
   }));
 };
 
-const handleSortOptions = (option, setFilters) => {
-  setFilters((state) => ({
-    ...state,
-    order: {
-      ...state.order,
-      sort: option,
-    },
-  }));
-};
-
-const deleteColumnFilter = (column, setColumnFilter) => {
-  setColumnFilter((state) => state.filter((columnItem) => columnItem !== column));
-};
-
-const deleteFilter = (column, filters, setFilters, setColumnFilter) => {
-  const filtersAfterDelete = filters.filterByNumericValues
-    .filter((item) => item.column !== column);
-
-  setFilters((state) => ({ ...state, filterByNumericValues: filtersAfterDelete }));
-  setColumnFilter((state) => [...state, column]);
-};
-
 const handleFilters = (setFilters, setColumnFilter) => {
   const { value } = document.getElementById('value');
   const column = document.getElementById('column').value;
@@ -66,11 +56,21 @@ const handleFilters = (setFilters, setColumnFilter) => {
   setFilters((state) => ({
     ...state,
     filterByNumericValues: [...state.filterByNumericValues, {
-      value, column, comparison,
+      column, comparison, value,
     }],
   }));
 
   deleteColumnFilter(column, setColumnFilter);
+};
+
+const handleSortOptions = (option, setFilters) => {
+  setFilters((state) => ({
+    ...state,
+    order: {
+      ...state.order,
+      sort: option,
+    },
+  }));
 };
 
 const Input = () => {
