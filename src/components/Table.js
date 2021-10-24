@@ -48,7 +48,10 @@ function Table() {
         }],
       });
     }
-    // console.log('test');
+    const findColumn = Object.values(children[1].children)
+      .findIndex((option) => option.value === children[1].value);
+    children[1].children[findColumn].remove();
+    // console.log(children[1]);
   }
 
   return (
