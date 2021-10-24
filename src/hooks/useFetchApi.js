@@ -25,7 +25,7 @@ export default function useFetchApi() {
     fetchAPI();
   }, []);
 
-  return { data, planetKeys, listPlanets, setListPlanets };
+  return { data, planetKeys, listPlanets, setListPlanets, setData };
 }
 
 // Feito com ajuda dos colegas Luiza e Gessé

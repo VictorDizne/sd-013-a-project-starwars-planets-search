@@ -5,13 +5,14 @@ export default function TableMax() {
   const {
     // data,
     // setListPlanets,
+    filterName,
     listPlanets,
     // filters,
     planetKeys } = useContext(MyContext);
 
   return (
     <tbody>
-      {listPlanets.map((planet) => (
+      {listPlanets.filter((filter) => filter.name.toLowerCase().includes(filterName.toLowerCase())).map((planet) => (
         <tr key={ planet.name } name={ planet.name }>
           {planetKeys.map((key) => (
             <td
