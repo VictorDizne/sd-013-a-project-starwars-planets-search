@@ -4,10 +4,13 @@ import MyContext from '../context/MyContext';
 
 function SelectColumn(props) {
   const { handleChangeProps } = props;
-  const { buttonFilter, options } = useContext(MyContext);
+  const { options } = useContext(MyContext);
+  /*   const [column, setColumn] = useState(options[0]);
 
-  console.log(buttonFilter.map((filter) => filter.column));
-
+  useEffect(() => {
+    setColumn(options[0]);
+  }, [options]);
+ */
   return (
     <select
       id="column-filter-id"

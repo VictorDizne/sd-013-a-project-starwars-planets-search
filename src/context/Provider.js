@@ -11,9 +11,6 @@ function Provider({ children }) {
   const [options, setOptions] = useState(
     ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
   );
-  // const [numericFilters, setNumericFilters] = useState({ filterByNumericValues: [] });
-  // setNumericFilters({
-  //   filterByNumericValues: [...numericFilters.filterByNumericValues, filters] });
 
   useEffect(() => {
     async function getAPI() {
@@ -29,33 +26,45 @@ function Provider({ children }) {
   }
 
   function handleChangeFilters(filters) {
-    const { column, comparison, value } = filters;
     setButtonFilter([...buttonFilter, filters]);
-    const dataFilters = useData.filter((planet) => {
-      if (comparison === 'maior que') {
-        return Number(planet[column]) > Number(value);
-      }
-      if (comparison === 'menor que') {
-        return Number(planet[column]) < Number(value);
-      }
-      if (comparison === 'igual a') {
+
+    /* const dataFilters = useData.filter((planet) => {
+      const validate = [...buttonFilter, filters].every(({ column, comparison, value }) => {
+        if (comparison === 'maior que') {
+          return Number(planet[column]) > Number(value);
+        }
+        if (comparison === 'menor que') {
+          return Number(planet[column]) < Number(value);
+        }
+
         return Number(planet[column]) === Number(value);
+      });
+      return validate;
+    }); */
+
+    /*     const dataFilters = useData.filter((planet) => {
+      if (filters.comparison === 'maior que') {
+        return Number(planet[filters.column]) > Number(filters.value);
+      }
+      if (filters.comparison === 'menor que') {
+        return Number(planet[filters.column]) < Number(filters.value);
+      }
+      if (filters.comparison === 'igual a') {
+        return Number(planet[filters.column]) === Number(filters.value);
       }
       return true;
-    });
-    setUseData(dataFilters);
+    }); */
     const select = document.getElementById('column-filter-id');
     const option = select.options[select.selectedIndex].value;
     const filterOptions = options.filter((opt) => option !== opt);
     setOptions(filterOptions);
-    console.log(option);
   }
 
-  // function values() {
-  //   // const { filterByNumericValues } = numericFilters;
-  //   // const { column, comparison, value } = filterByNumericValues;
-  //   console.log(numericFilters);
-  // }
+  function removeFilter(columnToRemove) {
+    const filterRemove = buttonFilter.filter(({ column }) => columnToRemove !== column);
+    setButtonFilter(filterRemove);
+    setOptions([...options, columnToRemove]);
+  }
 
   const contextValue = {
     useData,
@@ -65,6 +74,7 @@ function Provider({ children }) {
     buttonFilter,
     handleChangeFilters,
     options,
+    removeFilter,
   };
 
   return (

@@ -10,9 +10,9 @@ import Provider from './context/Provider';
 function App() {
   const [valueInputNumber, setValueInputNumber] = useState(
     {
-      column: '',
-      comparison: '',
-      value: '',
+      column: 'population',
+      comparison: 'maior que',
+      value: 0,
     },
   );
 

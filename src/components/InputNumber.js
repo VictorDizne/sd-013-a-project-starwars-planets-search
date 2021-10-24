@@ -29,7 +29,7 @@ function InputNumber(props) {
 
 InputNumber.propTypes = {
   handleChangeProps: PropTypes.func.isRequired,
-  InputNumberProp: PropTypes.func.isRequired,
+  InputNumberProp: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default InputNumber;
