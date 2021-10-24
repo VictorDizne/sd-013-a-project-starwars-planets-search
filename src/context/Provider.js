@@ -5,6 +5,7 @@ import searchPlanets from '../services/ApiPlanets';
 
 function Provider({ children }) {
   const [data, setData] = useState([]); // estados criados para salvar retorno API
+  const [filterUsed, setFilterUsed] = useState([]);
 
   const [dataError, setDataError] = useState(false);
 
@@ -30,6 +31,8 @@ function Provider({ children }) {
     filters,
     setFilters,
     filterHandle,
+    filterUsed,
+    setFilterUsed,
   };
 
   useEffect(() => {

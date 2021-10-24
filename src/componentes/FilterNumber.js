@@ -60,17 +60,26 @@ function FilterNumber() {
     });
   };
 
-  useEffect(() => {
-    const newColumn = tableColumns.filter((column) => !filterByNumericValues
-      .some((filter) => filter.column === column))
-      .map((nextColumn) => nextColumn);
+  // useEffect(() => {
+  //   const newColumn = tableColumns.filter((column) => !filterByNumericValues
+  //     .some((filter) => filter.column === column))
+  //     .map((nextColumn) => nextColumn);
 
-    setNumericFilter((prevState) => ({
-      ...prevState,
-      column: newColumn[0],
-    }));
-    setColumnList(newColumn);
-  }, [filterByNumericValues]);
+  //   setNumericFilter((prevState) => ({
+  //     ...prevState,
+  //     column: newColumn[0],
+  //   }));
+  //   setColumnList(newColumn);
+  // }, [filterByNumericValues, tableColumns]);
+
+  // const deleteFilters = (currentColumn) => {
+  //   const removeFilterByNumeric = filterByNumericValues
+  //     .filter(({ column }) => column !== currentColumn);
+  //   setFilters({
+  //     // ...filters,
+  //     filterByNumericValues: [removeFilterByNumeric],
+  //   });
+  // };
 
   return (
     <div className="filter-number">
@@ -112,6 +121,18 @@ function FilterNumber() {
       >
         Filtrar
       </button>
+      {/* { filterByNumericValues.map(({ column, comparison, values }) => (
+        <span data-testid="filter" key={ column }>
+          { `Filtros: ${column} ${comparison} ${values}` }
+          <button
+            type="button"
+            onClick={ () => deleteFilters() }
+          >
+            X
+
+          </button>
+        </span>
+      )) } */}
     </div>
   );
 }

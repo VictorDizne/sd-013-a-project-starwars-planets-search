@@ -3,70 +3,27 @@ import React, { useContext, useState, useEffect } from 'react';
 import contextApp from '../context/contextApp';
 
 function Table() {
-  const { data } = useContext(contextApp);
-  // const [filter] = useState('');
-
-  // const handleFilter = (e) => {
-  //   setFilters(e.target.value);
-  // };
-
-  //   return (
-  //     <div>
-  //       {/* <PlanetsFilter /> */}
-  //       <table>
-  //         <thead>
-  //           <tr>
-  //             <th>name</th>
-  //             <th>rotation_period</th>
-  //             <th>orbital_period</th>
-  //             <th>diameter</th>
-  //             <th>climate</th>
-  //             <th>gravity</th>
-  //             <th>terrain</th>
-  //             <th>surface_water</th>
-  //             <th>population</th>
-  //             <th>films</th>
-  //             <th>created</th>
-  //             <th>edited</th>
-  //             <th>url</th>
-  //           </tr>
-  //         </thead>
-
-  //         <tbody>
-  //           { data.map((planet, index) => (
-  //             <tr key={ index }>
-  //               <td>{ planet.name }</td>
-  //               <td>{ planet.rotation_period }</td>
-  //               <td>{ planet.orbital_period }</td>
-  //               <td>{ planet.diameter }</td>
-  //               <td>{ planet.climate }</td>
-  //               <td>{ planet.gravity }</td>
-  //               <td>{ planet.terrain }</td>
-  //               <td>{ planet.surface_water }</td>
-  //               <td>{ planet.population }</td>
-  //               <td>{ planet.films }</td>
-  //               <td>{ planet.created }</td>
-  //               <td>{ planet.edited }</td>
-  //               <td>{ planet.url }</td>
-  //             </tr>))}
-  //         </tbody>
-  //       </table>
-  //     </div>
-  //   );
-  // }
+  const { data, filters } = useContext(contextApp);
+  const [test, setTest] = useState([]);
 
   const { dataError, filters: {
     filterByName, filterByNumericValues } } = useContext(contextApp);
 
   const [planets, setPlanets] = useState([]);
-
-  useEffect(() => {
+  // Funçao ok
+  const FilterName = (array) => {
     if (!filterByName.name) {
-      setPlanets(data);
-    } else {
-      setPlanets(data.filter(({ name }) => name.includes(filterByName.name)));
+      return array;
     }
-  }, [data, filterByName]);
+    if (filterByName.name) {
+      return array.filter(({ name }) => name.includes(filterByName.name));
+    }
+  };
+
+  const renderiza = () => {
+    setTest(FilterName(data));
+    console.log(FilterName(data));
+  };
 
   const filterNumericValues = (planetsData, column, comparison, value) => {
     let filteredPlanets;
@@ -90,38 +47,43 @@ function Table() {
     return filteredPlanets;
   };
 
-  useEffect(() => {
-    filterByNumericValues.forEach(({ column, comparison, value }) => (
-      value && setPlanets((prevPlanets) => {
-        if (prevPlanets.length < 1) {
-          if (!filterByName.name) {
-            return filterNumericValues(data, column, comparison, value);
-          }
-          const filteredByName = data.filter(({ name }) => (
-            name.includes(filterByName.name)
-          ));
-          return filterNumericValues(filteredByName, column, comparison, value);
-        }
-        return filterNumericValues(prevPlanets, column, comparison, value);
-      })
-    ));
-  }, [data, filterByName, filterByNumericValues]);
+  const FilterValue = (array) => filterNumericValues(array, column, comparison, value);
 
+  // filterByNumericValues.forEach(({ column, comparison, value }) => (
+  //     value && setPlanets((prevPlanets) => {
+  //       if (prevPlanets.length < 1) {
+  //         if (!filterByName.name) {
+  //           return filterNumericValues(data, column, comparison, value);
+  //         }
+  // const filteredByName = data.filter(({ name }) => (
+  //   name.includes(filterByName.name)
+  // ));
+  // return filterNumericValues(prevPlanets, column, comparison, value);
+  //   })
+  // ));
+  // console.log('table2');
+  // console.log(data);
+  // console.log(filterByName);
+  // console.log(prevPlanets.length < 1 ? 'testa' : prevPlanets);
+  // }, [data, filterByName, filterByNumericValues]);
+  // console.log(planets);
+  // console.log(test);
+  useEffect(FilterValue(renderiza, column, comparison, value)), [data, filterByName, column, comparison, value)]);
   return (data.length > 0 && !dataError)
     && (
       <table>
         <thead>
           <tr>
             {Object.keys(data[0]).map((header, index) => (
-              <th key={ index }>{header}</th>
+              <th key={index}>{header}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {planets.map((planet, i) => (
-            <tr key={ i }>
+            <tr key={i}>
               {Object.keys(planet).map((column, j) => (
-                <td key={ j }>{planet[column]}</td>
+                <td key={j}>{planet[column]}</td>
               ))}
             </tr>
           ))}
