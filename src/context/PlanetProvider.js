@@ -8,6 +8,13 @@ function PlanetProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    ],
   });
   const fetchPlanet = () => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
