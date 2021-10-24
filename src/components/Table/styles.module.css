@@ -1,14 +1,12 @@
 .tableContainer {
-  color: Pink;
-  
+  color: pink;
 }
 
 .tableHead {
-  background-color: Blue;
-  padding: 30px 35px;
-  font-size: 30px;
+  background-color: blue;
   display: felx;
-
+  font-size: 30px;
+  padding: 30px 35px;
 }
 
 .tableBody {
