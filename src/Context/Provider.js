@@ -5,10 +5,16 @@ import Context from './Context';
 
 function Provider({ children }) {
   const [planets, loaded] = useFetch();
+  const [filtered, setFiltered] = useState(false);
   const [filter, setFilter] = useState({
     filters: {
       filterByName: {
         name: '',
+      },
+      filterByNumericValues: {
+        column: 'population',
+        comparison: 'maior que',
+        valor: 0,
       },
     },
   });
@@ -17,6 +23,8 @@ function Provider({ children }) {
     loaded,
     filter,
     setFilter,
+    filtered,
+    setFiltered,
   };
 
   return (
