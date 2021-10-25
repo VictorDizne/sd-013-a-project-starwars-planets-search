@@ -16,6 +16,11 @@ function Provider({ children }) {
 
   const [filterCard, setFilterCard] = useState([]);
 
+  const [sortFilter, setSortFilter] = useState({
+    column: 'name',
+    sort: 'ASC',
+  });
+
   const context = {
     data,
     planetKeys,
@@ -28,6 +33,8 @@ function Provider({ children }) {
     filterCard,
     setFilterCard,
     setData,
+    sortFilter,
+    setSortFilter,
   };
 
   return (

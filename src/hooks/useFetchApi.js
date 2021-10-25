@@ -8,7 +8,17 @@ export default function useFetchApi() {
   useEffect(() => {
     const fetchAPI = async () => {
       const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
-      const { results } = await (await fetch(url)).json();
+      const fetchResults = await (await fetch(url)).json();
+      const number = -1;
+      const results = fetchResults.results.sort((a, b) => {
+        if (a.name > b.name) {
+          return 1;
+        }
+        if (a.name < b.name) {
+          return number;
+        }
+        return 0;
+      });
 
       const removeResidents = results.map((result) => {
         delete result.residents;

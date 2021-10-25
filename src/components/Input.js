@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Input({ type, onChange, test, name, labeltext }) {
+export default function Input({ type, onChange, test, name, labeltext, onClick, value, checked }) {
   return (
     <label htmlFor={ name }>
       {labeltext}
@@ -10,6 +10,9 @@ export default function Input({ type, onChange, test, name, labeltext }) {
         onChange={ onChange }
         data-testid={ test }
         name={ name }
+        onClick={ onClick }
+        value={ value }
+        checked={ checked }
       />
     </label>
   );
