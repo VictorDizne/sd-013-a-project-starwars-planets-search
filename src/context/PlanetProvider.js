@@ -15,6 +15,10 @@ function PlanetProvider({ children }) {
         value: '',
       },
     ],
+    order: {
+      columnName: 'name',
+      sort: 'ASC',
+    },
   });
   const fetchPlanet = () => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
