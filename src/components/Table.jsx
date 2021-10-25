@@ -35,19 +35,19 @@ function Table() {
           <table border="1" style={ { fontSize: `${size}em` } }>
             <thead>
               <tr>
-                <td>Name</td>
-                <td>Rotation_period</td>
-                <td>Orbital_period</td>
-                <td>Diameter</td>
-                <td>Climate</td>
-                <td>Gravity</td>
-                <td>Terrain</td>
-                <td>Surface_water</td>
-                <td>Population</td>
-                <td>films</td>
-                <td>created</td>
-                <td>edited</td>
-                <td>url</td>
+                <th>Name</th>
+                <th>Rotation_period</th>
+                <th>Orbital_period</th>
+                <th>Diameter</th>
+                <th>Climate</th>
+                <th>Gravity</th>
+                <th>Terrain</th>
+                <th>Surface_water</th>
+                <th>Population</th>
+                <th>films</th>
+                <th>created</th>
+                <th>edited</th>
+                <th>url</th>
               </tr>
             </thead>
             <tbody>
