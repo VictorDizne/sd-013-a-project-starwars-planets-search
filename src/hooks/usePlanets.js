@@ -16,7 +16,7 @@ function usePlanets() {
       });
       const removePlanetKey = Object.keys(results[0]);
 
-      setPlanets(removeResidents);
+      setPlanets(removeResidents.sort((a, b) => a.name.localeCompare(b.name)));
       setPlanetsKeys(removePlanetKey);
     };
     fetchPlanetsAPI();

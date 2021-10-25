@@ -15,10 +15,14 @@ function Provider({ children }) {
     queryValue,
     numFilters,
     allFilters,
+    column,
+    sort,
     setPlanets,
     setQueryValue,
     setNumFilters,
     setAllFilters,
+    setColumn,
+    setSort,
   };
   return (
     <MyContext.Provider value={ contextValue } displayName="Context Display Name">

@@ -1,5 +1,5 @@
 .tableContainer {
-  color: pink;
+  color: black;
 }
 
 .tableHead {
@@ -10,5 +10,5 @@
 }
 
 .tableBody {
-  border: 1px solid wihte;
+  border: 1px solid white;
 }

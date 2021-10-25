@@ -8,10 +8,12 @@ import Filters from '../Filters';
 function Header() {
   const {
     numFilters,
+    planets,
     setQueryValue,
     setNumFilters,
     allFilters,
     setAllFilters,
+    setPlanets,
   } = useContext(MyContext);
   const [handleFilter] = useFilters();
   const INITIAL_INPUT_VALUE = {
@@ -27,9 +29,25 @@ function Header() {
 
   const [inputValues, setInputValues] = useState(INITIAL_INPUT_VALUE);
 
+  const [columnSort, setColumnSort] = useState('population');
+
+  const [radioSort, setRadioSort] = useState('ASC');
+
   const handleFilterChange = ({ target: { name, value } }) => {
     setInputValues({ ...inputValues, [name]: value });
   };
+
+  const handleSortChange = ({ target: { value } }) => {
+    setColumnSort(value);
+  };
+
+  const columnsToSort = [
+    'population',
+    'rotation_period',
+    'orbital_period',
+    'diameter',
+    'surface_water',
+  ];
 
   useEffect(() => {
     setNumFilters(inputValues);
@@ -51,6 +69,14 @@ function Header() {
 
     columnFilter.selected = true;
     comparisonFilter.selected = true;
+  };
+
+  const buttonClick = () => {
+    if (radioSort === 'ASC') {
+      setPlanets(planets.sort((a, b) => a[columnSort] - b[columnSort]));
+    } else {
+      setPlanets(planets.sort((a, b) => b[columnSort] - a[columnSort]));
+    }
   };
 
   return (
@@ -92,6 +118,44 @@ function Header() {
         >
           Adicionar Filtro
         </button>
+        <div>
+          <Select
+            name="column-sort"
+            testID="column-sort"
+            labelText="Ordem: "
+            value={ columnSort }
+            options={ columnsToSort }
+            onChange={ handleSortChange }
+          />
+          <label htmlFor="sortASC">
+            <input
+              defaultChecked
+              name="filter-select"
+              data-testid="column-sort-input-asc"
+              type="radio"
+              id="sortASC"
+              onClick={ () => { setRadioSort('ASC'); } }
+            />
+            ASC
+          </label>
+          <label htmlFor="sortDESC">
+            <input
+              name="filter-select"
+              data-testid="column-sort-input-desc"
+              type="radio"
+              id="sortDESC"
+              onClick={ () => { setRadioSort('DESC'); } }
+            />
+            DESC
+          </label>
+          <button
+            data-testid="column-sort-button"
+            type="button"
+            onClick={ buttonClick }
+          >
+            Filtrar
+          </button>
+        </div>
       </form>
       <Filters />
     </header>
