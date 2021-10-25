@@ -10,18 +10,24 @@ export default function TableMax() {
     // filters,
     planetKeys } = useContext(MyContext);
 
+  const filteredPlanets = listPlanets.filter((planet) => (
+    planet.name.toLowerCase().includes(filterName.toLowerCase())
+  ));
+
   return (
     <tbody>
-      {listPlanets.filter((filter) => filter.name.toLowerCase().includes(filterName.toLowerCase())).map((planet) => (
+      {filteredPlanets.map((planet) => (
         <tr key={ planet.name } name={ planet.name }>
-          {planetKeys.map((key) => (
-            <td
-              key={ planet[key] }
-              data-testid={ planet.name === planet[key] && 'planet-name' }
-            >
-              {planet[key]}
-            </td>
-          ))}
+          {
+            planetKeys.map((key) => (
+              <td
+                key={ planet[key] }
+                data-testid={ planet.name === planet[key] && 'planet-name' }
+              >
+                {planet[key]}
+              </td>
+            ))
+          }
         </tr>
       ))}
     </tbody>
