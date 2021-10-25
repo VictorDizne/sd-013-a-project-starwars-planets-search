@@ -1,9 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Context from '../context/Context';
 
 function SearchBar() {
+  const columnOptions = ['population', 'orbital_period',
+    'diameter', 'rotation_period', 'surface_water'];
+  const comparisonOptions = ['maior que', 'menor que', 'igual a'];
   const { filters, setFilters } = useContext(Context);
   const { filterByName: { name }, filterByNumericValues } = filters;
+  const [activeFilter, setActiveFilter] = useState(columnOptions);
   const [formFilter, setFormFilter] = useState({
     column: 'population',
     comparison: 'maior que',
@@ -31,6 +35,19 @@ function SearchBar() {
     });
   };
 
+  useEffect(() => {
+    const usedFilters = filterByNumericValues.map(({ column }) => column);
+    let filteredColumns = [...columnOptions];
+    usedFilters.forEach((usedFilter) => {
+      filteredColumns = filteredColumns
+        .filter((filColumn) => filColumn !== usedFilter);
+    });
+    setFormFilter((prevFilter) => ({
+      ...prevFilter, column: filteredColumns[0],
+    }));
+    setActiveFilter(filteredColumns);
+  }, [filterByNumericValues]);
+
   return (
     <div>
       <label htmlFor="name-filter">
@@ -50,11 +67,8 @@ function SearchBar() {
           value={ formFilter.column }
           onChange={ formHandleChange }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {activeFilter.map((columnOption) => (
+            <option key={ columnOption } value={ columnOption }>{columnOption}</option>))}
         </select>
         <select
           data-testid="comparison-filter"
@@ -62,9 +76,9 @@ function SearchBar() {
           onChange={ formHandleChange }
           value={ formFilter.comparison }
         >
-          <option value="maior que">maior que</option>
-          <option value="menor que">menor que</option>
-          <option value="igual a">igual a</option>
+          {comparisonOptions.map((compOption) => (
+            <option key={ compOption } value={ compOption }>{compOption}</option>
+          ))}
         </select>
         <label htmlFor="population-filter">
           <input
