@@ -23,7 +23,7 @@ function Provider({ children }) {
     apiRequest();
   }, []);
 
-  const context = { data, ...name, setName };
+  const context = { data, ...name, setName, setData };
 
   return (
     <MyContext.Provider value={ context }>
