@@ -2,7 +2,18 @@ import React, { useContext } from 'react';
 import Context from '../Context/Context';
 
 function Table() {
-  const { planets, loaded } = useContext(Context);
+  const {
+    planets,
+    loaded,
+    filter: {
+      filters: {
+        filterByName: {
+          name: searchByName,
+        },
+      },
+    },
+  } = useContext(Context);
+
   return (
     <table>
       <thead>
@@ -13,7 +24,9 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {loaded && planets.map((planet) => (
+        {loaded && planets.filter((planet) => (
+          planet.name.toLowerCase().includes(searchByName)
+        )).map((planet) => (
           <tr key={ `${planet.name}` }>
             {Object.values(planet).map((planetData, index) => (
               <td key={ `${planet.name}-${index}` }>{planetData}</td>
