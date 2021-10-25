@@ -11,9 +11,14 @@ function Provider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: {
+      column: 'rotation_period',
+      comparison: 'maior que',
+      value: '0',
+    },
   });
 
-  // This is the useEffect responsible for the API fatch and than seting the loading state to false.
+  // This is the useEffect responsible for fatcing the API and than seting the loading state to false.
   useEffect(() => {
     const fetchApi = async () => {
       const request = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -27,18 +32,41 @@ function Provider({ children }) {
     fetchApi();
   }, [filters]);
 
+  // This useEffect is responsible for making the application's filters work and changing the state accordingly to the user's input.
   useEffect(() => {
+    function planetsFilter(searchText, filter) {
+      const filteredData = [...data]
+        .filter((planet) => planet.name.toLowerCase().includes(searchText.toLowerCase()));
+      switch (filter.comparison) {
+      case 'maior que': {
+        const biggerThan = filteredData
+          .filter((item) => Number(item[filter.column])
+              > Number(filter.value));
+        return biggerThan;
+      }
+      case 'menor que': {
+        const lesserThan = filteredData
+          .filter((item) => Number(item[filter.column])
+              < Number(filter.value));
+        return lesserThan;
+      }
+      default: {
+        const equalsTo = filteredData
+          .filter((item) => Number(item[filter.column])
+              === Number(filter.value));
+        return equalsTo;
+      }
+      }
+    }
     if (!firstRender.current) {
-      const { name } = filters.filterByName;
-      const filteredPlanets = [...data]
-        .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()));
-      setBackup(filteredPlanets);
+      const { filterByName: { name }, filterByNumericValues } = filters;
+      setBackup(planetsFilter(name, filterByNumericValues));
     } else {
       firstRender.current = false;
     }
   }, [data, filters]);
 
-  const value = { data, backup, loading, filters, setFilters };
+  const value = { data, backup, loading, filters, setFilters, setBackup };
   return (
     <SwapiContext.Provider value={ value }>
       { children }
