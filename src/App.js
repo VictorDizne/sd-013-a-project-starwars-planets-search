@@ -4,6 +4,7 @@ import InputNumber from './components/InputNumber';
 import InputSearch from './components/InputSearch';
 import SelectColumn from './components/SelectColumn';
 import SelectValue from './components/SelectValue';
+import SortColumn from './components/SortColumn';
 import Table from './components/Table';
 import Provider from './context/Provider';
 
@@ -30,6 +31,7 @@ function App() {
         handleChangeProps={ handleChange }
         InputNumberProp={ valueInputNumber }
       />
+      <SortColumn />
       <Table />
     </Provider>
   );

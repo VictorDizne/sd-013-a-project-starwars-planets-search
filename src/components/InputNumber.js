@@ -1,3 +1,4 @@
+// Sequência de renderização no App.js: 4º
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';

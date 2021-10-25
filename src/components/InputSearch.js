@@ -1,3 +1,4 @@
+// Sequência de renderização no App.js: 1º
 import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 

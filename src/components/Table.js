@@ -1,9 +1,10 @@
+// Sequência de renderização no App.js: 6º
 import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 
 function Table() {
   const { useData, dataTable, valueInput,
-    buttonFilter, removeFilter } = useContext(MyContext);
+    buttonFilter, removeFilter, orderByColumn } = useContext(MyContext);
   const filterColumns = (planet, filters) => {
     const validate = filters.every((
       { column, comparison, value },
@@ -54,9 +55,9 @@ function Table() {
         </thead>
         <tbody>
           {
-            filter.map((row) => (
+            filter.length > 0 && orderByColumn(filter).map((row) => (
               <tr key={ row.name }>
-                <td>{ row.name }</td>
+                <td data-testid="planet-name">{ row.name }</td>
                 <td>{ row.rotation_period }</td>
                 <td>{ row.orbital_period }</td>
                 <td>{ row.diameter }</td>
