@@ -1,11 +1,13 @@
 import React from 'react';
 import Table from '../components/Table';
+import Header from '../components/Header';
 
 function Page() {
   return (
-    <div>
+    <main>
+      <Header />
       <Table />
-    </div>
+    </main>
   );
 }
 
