@@ -3,24 +3,23 @@ import SwapiContext from '../Context/SwapiContext';
 
 function SearchByNumber() {
   const { filters, setFilters } = useContext(SwapiContext);
+  const [columnOptions, setColumnOptions] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [currentFilter, setCurrentFilter] = useState({
-    value: '',
     column: '',
     comparison: '',
+    value: '',
   });
 
-  function setContextFilter(filterByNumericValues) {
+  function setContextFilter(currentValue) {
     setFilters({
       ...filters,
-      filterByNumericValues,
+      filterByNumericValues: [...filters.filterByNumericValues, currentValue],
     });
   }
 
-  function setColumnOptions(optionToRemove) {
-    const options = ['population', 'orbital_period', 'diameter',
-      'rotation_period', 'surface_water'];
-    const filteredOptions = options.filter((option) => option !== optionToRemove);
-    return filteredOptions
+  function ShowcolumnOptions() {
+    return columnOptions
       .map((option, index) => <option value={ option } key={ index }>{ option }</option>);
   }
 
@@ -36,6 +35,9 @@ function SearchByNumber() {
 
   function handleClick() {
     setContextFilter(currentFilter);
+    const columnsFiltered = columnOptions
+      .filter((option) => option !== currentFilter.column);
+    setColumnOptions(columnsFiltered);
   }
 
   return (
@@ -43,8 +45,7 @@ function SearchByNumber() {
       <label htmlFor="column">
         Choose a column:
         <select name="column" data-testid="column-filter" onChange={ handleChange }>
-          <option value="" disabled selected hidden>Please Choose...</option>
-          { setColumnOptions() }
+          { ShowcolumnOptions() }
         </select>
       </label>
       <label htmlFor="comparison">
@@ -54,7 +55,6 @@ function SearchByNumber() {
           data-testid="comparison-filter"
           onChange={ handleChange }
         >
-          <option value="" disabled selected hidden>Please Choose...</option>
           { setFilterOptions() }
         </select>
       </label>
