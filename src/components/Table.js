@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import MyContext from '../context/Context';
+import FilterOptions from './FilterOptions';
 
 function Table() {
   const { data, filters } = useContext(MyContext);
@@ -11,6 +12,7 @@ function Table() {
 
   return (
     <div>
+      <FilterOptions />
       <table>
         <thead>
           <tr>

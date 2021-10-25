@@ -11,7 +11,7 @@ const Filter = () => {
         name: value,
       } },
   });
-  console.log(name);
+
   return (
     <div>
       <input
