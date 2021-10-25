@@ -8,6 +8,8 @@ function Provider({ children }) {
   const [queryValue, setQueryValue] = useState('');
   const [numFilters, setNumFilters] = useState({});
   const [allFilters, setAllFilters] = useState([]);
+  const [column, setColumn] = useState('name');
+  const [sort, setSort] = useState('ASC');
 
   const contextValue = {
     planets,
@@ -15,10 +17,14 @@ function Provider({ children }) {
     queryValue,
     numFilters,
     allFilters,
+    column,
+    sort,
     setPlanets,
     setQueryValue,
     setNumFilters,
     setAllFilters,
+    setColumn,
+    setSort,
   };
   return (
     <MyContext.Provider value={ contextValue } displayName="Context Display Name">

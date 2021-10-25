@@ -13,6 +13,8 @@ function Header() {
     setNumFilters,
     allFilters,
     setAllFilters,
+    setColumn,
+    setSort,
     setPlanets,
   } = useContext(MyContext);
   const [handleFilter] = useFilters();
@@ -72,6 +74,8 @@ function Header() {
   };
 
   const buttonClick = () => {
+    setColumn(columnSort);
+    setSort(radioSort);
     if (radioSort === 'ASC') {
       setPlanets(planets.sort((a, b) => a[columnSort] - b[columnSort]));
     } else {
