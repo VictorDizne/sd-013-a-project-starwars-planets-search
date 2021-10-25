@@ -8,15 +8,11 @@ function Input() {
     setFilter,
   } = useContext(Context);
 
-  // const [input, setInput] = useState({
-  //   search: '',
-  // });
-
   const handleChange = ({ target: { value } }) => {
-    setFilter({ ...filter, filters: { filterByName: { name: value } } });
+    const lowerCaseValue = value.toLowerCase();
+    setFilter({ ...filter, filters: { filterByName: { name: lowerCaseValue } } });
   };
 
-  // const { search } = input;
   return (
     <input
       type="text"
