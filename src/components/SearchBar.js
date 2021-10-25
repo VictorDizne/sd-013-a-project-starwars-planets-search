@@ -1,9 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Context from '../context/Context';
 
 function SearchBar() {
   const { filters, setFilters } = useContext(Context);
-  const { filterByName: { name } } = filters;
+  const { filterByName: { name }, filterByNumericValues } = filters;
+  const [formFilter, setFormFilter] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: 0,
+  });
 
   const handleChange = ({ target: { value } }) => {
     setFilters({
@@ -11,6 +16,18 @@ function SearchBar() {
       filterByName: {
         name: value,
       },
+    });
+  };
+
+  const formHandleChange = ({ target: { name: n, value } }) => {
+    setFormFilter({ ...formFilter, [n]: value });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setFilters({
+      ...filters,
+      filterByNumericValues: [...filterByNumericValues, formFilter],
     });
   };
 
@@ -26,24 +43,37 @@ function SearchBar() {
           onChange={ handleChange }
         />
       </label>
-      <form>
-        <select data-testid="column-filter">
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+      <form onSubmit={ handleSubmit }>
+        <select
+          data-testid="column-filter"
+          name="column"
+          value={ formFilter.column }
+          onChange={ formHandleChange }
+        >
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
         </select>
-        <select data-testid="comparison-filter">
-          <option>maior que</option>
-          <option>menor que</option>
-          <option>igual a</option>
+        <select
+          data-testid="comparison-filter"
+          name="comparison"
+          onChange={ formHandleChange }
+          value={ formFilter.comparison }
+        >
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
         <label htmlFor="population-filter">
           <input
             id="population-filter"
             data-testid="value-filter"
             type="number"
+            name="value"
+            value={ formFilter.value }
+            onChange={ formHandleChange }
           />
         </label>
         <button
