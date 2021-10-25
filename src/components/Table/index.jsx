@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import styles from './styles.module.css';
+import styles from './table.module.css';
 import MyContext from '../../context/MyContext';
 import Planets from '../Planets';
 

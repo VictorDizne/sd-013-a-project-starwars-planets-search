@@ -15,7 +15,7 @@ function Planets({ planets }) {
           Object.values(planet).map((planetValue) => (
             <td
               key={ planetValue }
-              data-testid={ planet.name === planet.value && 'planet-name' }
+              data-testid={ planet.name === planetValue && 'planet-name' }
             >
               {planetValue}
             </td>
