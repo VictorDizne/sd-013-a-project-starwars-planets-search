@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import MyContext from './context/Context';
+import Context from './context/Context';
 import Table from './components/Table';
 import FetchApi from './services/API';
 
 function App() {
-  const [data, setData] = useState([1]);
-  const planets = { data };
+  const [data, setData] = useState([]);
+  const [name, setName] = useState('');
+  const planets = { data,
+    filters: {
+      filterByName: {
+        name,
+      },
+    },
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -18,6 +25,13 @@ function App() {
     };
     getData();
   }, []);
+
+  // handleChange criada com a finalidade do campo de texto
+  // alterar o nome do planeta
+
+  const handleChange = ({ target }) => {
+    setName(target.value);
+  };
 
   // useEffect(() => {
   //   console.log('Rodei a cada atualização');
@@ -37,13 +51,19 @@ function App() {
   console.log(FetchApi());
 
   return (
-    <MyContext.Provider value={ planets }>
-      <Table />
-    </MyContext.Provider>
+    <Context.Provider value={ planets }>
+      <input
+        type="text"
+        data-testid="name-filter"
+        onChange={ handleChange }
+      />
+      { (data.length > 0 && <Table />) }
+    </Context.Provider>
   );
 }
 
 export default App;
 
 // Source: consulta ao repositório da Elaine
+// Source: auxílio do Lima Lima
 // https://github.com/tryber/sd-013-a-project-starwars-planets-search/commits/elaine-moreira-project-starwars-planets-search
