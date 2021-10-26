@@ -6,6 +6,11 @@ import MyContext from './MyContext';
 const STATE = {
   filterByName: '',
   filterByNumericValues: [],
+  // Requisito 6
+  order: {
+    column: 'Name',
+    sort: 'ASC',
+  },
 };
 
 function MyProvider({ children }) {
