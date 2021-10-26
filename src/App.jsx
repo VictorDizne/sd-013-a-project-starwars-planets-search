@@ -14,4 +14,6 @@ function App() {
   );
 }
 
+// comentário para tentar destravar o avaliador
+
 export default App;
