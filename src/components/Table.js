@@ -13,10 +13,7 @@ const Table = () => {
   ));
   console.log(data);
 
-  const inputName = name.toLocaleLowerCase();
-
-  // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase
-
+  const inputName = name.toLocaleLowerCase(); // converter para minúsculas
   const filterData = data.filter((PlanetInfo) => PlanetInfo.name.includes(inputName));
 
   const body = filterData.map((results, index) => { // exibe novo array
@@ -50,5 +47,6 @@ const Table = () => {
 
 export default Table;
 
+// https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase
 // Source: consulta ao repositório da Elaine - turma13A
 // Source: auxílio do Lima Lima
