@@ -5,9 +5,14 @@ const ClearFilters = () => {
   const { filters, setFilters } = useContext(contextApp);
   const { filterByNumericValues } = filters;
 
+  // Falta a parte de devolver as colunas do botão "X" clicadas.
   const deleteFilters = (currentColumn) => {
+    console.log(currentColumn);
+    console.log(filters);
+    console.log(filterByNumericValues);
     const removeFilterByNumeric = filterByNumericValues
       .filter(({ column }) => column !== currentColumn);
+
     setFilters({
       ...filters,
       filterByNumericValues: [removeFilterByNumeric],

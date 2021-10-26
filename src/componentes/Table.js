@@ -2,11 +2,10 @@ import React, { useContext, useState, useEffect } from 'react';
 import contextApp from '../context/contextApp';
 
 function Table() {
-  const { data, dataError, estadoNumerico,
+  const { data, dataError,
     filters: {
       filterByName, filterByNumericValues } } = useContext(contextApp);
   const [planetasFiltrados, setPlanetasFiltrados] = useState();
-
 
   const FilterName = (array) => {
     if (!filterByName.name) {
@@ -18,31 +17,27 @@ function Table() {
   };
 
   const filterNumericValues = (planetsData) => {
-    let filteredPlanets = [];
-    const { comparison, column, value } = estadoNumerico;
-    if (estadoNumerico.length === 0) {
+    if (filterByNumericValues.length === 0) {
       return planetsData;
     }
-    if (comparison === 'maior que') {
-      filteredPlanets = planetsData.filter((planet) => (
-        Number(planet[column]) > Number(value)
-      ));
-    }
-    if (comparison === 'menor que') {
-      filteredPlanets = planetsData.filter((planet) => (
-        Number(planet[column]) < Number(value)
-      ));
-    }
-    if (comparison === 'igual a') {
-      filteredPlanets = planetsData.filter((planet) => (
-        Number(planet[column]) === Number(value)
-      ));
-    }
-    return filteredPlanets;
+    let result = [];
+    filterByNumericValues.forEach(({ comparison, column, value }) => {
+      if (comparison === 'maior que') {
+        result = planetsData.filter((planeta) => (
+          Number(planeta[column]) > Number(value)));
+      } else if (comparison === 'menor que') {
+        result = planetsData.filter((planeta) => (
+          Number(planeta[column]) < Number(value)));
+      } else {
+        result = planetsData.filter((planeta) => (
+          Number(planeta[column]) === Number(value)));
+      }
+    });
+    return result;
   };
 
   const renderiza = () => {
-    setPlanetasFiltrados(FilterName(data));
+    setPlanetasFiltrados(filterNumericValues(FilterName(data)));
   };
 
   useEffect(renderiza, [data, filterByName, filterByNumericValues]);

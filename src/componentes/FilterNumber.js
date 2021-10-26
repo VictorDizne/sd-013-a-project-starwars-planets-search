@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import contextApp from '../context/contextApp';
 
 function FilterNumber() {
@@ -56,17 +56,19 @@ function FilterNumber() {
     });
   };
 
-  //   useEffect(() => {
-  //     const newColumn = tableColumns.filter((column) => !filterByNumericValues
-  //       .some((filter) => filter.column === column))
-  //       .map((nextColumn) => nextColumn);
+  const removeColuns = () => {
+    const newColumn = tableColumns.filter((column) => !filterByNumericValues
+      .some((filter) => filter.column === column))
+      .map((nextColumn) => nextColumn);
 
-  //     setNumericFilter((prevState) => ({
-  //       ...prevState,
-  //       column: newColumn[0],
-  //     }));
-  //     setColumnList(newColumn);
-  //   }, [tableColumns, filterByNumericValues]);
+    //  setNumericFilter((prevState) => ({
+    // ...prevState,
+    // column: newColumn[0],
+    // }));
+    setColumnList(newColumn);
+  };
+
+  useEffect(removeColuns, [filterByNumericValues]);
 
   return (
     <div className="filter-number">
