@@ -30,7 +30,6 @@ const Table = () => {
     }
   };
 
-
   const body = selectFilter().map((results, index) => { // exibe novo array
     const result = Object.entries(results); // retorna array do map
     return (
