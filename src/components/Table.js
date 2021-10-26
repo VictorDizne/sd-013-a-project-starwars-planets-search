@@ -2,21 +2,36 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 
 const Table = () => {
-  const { data, filters: { filterByName: { name } } } = useContext(Context);
+  const { data, filters: { filterByName: { name },
+    filterByNumericValues: [{ column, comparison, value }] } } = useContext(Context);
   // filters precisa ser armazenado;
   // const header = { data };
+  // Utiliza-se { filterByName: { name } }" para salvar campo updateColumnComparison
+  // Adiciona-se filterByNumericValues: [{ column, comparison, value }]
   const columnHead = Object.keys(data[0]);
   const header = columnHead.map((tagColumnHead, index) => (
     <th key={ index }>
       { tagColumnHead }
     </th>
   ));
-  console.log(data);
 
   const inputName = name.toLocaleLowerCase(); // converter para minúsculas
   const filterData = data.filter((PlanetInfo) => PlanetInfo.name.includes(inputName));
 
-  const body = filterData.map((results, index) => { // exibe novo array
+  const selectFilter = () => {
+    if (comparison === 'maior que') {
+      return filterData.filter((PlanetInfo) => Number(PlanetInfo[column]) > value);
+    }
+    if (comparison === 'menor que') {
+      return filterData.filter((PlanetInfo) => Number(PlanetInfo[column]) < value);
+    }
+    if (comparison === 'igual a') {
+      return filterData.filter((PlanetInfo) => PlanetInfo[column] === value);
+    }
+  };
+
+
+  const body = selectFilter().map((results, index) => { // exibe novo array
     const result = Object.entries(results); // retorna array do map
     return (
       <tr key={ index }>
