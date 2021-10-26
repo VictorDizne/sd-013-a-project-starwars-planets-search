@@ -4,12 +4,24 @@ import PlanetsContext from './PlanetsContext';
 import planetsAPI from '../services/planetsAPI';
 
 const Provider = ({ children }) => {
-  const [data, setData] = useState([]);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [planets, setPlanets] = useState([]);
+  const [aux, setAux] = useState(false);
+  const [filter, setFilter] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+      order: {
+        column: 'name',
+        sort: 'ASC',
+      },
+      filterByNumericValues: [],
+    },
+  });
 
   const getDataFromApi = async () => {
     const dataAPI = await planetsAPI();
-    setData(dataAPI);
+    setPlanets(dataAPI);
   };
 
   useEffect(() => {
@@ -17,9 +29,11 @@ const Provider = ({ children }) => {
   }, []);
 
   const contextValue = {
-    data,
-    filters,
-    setFilters,
+    planets,
+    filter,
+    setFilter,
+    aux,
+    setAux,
   };
 
   return (

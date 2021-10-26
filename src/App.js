@@ -1,15 +1,17 @@
 import React from 'react';
 import './App.css';
-import Table from './components/Table';
-import Filter from './components/Filter';
+import Column from './components/Column';
+import Search from './components/Search';
 import Provider from './context/Provider';
+import CardFilters from './components/CardFilters';
 
 function App() {
   return (
     <div>
       <Provider>
-        <Filter />
-        <Table />
+        <Search />
+        <CardFilters />
+        <Column />
       </Provider>
     </div>
   );
