@@ -31,8 +31,6 @@ function Table() {
 
         const dataKeys = data[0] ? Object.keys(data[0]) : [];
 
-        console.log(dataKeys);
-
         const handleButton = () => {
           // console.clear();
           setSelect(select.filter((item) => item !== formValues.column));

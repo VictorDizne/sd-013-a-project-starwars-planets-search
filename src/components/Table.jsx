@@ -38,7 +38,7 @@ function Table() {
         const { filter } = contextValue;
         const numericFilters = filter.filterByNumericValues;
 
-        const dataKeys = data[0] ? Object.keys(data[0]) : [];
+        // const dataKeys = data[0] ? Object.keys(data[0]) : [];
 
         const handleNumericFilter = (type, a, b) => {
           if (type === 'maior_que') return a > b;
@@ -65,10 +65,10 @@ function Table() {
           <table border="1" style={ { fontSize: `${size}em` } }>
             <thead>
               <tr>
-                { dataKeys.map((value, key) => (
+                {/* { dataKeys.map((value, key) => (
                   <th key={ key }>{value}</th>
-                )) }
-                {/* <th>Name</th>
+                )) } */}
+                <th>Name</th>
                 <th>Rotation_period</th>
                 <th>Orbital_period</th>
                 <th>Diameter</th>
@@ -80,7 +80,7 @@ function Table() {
                 <th>films</th>
                 <th>created</th>
                 <th>edited</th>
-                <th>url</th> */}
+                <th>url</th>
               </tr>
             </thead>
             <tbody>
