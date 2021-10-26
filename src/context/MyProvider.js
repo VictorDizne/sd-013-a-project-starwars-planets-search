@@ -8,7 +8,7 @@ const STATE = {
   filterByNumericValues: [],
   // Requisito 6
   order: {
-    column: 'Name',
+    column: 'name',
     sort: 'ASC',
   },
 };
@@ -18,10 +18,12 @@ function MyProvider({ children }) {
   const [filter, setFilter] = useState(STATE);
 
   useEffect(() => {
+    const sub = -1;
     const fetchPlanet = () => {
       fetch('https://swapi-trybe.herokuapp.com/api/planets/')
         .then((obj) => obj.json())
-        .then(({ results }) => setData(results));
+        .then(({ results }) => setData(results.sort((a, b) => (
+          (a.name > b.name ? 1 : sub)))));
     };
     fetchPlanet();
   }, []);

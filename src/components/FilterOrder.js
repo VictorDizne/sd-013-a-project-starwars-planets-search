@@ -37,7 +37,7 @@ export default function FilterOrder() {
     const sub = -1;
     const filter = [...data];
 
-    // condição
+    // condição do value do input
     if (order === 'ASC') {
       filter.sort((a, b) => (a[column] > b[column] ? 1 : sub))
         .sort((a, b) => a[column] - b[column]);
@@ -53,7 +53,10 @@ export default function FilterOrder() {
   return (
     <div>
       SortPlanetas
-      <select onChange={ handleChange }>
+      <select
+        onChange={ handleChange }
+        data-testid="column-sort"
+      >
         {colunas.map((item, index) => <option key={ index }>{ item }</option>)}
       </select>
 
