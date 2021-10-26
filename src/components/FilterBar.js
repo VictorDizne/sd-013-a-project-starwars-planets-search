@@ -64,18 +64,19 @@ export default function FilterBar() {
     setSortFilter({
       ...sortFilter,
       [name]: value,
-    })
+    });
   }
 
-  function alternRadioButton({ target: { value } }) {
-    value === 'ASC' ? setChecked([true, false]) : setChecked([false, true]);
-  }
+  const alternRadioButton = ({ target: { value } }) => (
+    value === 'ASC' ? setChecked([true, false]) : setChecked([false, true])
+  );
 
   const [handleSort] = useSort();
 
   function toggleOrdenation(e) {
     e.preventDefault();
     const { sort, column } = sortFilter;
+    console.log(sort, column);
     handleSort(sort, column);
   }
 
@@ -125,7 +126,7 @@ export default function FilterBar() {
           />
         ))}
       </div>
-      <div>
+      <form onSubmit={ toggleOrdenation }>
         <Select
           options={ options }
           onChange={ handleUpdate }
@@ -156,11 +157,10 @@ export default function FilterBar() {
         <button
           data-testid="column-sort-button"
           type="submit"
-          onClick={ (e) => toggleOrdenation(e) }
         >
           Enviar
         </button>
-      </div>
+      </form>
     </div>
   );
 }
