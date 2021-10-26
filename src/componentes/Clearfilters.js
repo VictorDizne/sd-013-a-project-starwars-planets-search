@@ -6,16 +6,12 @@ const ClearFilters = () => {
   const { filterByNumericValues } = filters;
 
   // Falta a parte de devolver as colunas do botão "X" clicadas.
-  const deleteFilters = (currentColumn) => {
-    console.log(currentColumn);
-    console.log(filters);
-    console.log(filterByNumericValues);
+  const deleteFilters = (filter) => {
     const removeFilterByNumeric = filterByNumericValues
-      .filter(({ column }) => column !== currentColumn);
-
+      .filter(({ column }) => column !== filter.column);
     setFilters({
       ...filters,
-      filterByNumericValues: [removeFilterByNumeric],
+      filterByNumericValues: removeFilterByNumeric,
     });
   };
 
@@ -25,16 +21,16 @@ const ClearFilters = () => {
       <section className="filters">
         <span className="filter-title">Filtros aplicados:</span>
         {
-          filterByNumericValues.map((filter, index) => (
+          filterByNumericValues.map((filter) => (
             <span
               data-testid="filter"
-              key={ index }
+              key={ filter.column }
             >
               { `${filter.column} | ${filter.comparison} | ${filter.value}` }
               <button
                 type="button"
                 value={ filter.column }
-                onClick={ deleteFilters }
+                onClick={ () => deleteFilters(filter) }
               >
                 X
               </button>
