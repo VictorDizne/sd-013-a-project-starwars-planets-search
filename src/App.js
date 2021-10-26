@@ -1,10 +1,19 @@
 import React from 'react';
-import './App.css';
 import Table from './components/Table';
+import SearchBar from './components/SearchBar';
+import FilteredElements from './components/FilteredElements';
+import './App.css';
+import MyProvider from './context/MyProvider';
 
 function App() {
   return (
-    <Table />
+    <div>
+      <MyProvider>
+        <SearchBar />
+        <FilteredElements />
+        <Table />
+      </MyProvider>
+    </div>
   );
 }
 
