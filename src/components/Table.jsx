@@ -5,6 +5,13 @@ function Table() {
   const size = 0.7;
 
   const sortData = (obj, filter) => {
+    const numericalFilters = [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ];
     let order;
     const maior = 1;
     const menor = -1;
@@ -12,13 +19,15 @@ function Table() {
     const filterColumn = filter.order.column;
     const direction = filter.order.sort;
 
+    const numerical = (numericalFilters.find((el) => el === filterColumn) !== undefined);
+
     if (direction === 'ASC') {
       order = [maior, menor];
     } else {
       order = [menor, maior];
     }
 
-    const result = obj.sort((a, b) => {
+    let result = obj.sort((a, b) => {
       if (a[filterColumn] > b[filterColumn]) {
         return order[0];
       }
@@ -27,6 +36,15 @@ function Table() {
       }
       return 0;
     });
+
+    if (numerical) {
+      result = result.sort((a, b) => {
+        if (direction === 'ASC') {
+          return a[filterColumn] - b[filterColumn];
+        }
+        return b[filterColumn] - a[filterColumn];
+      });
+    }
 
     return result;
   };
