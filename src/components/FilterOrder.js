@@ -54,7 +54,7 @@ export default function FilterOrder() {
     <div>
       SortPlanetas
       <select onChange={ handleChange }>
-        {colunas}
+        {colunas.map((item, index) => <option key={ index }>{ item }</option>)}
       </select>
 
       ASC
