@@ -1,15 +1,13 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
-import myContext from '../context/myContext';
+import React from 'react';
 
-export default function Input({ dataId, name, type }) {
-  const { handleChange } = useContext(myContext);
+export default function Input({ dataId, name, type, onChange }) {
   return (
     <label htmlFor="#">
       <input
         type={ type }
         name={ name }
-        onChange={ handleChange }
+        onChange={ onChange }
         data-testid={ dataId }
       />
     </label>
