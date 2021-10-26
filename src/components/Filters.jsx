@@ -18,7 +18,7 @@ function Table() {
     'surface_water',
   ]);
 
-  // const [usedFilsters, setUsedFilter] = useState([]);
+  const h3style = { display: 'inline-block', margin: '0 1rem' };
 
   useEffect(() => {
 
@@ -28,32 +28,28 @@ function Table() {
     <PlanetsContext.Consumer>
       { (contextValue) => {
         const { filter, setFilter, setChanges } = contextValue;
-        // const filterValues = contextValue.filter.filterByNumericValues;
 
         const handleButton = () => {
           // console.clear();
           setSelect(select.filter((item) => item !== formValues.column));
-          const atualfiltes = filter.filterByNumericValues.map((value) => value);
-          atualfiltes.push(formValues);
+          const atualFilters = filter.filterByNumericValues.map((value) => value);
+          atualFilters.push(formValues);
 
-          setFilter({ ...filter, filterByNumericValues: atualfiltes });
+          setFilter({ ...filter, filterByNumericValues: atualFilters });
 
           setChanges('filterByNunber');
         };
 
         const handleDeleteFilter = (filterType) => {
-          console.log(filterType);
-
-          // devolve o filtro às opções
+          // devolve o filtro às opções.
           setSelect([...select, filterType]);
 
           // retira o filtro dos filtros atuais
-          const atualfiltes = filter.filterByNumericValues
+          const atualFilters = filter.filterByNumericValues
             .map((value) => value)
             .filter((item) => item.column !== filterType);
 
-          console.log(atualfiltes);
-          setFilter({ ...filter, filterByNumericValues: atualfiltes });
+          setFilter({ ...filter, filterByNumericValues: atualFilters });
 
           setChanges('deletFilterByNunber');
         };
@@ -67,10 +63,17 @@ function Table() {
           setFilter({ ...filter, [filterName]: `${filterSearch}` });
         };
 
+        const handleSort = ({ target }) => {
+          const { name, value } = target;
+          const currentOrder = { ...filter.order, [name]: value };
+          setFilter({ ...filter, order: currentOrder });
+        };
+
         return (
           <div style={ { fontSize: `${size}em`, marginBottom: `${size}em` } }>
+            {/* ========== filtro por nome ========== */}
             <label htmlFor="search_by_name">
-              Nome
+              <h3 style={ h3style }>FILTRO POR NOME</h3>
               <input
                 data-testid="name-filter"
                 type="text"
@@ -78,7 +81,10 @@ function Table() {
                 onChange={ ({ target }) => handleFilter('filterByName', target.value) }
               />
             </label>
+
+            {/* ========== filtro por coluna ========== */}
             <form>
+              <h3 style={ h3style }>FILTRO POR COLUNA</h3>
               <select data-testid="column-filter" id="column" onChange={ handleChange }>
                 { select.map((option, index) => (
                   <option key={ index } value={ option }>{ option }</option>
@@ -107,11 +113,48 @@ function Table() {
                 Aplicar filtro
               </button>
             </form>
+
+            {/* ========== Ordena por coluna ========== */}
+            <form>
+              <h3 style={ h3style }>ORDEM POR COLUNA</h3>
+              <select data-testid="column-sort" name="column" onChange={ handleSort }>
+                <option>population</option>
+                <option>orbital_period</option>
+                <option>diameter</option>
+                <option>rotation_period</option>
+                <option>surface_water</option>
+              </select>
+
+              <label htmlFor="DESC">
+                <input
+                  id="DESC"
+                  type="radio"
+                  name="sort"
+                  value="DESC"
+                  onChange={ handleSort }
+                />
+                Descendente
+              </label>
+              <label htmlFor="ASC">
+                <input
+                  id="ASC"
+                  type="radio"
+                  name="sort"
+                  value="ASC"
+                  onChange={ handleSort }
+                  defaultChecked
+                />
+                Ascendente
+              </label>
+            </form>
+
+            {/* ========== filtros escolhidos ========== */}
             <section>
               { filter.filterByNumericValues.map((value, key) => (
                 <div key={ key }>
                   <span>{ `${value.column} ${value.comparison} ${value.value}` }</span>
                   <button
+                    data-testid="filter"
                     type="button"
                     onClick={ () => handleDeleteFilter(value.column) }
                   >

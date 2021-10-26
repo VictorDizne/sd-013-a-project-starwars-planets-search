@@ -15,7 +15,14 @@ import PlanetsContext from './PlanetsContext';
 const PlanetsProvider = ({ children }) => {
   /* =============== Definindo o estado 'data' dentro do contexto ================ */
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState({ filterByName: '', filterByNumericValues: [] });
+  const [filter, setFilter] = useState({
+    filterByName: '',
+    filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
+  });
   const [changes, setChanges] = useState('');
 
   /* =============== Buscando os dados dos planetas através ================ */

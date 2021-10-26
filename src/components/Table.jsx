@@ -3,6 +3,34 @@ import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
   const size = 0.7;
+
+  const sortData = (obj, filter) => {
+    let order;
+    const maior = 1;
+    const menor = -1;
+
+    const filterColumn = filter.order.column;
+    const direction = filter.order.sort;
+
+    if (direction === 'ASC') {
+      order = [maior, menor];
+    } else {
+      order = [menor, maior];
+    }
+
+    const result = obj.sort((a, b) => {
+      if (a[filterColumn] > b[filterColumn]) {
+        return order[0];
+      }
+      if (a[filterColumn] < b[filterColumn]) {
+        return order[1];
+      }
+      return 0;
+    });
+
+    return result;
+  };
+
   return (
     <PlanetsContext.Consumer>
       { (contextValue) => {
@@ -10,15 +38,13 @@ function Table() {
         const { filter } = contextValue;
         const numericFilters = filter.filterByNumericValues;
 
-        // console.log(filter);
-
         const handleNumericFilter = (type, a, b) => {
           if (type === 'maior_que') return a > b;
           if (type === 'menor_que') return a < b;
           if (type === 'igual_a') return a === b;
         };
 
-        const filteredData = data
+        const filteredData = sortData(data
           .filter((planet) => planet.name.includes(filter.filterByName))
           .filter((planet) => {
             if (numericFilters.length > 0) {
@@ -30,7 +56,7 @@ function Table() {
               return result.find((el) => el === false) === undefined;
             }
             return true;
-          });
+          }), filter);
 
         // console.table(numericFilters);
         return (
