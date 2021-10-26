@@ -167,10 +167,9 @@ function Table() {
             {/* ========== filtros escolhidos ========== */}
             <section>
               { filter.filterByNumericValues.map((value, key) => (
-                <div key={ key }>
+                <div data-testid="filter" key={ key }>
                   <span>{ `${value.column} ${value.comparison} ${value.value}` }</span>
                   <button
-                    data-testid="filter"
                     type="button"
                     onClick={ () => handleDeleteFilter(value.column) }
                   >
