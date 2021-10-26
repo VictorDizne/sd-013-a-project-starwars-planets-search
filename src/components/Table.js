@@ -1,66 +1,111 @@
 import React, { useContext } from 'react';
 import Context from '../context/Context';
 
-const Table = () => {
-  const { data, filters: { filterByName: { name },
-    filterByNumericValues: [{ column, comparison, value }] } } = useContext(Context);
-  // filters precisa ser armazenado;
-  // const header = { data };
-  // Utiliza-se { filterByName: { name } }" para salvar campo updateColumnComparison
-  // Adiciona-se filterByNumericValues: [{ column, comparison, value }]
-  const columnHead = Object.keys(data[0]);
-  const header = columnHead.map((tagColumnHead, index) => (
-    <th key={ index }>
-      { tagColumnHead }
-    </th>
-  ));
+function Table() {
+  const { state: { planets }, filters } = useContext(Context);
+  const { filterByName: { name }, filterByNumericValues, order } = filters;
+  const { column: columnSort, sort } = order;
 
-  const inputName = name.toLocaleLowerCase(); // converter para minúsculas
-  const filterData = data.filter((PlanetInfo) => PlanetInfo.name.includes(inputName));
+  const renderTableHeaders = () => (
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Rotation Period</th>
+        <th>Orbital Period</th>
+        <th>Diameter</th>
+        <th>Climate</th>
+        <th>Gravity</th>
+        <th>Terrain</th>
+        <th>Surface Water</th>
+        <th>Population</th>
+        <th>Films</th>
+        <th>Created</th>
+        <th>Edited</th>
+        <th>URL</th>
+      </tr>
+    </thead>
+  );
 
-  const selectFilter = () => {
-    if (comparison === 'maior que') {
-      return filterData.filter((PlanetInfo) => Number(PlanetInfo[column]) > value);
+  const handleSort = () => {
+    const sortPlanets = [...planets];
+    if (sort === 'ASC') {
+      sortPlanets.sort(({ [columnSort]: a }, { [columnSort]: b }) => (
+        // sugestao retirada do Stackoverflow https://stackoverflow.com/questions/2802341/javascript-natural-sort-of-alphanumerical-strings
+        new Intl.Collator('en', { numeric: true }).compare(a, b)));
     }
-    if (comparison === 'menor que') {
-      return filterData.filter((PlanetInfo) => Number(PlanetInfo[column]) < value);
+    if (sort === 'DESC') {
+      sortPlanets.sort(({ [columnSort]: a }, { [columnSort]: b }) => (
+        // sugestao retirada do Stackoverflow https://stackoverflow.com/questions/2802341/javascript-natural-sort-of-alphanumerical-strings
+        new Intl.Collator('en', { numeric: true }).compare(b, a)));
     }
-    if (comparison === 'igual a') {
-      return filterData.filter((PlanetInfo) => PlanetInfo[column] === value);
-    }
+    return sortPlanets;
   };
 
-  const body = selectFilter().map((results, index) => { // exibe novo array
-    const result = Object.entries(results); // retorna array do map
-    return (
-      <tr key={ index }>
-        { result.map((planetEntry) => {
-          if (planetEntry[0] !== inputName) {
-            return (
-              <td key={ planetEntry[1] }>{ planetEntry[1] }</td>
-            );
-          }
-          return null;
-        })}
-      </tr>
-    );
-  });
-  return (
-    <table>
-      <thead>
-        <tr>
-          { header }
-        </tr>
-      </thead>
-      <tbody>
-        { body }
-      </tbody>
-    </table>
+  const handleFilter = () => {
+    // copia do estado, dado principio da imutabilidade, ou seja, nao modificar o array original
+    let filteredPlanets = handleSort();
+    if (name) {
+      filteredPlanets = filteredPlanets
+        .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()));
+    }
+    if (filterByNumericValues.length > 0) {
+      // forEach porque e um array com mais de um filtro
+      filterByNumericValues.forEach((filter) => {
+        const { column, comparison, value } = filter;
+        // filteredPlanets recebe o proprio filtered planets filtrado por nome ou o proprios filtered planets copiado do context
+        filteredPlanets = filteredPlanets
+          .filter((planet) => {
+            switch (comparison) {
+            case 'maior que':
+              return Number(planet[column]) > Number(value);
+
+            case 'igual a':
+              return Number(planet[column]) === Number(value);
+
+            case 'menor que':
+              return Number(planet[column]) < Number(value);
+
+            default: return true;
+            }
+          });
+      });
+    }
+    return filteredPlanets;
+  };
+
+  const renderTableBody = () => (
+    // trecho de codigo retirado do Thalles Carneiro - Turma 12
+    // https://github.com/tryber/sd-012-project-starwars-planets-search/pull/107/commits/d6ceb78803965ab83793da3601d9b3c06fd73454
+    <tbody>
+      {handleFilter().map((planet) => (
+        <tr
+          key={ planet.name }
+        >
+          <td data-testid="planet-name">{planet.name}</td>
+          <td>{planet.rotation_period}</td>
+          <td>{planet.orbital_period}</td>
+          <td>{planet.diameter}</td>
+          <td>{planet.climate}</td>
+          <td>{planet.gravity}</td>
+          <td>{planet.terrain}</td>
+          <td>{planet.surface_water}</td>
+          <td>{planet.population}</td>
+          <td>{planet.films}</td>
+          <td>{planet.created}</td>
+          <td>{planet.edited}</td>
+          <td>{planet.url}</td>
+        </tr>))}
+    </tbody>
   );
-};
+
+  return (
+    <div className="table-container">
+      <table className="table">
+        {renderTableHeaders()}
+        {renderTableBody()}
+      </table>
+    </div>
+  );
+}
 
 export default Table;
-
-// https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase
-// Source: consulta ao repositório da Elaine - turma13A
-// Source: auxílio do Lima Lima
