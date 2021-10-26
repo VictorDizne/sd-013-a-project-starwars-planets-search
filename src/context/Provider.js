@@ -5,34 +5,43 @@ import searchPlanets from '../services/ApiPlanets';
 
 function Provider({ children }) {
   const [data, setData] = useState([]); // estados criados para salvar retorno API
-  const [filterUsed, setFilterUsed] = useState([]);
+  const [estadoNumerico, setEstadoNumerico] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '',
+  });
+  // const [filterUsed, setFilterUsed] = useState([]);
+  // const [nameSearch, setNameSearch] = useState('');
 
-  const [dataError, setDataError] = useState(false);
+  // const [dataError, setDataError] = useState(false);
 
-  const filterInitial = {
+  const [filters, setFilters] = useState({
     filterByName: { name: '' },
-    filterByNumericValues: [{ column: '', comparison: '', value: '' }],
+    filterByNumericValues: [],
+  });
+
+  const setFilterByName = (searchTerm) => {
+    setFilters({
+      ...filters,
+      filterByName: { name: searchTerm },
+    });
   };
 
-  const [filters, setFilters] = useState(filterInitial);
-
-  const filterHandle = ({ target: { value } }) => {
-    setFilters((prevState) => ({
-      ...prevState,
-      filterByName: { name: value },
-    }));
-  };
+  // const filterHandle = ({ target: { value } }) => {
+  //   setFilters((prevState) => ({
+  //     ...prevState,
+  //     filterByName: { name: value },
+  //   }));
+  // };
 
   const contextValue = {
-    dataError,
-    setDataError,
     data,
     setData,
     filters,
     setFilters,
-    filterHandle,
-    filterUsed,
-    setFilterUsed,
+    setFilterByName,
+    estadoNumerico,
+    setEstadoNumerico,
   };
 
   useEffect(() => {
@@ -40,6 +49,7 @@ function Provider({ children }) {
       const result = await searchPlanets();
       setData(result);
       result.map((item) => delete item.residents);
+      // console.log(result);
     };
     GetPlanets();
   }, []); // funcao e um array vazio === didMount,renderiza uma vez

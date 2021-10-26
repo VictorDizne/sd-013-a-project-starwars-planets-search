@@ -1,21 +1,16 @@
 import React from 'react';
-import ClearFilters from './componentes/ClearFilters';
-import FilterName from './componentes/filterName';
-import FilterNumber from './componentes/FilterNumber';
-// import RemoveFilter from './componentes/RemoveFilter';
-// import ResetFilters from './componentes/ResetFilters';
 import Provider from './context/Provider';
-import Table from './table/Table';
+import FilterNumber from './componentes/FilterNumber';
+import Table2 from './componentes/Table2';
+import FilterName from './componentes/filterName';
 
 function App() {
   return (
     <Provider>
       <FilterName />
       <FilterNumber />
-      <ClearFilters />
-      {/* <ResetFilters /> */}
-      {/* <RemoveFilter /> */}
-      <Table />
+      {/* <ApplyFilters /> */}
+      <Table2 />
     </Provider>
   );
 }

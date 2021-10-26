@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import contextApp from '../context/contextApp';
+import contextApp from '../../../context/contextApp';
 
 function RemoveFilter() {
   const {
@@ -12,19 +12,19 @@ function RemoveFilter() {
 
   return (
     <ul>
-      { ArrayFilters.map((filt) => (
-        <li data-testid="filter" key={ filt.column }>
-          {filt.column}
+      { ArrayFilters.map(({ column, comparison, value }) => (
+        <li data-testid="filter" key={ column }>
+          {column}
           {' '}
-          {filt.comparison}
+          {comparison}
           {' '}
-          {filt.value}
+          {value}
           <button
             type="button"
             onClick={ () => {
-              setFilterUsed([filterUsed, filt.column]);
+              setFilterUsed([filterUsed, column]);
               setFilterByNumericValues(
-                filterByNumericValues.filter((num) => (num.column !== filt.column)),
+                filterByNumericValues.filter((num) => (num.column !== column)),
               );
             } }
           >
