@@ -48,7 +48,6 @@ function Table() {
 
           // retira o filtro dos filtros atuais
           const atualFilters = filter.filterByNumericValues
-            .map((value) => value)
             .filter((item) => item.column !== filterType);
 
           setFilter({ ...filter, filterByNumericValues: atualFilters });
