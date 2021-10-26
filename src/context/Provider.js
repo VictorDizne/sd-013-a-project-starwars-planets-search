@@ -9,6 +9,7 @@ function Provider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
+    order: { column: 'name', sort: 'ASC' },
   });
 
   useEffect(() => {

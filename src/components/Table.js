@@ -3,7 +3,8 @@ import Context from '../context/Context';
 
 function Table() {
   const { state: { planets }, filters } = useContext(Context);
-  const { filterByName: { name }, filterByNumericValues } = filters;
+  const { filterByName: { name }, filterByNumericValues, order } = filters;
+  const { column: columnSort, sort } = order;
 
   const renderTableHeaders = () => (
     <thead>
@@ -25,18 +26,33 @@ function Table() {
     </thead>
   );
 
+  const handleSort = () => {
+    const sortPlanets = [...planets];
+    if (sort === 'ASC') {
+      sortPlanets.sort(({ [columnSort]: a }, { [columnSort]: b }) => (
+        // sugestao retirada do Stackoverflow https://stackoverflow.com/questions/2802341/javascript-natural-sort-of-alphanumerical-strings
+        new Intl.Collator('en', { numeric: true }).compare(a, b)));
+    }
+    if (sort === 'DESC') {
+      sortPlanets.sort(({ [columnSort]: a }, { [columnSort]: b }) => (
+        // sugestao retirada do Stackoverflow https://stackoverflow.com/questions/2802341/javascript-natural-sort-of-alphanumerical-strings
+        new Intl.Collator('en', { numeric: true }).compare(b, a)));
+    }
+    return sortPlanets;
+  };
+
   const handleFilter = () => {
     // copia do estado, dado principio da imutabilidade, ou seja, nao modificar o array original
-    let filteredPlanets = [...planets];
+    let filteredPlanets = handleSort();
     if (name) {
-      filteredPlanets = planets
+      filteredPlanets = filteredPlanets
         .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()));
     }
     if (filterByNumericValues.length > 0) {
       // forEach porque e um array com mais de um filtro
       filterByNumericValues.forEach((filter) => {
         const { column, comparison, value } = filter;
-        // filteredPlanets recebe o proprio filtered planets filtrado por nome ou o proprios filtered planets copia do context
+        // filteredPlanets recebe o proprio filtered planets filtrado por nome ou o proprios filtered planets copiado do context
         filteredPlanets = filteredPlanets
           .filter((planet) => {
             switch (comparison) {
@@ -62,8 +78,10 @@ function Table() {
     // https://github.com/tryber/sd-012-project-starwars-planets-search/pull/107/commits/d6ceb78803965ab83793da3601d9b3c06fd73454
     <tbody>
       {handleFilter().map((planet) => (
-        <tr key={ planet.name }>
-          <td>{planet.name}</td>
+        <tr
+          key={ planet.name }
+        >
+          <td data-testid="planet-name">{planet.name}</td>
           <td>{planet.rotation_period}</td>
           <td>{planet.orbital_period}</td>
           <td>{planet.diameter}</td>

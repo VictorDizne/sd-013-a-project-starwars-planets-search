@@ -6,11 +6,11 @@ function Filters() {
   const { filterByNumericValues } = filters;
 
   const removeFilter = (filter) => {
-    const newComparisonFilter = filterByNumericValues
+    const newFilter = filterByNumericValues
       .filter(({ column }) => column !== filter.column);
     setFilters({
       ...filters,
-      filterByNumericValues: newComparisonFilter,
+      filterByNumericValues: newFilter,
     });
   };
 
