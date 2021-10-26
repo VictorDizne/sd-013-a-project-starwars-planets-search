@@ -15,7 +15,6 @@ function Table() {
     let order;
     const maior = 1;
     const menor = -1;
-
     const filterColumn = filter.order.column;
     const direction = filter.order.sort;
 
@@ -59,9 +58,9 @@ function Table() {
         // const dataKeys = data[0] ? Object.keys(data[0]) : [];
 
         const handleNumericFilter = (type, a, b) => {
-          if (type === 'maior_que') return a > b;
-          if (type === 'menor_que') return a < b;
-          if (type === 'igual_a') return a === b;
+          if (type === 'maior que') return a > b;
+          if (type === 'menor que') return a < b;
+          if (type === 'igual a') return a === b;
         };
 
         const filteredData = sortData(data

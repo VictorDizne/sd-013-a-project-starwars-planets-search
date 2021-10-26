@@ -4,6 +4,7 @@ import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
   const size = 0.7;
+  const h3style = { display: 'inline-block', margin: '0 1rem' };
   const [formValues, setformValues] = useState({
     column: 'population',
     comparison: 'maior_que',
@@ -18,11 +19,7 @@ function Table() {
     'surface_water',
   ]);
 
-  const h3style = { display: 'inline-block', margin: '0 1rem' };
-
-  useEffect(() => {
-
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <PlanetsContext.Consumer>
@@ -96,9 +93,9 @@ function Table() {
                 id="comparison"
                 onChange={ handleChange }
               >
-                <option value="maior_que">maior que</option>
-                <option value="menor_que">menor que</option>
-                <option value="igual_a">igual a</option>
+                <option value="maior que">maior que</option>
+                <option value="menor que">menor que</option>
+                <option value="igual a">igual a</option>
               </select>
               <input
                 type="text"
