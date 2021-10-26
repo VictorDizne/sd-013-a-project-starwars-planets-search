@@ -46,7 +46,7 @@ function SearchBar() {
       ...prevFilter, column: filteredColumns[0],
     }));
     setActiveFilter(filteredColumns);
-  }, [filterByNumericValues]);
+  }, [columnOptions, filterByNumericValues]);
 
   return (
     <div>
