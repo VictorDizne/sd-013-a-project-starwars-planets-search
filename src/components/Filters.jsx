@@ -27,7 +27,11 @@ function Table() {
   return (
     <PlanetsContext.Consumer>
       { (contextValue) => {
-        const { filter, setFilter, setChanges } = contextValue;
+        const { filter, setFilter, setChanges, data } = contextValue;
+
+        const dataKeys = data[0] ? Object.keys(data[0]) : [];
+
+        console.log(dataKeys);
 
         const handleButton = () => {
           // console.clear();
@@ -118,11 +122,9 @@ function Table() {
             <form>
               <h3 style={ h3style }>ORDEM POR COLUNA</h3>
               <select data-testid="column-sort" name="column" onChange={ handleSort }>
-                <option>population</option>
-                <option>orbital_period</option>
-                <option>diameter</option>
-                <option>rotation_period</option>
-                <option>surface_water</option>
+                { dataKeys.map((value, key) => (
+                  <option key={ key }>{value}</option>
+                )) }
               </select>
 
               <label htmlFor="DESC">
