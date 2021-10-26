@@ -1,9 +1,13 @@
 import React from 'react';
-import './App.css';
+import Provider from './Context/Provider';
+import InitialPage from './Pages/InitialPage';
+// PROJETO FEITO COM AJUDA DE JOSUÉ LOBO
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <Provider>
+    <InitialPage />
+  </Provider>
   );
 }
 
