@@ -1,15 +1,18 @@
 import React from 'react';
+import Filters from '../components/Filters';
+import SearchBar from '../components/SearchBar';
+import Sort from '../components/Sort';
 import Table from '../components/Table';
-import Header from '../components/Header';
 
-const Home = () => {
-  console.log('a');
+function Home() {
   return (
-    <div>
-      <Header />
+    <main className="app-container">
+      <SearchBar />
+      <Sort />
+      <Filters />
       <Table />
-    </div>
+    </main>
   );
-};
+}
 
 export default Home;

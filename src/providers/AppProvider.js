@@ -1,43 +1,45 @@
 import React, { useState, useEffect } from 'react';
-
 import PropTypes from 'prop-types';
-
 import AppContext from '../context/AppContext';
 
-import fetchAPI from '../services/fetchAPI';
-
-const AppProvider = ({ children }) => {
-  const [data, setData] = useState([]); // foi colocado o resultado da fetch no estado.
-  const [filter, setFilter] = useState(
-    {
-      filterByName: {
-        name: '',
-      },
-      filterByNumericValues: [],
+function AppProvider({ children }) {
+  const [state, setState] = useState({ planets: [], isLoading: true });
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
     },
-  );
-
-  const contextValue = {
-    data,
-    setData,
-    filter,
-    setFilter,
-  };
+    filterByNumericValues: [],
+    order: { column: 'name', sort: 'ASC' },
+  });
 
   useEffect(() => {
-    fetchAPI()
-      .then((res) => setData(res));
+    const fetchApi = async () => {
+      const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+      const { results } = await response.json();
+      setState({ planets: results, isLoading: false });
+    };
+    fetchApi();
   }, []);
 
+  const completeState = {
+    state,
+    setState,
+    filters,
+    setFilters,
+  };
+
   return (
-    <AppContext.Provider value={ contextValue }>
+    <AppContext.Provider value={ completeState }>
       { children }
     </AppContext.Provider>
   );
-};
+}
 
 AppProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
 
 export default AppProvider;
