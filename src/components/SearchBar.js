@@ -46,7 +46,8 @@ function SearchBar() {
       ...prevFilter, column: filteredColumns[0],
     }));
     setActiveFilter(filteredColumns);
-  }, [columnOptions, filterByNumericValues]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterByNumericValues]);
 
   return (
     <div>
