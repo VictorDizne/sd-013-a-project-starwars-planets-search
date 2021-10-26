@@ -6,8 +6,8 @@ import InitialPage from './Pages/InitialPage';
 function App() {
   return (
     <Provider>
-    <InitialPage />
-  </Provider>
+      <InitialPage />
+    </Provider>
   );
 }
 
