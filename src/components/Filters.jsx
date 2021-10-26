@@ -33,12 +33,29 @@ function Table() {
         const handleButton = () => {
           // console.clear();
           setSelect(select.filter((item) => item !== formValues.column));
-          const atualfiltes = filter.filterByNumericValues.map(() => true);
+          const atualfiltes = filter.filterByNumericValues.map((value) => value);
           atualfiltes.push(formValues);
 
           setFilter({ ...filter, filterByNumericValues: atualfiltes });
 
           setChanges('filterByNunber');
+        };
+
+        const handleDeleteFilter = (filterType) => {
+          console.log(filterType);
+
+          // devolve o filtro às opções
+          setSelect([...select, filterType]);
+
+          // retira o filtro dos filtros atuais
+          const atualfiltes = filter.filterByNumericValues
+            .map((value) => value)
+            .filter((item) => item.column !== filterType);
+
+          console.log(atualfiltes);
+          setFilter({ ...filter, filterByNumericValues: atualfiltes });
+
+          setChanges('deletFilterByNunber');
         };
 
         const handleChange = ({ target }) => {
@@ -94,7 +111,12 @@ function Table() {
               { filter.filterByNumericValues.map((value, key) => (
                 <div key={ key }>
                   <span>{ `${value.column} ${value.comparison} ${value.value}` }</span>
-                  <button type="button">X</button>
+                  <button
+                    type="button"
+                    onClick={ () => handleDeleteFilter(value.column) }
+                  >
+                    X
+                  </button>
                 </div>
               )) }
             </section>
