@@ -13,7 +13,10 @@ function Table() {
 
   const [planetsFiltered, setPlanetsFiltered] = useState(planets);
 
-  const { filterByName: { name }, filterByNumericValues } = stateFiltered.filter;
+  const {
+    filterByName: { name },
+    filterByNumericValues,
+    order } = stateFiltered.filter;
 
   useEffect(() => setPlanetsFiltered(planets), [planets]);
 
@@ -36,6 +39,8 @@ function Table() {
       setPlanetsFiltered(planets);
     }
     if (filterByNumericValues.length === 1 && !reset) {
+      console.log(order.sort);
+      console.log(order.column);
       filterByNumericValues
         .forEach(({ column, comparison, value }) => setPlanetsFiltered(planets
           .filter((planet) => comps[comparison](planet[column], value))));
@@ -90,6 +95,23 @@ function Table() {
     setPlanetsFiltered(filtrar);
   }, [filterByNumericValues, obj, planets, wichColumn]); */
 
+  // Função criada a partir do código do Matheus Duarte;
+  // https://github.com/tryber/sd-013-a-project-starwars-planets-search/pull/122/files
+  const tableSort = () => {
+    switch (order.sort) {
+    case 'ASC':
+      return planetsFiltered
+        .sort(({ [order.column]: a }, { [order.column]: b }) => a.localeCompare(b))
+        .sort((a, b) => (a[order.column] - b[order.column]));
+    case 'DESC':
+      return planetsFiltered
+        .sort(({ [order.column]: a }, { [order.column]: b }) => b.localeCompare(a))
+        .sort((a, b) => b[order.column] - a[order.column]);
+    default:
+      return planetsFiltered;
+    }
+  };
+
   return (
     <div>
       <table border={ 1 }>
@@ -99,7 +121,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {planetsFiltered
+          {tableSort()
             .filter((planet) => planet.name.toLowerCase()
               .includes(name.toLowerCase()))
             .map((planet, i) => <Planet key={ i } planet={ planet } />)}

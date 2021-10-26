@@ -10,16 +10,16 @@ function Provider({ children }) {
   const [titleFilter, setTitleFilter] = useState(titles);
   const [wichColumn, setWichColumn] = useState('');
   const [reset, setReset] = useState(false);
-  const [sort, setSort] = useState('ASC');
+  const [sort, setSort] = useState({
+    column: 'name',
+    sort: 'ASC',
+  });
   const [stateFiltered, setStateFiltered] = useState({ filter: {
     filterByName: {
       name: '',
     },
     filterByNumericValues: [],
-    order: {
-      column: 'name',
-      sort: 'ASC',
-    },
+    order: sort,
   } });
   /* const { planetsFiltered } = useFilter(); */
 
@@ -35,6 +35,7 @@ function Provider({ children }) {
     setTitleFilter,
     reset,
     setReset,
+    setSort,
   };
   return (
     <MyContext.Provider value={ contextValue } displayName="Context Display Name">
