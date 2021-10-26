@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import PlanetsContext from '../context/PlanetsContext';
 
@@ -9,6 +9,7 @@ function Table() {
     comparison: 'maior_que',
     value: '',
   });
+
   const [select, setSelect] = useState([
     'population',
     'orbital_period',
@@ -17,6 +18,12 @@ function Table() {
     'surface_water',
   ]);
 
+  // const [usedFilsters, setUsedFilter] = useState([]);
+
+  useEffect(() => {
+
+  }, []);
+
   return (
     <PlanetsContext.Consumer>
       { (contextValue) => {
@@ -24,11 +31,13 @@ function Table() {
         // const filterValues = contextValue.filter.filterByNumericValues;
 
         const handleButton = () => {
-          console.clear();
+          // console.clear();
           setSelect(select.filter((item) => item !== formValues.column));
-          filter.filterByNumericValues.push(formValues);
+          const atualfiltes = filter.filterByNumericValues.map(() => true);
+          atualfiltes.push(formValues);
 
-          // callback('filterByNumericValues', numericFilter);
+          setFilter({ ...filter, filterByNumericValues: atualfiltes });
+
           setChanges('filterByNunber');
         };
 
@@ -42,7 +51,7 @@ function Table() {
         };
 
         return (
-          <section style={ { fontSize: `${size}em`, marginBottom: `${size}em` } }>
+          <div style={ { fontSize: `${size}em`, marginBottom: `${size}em` } }>
             <label htmlFor="search_by_name">
               Nome
               <input
@@ -81,7 +90,15 @@ function Table() {
                 Aplicar filtro
               </button>
             </form>
-          </section>
+            <section>
+              { filter.filterByNumericValues.map((value, key) => (
+                <div key={ key }>
+                  <span>{ `${value.column} ${value.comparison} ${value.value}` }</span>
+                  <button type="button">X</button>
+                </div>
+              )) }
+            </section>
+          </div>
         );
       } }
     </PlanetsContext.Consumer>

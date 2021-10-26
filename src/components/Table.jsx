@@ -10,6 +10,8 @@ function Table() {
         const { filter } = contextValue;
         const numericFilters = filter.filterByNumericValues;
 
+        // console.log(filter);
+
         const handleNumericFilter = (type, a, b) => {
           if (type === 'maior_que') return a > b;
           if (type === 'menor_que') return a < b;
@@ -25,7 +27,7 @@ function Table() {
                 parseInt(planet[numericFilter.column], 10),
                 parseInt(numericFilter.value, 10),
               ));
-              return result[0];
+              return result.find((el) => el === false) === undefined;
             }
             return true;
           });
