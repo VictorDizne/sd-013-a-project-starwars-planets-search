@@ -35,15 +35,11 @@ function SearchByNumber() {
   }
 
   function removeFilter(filterRemoved) {
-    // Removes the selected filter from showing
     setFiltersSelected(filtersSelected.filter((filter) => filter !== filterRemoved));
-    // Fetches the Context Filter and filters it to remove the one desired
     const { filterByNumericValues } = filters;
     const newNumericValues = filterByNumericValues
       .filter((filter) => filter !== filterRemoved);
-    // Sets the filterByNumericValues key with the new value filtered above
     setFilters({ ...filters, filterByNumericValues: newNumericValues });
-    // Sets the available filters again
     setColumnOptions([...columnOptions, filterRemoved.column]);
   }
 

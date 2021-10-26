@@ -17,6 +17,10 @@ function Provider({ children }) {
       comparison: 'maior que',
       value: '0',
     }],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
 
   // This is the useEffect responsible for fatcing the API and than seting the loading state to false.
@@ -33,9 +37,24 @@ function Provider({ children }) {
     fetchApi();
   }, [filters]);
 
+  function compare(a, b, column) {
+    const oneNegative = -1;
+    const onePositive = 1;
+    const zero = 0;
+    if (column === 'name') {
+      if (a[column] < b[column]) {
+        return oneNegative;
+      }
+      if (a[column] > b[column]) {
+        return onePositive;
+      }
+      return zero;
+    } return a[column] - b[column];
+  }
+
   // This useEffect is responsible for making the application's filters work and changing the state accordingly to the user's input.
   useEffect(() => {
-    function planetsFilter(searchText, filterByNumericValues) {
+    function planetsFilter(searchText, filterByNumericValues, order) {
       filteredPlanets.current = [...data]
         .filter((planet) => planet.name.toLowerCase().includes(searchText.toLowerCase()));
       [...filterByNumericValues].forEach((filter) => {
@@ -65,10 +84,18 @@ function Provider({ children }) {
           break;
         }
       });
+      const { column, sort } = order;
+      if (sort === 'ASC') {
+        const sorted = [...filteredPlanets.current].sort((a, b) => compare(a, b, column));
+        filteredPlanets.current = sorted;
+      } else {
+        const sorted = [...filteredPlanets.current].sort((a, b) => compare(b, a, column));
+        filteredPlanets.current = sorted;
+      }
     }
     if (!firstRender.current) {
-      const { filterByName: { name }, filterByNumericValues } = filters;
-      planetsFilter(name, filterByNumericValues);
+      const { filterByName: { name }, filterByNumericValues, order } = filters;
+      planetsFilter(name, filterByNumericValues, order);
       setBackup(filteredPlanets.current);
     } else {
       firstRender.current = false;
