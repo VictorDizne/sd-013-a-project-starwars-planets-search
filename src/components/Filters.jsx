@@ -22,7 +22,7 @@ function Table() {
   const [sortFilter, setSortFilter] = useState({
     column: 'name',
     sort: 'ASC',
-  })
+  });
 
   useEffect(() => {}, []);
 
@@ -75,7 +75,7 @@ function Table() {
 
         const handleButtonSort = () => {
           setFilter({ ...filter, order: sortFilter });
-        }
+        };
 
         return (
           <div style={ { fontSize: `${size}em`, marginBottom: `${size}em` } }>
@@ -115,6 +115,7 @@ function Table() {
               />
               <button
                 data-testid="button-filter"
+                name="button"
                 type="button"
                 onClick={ () => handleButton() }
               >
@@ -133,18 +134,18 @@ function Table() {
 
               <label htmlFor="DESC">
                 <input
-                  data-testid='column-sort-input-desc'
+                  data-testid="column-sort-input-desc"
                   id="DESC"
                   type="radio"
                   name="sort"
                   value="DESC"
                   onChange={ handleSort }
-                  />
+                />
                 Descendente
               </label>
               <label htmlFor="ASC">
                 <input
-                  data-testid='column-sort-input-asc'
+                  data-testid="column-sort-input-asc"
                   id="ASC"
                   type="radio"
                   name="sort"
@@ -157,7 +158,7 @@ function Table() {
               <button
                 type="button"
                 onClick={ handleButtonSort }
-                data-testid='column-sort-button'
+                data-testid="column-sort-button"
               >
                 Ordenar
               </button>
