@@ -4,7 +4,7 @@ import InitialPage from './Pages/InitialPage';
 // PROJETO FEITO COM AJUDA DE JOSUÉ LOBO
 
 function App() {
-  return (
+  return ( 
     <Provider>
       <InitialPage />
     </Provider>
