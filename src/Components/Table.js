@@ -33,24 +33,24 @@ export default function Table() {
 
   // Rogerio P. Da Silva Deus do Codigo me ajudou nessa parte.
   // Matheus Duarte de Freitas Deus do Codigo me ajudou nessa parte.
-  const sortPlanets = (planetsToFilter) => {
-    switch (filters.order.sort) {
-    case 'ASC':
-      return planetsToFilter
-        .sort(({
-          [filters.order.column]: a },
-        { [filters.order.column]: b }) => a.localeCompare(b))
-        .sort((a, b) => (a[filters.order.column] - b[filters.order.column]));
-    case 'DESC':
-      return planetsToFilter
-        .sort(({
-          [filters.order.column]: a },
-        { [filters.order.column]: b }) => b.localeCompare(a))
-        .sort((a, b) => b[filters.order.column] - a[filters.order.column]);
-    default:
-      return planetsToFilter;
+  function sortPlanets(planetsToFilter) {
+        switch (filters.order.sort) {
+            case 'ASC':
+                return planetsToFilter
+                    .sort(({
+                        [filters.order.column]: a },
+                        { [filters.order.column]: b }) => a.localeCompare(b))
+                    .sort((a, b) => (a[filters.order.column] - b[filters.order.column]));
+            case 'DESC':
+                return planetsToFilter
+                    .sort(({
+                        [filters.order.column]: a },
+                        { [filters.order.column]: b }) => b.localeCompare(a))
+                    .sort((a, b) => b[filters.order.column] - a[filters.order.column]);
+            default:
+                return planetsToFilter;
+        }
     }
-  };
 
   return (
     <div>
