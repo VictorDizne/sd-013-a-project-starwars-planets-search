@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import myContext from '../context/myContext';
 
 const options = [
@@ -12,7 +12,7 @@ const options = [
 ];
 
 export default function Sort() {
-  const { setSort, stateFiltered, setStateFiltered } = useContext(myContext);
+  const { stateFiltered, setStateFiltered } = useContext(myContext);
   const [sortState, setSortState] = useState({ column: 'Name', sort: 'ASC' });
 
   const handleChange = ({ target: { value, name } }) => {

@@ -17,7 +17,7 @@ export default function Form() {
     'rotation_period',
     'surface_water',
   ]);
-  const [optionsPadrao, setOptionsPadrao] = useState([
+  const [optionsPadrao] = useState([
     'population',
     'diameter',
     'orbital_period',

@@ -8,7 +8,6 @@ function Table() {
     titles,
     stateFiltered,
     reset,
-    setStateFiltered,
   } = useContext(myContext);
 
   const [planetsFiltered, setPlanetsFiltered] = useState(planets);
