@@ -19,6 +19,11 @@ function Table() {
     'surface_water',
   ]);
 
+  const [sortFilter, setSortFilter] = useState({
+    column: 'name',
+    sort: 'ASC',
+  })
+
   useEffect(() => {}, []);
 
   return (
@@ -63,9 +68,14 @@ function Table() {
 
         const handleSort = ({ target }) => {
           const { name, value } = target;
-          const currentOrder = { ...filter.order, [name]: value };
-          setFilter({ ...filter, order: currentOrder });
+          // const currentOrder = { ...filter.order, [name]: value };
+          setSortFilter({ ...sortFilter, [name]: value });
+          // setFilter({ ...filter, order: currentOrder });
         };
+
+        const handleButtonSort = () => {
+          setFilter({ ...filter, order: sortFilter });
+        }
 
         return (
           <div style={ { fontSize: `${size}em`, marginBottom: `${size}em` } }>
@@ -123,16 +133,18 @@ function Table() {
 
               <label htmlFor="DESC">
                 <input
+                  data-testid='column-sort-input-desc'
                   id="DESC"
                   type="radio"
                   name="sort"
                   value="DESC"
                   onChange={ handleSort }
-                />
+                  />
                 Descendente
               </label>
               <label htmlFor="ASC">
                 <input
+                  data-testid='column-sort-input-asc'
                   id="ASC"
                   type="radio"
                   name="sort"
@@ -142,6 +154,13 @@ function Table() {
                 />
                 Ascendente
               </label>
+              <button
+                type="button"
+                onClick={ handleButtonSort }
+                data-testid='column-sort-button'
+              >
+                Ordenar
+              </button>
             </form>
 
             {/* ========== filtros escolhidos ========== */}
