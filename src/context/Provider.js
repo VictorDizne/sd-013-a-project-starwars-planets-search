@@ -1,87 +1,70 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import StarWarsContext from '.';
-import getPlanetsFetch from '../services/starWarsApi';
+import Context from '.';
+import fetchPlanets from '../services/fetchPlanets';
 
-const Provider = ({ children }) => {
-  const [data, setData] = useState({});
+function Provider({ children }) {
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [dataRemoved, setDataRemoved] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [column, setColumn] = useState('population');
+  const [column, setColumn] = useState('');
   const [comparision, setComparision] = useState('maior que');
   const [value, setValue] = useState(0);
   const [filters, setFilters] = useState({
-    filters: {
-      filterByName: {
-        name: '',
-      },
-      filterByNumericValues: [],
+    filterByName: {
+      name: '',
     },
+    filterByNumericValues: [],
   });
-  const [filtered, setFiltered] = useState([]);
-  const [dataArray, setDataArray] = useState([]);
-  const [arrayOptions, setArrayOptions] = useState([
+
+  const [columnValues, setColumnValues] = useState([
     'population',
     'orbital_period',
     'diameter',
     'rotation_period',
-    'surface_water']);
+    'surface_water',
+  ]);
 
-  // Funcao para filtrar por nome
-  const handleInput = (nome) => {
-    setFilters(
-      { ...filters,
-        filters: {
-          filterByName: {
-            name: nome,
-          },
-          filterByNumericValues: dataArray,
-        },
-      },
-    );
-  };
-
-  // Chama API
-
-  // ComponentDidMount
   useEffect(() => {
-    async function getPlanets() {
-      const response = await getPlanetsFetch();
-      setData(response);
-      setFiltered(response);
+    const getPlanets = async () => {
+      const results = await fetchPlanets();
+      setData(results);
+      setFilteredData(results);
       setIsLoading(false);
-    }
+    };
     getPlanets();
   }, []);
 
   const context = {
-    ...filters,
-    data,
-    column,
-    comparision,
-    value,
-    filtered,
-    dataArray,
-    isLoading,
-    arrayOptions,
-    handleInput,
-    setColumn,
-    setComparision,
-    setValue,
-    setFiltered,
-    setDataArray,
-    setArrayOptions,
+    filters,
     setFilters,
+    data,
+    setData,
+    filteredData,
+    setFilteredData,
+    isLoading,
+    value,
+    comparision,
+    column,
+    setValue,
+    setComparision,
+    setColumn,
+    columnValues,
+    setColumnValues,
+    dataRemoved,
+    setDataRemoved,
   };
 
   return (
-    <StarWarsContext.Provider value={ context }>
+    <Context.Provider value={ context }>
       { children }
-    </StarWarsContext.Provider>
+    </Context.Provider>
   );
-};
+}
 
 Provider.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.arrayOf([]).isRequired,
 };
 
 export default Provider;

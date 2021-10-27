@@ -1,12 +1,47 @@
 import React, { useContext } from 'react';
-import StarWarsContext from '../context';
+import Context from '../context';
 
-const TablePlanets = () => {
-  const contextValue = useContext(StarWarsContext);
-  const { isLoading } = contextValue;
-  const { filters: { filterByName: { name } } } = contextValue;
-  const { filtered } = contextValue;
-  if (isLoading === true) return <h1>Carregando Tabela</h1>;
+function TablePlanets() {
+  const {
+    filteredData,
+    isLoading,
+    filters: { filterByName: { name } },
+  } = useContext(Context);
+
+  /* const getFilmsName = (num, filmName) => {
+    switch(num) {
+      case '1/':
+        filmName = 'A New Hope';
+        break;
+
+      case '2/':
+        filmName = 'The Empire Strikes Back';
+        break;
+
+      case '3/':
+        filmName = 'Return of the Jedi';
+        break;
+
+      case '4/':
+        filmName = 'The Phantom Menace';
+        break;
+
+      case '1/':
+        filmName = 'Attack of the Clones';
+        break;
+
+     case '6/':
+        filmName = 'Revenge of the Sith';
+        break;
+
+      default:
+        return filmName;
+    }
+  } */
+
+  if (isLoading) {
+    return <h1>Carregando...</h1>;
+  }
   return (
     <main>
       <table>
@@ -28,7 +63,7 @@ const TablePlanets = () => {
           </tr>
         </thead>
         <tbody>
-          {filtered.filter((result) => result.name.includes(name))
+          {filteredData.filter((result) => result.name.includes(name))
             .map((result) => (
               <tr key={ result.name }>
                 <td>{result.climate}</td>
@@ -50,8 +85,9 @@ const TablePlanets = () => {
         </tbody>
       </table>
     </main>
-
   );
-};
+}
+
+//
 
 export default TablePlanets;

@@ -1,120 +1,223 @@
 import React, { useContext } from 'react';
-import StarWarsContext from '../context';
+import Context from '../context';
+import '../css/Filters.css';
 
-const Filters = () => {
-  const contextValue = useContext(StarWarsContext);
-  const { filters: { filterByName: { name } }, handleInput } = contextValue;
-  const { data, setFiltered } = contextValue;
-  const { column, value, comparision, setColumn, setValue,
-    setComparision } = contextValue;
-  const { setDataArray, dataArray } = contextValue;
-  const { arrayOptions, setArrayOptions } = contextValue;
+function Filters() {
+  const {
+    setFilteredData, filteredData,
+    filters, setFilters,
+    filters: { filterByNumericValues },
+    column, setColumn,
+    comparision, setComparision,
+    value, setValue,
+    columnValues, setColumnValues,
+    dataRemoved, setDataRemoved,
+  } = useContext(Context);
 
-  // Funcao para filtrar os filtros selecionados
-  const selectedFilter = () => {
-    const newArray = [];
+  // Funcao para alterar o valor do input name
+  const handleOnChangeName = ({ target }) => {
+    setFilters({
+      ...filters,
+      filterByName: {
+        name: target.value,
+      },
+    });
+  };
+
+  // Funcao para adicionar os filtros selecionados
+  const addNumericFilters = () => {
+    const filterArray = { column, comparision, value };
+    setFilters({
+      ...filters,
+      filterByNumericValues: [...filterByNumericValues, filterArray],
+    });
+  };
+
+  // Funcao para remover valores do filtro "Column"
+  const removeColumn = () => {
+    let newColumns = [];
+    newColumns = columnValues.filter((result) => result !== column);
+    setColumnValues(newColumns);
+  };
+
+  // Funcoes para alterar os valores dos filtros
+  const handleOnChangeColumn = ({ target }) => {
+    setColumn(target.value);
+  };
+
+  const handleOnChangeComparision = ({ target }) => {
+    setComparision(target.value);
+  };
+
+  const handleOnChangeValue = ({ target }) => {
+    setValue(Number(target.value));
+  };
+  // ================================================
+
+  // Funcao para filtrar os filtros selecionados:
+  const selectFilter = () => {
+    let newArray = [];
+    let newArrayRemove = [];
     switch (comparision) {
     case 'maior que':
-      data.filter((result) => Number(result[column]) > Number(value))
-        .map((final) => newArray.push(final));
-      setFiltered(newArray);
+      newArray = filteredData.filter((result) => Number(result[column]) > value);
+      newArrayRemove = filteredData.filter((result) => !newArray.includes(result));
+      setFilteredData(newArray);
+      setDataRemoved([...dataRemoved, newArrayRemove]);
       break;
-
     case 'menor que':
-      data.filter((result) => Number(result[column]) < Number(value))
-        .map((final) => newArray.push(final));
-      setFiltered(newArray);
+      newArray = filteredData.filter((result) => Number(result[column]) < value);
+      newArrayRemove = filteredData.filter((result) => !newArray.includes(result));
+      setFilteredData(newArray);
+      setDataRemoved([...dataRemoved, newArrayRemove]);
       break;
-
     case 'igual a':
-      data.filter((result) => Number(result[column]) === Number(value))
-        .map((final) => newArray.push(final));
-      setFiltered(newArray);
+      newArray = filteredData.filter((result) => Number(result[column]) === value);
+      newArrayRemove = filteredData.filter((result) => !newArray.includes(result));
+      setFilteredData(newArray);
+      setDataRemoved([...dataRemoved, newArrayRemove]);
       break;
-
     default:
-      return data;
+      return filteredData;
     }
   };
 
-  // Funcao para alterar o estado do dataArray + chamar Funcao de filtro
-  const handleOnClickFinal = () => {
-    let newArrayData = [];
-    arrayOptions.forEach((option, index) => {
-      if (option === column) {
-        arrayOptions.splice(index, 1);
-        setArrayOptions(arrayOptions);
-      }
-    });
-    if (dataArray.length === 0) {
-      newArrayData.push({ column, comparision, value });
-      setDataArray(newArrayData);
-    } else {
-      newArrayData = { column, comparision, value };
-      setDataArray([...dataArray, newArrayData]);
-    }
+  const handleOnClickAdd = () => {
+    addNumericFilters();
+    selectFilter();
+    removeColumn();
+  };
 
-    selectedFilter();
+  //= ====Funcoes para remover os filtros:
+
+  const removeFilter = (index) => {
+    let newFilter = [];
+    newFilter = filterByNumericValues.filter((result, idx) => idx !== index);
+    setColumnValues([...columnValues, filterByNumericValues[index].column]);
+    setFilters({
+      ...filters,
+      filterByNumericValues: newFilter,
+    });
+  };
+
+  const removeSelectFilter = (index) => {
+    const newArray = filteredData.concat(dataRemoved[index]);
+    dataRemoved.splice(index, 1);
+    setDataRemoved(dataRemoved);
+
+    /* filteredData.map((data) => newArray.push(data));
+    console.log(newArray);
+    dataRemoved[index].forEach((data) => newArray.push(data));
+    console.log(newArray); */
+    setFilteredData(newArray);
+  };
+
+  const handleOnClickRemove = (index) => {
+    removeFilter(index);
+    removeSelectFilter(index);
   };
 
   return (
-    <main>
-      <label htmlFor="name">
-        {' '}
-        Filtre por palavra:
-        <input
-          id="name"
-          value={ name }
-          data-testid="name-filter"
-          onChange={ (e) => handleInput(e.target.value) }
-        />
-      </label>
+    <section className="container-filters">
       <div>
-        <label htmlFor="column">
+        <h1>StarWars Searching Planets</h1>
+      </div>
+      <div className="container-name-filter">
+        <label htmlFor="name-filter">
+          Digite o nome do planeta a ser filtrado:
+          <input
+            type="text"
+            data-testid="name-filter"
+            id="name-filter"
+            name="name-filter"
+            onChange={ handleOnChangeName }
+          />
+        </label>
+      </div>
+      <div>
+        <h3>Selecione um filtro: </h3>
+        <label htmlFor="column-filter">
+          Coluna:
           <select
-            name="column"
-            id="column"
-            value={ column }
             data-testid="column-filter"
-            onChange={ (e) => setColumn(e.target.value) }
+            type="text"
+            id="column-filter"
+            name="column-filter"
+            value={ column }
+            onChange={ handleOnChangeColumn }
           >
-            {arrayOptions.map((a) => (<option key={ a } value={ a }>{a}</option>))}
+            {columnValues.map((result) => (
+              <option
+                value={ result }
+                key={ result }
+              >
+                {result}
+              </option>))}
           </select>
         </label>
-        <label htmlFor="comparision">
+        <label htmlFor="comparison-filter">
+          Comparação:
           <select
-            name="comparision"
-            id="comparision"
-            value={ comparision }
             data-testid="comparison-filter"
-            onChange={ (e) => setComparision(e.target.value) }
+            type="text"
+            id="comparison-filter"
+            name="comparison-filter"
+            value={ comparision }
+            onChange={ handleOnChangeComparision }
           >
             <option value="maior que">maior que</option>
             <option value="menor que">menor que</option>
             <option value="igual a">igual a</option>
           </select>
         </label>
-        <label htmlFor="value">
+        <label htmlFor="value-filter">
+          Valor numérico:
           <input
-            data-testid="value-filter"
             type="number"
-            name="value"
-            onChange={ (e) => setValue(e.target.value) }
-            value={ value }
-            id="value"
+            data-testid="value-filter"
+            id="value-filter"
+            name="value-filter"
+            onChange={ handleOnChangeValue }
           />
         </label>
         <button
           type="button"
           data-testid="button-filter"
-          onClick={ () => handleOnClickFinal() }
+          onClick={ handleOnClickAdd }
         >
-          Adicionar filtro
+          Adicionar filtros
         </button>
       </div>
-    </main>
-
+      <div>
+        {filterByNumericValues.map((result, index) => (
+          <div
+            data-testid="filter"
+            key={ index }
+          >
+            <span key={ result.column }>
+              Coluna:
+              { result.column }
+            </span>
+            <span key={ result.comparision }>
+              Comparação:
+              { result.comparision }
+            </span>
+            <span key={ result.value }>
+              Valor:
+              { result.value }
+            </span>
+            <button
+              type="button"
+              onClick={ () => handleOnClickRemove(index) }
+            >
+              {' '}
+              X
+            </button>
+          </div>
+        ))}
+      </div>
+    </section>
   );
-};
+}
 
 export default Filters;
