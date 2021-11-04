@@ -10,7 +10,7 @@ function MyProvider({ children }) {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [{ column: '', comparison: '', value: '' }], // questão3
+    filterByNumericValues: [{ column: '', comparison: '', value: '' }],
   });
   // o useState seta o estado do componente
 

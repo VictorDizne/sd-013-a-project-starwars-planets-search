@@ -6,6 +6,8 @@ export default function FilterRemove({ filter: { column, comparison, value } }) 
   const { filters: {
     filterByNumericValues }, setFilters, filters } = useContext(MyContext);
     // é pego três valores do filters sendo filterByNumericValues, setFilters e o proprio filters, que vem do My
+    // primeiro é descontruido o que vem do filter
+    // depois recontroi setando no estado
 
   function handleClick({ target: { parentNode: { children } } }) { // questão5
     const removFilter = filterByNumericValues

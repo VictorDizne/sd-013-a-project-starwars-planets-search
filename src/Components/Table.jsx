@@ -24,7 +24,7 @@ function Table() {
     });
   }
 
-  function handleSubmit(evento) { // questão 3 e 4
+  function handleSubmit(evento) { // questão 3 e 4 função para form
     evento.preventDefault();
     const { target: { children } } = evento;
 
