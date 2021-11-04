@@ -9,6 +9,9 @@ export default function Tr({ allData }) {
   );
 }
 
+// retorna o valor de cada linha
+// object.values retorna um array com os valores das propriedades de um determinado dado, nesse caso um valor de cada linha
+
 Tr.propTypes = {
   allData: PropTypes.shape(),
 }.isRequired;

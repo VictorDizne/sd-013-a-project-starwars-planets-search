@@ -6,7 +6,7 @@ export default function FilterRemove({ filter: { column, comparison, value } }) 
   const { filters: {
     filterByNumericValues }, setFilters, filters } = useContext(MyContext);
 
-  function handleClick({ target: { parentNode: { children } } }) {
+  function handleClick({ target: { parentNode: { children } } }) { // questão5
     const removFilter = filterByNumericValues
       .filter((objs) => objs.column !== children[0].id);
     setFilters({
@@ -30,3 +30,7 @@ export default function FilterRemove({ filter: { column, comparison, value } }) 
 FilterRemove.propTypes = {
   filter: PropTypes.shape(),
 }.isRequired;
+
+// handleClick  busca a coluna do filtro excluido pelo usuario para utilizar um filter onde será excluido o filter relacionado
+// após isso filterByNumericValues é reescrita, se o removFilter estiver os valores maior que zero(ele reescreve com o proprio removFilter)
+// se naõ  ele reescreve os valores com strig vazia.

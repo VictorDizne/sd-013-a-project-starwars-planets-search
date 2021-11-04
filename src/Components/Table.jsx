@@ -6,29 +6,31 @@ import Tr from './Tr';
 
 function Table() {
   const { data, filters, setFilters } = useContext(MyContext);
-  const { filterByName: { name }, filterByNumericValues } = filters;
+  const { filterByName: { name }, filterByNumericValues } = filters; // questão3
   const {
     column,
     comparison,
     value,
-  } = filterByNumericValues[filterByNumericValues.length - 1];
+  } = filterByNumericValues[filterByNumericValues.length - 1]; // questão3
 
   const header = data.length > 0 ? Object.keys(data[0]) : [];
+  // se o tamanho de data for maior que zero, retone um array do tipo chave/valor com data na posição zero
+  // caso contrário retorne um objeto vazio
 
   const linhas = data.length > 0 ? data : [];
 
-  function hanfleChange({ target }) {
+  function hanfleChange({ target }) { // questão 2
     setFilters({
       ...filters,
       filterByName: { name: target.value },
     });
   }
 
-  function handleSubmit(evento) {
+  function handleSubmit(evento) { // questão 3 e 4
     evento.preventDefault();
     const { target: { children } } = evento;
 
-    if (filterByNumericValues[0].column !== '') {
+    if (filterByNumericValues[0].column !== '') { // questão 4
       setFilters({
         ...filters,
         filterByNumericValues: [
@@ -39,7 +41,7 @@ function Table() {
             value: children[3].value,
           }],
       });
-    } else {
+    } else { // questão4
       setFilters({
         ...filters,
         filterByNumericValues: [{
@@ -49,14 +51,16 @@ function Table() {
         }],
       });
     }
-    const busColumn = Object.values(children[1].children)
+    const busColumn = Object.values(children[1].children) // questão4
       .findIndex((option) => option.value === children[1].value);
     children[1].children[busColumn].remove();
   }
   // o filterByNumericValues é um array de objetos, com o primeiro objeto vazio. O if verifica se não existe
-  // um primeiro objeto com o valor vazio, se não existir ele adiciona um novo objeto em uma nova posição.
+  // um primeiro filtro/objeto com o valor vazio, se não existir ele adiciona um novo objeto em uma nova posição.
   // se existir ele sobrescreve o obejo vazio na posição zero.
 
+  // a const busColumn ele busca a posição do valor escolhido pelo usuario no select, para que consiga utilizar a função
+  // remove no option correto, fazendo com que o usuario não possa selecionar novamente.
   return (
     <div>
       <form onSubmit={ handleSubmit }>
@@ -98,18 +102,22 @@ function Table() {
         </thead>
         <tbody>
           { linhas
-            .filter((allData) => allData.name.includes(name))
+            .filter((allData) => allData.name.includes(name)) // questão 2
             .filter((maior) => (
-              comparison === 'maior que' ? maior[column] > Number(value) : maior))
+              comparison === 'maior que' ? maior[column] > Number(value) : maior)) // questão3
             .filter((menor) => (
-              comparison === 'menor que' ? menor[column] < Number(value) : menor))
+              comparison === 'menor que' ? menor[column] < Number(value) : menor)) // questão3
             .filter((igual) => (
-              comparison === 'igual a' ? igual[column] === value : igual))
+              comparison === 'igual a' ? igual[column] === value : igual)) // questão3
             .map((allData) => <Tr key={ allData.name } allData={ allData } />)}
         </tbody>
       </table>
     </div>
   );
+  // No primeiro filter ele filtra apenas os valores digitados pelo usuario / retornando nome de planeta
+  // No segundo ele faz a comparação se o comparison for igual a (maior que) é retornado a coluna maior que o valor,
+  // caso contrario volta ele mesmo.
+  // No map depois dos filtros renderiza o componente tr com as informaçãoes
 }
 
 export default Table;
