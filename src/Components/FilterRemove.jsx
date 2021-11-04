@@ -5,6 +5,7 @@ import MyContext from '../Contexto/MyContext';
 export default function FilterRemove({ filter: { column, comparison, value } }) {
   const { filters: {
     filterByNumericValues }, setFilters, filters } = useContext(MyContext);
+    // é pego três valores do filters sendo filterByNumericValues, setFilters e o proprio filters, que vem do My
 
   function handleClick({ target: { parentNode: { children } } }) { // questão5
     const removFilter = filterByNumericValues
