@@ -14,8 +14,6 @@ function Table() {
   } = filterByNumericValues[filterByNumericValues.length - 1]; // questão3
 
   const header = data.length > 0 ? Object.keys(data[0]) : [];
-  // se o tamanho de data for maior que zero, retone um array do tipo chave/valor com data na posição zero
-  // caso contrário retorne um objeto vazio
 
   const linhas = data.length > 0 ? data : [];
 
