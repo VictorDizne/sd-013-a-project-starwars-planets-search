@@ -39,3 +39,41 @@
     transform: rotate(360deg);
   }
 }
+
+.table-margin {
+  margin-left: 150px;
+  margin-right: 150px;
+}
+
+.clear-filter-btn {
+  margin-left: 15px;
+}
+
+.page-header {
+  color: white;
+  text-align: center;
+}
+
+.table-header {
+  border: 3px solid rgb(80, 77, 77);
+}
+
+th {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.table-row {
+  border: 3px solid rgb(80, 77, 77);
+}
+
+.table {
+  background-color: black;
+  border: 3px solid rgb(41, 0, 223);
+  color: aliceblue;
+  text-align: center;
+}
+
+.body {
+  background-image: url('https://cdn.mos.cms.futurecdn.net/how2BtbjjDpofnaa2cyKeG-1200-80.jpg');
+}
